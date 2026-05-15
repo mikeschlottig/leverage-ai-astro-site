@@ -1,0 +1,1950 @@
+User: Transform this report into a high-end digital deliverable.  Package the report as a single file html and vanilla javasScript webapp. Here is the report with sources - include an additional tab in the header of the report that leads to a pageview of the sources, linked, in a table view.
+
+The Southern Oregon Landscaping Market: An In-Depth Analysis of Economic Trends, Competitive Landscape, and Growth Opportunities
+I. Introduction to the Southern Oregon Market Landscape
+The landscaping industry in Southern Oregon is shaped by a unique confluence of demographic trends, economic development, and pressing environmental factors. Positioned at the intersection of a growing residential base and a dynamic commercial sector, the region presents both significant opportunities and distinct challenges for landscaping contractors. Understanding this multifaceted environment is crucial for any business aiming to capture market share and achieve sustained growth. This analysis begins by defining the geographic boundaries of the market, profiling its demographic and economic drivers, and examining the macroeconomic forces that dictate the nature and volume of demand for landscaping services.
+
+Defining the Geographic Scope: An Analysis of Jackson, Josephine, and Klamath Counties
+For the purposes of this industry analysis, the "Southern Oregon" region is defined as the contiguous area encompassing Jackson, Josephine, and Klamath Counties. This definition is rooted in the operational boundaries of the region's primary economic development bodies. Southern Oregon Regional Economic Development, Inc. (SOREDI) focuses its efforts on fostering business growth and relocation within Jackson and Josephine Counties, which form the economic core of the Rogue Valley. To the east, the South Central Oregon Economic Development District (SCOEDD) serves the interests of Klamath and Lake Counties, with Klamath County representing a significant, albeit distinct, economic hub.   
+
+This three-county framework—Jackson, Josephine, and Klamath—provides a comprehensive yet manageable scope for market analysis. It captures the region's major population centers, including Medford, Grants Pass, Ashland, and Klamath Falls, as well as a host of smaller but growing communities such as Central Point, Eagle Point, Jacksonville, Phoenix, Talent, and Cave Junction. These cities and towns, many of which are situated along the vital Interstate 5 corridor, represent the densest clusters of potential residential and commercial clients, making them the focal point of competitive activity within the landscaping sector.   
+
+Demographic and Economic Profile: Population Growth, Household Density, and Business Landscape
+The size and character of the potential customer base are fundamental to understanding the total addressable market for landscaping services in Southern Oregon. The region is characterized by steady population growth, a substantial number of households, and a diverse commercial sector, all of which contribute to a robust demand for landscape installation, maintenance, and enhancement.
+
+The residential market forms the largest segment of the industry. Based on the most recent census data, the total number of households across the three-county region provides a clear measure of this base:
+
+Jackson County: The most populous county in the region, with household estimates ranging from approximately 90,679 to 98,858.   
+
+Josephine County: A significant secondary market with an estimated 37,241 households.   
+
+Klamath County: Comprising an estimated 30,387 occupied housing units out of 33,387 total units.   
+
+Cumulatively, these figures establish a total residential market base of approximately 158,000 to 166,000 households. This substantial number of individual properties underpins a consistent demand for services ranging from basic lawn mowing and seasonal cleanups to extensive landscape renovations. Population growth further fuels this demand; Jackson County, for instance, saw its population increase by 9% between 2010 and 2022, a rate that supports new housing construction and, consequently, new landscaping projects.   
+
+The commercial market, while smaller in the number of total entities, often represents higher-value, long-term maintenance contracts. The number of business establishments serves as a strong proxy for the size of this segment:
+
+Jackson County: Home to 6,535 small business establishments, with over 1,000 businesses actively participating in The Chamber of Medford & Jackson County.   
+
+Josephine County: Contains 2,097 small business establishments.   
+
+Klamath County: Features a diverse job market with over 3,100 employers.   
+
+This indicates a total commercial market base of over 11,700 businesses. These entities—ranging from retail centers and corporate offices to homeowner associations (HOAs) and medical facilities—require professional landscaping to maintain curb appeal, attract customers, and enhance property value, creating a reliable source of recurring revenue for contractors.
+
+Table 1: Southern Oregon Regional Profile
+
+County	Key Cities	Population (2022/23)	Population Growth (2010-2022)	Number of Households	Number of Business Establishments	Median Household Income
+Jackson	Medford, Ashland, Central Point, Eagle Point, Jacksonville	221,644	+9.0%	~94,768	6,535	$71,443
+Josephine	Grants Pass, Cave Junction, Merlin	88,695	N/A	~37,241	2,097	$49,335
+Klamath	Klamath Falls	70,003	+5.5% (since 2010)	~30,387	>3,100	$41,818 (2010 Census)
+Total		~380,342		~162,396	>11,732	
+Sources:    
+
+Key Macroeconomic Factors: The Impact of Housing Trends, Drought Conditions, and Regional Development
+Beyond simple demographics, several powerful macroeconomic and environmental forces are actively shaping the landscaping market in Southern Oregon. These trends influence not only the volume of demand but, more importantly, the specific types of services that are most sought after.
+
+A significant driver of new landscaping work is the state's pro-development regulatory environment. In response to a statewide housing shortage, Oregon lawmakers have enacted legislation designed to accelerate new construction. Bills such as HB 2001, which legalizes higher-density "middle housing" (duplexes, triplexes, cottage clusters) in larger cities, and SB 1537, which facilitates the expansion of urban growth boundaries, are clearing the way for more residential projects. This legislative push is coupled with a broader market trend in the Pacific Northwest: a shift away from dense urban cores toward more affordable and appealing suburban markets like those found in Southern Oregon. The result is a predictable increase in new construction. However, these new developments are likely to feature smaller lot sizes than traditional single-family homes. This dynamic alters the nature of landscaping demand, shifting it away from large, turf-heavy yards and toward more intricate, high-value projects focused on maximizing smaller outdoor spaces. This includes a greater emphasis on hardscaping elements like patios and walkways, sophisticated container gardens, and efficient outdoor living areas. Contractors who specialize in this type of detailed, small-footprint design and installation will be better positioned to capitalize on this trend than those focused solely on large-scale lawn maintenance.   
+
+Simultaneously, the region's climate is exerting immense pressure on landscaping practices. Southern Oregon is prone to significant drought conditions, with areas like Josephine and Klamath counties frequently facing water scarcity. This environmental reality is transforming water conservation from an optional, eco-conscious choice into a pressing economic and regulatory necessity. As water prices rise and restrictions become more common, homeowners and commercial property managers are actively seeking to replace thirsty lawns with drought-tolerant alternatives. This creates a stable, high-growth niche market for services such as xeriscaping, the installation of smart irrigation systems that can reduce water use by up to 50%, and the use of native, climate-appropriate plants. Landscapers who can effectively market their expertise in water-wise and fire-resistant landscaping are not merely selling an aesthetic; they are providing a crucial solution to a tangible economic and safety problem, which allows them to command premium pricing and differentiate themselves from competitors.   
+
+Finally, ongoing public infrastructure investment provides a steady stream of opportunities for commercial and municipal landscaping contracts. Cities like Medford and Grants Pass are actively pursuing projects related to urban renewal, transportation improvements, and utility upgrades. These projects often require professional landscaping for site restoration, beautification, and the creation of public green spaces, offering large-scale, contract-based work for qualified firms.   
+
+II. Market Size, Segmentation, and Financial Health
+The Southern Oregon landscaping market represents a significant economic sector, driven by a combination of residential spending, commercial investment, and public projects. A quantitative analysis of the market's size, combined with an understanding of its key segments and underlying financial health, provides a clear picture of the opportunities available to contractors in the region.
+
+Estimating the Total Addressable Market for Landscaping Services in Southern Oregon
+While precise regional data is not compiled, a robust estimate of the Total Addressable Market (TAM) can be derived by synthesizing national industry data with local demographic information. The U.S. landscaping market is a substantial industry, with market size estimates for 2024 ranging from $153 billion to $186 billion.   
+
+A bottom-up estimation for the residential segment can be constructed using average household spending data. National surveys indicate that the average U.S. household spends between $616 and $621 annually on lawn and garden care. Applying this average to the approximately 162,000 households in the Jackson, Josephine, and Klamath county region yields a baseline residential maintenance market of approximately $100 million per year. This figure represents recurring services like mowing, fertilization, and cleanups. It does not include larger, one-time installation projects, which can range from a few thousand dollars to over $50,000 per home. Factoring in a conservative estimate for these larger projects suggests the total residential market is significantly higher.   
+
+The commercial segment can be estimated using the region's business population of over 11,700 establishments. Commercial landscape maintenance budgets vary widely based on property size and complexity, with annual contracts ranging from $2,000 for small properties to over $50,000 for large corporate campuses. A conservative average annual budget of $5,000 per business would place the commercial market at approximately $58.5 million. Given that this segment is experiencing faster growth nationally, this estimate likely represents a floor for the true market size.   
+
+Combining these conservative estimates, the total addressable market for landscaping services in the defined Southern Oregon region is likely in the range of $175 million to $225 million annually.
+
+Market Segmentation Analysis: Residential, Commercial, and Public Infrastructure
+The Southern Oregon landscaping market can be broken down into three primary segments, each with distinct drivers and characteristics.
+
+Residential Landscaping: Accounting for approximately 61% of the U.S. market, this is the dominant segment. Demand is fueled by new home construction, ongoing maintenance needs, and a strong cultural trend toward creating "outdoor living spaces" that function as extensions of the home. This includes the installation of patios, outdoor kitchens, fire pits, and sophisticated garden designs. Spending in this segment is also being bolstered by younger generations (Gen Z and Gen Y), who are showing an increased propensity to spend more time and money on gardening and yard improvement.   
+
+Commercial Landscaping: This segment is projected to grow at a compound annual growth rate (CAGR) of 7.4% nationally, outpacing the residential sector. Growth is driven by the need for businesses to maintain an attractive physical presence to draw in customers and employees. Furthermore, there is a rising trend of corporate clients investing in Environmental, Social, and Governance (ESG) initiatives, which often includes upgrading landscapes to be more sustainable and water-efficient. This segment is characterized by long-term maintenance contracts with entities like HOAs, retail centers, office parks, and healthcare facilities.   
+
+Public Infrastructure: While the smallest segment, it provides opportunities for large, high-value contracts. This work is tied to municipal budgets and public works projects, such as park development, streetscape beautification, and landscape restoration following road or utility construction. These projects often have stringent requirements but offer stable, predictable work for contractors equipped to handle them.   
+
+Table 2: Estimated Landscaping Market Size in Southern Oregon, by Segment
+
+Market Segment	Estimated Annual Market Value ($)	Key Drivers	Growth Outlook
+Residential Maintenance	$95M - $110M	Recurring need for lawn care, seasonal cleanups, fertilization.	Stable
+Residential Installation & Enhancement	$45M - $65M	New construction, home remodeling, outdoor living trend, xeriscaping.	Strong Growth
+Commercial	$55M - $70M	Property value enhancement, ESG initiatives, new commercial development.	Strong Growth
+Public Infrastructure	$5M - $10M	Urban renewal projects, park development, transportation corridors.	Project-Dependent
+Total Estimated Market	$200M - $255M		
+Sources: Market value is an analytical estimate based on data from  and regional demographic data.   
+
+Industry Profitability: A Deep Dive into Typical Gross and Net Profit Margins
+The landscaping industry is generally characterized by healthy financial metrics, though profitability is highly dependent on the service mix and operational efficiency of the individual business.
+
+Nationally, the average gross profit margin for landscaping services falls between 30% and 50%. A well-managed company typically aims for a gross margin of 45% to 50% on each job, which represents the revenue left after accounting for direct costs like field labor, materials, and fuel.   
+
+The net profit margin, which accounts for all business expenses including overhead (administrative staff, rent, marketing, insurance), typically ranges from 5% to 20%. A net margin of 10% is considered acceptable, while a margin of 15% or higher indicates strong pricing discipline and efficient cost controls. A margin of 20% or more enables a business to scale easily without incurring debt.   
+
+Profitability is not uniform across all services. This disparity creates a "barbell effect" in the market, with two distinct strategic paths emerging. On one end are high-volume, low-margin services. Basic residential mowing and maintenance, for example, may only yield net margins in the 10-20% range due to intense price competition. Success in this segment requires extreme operational efficiency, optimized routing, and economies of scale. On the other end of the barbell are high-margin, high-complexity services. Landscape design, hardscaping (patios, retaining walls), and large-scale commercial installation projects can command net margins of 30% to 45%. These services compete on expertise, creativity, and project management rather than price. Add-on services like mulching, seasonal color installation, and yard cleanups are also highly profitable due to their low material costs and high perceived value to the customer.   
+
+This bifurcated profit structure forces contractors to make a strategic choice. A business attempting to operate in both segments without distinct operational models risks being inefficient and unprofitable in the maintenance sector while being uncompetitive in the high-end design/build space. The most successful firms either specialize in one area or strategically use recurring maintenance contracts as a reliable revenue base and a pipeline for upselling high-margin enhancement projects to their established client roster.   
+
+III. Cost Drivers and Project Benchmarking
+Profitability in the landscaping industry is a direct function of managing costs effectively. The primary cost drivers—labor and materials—are subject to regional economic pressures and national supply chain trends. Understanding these costs, benchmarking them against other markets, and navigating the capital environment are essential for any contractor's financial success.
+
+Analysis of Major Cost Drivers: Trends in Labor and Material Prices
+Labor represents the single largest expense for most landscaping companies and is a persistent operational challenge. A tight labor market across the country has made hiring skilled workers more difficult and expensive than it was pre-COVID. In Southern Oregon, labor costs are dictated by both market rates and state regulations.   
+
+Wages: The average hourly pay for a landscaper in Oregon is approximately $18.64, with the majority of workers earning between $16.25 and $20.34 per hour. This is the direct cost to the employer before factoring in payroll taxes, insurance, and benefits.   
+
+Minimum Wage: Oregon's minimum wage laws set a hard floor on labor costs. For Jackson and Josephine counties, which fall into the "Standard" wage region, the minimum wage is set at $15.05 per hour as of mid-2025. This ensures that even entry-level labor represents a significant cost.   
+
+Billing Rates: To cover wages, overhead, and profit, contractors typically bill clients at a much higher rate. The standard hourly rate for a landscaping crew member in the Pacific Northwest is between $40 and $80. A two-person crew, therefore, could be billed out at $80 to $160 per hour.   
+
+Materials are the second major cost category and have been subject to significant price volatility due to inflation, supply chain issues, and tariffs on imported goods like steel and lumber. Fuel costs are also a major concern for contractors, impacting both equipment operation and transportation expenses. A retail price list from a Pacific Northwest supplier provides concrete examples of bulk material costs per cubic yard:   
+
+Soils & Mixes: Ranging from $28.99 for basic loam to $51.99 for specialized lawn top dressing mix.   
+
+Barks & Mulches: Fine fir/hemlock bark costs around $43.99, while medium bark is slightly cheaper at $40.99.   
+
+Aggregates: 5/8" minus crushed rock, a common base material, is priced at $61.99, while pea gravel is $64.99.   
+
+These material costs directly influence project bids and can erode profit margins if not managed carefully through accurate estimating and, where possible, escalation clauses in contracts.   
+
+Comparative Cost Analysis: Benchmarking Project Costs Against PNW Metros
+To contextualize pricing in Southern Oregon, it is useful to compare average project costs with those in the larger, more expensive metropolitan areas of Portland and Seattle. In general, Southern Oregon offers a more moderate cost environment.
+
+General Landscaping & Maintenance: A basic landscaping project in Salem, a comparable Oregon market, averages between $1,313 and $1,555. In contrast, the same type of project in Seattle averages $1,531 to $1,812. Monthly full-service lawn care for a quarter-acre property in Portland typically costs between $200 and $400, which is comparable to national averages but slightly less than the high end in some major East Coast cities.   
+
+Installation Projects: Costs for installation work show a clearer price differential. A paver patio in Seattle can cost between $25 and $65 per square foot , whereas national averages, more reflective of markets like Southern Oregon, are in the $8 to $24 per square foot range. Similarly, a comprehensive front yard landscape installation in Portland, including hardscaping and irrigation for a 500-square-foot area, can cost between $12 and $30 per square foot. This suggests that while labor rates are standardized to a degree by state law, the overall cost of living and competitive pressures in major metro areas drive up final project prices compared to Southern Oregon.   
+
+Table 3: Comparative Project Cost Benchmarks (Southern Oregon vs. PNW Metros)
+
+Project Type	Southern Oregon (Estimated Avg. Cost)	Portland (Avg. Cost)	Seattle (Avg. Cost)	National Average
+Monthly Lawn Maintenance (1/4 acre)	$150 - $350	$200 - $400	$200 - $410	$200 - $400
+Sod Installation (1,000 sq ft)	$1,000 - $2,000	$1,200 - $2,200	$1,300 - $2,500	$1,000 - $2,000
+Paver Patio (200 sq ft)	$2,400 - $4,800	$3,000 - $5,500	$5,000 - $13,000	$1,600 - $5,000
+Sprinkler System Installation (1/4 acre)	$3,100 - $5,200	$3,500 - $5,800	$3,800 - $6,000	$3,000 - $5,200
+Full Landscape Renovation (Basic)	$3,000 - $15,000	$4,000 - $18,000	$4,500 - $20,000	$3,000 - $16,000
+Sources: Cost ranges are synthesized from data in. Southern Oregon costs are estimated based on Salem data and national averages, adjusted for regional labor rates.   
+
+The Cost and Availability of Capital: Financing Dynamics
+Access to capital is a critical component of the landscaping ecosystem, enabling both consumers to afford large projects and contractors to manage their cash flow.
+
+For Customers: A mature financing market exists to help homeowners fund landscaping projects.
+
+Unsecured Personal Loans: This is a popular and flexible option. Lenders offer loans from $3,000 to $100,000 with no collateral required. Annual Percentage Rates (APRs) vary widely based on creditworthiness, ranging from as low as 7% for excellent credit to over 35% for poor credit. These loans are suitable for projects of all sizes, from a small sprinkler system installation to a complete backyard renovation.   
+
+Home Equity Financing (HELOCs): For homeowners with significant equity, a Home Equity Line of Credit can offer lower interest rates. However, this option uses the home as collateral, involves more fees, and has a longer, more complex application process, making it less ideal for time-sensitive projects.   
+
+Credit Cards: For smaller projects, typically under $5,000 (such as sod installation, minor cleanup, or a simple sprinkler repair), credit cards can be a viable tool, especially if the homeowner can take advantage of a 0% introductory APR offer. However, their high standard interest rates make them a risky choice for financing larger projects.   
+
+For Contractors: Managing cash flow is a primary business challenge, as significant upfront expenses for materials and labor are often incurred weeks or months before client payment is received.   
+
+Operational Financing: A variety of loan products are available to contractors, including SBA loans for major investments, equipment financing for purchasing new machinery, business lines of credit for managing day-to-day cash flow, and invoice factoring to get immediate cash from outstanding invoices.   
+
+Point-of-Sale Customer Financing: An increasingly critical competitive tool is for contractors to partner directly with lending institutions (like PowerPay or EnerBank) to offer financing to their customers at the point of sale. This approach transforms the sales conversation. Instead of presenting a client with a daunting $15,000 invoice, the contractor can present an affordable monthly payment of a few hundred dollars. This simple reframing removes the primary barrier to purchase—the large upfront cost—and empowers the contractor to close more sales, increase the average project size by upselling features, and capture market share from competitors who only accept cash or check. By making ambitious projects financially accessible, the contractor is not just a builder but a solution provider, a powerful strategic position that can dramatically boost revenue.   
+
+IV. The Digital Battleground: SEO and Online Presence
+In the modern service economy, a contractor's visibility and reputation are increasingly forged online. For the Southern Oregon landscaping industry, a strong digital presence is not a luxury but a fundamental driver of lead generation and business growth. The economics of local search engine optimization (SEO) are stark, and the return on investment from a professional website is substantial.
+
+The Economics of Local Search: Quantifying the Value of Google Rankings for Lead Generation
+When a potential customer in Southern Oregon needs landscaping services, their journey almost invariably begins with a Google search for terms like "landscapers in Medford" or "sprinkler repair near me." Nearly half of all Google searches are for local information, and these queries represent high-intent customers who are actively looking to hire a professional. The position a business holds in these search results has a direct and dramatic impact on its ability to capture this demand.   
+
+The distribution of clicks on a Google search results page is heavily skewed toward the top. Multiple industry studies confirm this trend:
+
+Position #1: The top organic result captures the lion's share of attention, receiving an average click-through rate (CTR) of 27.6% to 39.8%.   
+
+Positions #2 and #3: The CTR drops precipitously to approximately 18.7% for the second position and 10.2% for the third.   
+
+The "Top 3" Advantage: Combined, the top three organic search results receive over half of all clicks, at an estimated 54.4%.   
+
+The Digital Cliff: Below the top few positions, visibility plummets. By the tenth position at the bottom of the first page, the CTR is typically less than 2%. For businesses on the second page of results, they are functionally invisible to the vast majority of searchers.   
+
+This data allows for a clear financial model of the value of SEO. Consider a keyword phrase like "Ashland landscaping" that generates an estimated 1,000 searches per month in the local area.
+
+A business ranking #1 could expect around 300 website visits per month (1,000 searches * 30% CTR).
+
+A business ranking #11 (on the second page) might only receive 10 visits (1,000 searches * 1% CTR).
+
+This 30-fold difference in traffic translates directly into leads and revenue. If a website converts 10% of visitors into leads (phone calls or form submissions), the top-ranked business generates 30 leads per month, while the second-page business generates only one. Given that a high percentage of searchers contact only one company they find, securing a top-three position is not just a marketing goal; it is a primary driver of business viability.   
+
+Website as a Trust Signal: The ROI of a Professional Website vs. No Digital Footprint
+A contractor's website is their digital storefront and the cornerstone of their brand identity. It is often the first interaction a potential client has with the business, and that first impression is critical.   
+
+A business with no website or a poorly constructed one is at a severe disadvantage. It is perceived as less professional, less established, and less trustworthy. Without a central online hub, the business cannot effectively showcase its portfolio of work, display customer testimonials, or control its brand message. It becomes entirely dependent on word-of-mouth referrals or paid directory listings on platforms like Angi, HomeAdvisor, or Thumbtack. While these directories can generate leads, they do so by placing the contractor in a direct, price-focused comparison with numerous competitors, effectively commoditizing their services.   
+
+In contrast, a professional website functions as a 24/7 salesperson and a powerful trust-building asset. Key elements of a high-converting contractor website include:   
+
+Professional Design and Performance: A clean, modern design that is optimized for mobile devices and loads quickly is non-negotiable.   
+
+High-Quality Portfolio: A gallery of high-resolution photos and detailed case studies of past projects is the most effective way to demonstrate capability and quality of work.   
+
+Clear Calls-to-Action (CTAs): Prominently placed and easy-to-use buttons and forms for "Request a Quote" or "Schedule a Consultation" are essential for converting visitors into leads.   
+
+Trust Signals: Featuring customer testimonials, industry certifications, and licensing information builds immediate credibility.   
+
+Ultimately, a website allows a contractor to transform their business from a commodity into a brand. By showcasing a unique style, demonstrating expertise through blog posts, and highlighting glowing customer reviews, the business can shift the client's decision-making process away from a pure focus on price. The conversation becomes about trust, vision, and expertise. This de-commoditization of their service is the website's greatest return on investment, as it enables the contractor to command higher prices and achieve healthier profit margins, because they are no longer competing solely on being the lowest bidder.
+
+The Role of Online Reviews and Reputation Management
+Online reviews are a cornerstone of digital trust. A strong portfolio of positive, recent reviews is a powerful signal to both potential customers and search engines. Businesses with numerous positive reviews on their Google Business Profile tend to rank higher in the valuable "local pack" map results. More importantly, these reviews serve as social proof, assuring prospective clients that the contractor is reliable and delivers high-quality work. Actively managing this reputation by encouraging satisfied customers to leave feedback and responding professionally to all reviews—both positive and negative—is a critical component of a successful digital marketing strategy.   
+
+V. Blueprint for Success: Key Performance Indicators and Operational Metrics
+For landscaping businesses in Southern Oregon, sustained growth and profitability are not accidental; they are the result of rigorous measurement and management. The most successful operators go beyond simply tracking revenue and expenses. They utilize a balanced set of Key Performance Indicators (KPIs) that provide a holistic view of their business's financial health, customer acquisition effectiveness, and operational efficiency. These metrics serve as a navigation system, allowing owners to identify strengths, diagnose weaknesses, and make informed strategic decisions.
+
+Financial KPIs for Profitability
+These metrics measure the fundamental financial health and viability of the business. They answer the question: "Are we making money, and are we doing it efficiently?"
+
+Gross Profit Margin: Calculated as (Revenue – Cost of Goods Sold) / Revenue, this KPI reveals the profitability of core field operations. A healthy target is 45-55%. A consistently low gross margin may indicate underpricing, inefficient labor, or high material costs.   
+
+Net Profit Margin: Calculated as (Net Income / Revenue), this is the ultimate measure of overall business profitability after all expenses, including overhead, are paid. A healthy range for established businesses is 5-20%, with top performers exceeding 15%.   
+
+Revenue per Hour: This metric, calculated by dividing the total revenue from a job by the total labor hours invested, is a crucial link between field productivity and financial results. Tracking this ensures that jobs are not only completed but are completed profitably, aligning estimates with reality.   
+
+Labor Costs as a Percentage of Revenue: This ratio monitors the largest single expense category. By keeping a close watch on Total Labor Costs / Total Revenue, managers can ensure that payroll expenses do not grow out of proportion with sales, a common pitfall for service businesses.   
+
+Customer-Centric KPIs for Growth
+These metrics focus on the customer acquisition and retention funnel. They answer the question: "How effectively are we attracting new customers and keeping the ones we have?"
+
+Lead Volume and Close Rate: The number of new leads generated per month and the percentage of those leads that are converted into signed contracts are fundamental sales metrics. For example, if a company's close rate is 10%, it knows it needs 100 leads to secure 10 new jobs, providing a clear target for marketing efforts.   
+
+Customer Acquisition Cost (CAC): Calculated as Total Marketing & Sales Spend / Number of New Customers Acquired, CAC measures the cost-effectiveness of marketing campaigns. A low CAC indicates an efficient marketing engine.   
+
+Average Annual Revenue Per Customer: This is found by dividing total annual revenue by the number of customers. It helps a business understand the value of each client relationship and informs strategies for growth. For example, to grow revenue by $100,000, a business with an average customer value of $2,000 knows it needs to acquire 50 new clients.   
+
+Customer Retention Rate: This KPI measures client loyalty. A high retention rate (e.g., 90% or more) indicates strong customer satisfaction and provides a stable, predictable base of recurring revenue, which is far less expensive to maintain than acquiring new customers.   
+
+Operational KPIs for Efficiency
+These metrics provide insight into the day-to-day execution in the field. They are leading indicators of financial performance, answering the question: "Are we performing our work effectively and to a high standard?"
+
+Job Completion Rate (On Time & On Budget): This measures the effectiveness of project management and estimation. A high rate indicates that jobs are being planned and executed efficiently.   
+
+Crew Efficiency Score (Estimated vs. Actual Hours): This is a direct measure of field productivity. Comparing the labor hours quoted for a job against the actual hours spent reveals which crews are most efficient and where training may be needed. This is vital for controlling labor costs.   
+
+Equipment Uptime: This metric tracks the operational readiness of expensive assets like trucks and mowers. High uptime minimizes costly downtime and project delays, while low uptime may indicate a need for better maintenance schedules or equipment replacement.   
+
+Customer Callbacks / Quality Assurance Score: This tracks the number of times a crew must return to a job site to fix mistakes. A low callback rate is a powerful indicator of high-quality workmanship and is directly correlated with profitability. While a business might show a healthy net profit in one quarter, a high callback rate is an operational red flag. Each return visit represents unbilled labor hours, which directly erodes the Revenue per Hour for that job. This operational failure puts downward pressure on future profit margins. The most successful contractors understand this connection; they use operational KPIs like callback rates as a real-time diagnostic tool to identify and solve quality control issues before they negatively impact the bottom line, ensuring long-term financial health rather than just a temporary positive snapshot.
+
+VI. Competitive Landscape: A Profile of Southern Oregon's Landscaping Contractors
+The landscaping market in Southern Oregon is highly fragmented, characterized by a large number of small to medium-sized businesses, many of which are locally owned and operated. This section provides a comprehensive, though not exhaustive, compilation of contractors operating across Jackson, Josephine, and Klamath counties. The data has been gathered from a wide array of public sources to create a foundational database for analysis.   
+
+Methodology for Contractor Identification
+To build this competitive profile, a multi-pronged research approach was employed. Information was systematically gathered from company websites, local business directories, and industry-specific platforms. Key sources included direct searches on Google, Google Maps, and Yelp, as well as an analysis of listings on contractor-matching services like Angi, HomeAdvisor, and Houzz. Additionally, the Better Business Bureau (BBB) database was consulted to assess company ratings and accreditation status. The search focused on identifying businesses that explicitly list service areas within the key communities of the three-county region.   
+
+Preliminary Database of Regional Landscaping Companies
+The following is a preliminary list of landscaping contractors identified as operating in the Southern Oregon region, organized by their primary city or service area. This list includes publicly available information on their services, operational history, and contact details.
+
+Jackson County
+Ashland:
+
+Ahimsa Gardens: Founded in 2016. Specializes in ecological landscape design, installation, and maintenance, including climate-wise, native plants, and permaculture food forests. Offers hardscaping and irrigation. Contact: (541) 973-5497, Website: ahimsagardens.com.   
+
+Bumgardner's Landscape Management: Over 30 years in business. Full-service residential, commercial, and HOA landscaping, including management, installation, and irrigation. Contact: (541) 201-2234, Website: bumgardnerslandscape.com.   
+
+Eric Simpson Landscaping: Founded in 1997. All-phases, state-licensed contractor specializing in water-conserving solutions, xeriscaping, FireWise design, hardscaping, and renovations. Contact: (541) 973-5497, Website: ericsimpsonlandscaping.com.   
+
+Figueroa's Landscaping & Construction: Also serves Medford. Listed on Houzz.   
+
+Covey Pardee Landscape Architects: Focus on public parks, urban plazas, and commercial projects.   
+
+Central Point:
+
+Bear Claw Service Inc.: BBB Rating: A+. Landscape contractor services.   
+
+Campbell Landscape LLC: Local lawn care and landscaping company.   
+
+Element Landscape Maintenance: Specializes in bespoke hardscaping and landscaping projects, including irrigation, outdoor kitchens, and patios. Minimum project size of $7,500. Contact: (541) 200-9413, Website: elementlandscape.us.   
+
+Madara Design, Inc.: Over 30 years of experience in landscape architecture, design, and construction.   
+
+Mana Landscape Maintenance LLC: Landscape contractor services.   
+
+Terra Landscape & Construction: Over 20 years of experience. Specializes in residential and commercial masonry, concrete, landscape construction, and artificial turf. Contact: (541) 778-9843, Website: terralandscapeandconstruction.com.   
+
+Valley View Landscaping Inc.: Landscape contractor services. Contact: (541) 821-7878.   
+
+Eagle Point:
+
+E-Z's Landscape & Construction LLC: Landscape and general contractor. Contact: (541) 826-4700.   
+
+Monkey Business Landscape & Maintenance: Over 20 years of expertise. Full-service maintenance and installation, including lawn care, irrigation, pruning, and fertilization. Contact: (541) 973-8207, Website: monkeybusinesslandscapeandmaint.com.   
+
+Overstreet Landscape & Hydroseeding Inc.: Landscape contractor. Contact: (541) 826-8266.   
+
+Jacksonville:
+
+Carleton & Sons Landscaping: Family-operated with almost 50 years of experience. Focuses on landscape design and installation, including patios, retaining walls, and water features. Does not offer regular maintenance. Contact: (541) 951-1262, Website: carletonlandscaping.com.   
+
+Gary Krause Landscaping and Design: In business since 1994. Full-service design/build, construction, irrigation, and maintenance. Specializes in sustainable practices. Contact: (541) 899-7643, Website: garykrauselandscaping.com.   
+
+Laurie Sager and Associates Landscape Architects: Creative design team.   
+
+Scofield Landscape: In business for 15 years. Specializes in low-maintenance landscape design and hardscape construction, including pavers, retaining walls, and water features. Contact: (541) 899-1764, Website: scofieldlandscape.com.   
+
+Veridian Outdoor Living (Michael Flaherty): Residential landscape design and project management. Highly rated on Houzz.   
+
+Medford:
+
+Augusta Lawn Care of Medford: Offers a wide range of services including landscaping, hardscapes, lawn maintenance, and snow removal. Contact: (541) 664-5296, Website: augustalawncareservices.com.   
+
+Bumgardner's Landscape Management: Over 30 years in business. Full-service residential, commercial, and HOA landscaping. Contact: (541) 826-7713, Website: bumgardnerslandscape.com.   
+
+Creative Edge Landscaping Inc.: Landscape design and sprinkler systems. Contact: (541) 776-6342.   
+
+Hard Edge Construction: Specializes in hardscaping: retaining walls, pavers, and concrete structures. Highly recommended on Angi.   
+
+Infinity Pro Maintenance LLC: In business since 2020. Offers landscape maintenance, cleanup, fuel reduction, and mowing. Contact: (541) 301-5626, Website: landscaperinmedfordor.com.   
+
+Landscaping Experience: Full-service maintenance and design.   
+
+Natures Landscape: Full-service including outdoor lighting, water features, and artificial turf. Contact: (541) 821-5344, Website: naturelandscapemedfordoregon.com.   
+
+Rogue Valley Lawncare: Operated by Gary Krause (see Jacksonville). 30 years of experience. Focuses on maintenance, cleanup, patios, and irrigation. Contact: 458-212-4486, Website: roguevalleylawncare.com.   
+
+TB Contracting LLC: General contracting with landscaping services. Praised for good communication.   
+
+U.S. Lawns of Medford: Franchise focused on commercial landscaping services, including lawn care, irrigation management, and enhancements. Serves Jackson and Josephine counties. Contact: (541) 500-8650, Website: uslawns.com/locations/or/medford/.   
+
+Phoenix & Talent:
+
+Cortez Farm Labor, LLC: Over 10 years of experience. Specializes in land cleanup, fire abatement, fence construction, and agricultural services. Website: homelandfencing.com.   
+
+Leave Your Mark, LLC: Premier provider of landscape supplies (pavers, stone, turf) and offers contractor referrals. Contact: (541) 535-3445, Website: leaveyourmark.com.   
+
+My Garden Landscape Maintenance: 16 years in business. Landscape and lawn services. Contact: (541) 535-3445 (Note: same as Leave Your Mark, may be an error in source), License: #9780.   
+
+Naturescape Designs: Focuses on creating beautiful yards and gardens.   
+
+Solid Ground Landscape Inc.: Offers landscaping, irrigation, hardscapes, and outdoor lighting. Contact: (541) 601-9421, Website: solidgroundlandscape.com.   
+
+Rogue River, Shady Cove, White City:
+
+Alcon Landscaping Maintenance Service (White City): Offers residential and commercial maintenance, junk removal, and pruning. Contact: (541) 951-1497, Website: alconlandscapingmaintenance.com.   
+
+Garcia's Landscaping Maintenance (White City): 8 years of experience. Specializes in commercial and residential maintenance, cleanup, and gardening. Contact: (541) 275-6618, Website: whitecitylawnmaintenance.com.   
+
+Mono Lawn Maintenance LLC (White City): Specializes in residential and commercial lawn maintenance. Contact: (541) 621-3267, Website: monolawnmaintenancellc.com.   
+
+Patriot Irrigation & Landscape, Inc. (White City): BBB Rating: A+. Irrigation design and landscape contracting. Contact: (541) 830-0317.   
+
+Zepeda General Landscape, LLC (White City): Highly rated on HomeAdvisor for full landscape installation, pavers, and sprinkler systems.   
+
+William Roy Pharr (Shady Cove): In business since 1999. Focus on remodeling and construction, with landscaping capabilities. Contact: (541) 878-3538.   
+
+Josephine County
+Grants Pass:
+
+A New Start Landscaping & Maintenance: BBB Rating: A+. Serves a wide area including Ashland and Medford. Contact: (541) 761-2611.   
+
+All American City Landscaping: BBB Rating: A+. Landscape maintenance. Contact: (541) 476-6127.   
+
+Expert Yard Care: BBB Rating: A+. Lawn and landscape maintenance. Contact: (541) 218-9191.   
+
+Grounds Guys of The Rogue Valley: Franchise offering full-service residential and commercial grounds care, from design/installation to maintenance. Contact: (541) 982-2150, Website: groundsguys.com/grants-pass/.   
+
+J.A Land Beautification LLC: BBB Rating: A+. Landscape maintenance and cleanup.   
+
+Mountain View Landscaping: BBB Rating: A+. Landscape contractors and design. Contact: (541) 474-0224.   
+
+Royal Green Landscaping: In business since 1989. Full-service installation including lawns, sprinklers, retaining walls, water features, and hardscapes. Contact: (541) 299-0479, Website: royalgreenlandscaping.com.   
+
+Southern Oregon Property Maintenance: In business since 1999. Specializes in weekly maintenance plans, seasonal cleanup, and lawn care. Contact: (541) 476-1338, Website: sopmaintenance.com.   
+
+Sprinkler Pros, Inc.: 24 years of experience in residential landscape, hardscape, and sprinkler systems.   
+
+Cave Junction, Merlin, Murphy:
+
+Blacktail Landscape Maintenance (Cave Junction): BBB Rating: A+. Lawn maintenance.   
+
+Kingscape (Murphy): Offers lawn care, landscape design/installation, irrigation, and cleanup. Serves Grants Pass and Medford as well. Contact: (541) 450-1727, Website: kingscapeor.net.   
+
+Vohs Landscaping: In business since 2008. Offers a wide range of services including fencing, ponds, and general landscaping. Primarily serves Central Oregon but is listed in local searches. Contact: (541) 515-8462, Website: vohslandscaping.com.   
+
+Klamath County
+Klamath Falls:
+
+Basin Landscape Maintenance Services: 10 years in business. Specializes in commercial property maintenance, solar farm maintenance, and snow plowing. Also serves residential. Contact: (541) 884-3991.   
+
+DeSantis Landscapes: Award-winning, family-owned company with offices in Salem/Portland, serving Klamath Falls. Offers residential and commercial design/build, maintenance, and plant health care. Contact: (503) 782-7356, Website: desantislandscapes.com.   
+
+Exclusive Yard Maintenance LLC: BBB Rating: A+. Lawn and landscape maintenance.   
+
+Oregon Landscape Company: BBB Rating: A+. Landscape maintenance. Contact: (541) 539-2624.   
+
+Pine Mountain LLC: Locally owned company offering lawn care, property cleanups, and pressure washing.   
+
+Superior Landscape & Design: Offers landscaping, hardscapes, snow removal, and irrigation. Contact: (541) 203-4456, Website: superiorlandscapeanddesign.com.   
+
+3 Oaks Landscape Maintenance LLC: BBB Rating: A+. Landscape maintenance and hardscaping.   
+
+VII. The Top 50-60 Landscaping Companies in Southern Oregon: A Synthesized Ranking
+The following ranking synthesizes the extensive data gathered on landscaping contractors across Southern Oregon. The objective is to provide a holistic assessment that prioritizes quality, reliability, and customer satisfaction over sheer company size, aligning with the user's request for a balanced view of the market. This list serves as a strategic guide for consumers, businesses, and industry observers seeking to identify the region's most reputable and capable landscaping professionals.
+
+Ranking Methodology
+To create a fair and comprehensive ranking, a weighted scoring system was applied to each contractor profiled in the previous section. This methodology is designed to balance objective business metrics with subjective but crucial measures of market reputation. The criteria and their respective weights are as follows:
+
+Market Reputation & Customer Satisfaction (40%): This is the most heavily weighted criterion. It is a composite score derived from the average star ratings and the volume of reviews across multiple public platforms, including Google, Yelp, Angi, Houzz, and HomeAdvisor. Consistent high ratings and a significant number of positive reviews detailing professionalism, communication, and quality of work were scored highest.
+
+Experience & Establishment (20%): This score is based on the number of years a company has been in operation. Businesses with a longer history (15+ years) received higher scores, as longevity is a strong indicator of business stability, market adaptation, and sustained client trust.
+
+Scope & Professionalism (25%): This criterion evaluates the breadth and depth of services offered, from basic maintenance to complex design/build and hardscaping. It also incorporates the quality of the company's digital presence. A professional, informative, and user-friendly website was considered a key indicator of modern business acumen and customer focus. The presence of clear licensing information (e.g., LCB#) also contributed to this score.
+
+BBB Rating & Accreditation (15%): This score reflects a company's commitment to ethical business practices and customer service. Companies with an A+ rating from the Better Business Bureau and formal accreditation received the highest marks in this category.
+
+Each company was scored on a 100-point scale based on these weighted criteria. The final list represents the top-ranked firms, offering a mix of larger, full-service companies and smaller, specialized operators who have earned exceptional reputations.
+
+The Top 55 Landscaping Contractors in Southern Oregon
+The following table presents the ranked list of the top 55 landscaping companies in the Southern Oregon region, based on the methodology outlined above.
+
+Table 4: Top 55 Landscaping Contractors in Southern Oregon
+
+Rank	Company Name	Primary City	Years in Business	Service Focus	Website	Contact Phone	Key Strengths
+1	Gary Krause Landscaping & Design	Jacksonville	30+	Design/Build, Hardscape, Sustainable	garykrauselandscaping.com	(541) 899-7643	Decades of experience, strong design focus, excellent reviews.
+2	Bumgardner's Landscape Management	Medford	30+	Full-Service, Commercial, HOA	bumgardnerslandscape.com	(541) 826-7713	Long-standing reputation, strong commercial/HOA presence.
+3	Royal Green Landscaping	Grants Pass	35+	Full-Service Installation, Hardscape	royalgreenlandscaping.com	(541) 299-0479	Extensive experience, wide range of installation services.
+4	Scofield Landscape	Jacksonville	15	Hardscape, Design/Build, Low-Maintenance	scofieldlandscape.com	(541) 899-1764	Highly rated for hardscaping and paver work, good reviews.
+5	Eric Simpson Landscaping	Ashland	27	Design/Build, Xeriscaping, Fire-Wise	ericsimpsonlandscaping.com	(541) 973-5497	Niche expertise in drought/fire-tolerant design, state-licensed.
+6	Southern Oregon Property Maintenance	Grants Pass	25+	Maintenance, Lawn Care, Cleanup	sopmaintenance.com	(541) 476-1338	Strong focus on reliable maintenance, long-term client base.
+7	Grounds Guys of The Rogue Valley	Grants Pass	20+	Full-Service, Residential & Commercial	groundsguys.com/grants-pass	(541) 982-2150	Professional franchise system, comprehensive service list.
+8	U.S. Lawns of Medford	Medford	N/A	Commercial Maintenance, Irrigation	uslawns.com/locations/or/medford	(541) 500-8650	National brand focused exclusively on commercial clients.
+9	Zepeda General Landscape, LLC	White City	N/A	Full-Service Installation, Pavers	N/A	N/A	Exceptional 5.0 rating on HomeAdvisor across many reviews.
+10	Carleton & Sons Landscaping	Jacksonville	45+	Design/Install, Patios, Retaining Walls	carletonlandscaping.com	(541) 951-1262	Multi-generational family business with deep experience.
+11	Terra Landscape & Construction	Central Point	20+	Hardscape, Masonry, Concrete	terralandscapeandconstruction.com	(541) 778-9843	Strong specialization in hardscape and construction.
+12	Ahimsa Gardens	Ashland	8+	Ecological Design, Native Plants	ahimsagardens.com	(541) 973-5497	Niche focus on sustainable and permaculture practices.
+13	Monkey Business Landscape & Maint.	Eagle Point	20+	Full-Service Maintenance, Irrigation	monkeybusinesslandscapeandmaint.com	(541) 973-8207	Broad service area, comprehensive maintenance programs.
+14	Kingscape	Murphy	N/A	Full-Service, Irrigation, Design	kingscapeor.net	(541) 450-1727	Good reviews, serves multiple communities in Josephine County.
+15	Expert Yard Care	Grants Pass	N/A	Maintenance, Lawn Care	N/A	(541) 218-9191	A+ BBB rating, strong local reputation for maintenance.
+16	My Garden Landscape Maintenance	Phoenix	16	Full-Service, Sprinkler Systems	N/A	(541) 535-3445	Long-standing business with positive client feedback.
+17	Element Landscape Maintenance	Central Point	N/A	Design/Build, Hardscape, Outdoor Kitchens	elementlandscape.us	(541) 200-9413	Focus on high-end installation projects, modern aesthetic.
+18	Mountain View Landscaping	Grants Pass	N/A	Design, Installation, Maintenance	N/A	(541) 474-0224	A+ BBB rating, offers a full range of services.
+19	DeSantis Landscapes	Klamath Falls	N/A	Design/Build, Commercial, Maintenance	desantislandscapes.com	(503) 782-7356	Award-winning company with a presence in the region.
+20	Hard Edge Construction	Medford	N/A	Hardscaping, Retaining Walls, Pavers	N/A	N/A	Top-rated on Angi for specialized construction work.
+21	Rogue Valley Lawncare	Medford	30+	Maintenance, Patios, Irrigation	roguevalleylawncare.com	458-212-4486	Operated by experienced professional Gary Krause.
+22	Basin Landscape Maintenance	Klamath Falls	10	Commercial Maint., Solar Farm, Snow	basinlandscapemaintenanceservices.com	(541) 884-3991	Niche expertise in large-scale commercial and industrial maint.
+23	A New Start Landscaping & Maint.	Grants Pass	N/A	Full-Service, Maintenance	N/A	(541) 761-2611	A+ BBB rating, serves a wide area in Jackson/Josephine.
+24	Infinity Pro Maintenance LLC	Medford	4+	Maintenance, Cleanup, Fuel Reduction	landscaperinmedfordor.com	(541) 301-5626	Good reviews for reliable maintenance services.
+25	All American City Landscaping	Grants Pass	N/A	Maintenance	N/A	(541) 476-6127	A+ BBB rating, established local maintenance provider.
+26	Oregon Landscape Company	Klamath Falls	N/A	Maintenance	N/A	(541) 539-2624	A+ BBB rating, focused on landscape maintenance.
+27	Alcon Landscaping Maintenance	White City	N/A	Maintenance, Junk Removal, Pruning	alconlandscapingmaintenance.com	(541) 951-1497	Serves multiple cities, broad maintenance offerings.
+28	Garcia's Landscaping Maintenance	White City	8	Maintenance, Gardening	whitecitylawnmaintenance.com	(541) 275-6618	Specializes in residential and commercial maintenance.
+29	Solid Ground Landscape Inc.	Talent	N/A	Full-Service, Hardscapes, Lighting	solidgroundlandscape.com	(541) 601-9421	Well-rounded service offerings for residential clients.
+30	Sprinkler Pros, Inc.	Grants Pass	24	Sprinklers, Hardscape, Landscape	N/A	N/A	Deep specialization in irrigation systems.
+31	Patriot Irrigation & Landscape, Inc.	White City	N/A	Irrigation, Landscape Contracting	N/A	(541) 830-0317	A+ BBB rating with a focus on irrigation.
+32	Augusta Lawn Care of Medford	Medford	N/A	Full-Service, Hardscapes, Snow	augustalawncareservices.com	(541) 664-5296	Franchise model with a comprehensive service list.
+33	3 Oaks Landscape Maintenance LLC	Klamath Falls	N/A	Maintenance, Hardscaping	N/A	N/A	A+ BBB rating, serves Klamath County.
+34	Bear Claw Service Inc.	Central Point	N/A	Landscape Contracting	N/A	(541) 944-5891	A+ BBB rating.
+35	Veridian Outdoor Living	Jacksonville	N/A	Landscape Design, Project Mgt.	N/A	N/A	Top-rated designer on Houzz, specializes in planning.
+36	Cortez Farm Labor, LLC	Talent	10+	Land Cleanup, Fencing, Fire Abatement	homelandfencing.com	N/A	Niche focus on rural property and land management.
+37	Natures Landscape	Medford	N/A	Full-Service, Artificial Turf	naturelandscapemedfordoregon.com	(541) 821-5344	Offers modern solutions like artificial turf.
+38	Creative Edge Landscaping Inc.	Medford	N/A	Design, Sprinklers	N/A	(541) 776-6342	Focus on design and irrigation services.
+39	E-Z's Landscape & Construction LLC	Eagle Point	N/A	Landscape & General Contracting	N/A	(541) 826-4700	Combines landscaping with broader construction services.
+40	Blacktail Landscape Maintenance	Cave Junction	N/A	Lawn Maintenance	N/A	(541) 415-0499	A+ BBB rating, serves rural Josephine County.
+41	Mono Lawn Maintenance LLC	White City	N/A	Residential & Commercial Maint.	monolawnmaintenancellc.com	(541) 621-3267	Focus on recurring lawn maintenance contracts.
+42	Superior Landscape & Design	Klamath Falls	N/A	Full-Service, Hardscapes, Snow	superiorlandscapeanddesign.com	(541) 203-4456	Full-service provider in the Klamath Basin.
+43	J.A Land Beautification LLC	Grants Pass	N/A	Maintenance, Cleanup	N/A	(541) 237-9786	A+ BBB rating, focuses on property cleanup.
+44	Overstreet Landscape & Hydroseeding	Eagle Point	N/A	Hydroseeding, Contracting	N/A	(541) 826-8266	Specializes in new lawn installation via hydroseeding.
+45	Valley View Landscaping Inc.	Central Point	N/A	Landscape Contracting	N/A	(541) 821-7878	General landscape contractor services.
+46	TB Contracting LLC	Medford	N/A	General Contracting, Landscaping	N/A	N/A	Highly rated for communication on projects.
+47	Pineda Nunez Construction, LLC	Talent	10+	General Contracting, Landscaping	N/A	N/A	Highly rated on Angi for quality work.
+48	William Roy Pharr	Shady Cove	25+	Remodeling, Construction	N/A	(541) 878-3538	Experienced contractor with landscaping capabilities.
+49	Vohs Landscaping	Cave Junction	16+	Full-Service, Ponds, Fencing	vohslandscaping.com	(541) 515-8462	Broad service range, strong reviews (primarily Central OR).
+50	Azteca Lawn Care, LLC	Medford	N/A	Maintenance, Powerwashing	aztecalawncare.com	(541) 531-0592	Basic maintenance and related services.
+51	SR Lawn Specialists LLC	Grants Pass	N/A	Maintenance, Irrigation, Mulching	srlawnspecialists.com	(541) 295-0064	Focus on lawn health and irrigation.
+52	Advanced Landscape Maintenance	Grants Pass	N/A	Maintenance, Mowing, Weed Control	advancedlandscapemaintenance.com	(541) 507-1106	Focus on recurring maintenance services.
+53	Alex on a Mission LLC	Medford	N/A	Maintenance, Trimming, Powerwashing	alexonamission.com	(541) 301-7849	Small operator with a focus on maintenance tasks.
+54	Pine Mountain LLC	Klamath Falls	N/A	Lawn Care, Cleanup, Pressure Washing	N/A	N/A	Locally owned maintenance company.
+55	Exclusive Yard Maintenance LLC	Klamath Falls	N/A	Lawn & Landscape Maintenance	N/A	(541) 646-8548	A+ BBB rating, serves Jackson and Klamath counties.
+VIII. Strategic Insights and Future Outlook
+The Southern Oregon landscaping market is a dynamic and resilient sector poised for continued growth. However, success in this environment will require more than just operational proficiency. The contractors who thrive will be those who can adeptly navigate the region's unique economic drivers, environmental pressures, and digital landscape. Synthesizing the findings of this report reveals several key opportunities and strategic imperatives for both new and existing businesses.
+
+Identifying Key Market Opportunities and Potential Niches
+The analysis points to several high-growth areas where contractors can differentiate themselves and command premium pricing:
+
+Drought-Tolerant and Fire-Wise Landscaping: This is the most significant and durable market opportunity in Southern Oregon. Driven by climate change, rising water costs, and increasing homeowner awareness, the demand for xeriscaping, native plant installation, and smart irrigation systems is shifting from a niche preference to a mainstream necessity. Contractors who invest in certifications and build a portfolio showcasing expertise in creating beautiful, low-water, and fire-resistant landscapes are solving a critical regional problem, allowing them to move beyond price-based competition.
+
+High-Density Residential and Small-Space Design: State and local housing policies are encouraging the development of "middle housing" with smaller lot sizes. This creates a strong demand for specialists in high-impact, small-footprint design. The focus will be less on expansive lawns and more on intricate hardscaping (patios, pergolas), vertical gardens, sophisticated container plantings, and outdoor lighting to create functional and elegant outdoor living rooms.
+
+The Outdoor Living Package: The trend of viewing the backyard as an extension of the home continues to be a powerful driver of high-margin projects. Specializing in the design and construction of complete outdoor living packages—including outdoor kitchens, fire pits, custom seating, and water features—caters to the higher end of the market and generates substantial revenue per project.
+
+Commercial Maintenance and ESG Upgrades: The commercial landscaping segment is growing faster than the residential market. Securing multi-year maintenance contracts with HOAs, commercial property managers, and corporate campuses provides a stable foundation of recurring revenue. A key differentiator in this space is the ability to offer and implement ESG-friendly upgrades, such as converting large turf areas to native meadows or installing advanced water-management systems, which helps commercial clients meet their own sustainability goals.
+
+Actionable Recommendations for New Entrants and Existing Businesses
+Based on the market analysis, the following strategic actions are recommended for landscaping contractors seeking to build a successful and profitable business in Southern Oregon:
+
+Specialize and Certify: Avoid the trap of being a low-margin generalist. Choose a high-demand niche—such as water-wise landscaping or hardscape construction—and become the recognized expert. Obtain relevant industry certifications (e.g., from the Irrigation Association or in Firewise landscaping) to build credibility and justify premium pricing.
+
+Build a Digital Moat: In today's market, a professional website and a strong local SEO strategy are not optional expenses; they are essential revenue-generating assets. Invest in a high-quality website that showcases your work and builds trust. Implement a consistent strategy to rank in the top three on Google for your key local search terms. The data is clear: digital visibility directly translates to leads and sales.
+
+Integrate Financing as a Sales Tool: Partner with a third-party lender to offer customers simple, affordable monthly payment options for large projects. This removes the primary barrier to purchase, significantly increasing sales close rates and allowing for upselling of more comprehensive, higher-margin projects. Frame the cost not as a lump sum, but as a manageable monthly investment.
+
+Systematize and Measure Everything: Implement business management software to rigorously track both financial and operational KPIs. Go beyond the P&L statement and monitor metrics like crew efficiency (estimated vs. actual hours) and customer callback rates. These operational metrics are the leading indicators of profitability and allow for proactive management before problems impact the bottom line.
+
+Develop a Maintenance-to-Project Pipeline: For full-service firms, use affordable, recurring maintenance contracts as a strategic tool to build a loyal customer base. This creates a stable revenue stream and, more importantly, a captive audience for upselling high-profit installation, enhancement, and renovation projects over the lifetime of the client relationship. This hybrid model balances the stability of recurring revenue with the high margins of project-based work.
+
+
+## Take your time and build a beautiful agency quality professional deliverable.
+
+eda.gov
+Oregon | U.S. Economic Development Administration
+Opens in a new window
+
+soredi.org
+Southern Oregon Communities - SOREDI
+Opens in a new window
+
+scoedd.org
+SCOEDD (South Central Oregon Economic Development District)
+Opens in a new window
+
+cascadehasson.com
+Southern Oregon Market Report | Cascade Hasson Sotheby's
+Opens in a new window
+
+censusreporter.org
+Census Tract 1, Jackson, OR - Profile data
+Opens in a new window
+
+censusreporter.org
+Jackson County, OR - Profile data - Census Reporter
+Opens in a new window
+
+censusreporter.org
+Josephine County, OR - Profile data - Census Reporter
+Opens in a new window
+
+censusreporter.org
+Klamath County, OR - Profile data - Census Reporter
+Opens in a new window
+
+usafacts.org
+Jackson County, OR population by year, race, & more | USAFacts
+Opens in a new window
+
+philomathnews.com
+Oregon small businesses thrive in these counties - Philomath News
+Opens in a new window
+
+medfordchamber.com
+The Chamber of Medford & Jackson County: Home
+Opens in a new window
+
+chooseklamath.com
+Workforce - Choose Klamath
+Opens in a new window
+
+grantspassoregon.gov
+Population & Economic Statistics | Grants Pass, OR - Official Website
+Opens in a new window
+
+en.wikipedia.org
+Klamath County, Oregon - Wikipedia
+Opens in a new window
+
+datausa.io
+Jackson County, OR | Data USA
+Opens in a new window
+
+cetanfunds.com
+5 Construction Trends Oregon Builders & Investors Are Focusing On Right Now
+Opens in a new window
+
+schwabe.com
+‎2025 Real Estate & Construction Outlook in the Pacific ‎Northwest ...
+Opens in a new window
+
+drought.gov
+Josephine County Conditions | Drought.gov
+Opens in a new window
+
+sos.oregon.gov
+Klamath County - Blue Book - Oregon Secretary of State
+Opens in a new window
+
+youraspire.com
+Top Landscaping Industry Statistics [2025] - Aspire
+Opens in a new window
+
+fieldcamp.ai
+Key Landscaping & Lawn Care Industry Trends and Statistics 2025 - FieldCamp
+Opens in a new window
+
+grantspassoregon.gov
+Economic Development | Grants Pass, OR - Official Website
+Opens in a new window
+
+ebe.org
+Construction Projects in Oregon - Eugene Builders Exchange
+Opens in a new window
+
+medfordoregon.gov
+Public Works Projects - City of Medford
+Opens in a new window
+
+landscapeprofessionals.org
+Landscape Industry Statistics | NALP
+Opens in a new window
+
+mordorintelligence.com
+United States Landscaping Market Size, Forecast Report, Trends 2030 - Mordor Intelligence
+Opens in a new window
+
+lawnlove.com
+Cities Where Lawn Care Services Cost the Most Green in 2025
+Opens in a new window
+
+nerdwallet.com
+How Much Does Landscaping Cost in 2025? - NerdWallet
+Opens in a new window
+
+randalllandscaping.com
+commercial landscape maintenance cost: 7 Powerful Insights 2025
+Opens in a new window
+
+verifiedmarketresearch.com
+Commercial Landscaping Services Market Size & Forecast
+Opens in a new window
+
+medfordoregon.gov
+Construction Projects - City of Medford
+Opens in a new window
+
+getjobber.com
+Landscaping Industry Statistics in 2025: Growth, Trends, and Looking Ahead - Jobber
+Opens in a new window
+
+blog.realgreen.com
+Guide to Landscaping Profit Margins: Everything You Need to Know
+Opens in a new window
+
+leaptodigital.com
+Average Profit Margin for a Landscaping Business - Leap
+Opens in a new window
+
+invoicefly.com
+How to Build Profitable Lawn Care Business Margins? - Invoice Fly
+Opens in a new window
+
+offdeal.io
+Practical Valuation Guide for a Landscaping Business - OffDeal
+Opens in a new window
+
+ziprecruiter.com
+Landscaper Salary in Oregon: Hourly Rate (October, 2025) - ZipRecruiter
+Opens in a new window
+
+govdocs.com
+Oregon Minimum Wage in 2025 - GovDocs
+Opens in a new window
+
+homeguide.com
+How Much Does Lawn Care Cost? (2025) - HomeGuide
+Opens in a new window
+
+pacifictopsoils.com
+RETAIL PRICE LIST 2024 - Pacific Topsoils
+Opens in a new window
+
+lawnstarter.com
+How Much Does Landscaping Cost in 2025? - LawnStarter
+Opens in a new window
+
+classicnursery.com
+The Guide to Patio Costs in 2024 in Seattle - Classic Landscaping + Nursery
+Opens in a new window
+
+handoff.ai
+Cost to landscape a front yard in Portland, OR - Handoff AI Estimating
+Opens in a new window
+
+homeguide.com
+How Much Does Landscaping Cost? (2025) - HomeGuide
+Opens in a new window
+
+lawnstarter.com
+How Much Does Lawn Care Cost in 2025? - LawnStarter
+Opens in a new window
+
+angi.com
+How Much Does Landscaping Cost? [2025 Data] | Angi
+Opens in a new window
+
+wellsfargo.com
+Home Improvement Loans | Wells Fargo
+Opens in a new window
+
+gethearth.com
+Landscaping Financing | GetHearth.com
+Opens in a new window
+
+acornfinance.com
+Landscaping Financing For Good & Bad Credit: Landscape Loans Near Me - Acorn Finance
+Opens in a new window
+
+bankrate.com
+Best Home Improvement Loan Rates in October 2025 - Bankrate
+Opens in a new window
+
+classicnursery.com
+Finance Landscaping Projects
+Opens in a new window
+
+smbcompass.com
+Landscaping Contractor Loans | Home Improvement Loan - SMB Compass
+Opens in a new window
+
+sunwisecapital.com
+Landscape Contractors Business Loans: Best 5 Options - Sunwise Capital
+Opens in a new window
+
+getpowerpay.com
+Landscape Financing for Contractors | PowerPay
+Opens in a new window
+
+optuno.com
+Local SEO for Contractors: The Secret to More Clients and Higher Rankings - Optuno
+Opens in a new window
+
+smartinsights.com
+2024 comparison of Google organic clickthrough rates (SEO CTR) by ranking position
+Opens in a new window
+
+backlinko.com
+We Analyzed 4 Million Google Search Results. Here's What We Learned About Organic CTR - Backlinko
+Opens in a new window
+
+lpagery.io
+How to Do Local SEO for Contractors in 5 Simple Steps - LPagery
+Opens in a new window
+
+brandconstructors.com
+How Construction Website Design Impacts Lead Generation - Brand Constructors
+Opens in a new window
+
+linknow.com
+Local SEO for General Contractors Explained - LinkNow Media
+Opens in a new window
+
+activatedscale.com
+Best Lead Generation Websites for Contractors & Strategies To Succeed - Activated Scale
+Opens in a new window
+
+servicetitan.com
+Top Lead Generation Websites and Tactics for Contractors - ServiceTitan
+Opens in a new window
+
+blog.strongtie.com
+Construction Lead Generation: Strategies for Contractors - Building Strong
+Opens in a new window
+
+greenindustrypros.com
+Financial Reports and Ratios for Profitable Landscaping Companies | Green Industry Pros
+Opens in a new window
+
+leanscaper.com
+Landscaping Business Budgeting & Profitability Guide - Leanscaper
+Opens in a new window
+
+cyclecpa.com
+10 Ways to Analyze Your Landscaping Business's Financials - - Cycle CPA
+Opens in a new window
+
+dynascape.com
+KPIs To Track For Your Landscaping Business Review - DynaScape
+Opens in a new window
+
+modeliks.com
+Landscaping KPIs Dashboard - Modeliks
+Opens in a new window
+
+houzz.com
+Top 10 Landscape Architects & Designers in Medford, OR - Updated Sep 2025 | Houzz
+Opens in a new window
+
+angi.com
+Top 10 Best Landscapers in Medford, OR - Angie's List
+Opens in a new window
+
+homeadvisor.com
+Top-Rated Landscaping Services Experts in Grants Pass, OR | HomeAdvisor
+Opens in a new window
+
+houzz.com
+Best 15 Landscape Architects & Designers in Grants Pass, OR | Houzz
+Opens in a new window
+
+bbb.org
+Landscape Maintenance near Grants Pass, OR | Better Business Bureau
+Opens in a new window
+
+bbb.org
+Lawn Maintenance near Klamath Falls, OR | Better Business Bureau
+Opens in a new window
+
+bbb.org
+Landscape Contractors near Central Point, OR | Better Business Bureau
+Opens in a new window
+
+ahimsagardens.com
+Ahimsa Gardens – Landscape Professionals for Ashland Oregon
+Opens in a new window
+
+bumgardnerslandscape.com
+Kick Up Your Ashland, OR Curb Appeal With Our Expert Landscaping Services
+Opens in a new window
+
+ericsimpsonlandscaping.com
+Eric Simpson Landscaping - state-licensed landscaper in Ashland ...
+Opens in a new window
+
+bbb.org
+Landscape Contractors near Eagle Point, OR | Better Business Bureau
+Opens in a new window
+
+elementlandscape.us
+Element Landscape Maintenance: Landscaping Company in ...
+Opens in a new window
+
+terralandscapeandconstruction.com
+Terra Landscape & Construction | Residential & Commercial ...
+Opens in a new window
+
+monkeybusinesslandscapeandmaint.com
+Expert Landscaping Services in Eagle Point, OR | Monkey Business
+Opens in a new window
+
+monkeybusinesslandscapeandmaint.com
+Landscaping Services in Phoenix, OR - Monkey Business
+Opens in a new window
+
+monkeybusinesslandscapeandmaint.com
+Expert Landscaping Services in Talent, OR - Monkey Business
+Opens in a new window
+
+carletonlandscaping.com
+Rogue Valley Landscaper | Carleton & Sons Landscaping
+Opens in a new window
+
+garykrauselandscaping.com
+Gary Krause Landscaping and Design - Medford, OR and area
+Opens in a new window
+
+houzz.com
+GARY KRAUSE LANDSCAPING AND DESI - Project Photos & Reviews - Jacksonville, OR US | Houzz
+Opens in a new window
+
+houzz.com
+SCOFIELD LANDSCAPE - Project Photos & Reviews - Jacksonville ...
+Opens in a new window
+
+todayshomeowner.com
+10 Best Lawn Care in White City, OR - Today's Homeowner
+Opens in a new window
+
+bumgardnerslandscape.com
+Leading at the Forefront of Medford, OR Landscaping Companies
+Opens in a new window
+
+angi.com
+Top 10 Best Landscapers in Eagle Point, OR - Angie's List
+Opens in a new window
+
+angi.com
+Top 10 Best Landscapers in Phoenix, OR | Angi
+Opens in a new window
+
+angi.com
+Top 10 Best Landscapers in Talent, OR - Angie's List
+Opens in a new window
+
+angi.com
+Top 10 Best Landscapers in Shady Cove, OR - Angie's List
+Opens in a new window
+
+landscaperinmedfordor.com
+A trusted landscaping contractor in Medford, OR, 97501
+Opens in a new window
+
+roguevalleylawncare.com
+Rogue Valley Lawncare - Lawncare Professionals for Medford ...
+Opens in a new window
+
+uslawns.com
+Landscaping & Lawn Services In Medford, OR | U.S. Lawns
+Opens in a new window
+
+homelandfencing.com
+Landscape Services - Best Landscaping - #1 in Southern Oregon
+Opens in a new window
+
+leaveyourmark.com
+Leave Your Mark, LLC - Pavers, Rocks and Landscape Supplies
+Opens in a new window
+
+networx.com
+My Garden Landscape Maintenance Phoenix, OR, 97535 - Networx
+Opens in a new window
+
+alconlandscapingmaintenance.com
+Alcon Landscaping Maintenance Service | Home
+Opens in a new window
+
+whitecitylawnmaintenance.com
+Garcia's Landscaping Maintenance provides Landscaping Maintenance in White City OR
+Opens in a new window
+
+monolawnmaintenancellc.com
+Mono Lawn Maintenance LLC
+Opens in a new window
+
+homeadvisor.com
+Zepeda General Landscape, LLC Reviews - White City, OR | HomeAdvisor
+Opens in a new window
+
+homeadvisor.com
+William Roy Pharr | Shady Cove, OR 97539 - HomeAdvisor
+Opens in a new window
+
+bbb.org
+Landscape Contractors near Cave Junction, OR | Better Business Bureau
+Opens in a new window
+
+bbb.org
+Lawn Maintenance near Cave Junction, OR | Better Business Bureau
+Opens in a new window
+
+groundsguys.com
+Lawn Care & Lawn Maintenance Services in Grants Pass, OR
+Opens in a new window
+
+royalgreenlandscaping.com
+Royal Green Landscaping
+Opens in a new window
+
+sopmaintenance.com
+Southern Oregon Property Maintenance: Landscaper near Grants ...
+Opens in a new window
+
+kingscapeor.net
+Landscaping Services | Kingscape | Grants Pass, Medford, Murphy ...
+Opens in a new window
+
+kingscapeor.net
+Grants Pass, Medford, Murphy, OR - Landscaping Services | Kingscape
+Opens in a new window
+
+vohslandscaping.com
+Vohs Landscaping – Landscapes for Outdoor Living
+Opens in a new window
+
+basinlandscapemaintenanceservices.com
+Basin Landscape Maintenance Services | Landscaper in Klamath ...
+Opens in a new window
+
+desantislandscapes.com
+Award Winning Landscaping in Klamath Falls Oregon | Desantis ...
+Opens in a new window
+
+bbb.org
+Oregon Landscape Company | BBB Business Profile | Better Business Bureau
+Opens in a new window
+
+angi.com
+Top 10 Best Landscapers in Klamath Falls, OR - Angie's List
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Opens in a new window
+Kimi: This is a comprehensive request to transform a detailed market analysis report into a high-end, interactive web application. I will use a single HTML file containing all necessary HTML, CSS (via Tailwind), and JavaScript (vanilla) to create a premium, agency-quality deliverable.
+
+Key features will include:
+1.  **Immersive Hero Section**: Using a video background or high-quality image with kinetic typography.
+2.  **Tabbed Navigation**: A custom-built navigation system to switch between the Executive Summary, Market Data, Competitive Landscape, and Sources.
+3.  **Interactive Data Visualization**: I will use `Chart.js` (loaded via CDN) to render the market size, segmentation, and profit margin data dynamically.
+4.  **Animated Counters**: For key statistics (Population, Households, Market Size).
+5.  **Responsive Design**: A mobile-first approach ensuring it looks stunning on all devices.
+6.  **Sources Tab**: A dedicated, filterable table view of all sources.
+
+Here is the complete, self-contained HTML file.
+
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Southern Oregon Landscaping Market Analysis</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            green: '#15803d',
+                            gold: '#ca8a04',
+                            light: '#f8fafc'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'slide-in-right': 'slideInRight 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100%)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.9));
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #15803d;
+            color: #15803d;
+            font-weight: 600;
+        }
+        
+        .tab-inactive {
+            color: #64748b;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-inactive:hover {
+            color: #334155;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        /* Table Styles */
+        .source-table th {
+            background-color: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .source-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        .source-table tr:hover td {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-green selection:text-white">
+
+    <!-- Navigation / Header -->
+    <nav class="fixed w-full z-50 glass-panel shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg">
+                        SO
+                    </div>
+                    <span class="font-serif text-xl font-bold text-slate-900 tracking-tight">Landscaping<span class="text-brand-green">Intel</span></span>
+                </div>
+                
+                <!-- Desktop Tabs -->
+                <div class="hidden md:flex space-x-8 h-full items-end pb-6">
+                    <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-active pb-1 transition-all text-sm uppercase tracking-wider">Overview</button>
+                    <button onclick="switchTab('market')" id="tab-btn-market" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider">Market Data</button>
+                    <button onclick="switchTab('competition')" id="tab-btn-competition" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider">Competition</button>
+                    <button onclick="switchTab('strategy')" id="tab-btn-strategy" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider">Strategy</button>
+                    <button onclick="switchTab('sources')" id="tab-btn-sources" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider text-brand-gold">Sources</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-brand-green focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <button onclick="switchTab('overview'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Overview</button>
+                <button onclick="switchTab('market'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Market Data</button>
+                <button onclick="switchTab('competition'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Competition</button>
+                <button onclick="switchTab('strategy'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Strategy</button>
+                <button onclick="switchTab('sources'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-brand-gold hover:bg-slate-50 rounded-md">Sources</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="pt-20 min-h-screen">
+
+        <!-- TAB 1: OVERVIEW / HERO -->
+        <section id="tab-overview" class="tab-content block animate-fade-in-up">
+            <!-- Hero Section -->
+            <div class="relative h-[85vh] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1558904541-efa843a96f01?q=80&w=2070&auto=format&fit=crop" alt="Southern Oregon Landscape" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 hero-gradient"></div>
+                </div>
+                
+                <div class="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
+                    <div class="inline-block px-4 py-1 mb-6 border border-white/30 rounded-full bg-white/10 backdrop-blur-md text-sm font-medium tracking-wider uppercase">
+                        Market Intelligence Report 2025
+                    </div>
+                    <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight shadow-sm">
+                        The Southern Oregon <br/> <span class="italic text-brand-green-light">Landscaping</span> Market
+                    </h1>
+                    <p class="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto font-light mb-10">
+                        An in-depth analysis of economic trends, competitive landscape, and growth opportunities in Jackson, Josephine, and Klamath Counties.
+                    </p>
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <button onclick="switchTab('market')" class="px-8 py-4 bg-brand-green hover:bg-green-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-green-900/20 flex items-center justify-center gap-2">
+                            Explore Data <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('strategy')" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                            View Strategies <i class="fas fa-lightbulb"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Stats Grid -->
+            <div class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                                <i class="fas fa-users text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+9.0% Growth</span>
+                        </div>
+                        <h3 class="text-4xl font-bold text-slate-900 mb-1 counter" data-target="380342">0</h3>
+                        <p class="text-slate-500 font-medium">Total Regional Population</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-amber-50 rounded-lg text-amber-600">
+                                <i class="fas fa-home text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-full">3 Counties</span>
+                        </div>
+                        <h3 class="text-4xl font-bold text-slate-900 mb-1 counter" data-target="162396">0</h3>
+                        <p class="text-slate-500 font-medium">Total Households</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-green-50 rounded-lg text-green-600">
+                                <i class="fas fa-dollar-sign text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">TAM 2025</span>
+                        </div>
+                        <h3 class="text-4xl font-bold text-slate-900 mb-1">$<span class="counter" data-target="225">0</span>M+</h3>
+                        <p class="text-slate-500 font-medium">Addressable Market</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intro Content -->
+            <div class="max-w-4xl mx-auto px-4 py-12 prose prose-lg prose-slate">
+                <h2 class="font-serif text-3xl font-bold text-slate-900 mb-6">Executive Summary</h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    The landscaping industry in Southern Oregon is shaped by a unique confluence of demographic trends, economic development, and pressing environmental factors. Positioned at the intersection of a growing residential base and a dynamic commercial sector, the region presents both significant opportunities and distinct challenges for landscaping contractors.
+                </p>
+                <p class="text-slate-600 leading-relaxed">
+                    This analysis defines the geographic scope as Jackson, Josephine, and Klamath Counties, capturing major population centers like Medford, Grants Pass, and Ashland. Key drivers include a <strong>9% population growth</strong> in Jackson County (2010-2022), pro-development housing legislation (HB 2001), and an urgent shift towards drought-tolerant landscaping due to regional water scarcity.
+                </p>
+                
+                <div class="my-8 p-6 bg-slate-50 border-l-4 border-brand-green rounded-r-lg">
+                    <h4 class="font-bold text-slate-900 mb-2">Key Takeaway</h4>
+                    <p class="text-slate-700 italic">"Contractors who specialize in water-wise and fire-resistant landscaping are not merely selling an aesthetic; they are providing a crucial solution to a tangible economic and safety problem."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MARKET DATA -->
+        <section id="tab-market" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="mb-12 text-center">
+                <h2 class="font-serif text-4xl font-bold text-slate-900 mb-4">Market Size & Economics</h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">Quantitative analysis of the addressable market, segmentation, and profitability benchmarks.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Chart 1: Market Segmentation -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2">Estimated Market Segmentation ($225M Total)</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="marketSegmentChart"></canvas>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-green-600 mr-2"></span>Residential Maint. ($100M)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-400 mr-2"></span>Residential Install ($55M)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>Commercial ($60M)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-slate-300 mr-2"></span>Public ($10M)</div>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Profit Margins -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2">Profitability Benchmarks</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500 italic">
+                        *Net Margins vary significantly by service type. High-complexity design/build commands 30-45%, while high-volume maintenance operates at 10-20%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Regional Profile Table -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100 mb-12">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                    <h3 class="font-bold text-lg text-slate-800">Southern Oregon Regional Profile</h3>
+                    <span class="text-xs font-mono text-slate-500">DATA SOURCE: CENSUS 2022/23</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                            <tr>
+                                <th class="px-6 py-3">County</th>
+                                <th class="px-6 py-3">Key Cities</th>
+                                <th class="px-6 py-3 text-right">Population</th>
+                                <th class="px-6 py-3 text-right">Growth</th>
+                                <th class="px-6 py-3 text-right">Households</th>
+                                <th class="px-6 py-3 text-right">Median Income</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">Jackson</td>
+                                <td class="px-6 py-4 text-slate-600">Medford, Ashland, Central Point</td>
+                                <td class="px-6 py-4 text-right font-mono">221,644</td>
+                                <td class="px-6 py-4 text-right text-green-600 font-bold">+9.0%</td>
+                                <td class="px-6 py-4 text-right font-mono">~94,768</td>
+                                <td class="px-6 py-4 text-right font-mono">$71,443</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">Josephine</td>
+                                <td class="px-6 py-4 text-slate-600">Grants Pass, Cave Junction</td>
+                                <td class="px-6 py-4 text-right font-mono">88,695</td>
+                                <td class="px-6 py-4 text-right text-slate-500">N/A</td>
+                                <td class="px-6 py-4 text-right font-mono">~37,241</td>
+                                <td class="px-6 py-4 text-right font-mono">$49,335</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">Klamath</td>
+                                <td class="px-6 py-4 text-slate-600">Klamath Falls</td>
+                                <td class="px-6 py-4 text-right font-mono">70,003</td>
+                                <td class="px-6 py-4 text-right text-green-600 font-bold">+5.5%</td>
+                                <td class="px-6 py-4 text-right font-mono">~30,387</td>
+                                <td class="px-6 py-4 text-right font-mono">$41,818</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="bg-slate-50 font-semibold text-slate-900">
+                            <tr>
+                                <td class="px-6 py-3">Total</td>
+                                <td class="px-6 py-3"></td>
+                                <td class="px-6 py-3 text-right font-mono">~380,342</td>
+                                <td class="px-6 py-3"></td>
+                                <td class="px-6 py-3 text-right font-mono">~162,396</td>
+                                <td class="px-6 py-3"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Cost Benchmarks -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-800 text-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-slate-400 text-sm uppercase tracking-wider mb-2">Labor Cost (Oregon Avg)</h4>
+                    <div class="text-3xl font-bold mb-1">$18.64 <span class="text-lg font-normal text-slate-400">/hr</span></div>
+                    <p class="text-xs text-slate-400">Direct employer cost before taxes/benefits.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h4 class="text-slate-500 text-sm uppercase tracking-wider mb-2">Billing Rate (PNW)</h4>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">$40 - $80 <span class="text-lg font-normal text-slate-500">/hr</span></div>
+                    <p class="text-xs text-slate-500">Standard crew member billing rate.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h4 class="text-slate-500 text-sm uppercase tracking-wider mb-2">Min. Wage (Jackson/Josephine)</h4>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">$15.05 <span class="text-lg font-normal text-slate-500">/hr</span></div>
+                    <p class="text-xs text-slate-500">Standard region wage floor (2025).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: COMPETITION -->
+        <section id="tab-competition" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="mb-12">
+                <h2 class="font-serif text-4xl font-bold text-slate-900 mb-4">Competitive Landscape</h2>
+                <p class="text-lg text-slate-600 max-w-3xl">
+                    The market is highly fragmented with over 150+ active contractors. We have synthesized the top 55 based on reputation, longevity, and service scope.
+                </p>
+            </div>
+
+            <!-- Top 5 Highlight -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                    <i class="fas fa-crown text-yellow-500 mr-2"></i> Market Leaders (Top Tier)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-yellow-500 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #1</div>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Gary Krause</h4>
+                        <p class="text-xs text-slate-500 mb-3">Jacksonville, OR • 30+ Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] rounded-full">Design/Build</span>
+                            <span class="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] rounded-full">Sustainable</span>
+                        </div>
+                        <a href="https://garykrauselandscaping.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-slate-300 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #2</div>
+                            <i class="fas fa-building text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Bumgardner's</h4>
+                        <p class="text-xs text-slate-500 mb-3">Medford, OR • 30+ Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded-full">Commercial</span>
+                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded-full">HOA</span>
+                        </div>
+                        <a href="https://bumgardnerslandscape.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-slate-300 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #3</div>
+                            <i class="fas fa-tools text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Royal Green</h4>
+                        <p class="text-xs text-slate-500 mb-3">Grants Pass, OR • 35+ Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] rounded-full">Installation</span>
+                            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] rounded-full">Hardscape</span>
+                        </div>
+                        <a href="https://royalgreenlandscaping.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+                    
+                     <!-- Card 4 -->
+                     <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-slate-300 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #4</div>
+                            <i class="fas fa-leaf text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Eric Simpson</h4>
+                        <p class="text-xs text-slate-500 mb-3">Ashland, OR • 27 Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-orange-50 text-orange-700 text-[10px] rounded-full">Xeriscaping</span>
+                            <span class="px-2 py-0.5 bg-orange-50 text-orange-700 text-[10px] rounded-full">Fire-Wise</span>
+                        </div>
+                        <a href="https://ericsimpsonlandscaping.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Table Toggle -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center cursor-pointer" onclick="document.getElementById('full-ranking').classList.toggle('hidden')">
+                    <h3 class="font-bold text-slate-800">View Full Top 55 Rankings</h3>
+                    <i class="fas fa-chevron-down text-slate-400"></i>
+                </div>
+                <div id="full-ranking" class="hidden overflow-x-auto max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100 sticky top-0">
+                            <tr>
+                                <th class="px-4 py-3">Rank</th>
+                                <th class="px-4 py-3">Company</th>
+                                <th class="px-4 py-3">City</th>
+                                <th class="px-4 py-3">Focus</th>
+                                <th class="px-4 py-3">Est.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="ranking-table-body">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: STRATEGY -->
+        <section id="tab-strategy" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-slate-900 mb-4">Strategic Insights</h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">Actionable recommendations for capturing market share in Southern Oregon.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1591857177580-dc82b92811d1?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Drought Landscape">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div class="relative p-8 h-80 flex flex-col justify-end">
+                        <div class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded w-fit mb-2">High Opportunity</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Drought-Tolerant & Fire-Wise</h3>
+                        <p class="text-slate-200 text-sm">Shift from "eco-option" to "economic necessity." Xeriscaping and smart irrigation are premium niches solving critical regional problems.</p>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1628624747186-a941c476b7ad?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Digital Marketing">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div class="relative p-8 h-80 flex flex-col justify-end">
+                        <div class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded w-fit mb-2">Digital Moat</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">SEO & Digital Presence</h3>
+                        <p class="text-slate-200 text-sm">The #1 Google result gets 30% of clicks. A professional website is a 24/7 salesperson that builds trust and de-commoditizes your service.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 text-white rounded-2xl p-8 md:p-12 shadow-2xl">
+                <h3 class="text-2xl font-bold mb-8 border-b border-slate-700 pb-4">Blueprint for Success</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <ul class="space-y-6">
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">1</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">Specialize & Certify</h4>
+                                <p class="text-slate-400 text-sm mt-1">Avoid the low-margin generalist trap. Obtain Irrigation Association or Firewise certifications to justify premium pricing.</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">2</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">Integrate Financing</h4>
+                                <p class="text-slate-400 text-sm mt-1">Offer point-of-sale financing. Transform a $15,000 invoice into a $250/month conversation to close more sales.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="space-y-6">
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">3</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">Systematize Operations</h4>
+                                <p class="text-slate-400 text-sm mt-1">Track KPIs like "Callback Rate" and "Crew Efficiency." Operational excellence is the leading indicator of profit.</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">4</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">The Maintenance Pipeline</h4>
+                                <p class="text-slate-400 text-sm mt-1">Use low-margin maintenance to build a captive audience for high-margin installation projects.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: SOURCES -->
+        <section id="tab-sources" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="mb-8 flex flex-col md:flex-row justify-between items-end">
+                <div>
+                    <h2 class="font-serif text-3xl font-bold text-slate-900">Data Sources & References</h2>
+                    <p class="text-slate-500 mt-2">All data points compiled from public records, industry reports, and local business directories.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <input type="text" id="sourceSearch" onkeyup="filterSources()" placeholder="Search sources..." class="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none w-full md:w-64">
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full source-table text-sm" id="sourcesTable">
+                        <thead>
+                            <tr>
+                                <th class="w-1/4">Source / Organization</th>
+                                <th class="w-1/4">Category</th>
+                                <th class="w-1/2">URL / Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sources-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-serif text-xl font-bold text-white">Landscaping<span class="text-brand-green">Intel</span></span>
+                <p class="text-sm mt-1">Southern Oregon Market Report 2025</p>
+            </div>
+            <div class="text-sm">
+                &copy; 2025 Market Analysis Report. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data & Config ---
+        
+        const rankingData = [
+            { rank: 1, name: "Gary Krause Landscaping & Design", city: "Jacksonville", focus: "Design/Build, Hardscape", est: "30+" },
+            { rank: 2, name: "Bumgardner's Landscape Management", city: "Medford", focus: "Full-Service, Commercial", est: "30+" },
+            { rank: 3, name: "Royal Green Landscaping", city: "Grants Pass", focus: "Full-Service Install", est: "35+" },
+            { rank: 4, name: "Scofield Landscape", city: "Jacksonville", focus: "Hardscape, Design", est: "15" },
+            { rank: 5, name: "Eric Simpson Landscaping", city: "Ashland", focus: "Xeriscaping, Fire-Wise", est: "27" },
+            { rank: 6, name: "Southern Oregon Property Maint.", city: "Grants Pass", focus: "Maintenance", est: "25+" },
+            { rank: 7, name: "Grounds Guys of The Rogue Valley", city: "Grants Pass", focus: "Full-Service", est: "20+" },
+            { rank: 8, name: "U.S. Lawns of Medford", city: "Medford", focus: "Commercial", est: "N/A" },
+            { rank: 9, name: "Zepeda General Landscape, LLC", city: "White City", focus: "Installation", est: "N/A" },
+            { rank: 10, name: "Carleton & Sons Landscaping", city: "Jacksonville", focus: "Design/Install", est: "45+" },
+            { rank: 11, name: "Terra Landscape & Construction", city: "Central Point", focus: "Hardscape", est: "20+" },
+            { rank: 12, name: "Ahimsa Gardens", city: "Ashland", focus: "Ecological Design", est: "8+" },
+            { rank: 13, name: "Monkey Business Landscape", city: "Eagle Point", focus: "Maintenance", est: "20+" },
+            { rank: 14, name: "Kingscape", city: "Murphy", focus: "Full-Service", est: "N/A" },
+            { rank: 15, name: "Expert Yard Care", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 16, name: "My Garden Landscape Maint.", city: "Phoenix", focus: "Full-Service", est: "16" },
+            { rank: 17, name: "Element Landscape Maint.", city: "Central Point", focus: "Design/Build", est: "N/A" },
+            { rank: 18, name: "Mountain View Landscaping", city: "Grants Pass", focus: "Full-Service", est: "N/A" },
+            { rank: 19, name: "DeSantis Landscapes", city: "Klamath Falls", focus: "Design/Build", est: "N/A" },
+            { rank: 20, name: "Hard Edge Construction", city: "Medford", focus: "Hardscaping", est: "N/A" },
+            { rank: 21, name: "Rogue Valley Lawncare", city: "Medford", focus: "Maintenance", est: "30+" },
+            { rank: 22, name: "Basin Landscape Maint.", city: "Klamath Falls", focus: "Commercial", est: "10" },
+            { rank: 23, name: "A New Start Landscaping", city: "Grants Pass", focus: "Full-Service", est: "N/A" },
+            { rank: 24, name: "Infinity Pro Maintenance", city: "Medford", focus: "Maintenance", est: "4+" },
+            { rank: 25, name: "All American City Landscaping", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 26, name: "Oregon Landscape Company", city: "Klamath Falls", focus: "Maintenance", est: "N/A" },
+            { rank: 27, name: "Alcon Landscaping", city: "White City", focus: "Maintenance", est: "N/A" },
+            { rank: 28, name: "Garcia's Landscaping", city: "White City", focus: "Maintenance", est: "8" },
+            { rank: 29, name: "Solid Ground Landscape", city: "Talent", focus: "Full-Service", est: "N/A" },
+            { rank: 30, name: "Sprinkler Pros, Inc.", city: "Grants Pass", focus: "Irrigation", est: "24" },
+            { rank: 31, name: "Patriot Irrigation", city: "White City", focus: "Irrigation", est: "N/A" },
+            { rank: 32, name: "Augusta Lawn Care", city: "Medford", focus: "Full-Service", est: "N/A" },
+            { rank: 33, name: "3 Oaks Landscape", city: "Klamath Falls", focus: "Maintenance", est: "N/A" },
+            { rank: 34, name: "Bear Claw Service", city: "Central Point", focus: "Contracting", est: "N/A" },
+            { rank: 35, name: "Veridian Outdoor Living", city: "Jacksonville", focus: "Design", est: "N/A" },
+            { rank: 36, name: "Cortez Farm Labor", city: "Talent", focus: "Land Cleanup", est: "10+" },
+            { rank: 37, name: "Natures Landscape", city: "Medford", focus: "Full-Service", est: "N/A" },
+            { rank: 38, name: "Creative Edge Landscaping", city: "Medford", focus: "Design", est: "N/A" },
+            { rank: 39, name: "E-Z's Landscape", city: "Eagle Point", focus: "Contracting", est: "N/A" },
+            { rank: 40, name: "Blacktail Landscape", city: "Cave Junction", focus: "Maintenance", est: "N/A" },
+            { rank: 41, name: "Mono Lawn Maintenance", city: "White City", focus: "Maintenance", est: "N/A" },
+            { rank: 42, name: "Superior Landscape", city: "Klamath Falls", focus: "Full-Service", est: "N/A" },
+            { rank: 43, name: "J.A Land Beautification", city: "Grants Pass", focus: "Cleanup", est: "N/A" },
+            { rank: 44, name: "Overstreet Landscape", city: "Eagle Point", focus: "Hydroseeding", est: "N/A" },
+            { rank: 45, name: "Valley View Landscaping", city: "Central Point", focus: "Contracting", est: "N/A" },
+            { rank: 46, name: "TB Contracting", city: "Medford", focus: "General", est: "N/A" },
+            { rank: 47, name: "Pineda Nunez Construction", city: "Talent", focus: "General", est: "10+" },
+            { rank: 48, name: "William Roy Pharr", city: "Shady Cove", focus: "Remodeling", est: "25+" },
+            { rank: 49, name: "Vohs Landscaping", city: "Cave Junction", focus: "Full-Service", est: "16+" },
+            { rank: 50, name: "Azteca Lawn Care", city: "Medford", focus: "Maintenance", est: "N/A" },
+            { rank: 51, name: "SR Lawn Specialists", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 52, name: "Advanced Landscape", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 53, name: "Alex on a Mission", city: "Medford", focus: "Maintenance", est: "N/A" },
+            { rank: 54, name: "Pine Mountain LLC", city: "Klamath Falls", focus: "Maintenance", est: "N/A" },
+            { rank: 55, name: "Exclusive Yard Maint.", city: "Klamath Falls", focus: "Maintenance", est: "N/A" }
+        ];
+
+        const sourcesData = [
+            { name: "U.S. Economic Development Administration", cat: "Government", url: "eda.gov" },
+            { name: "Southern Oregon Regional Economic Development (SOREDI)", cat: "Local Org", url: "soredi.org" },
+            { name: "South Central Oregon Economic Development (SCOEDD)", cat: "Local Org", url: "scoedd.org" },
+            { name: "Cascade Hasson Sotheby's (Market Report)", cat: "Real Estate", url: "cascadehasson.com" },
+            { name: "Census Reporter (Jackson, Josephine, Klamath)", cat: "Data", url: "censusreporter.org" },
+            { name: "USAFacts (Population Data)", cat: "Data", url: "usafacts.org" },
+            { name: "Philomath News (Small Business Data)", cat: "News", url: "philomathnews.com" },
+            { name: "The Chamber of Medford & Jackson County", cat: "Local Org", url: "medfordchamber.com" },
+            { name: "Choose Klamath (Workforce Data)", cat: "Local Org", url: "chooseklamath.com" },
+            { name: "City of Grants Pass (Economic Stats)", cat: "Government", url: "grantspassoregon.gov" },
+            { name: "Wikipedia (Klamath County)", cat: "Reference", url: "en.wikipedia.org" },
+            { name: "Data USA (Jackson County)", cat: "Data", url: "datausa.io" },
+            { name: "Cetan Funds (Construction Trends)", cat: "Finance", url: "cetanfunds.com" },
+            { name: "Schwabe (Real Estate Outlook)", cat: "Legal/Finance", url: "schwabe.com" },
+            { name: "Drought.gov (Josephine County)", cat: "Government", url: "drought.gov" },
+            { name: "Oregon Secretary of State (Blue Book)", cat: "Government", url: "sos.oregon.gov" },
+            { name: "Aspire (Industry Statistics)", cat: "Industry", url: "youraspire.com" },
+            { name: "FieldCamp (Industry Trends)", cat: "Industry", url: "fieldcamp.ai" },
+            { name: "Eugene Builders Exchange", cat: "Construction", url: "ebe.org" },
+            { name: "City of Medford (Public Works)", cat: "Government", url: "medfordoregon.gov" },
+            { name: "NALP (National Association Landscape Pros)", cat: "Industry", url: "landscapeprofessionals.org" },
+            { name: "Mordor Intelligence (Market Size)", cat: "Research", url: "mordorintelligence.com" },
+            { name: "Lawn Love (Cost Data)", cat: "Industry", url: "lawnlove.com" },
+            { name: "NerdWallet (Landscaping Cost)", cat: "Finance", url: "nerdwallet.com" },
+            { name: "Randall Landscaping (Commercial Costs)", cat: "Industry", url: "randalllandscaping.com" },
+            { name: "Verified Market Research", cat: "Research", url: "verifiedmarketresearch.com" },
+            { name: "Jobber (Industry Statistics)", cat: "Software/Industry", url: "getjobber.com" },
+            { name: "Real Green (Profit Margins)", cat: "Software/Industry", url: "blog.realgreen.com" },
+            { name: "Leap (Profit Margins)", cat: "Software/Industry", url: "leaptodigital.com" },
+            { name: "Invoice Fly (Margins)", cat: "Software/Industry", url: "invoicefly.com" },
+            { name: "OffDeal (Valuation)", cat: "Finance", url: "offdeal.io" },
+            { name: "ZipRecruiter (Labor Wages)", cat: "Labor", url: "ziprecruiter.com" },
+            { name: "GovDocs (Min Wage)", cat: "Government", url: "govdocs.com" },
+            { name: "HomeGuide (Cost Guides)", cat: "Industry", url: "homeguide.com" },
+            { name: "Pacific Topsoils (Materials)", cat: "Supplier", url: "pacifictopsoils.com" },
+            { name: "LawnStarter (Cost Data)", cat: "Industry", url: "lawnstarter.com" },
+            { name: "Classic Nursery (Seattle Costs)", cat: "Supplier", url: "classicnursery.com" },
+            { name: "Handoff AI (Portland Costs)", cat: "Industry", url: "handoff.ai" },
+            { name: "Angi (Cost Data)", cat: "Lead Gen", url: "angi.com" },
+            { name: "Wells Fargo (Loans)", cat: "Finance", url: "wellsfargo.com" },
+            { name: "Hearth (Financing)", cat: "Finance", url: "gethearth.com" },
+            { name: "Acorn Finance", cat: "Finance", url: "acornfinance.com" },
+            { name: "Bankrate (Loan Rates)", cat: "Finance", url: "bankrate.com" },
+            { name: "SMB Compass (Contractor Loans)", cat: "Finance", url: "smbcompass.com" },
+            { name: "Sunwise Capital", cat: "Finance", url: "sunwisecapital.com" },
+            { name: "PowerPay (Landscape Financing)", cat: "Finance", url: "getpowerpay.com" },
+            { name: "Optuno (SEO)", cat: "Marketing", url: "optuno.com" },
+            { name: "Smart Insights (CTR Data)", cat: "Marketing", url: "smartinsights.com" },
+            { name: "Backlinko (SEO Stats)", cat: "Marketing", url: "backlinko.com" },
+            { name: "LPagery (Local SEO)", cat: "Marketing", url: "lpagery.io" },
+            { name: "Brand Constructors (Web Design)", cat: "Marketing", url: "brandconstructors.com" },
+            { name: "LinkNow (SEO)", cat: "Marketing", url: "linknow.com" },
+            { name: "Activated Scale (Lead Gen)", cat: "Marketing", url: "activatedscale.com" },
+            { name: "ServiceTitan (Lead Gen)", cat: "Software", url: "servicetitan.com" },
+            { name: "Building Strong (Lead Gen)", cat: "Industry", url: "blog.strongtie.com" },
+            { name: "Green Industry Pros (Financials)", cat: "Industry", url: "greenindustrypros.com" },
+            { name: "Leanscaper (Budgeting)", cat: "Software", url: "leanscaper.com" },
+            { name: "Cycle CPA (Financials)", cat: "Accounting", url: "cyclecpa.com" },
+            { name: "DynaScape (KPIs)", cat: "Software", url: "dynascape.com" },
+            { name: "Modeliks (KPIs)", cat: "Software", url: "modeliks.com" },
+            { name: "Houzz (Contractor Listings)", cat: "Directory", url: "houzz.com" },
+            { name: "HomeAdvisor", cat: "Directory", url: "homeadvisor.com" },
+            { name: "BBB (Business Profiles)", cat: "Directory", url: "bbb.org" },
+            { name: "Individual Contractor Websites (Top 55)", cat: "Primary", url: "Various" }
+        ];
+
+        // --- Initialization ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCounters();
+            populateRankingTable();
+            populateSourcesTable();
+            initCharts();
+            
+            // Check URL hash for direct linking
+            const hash = window.location.hash.replace('#', '');
+            if(hash && ['overview', 'market', 'competition', 'strategy', 'sources'].includes(hash)) {
+                switchTab(hash);
+            }
+        });
+
+        // --- Tab Logic ---
+
+        function switchTab(tabId) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('animate-fade-in-up');
+            });
+            
+            // Show target
+            const target = document.getElementById(`tab-${tabId}`);
+            if(target) {
+                target.classList.remove('hidden');
+                // Trigger reflow for animation restart
+                void target.offsetWidth; 
+                target.classList.add('animate-fade-in-up');
+            }
+
+            // Update Nav Buttons
+            document.querySelectorAll('[id^="tab-btn-"]').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
+            
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('tab-inactive');
+                activeBtn.classList.add('tab-active');
+            }
+
+            // Update URL hash
+            window.history.replaceState(null, null, `#${tabId}`);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Data Population ---
+
+        function populateRankingTable() {
+            const tbody = document.getElementById('ranking-table-body');
+            let html = '';
+            rankingData.forEach(c => {
+                html += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-4 py-3 font-mono text-slate-500">#${c.rank}</td>
+                        <td class="px-4 py-3 font-medium text-slate-900">${c.name}</td>
+                        <td class="px-4 py-3 text-slate-600">${c.city}</td>
+                        <td class="px-4 py-3 text-slate-600"><span class="bg-slate-100 px-2 py-1 rounded text-xs">${c.focus}</span></td>
+                        <td class="px-4 py-3 text-slate-500">${c.est} Yrs</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function populateSourcesTable() {
+            const tbody = document.getElementById('sources-tbody');
+            let html = '';
+            sourcesData.forEach(s => {
+                // Clean URL for display
+                let displayUrl = s.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+                if(displayUrl.length > 40) displayUrl = displayUrl.substring(0, 37) + '...';
+                
+                html += `
+                    <tr>
+                        <td class="font-medium text-slate-900">${s.name}</td>
+                        <td><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">${s.cat}</span></td>
+                        <td class="font-mono text-xs text-brand-green">
+                            <a href="https://${s.url}" target="_blank" class="hover:underline flex items-center">
+                                ${displayUrl} <i class="fas fa-external-link-alt ml-1 opacity-50"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function filterSources() {
+            const input = document.getElementById('sourceSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('sourcesTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const tdName = tr[i].getElementsByTagName('td')[0];
+                const tdCat = tr[i].getElementsByTagName('td')[1];
+                if (tdName || tdCat) {
+                    const txtValue = (tdName.textContent || tdName.innerText) + (tdCat.textContent || tdCat.innerText);
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }       
+            }
+        }
+
+        // --- Animations & Charts ---
+
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000; 
+                const increment = target / (duration / 16); 
+                
+                let current = 0;
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current).toLocaleString();
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                };
+                
+                // Use IntersectionObserver to start animation when visible
+                const observer = new IntersectionObserver((entries) => {
+                    if(entries[0].isIntersecting) {
+                        updateCounter();
+                        observer.disconnect();
+                    }
+                });
+                observer.observe(counter);
+            });
+        }
+
+        function initCharts() {
+            // Market Segmentation Pie Chart
+            const ctx1 = document.getElementById('marketSegmentChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Residential Maint.', 'Residential Install', 'Commercial', 'Public'],
+                    datasets: [{
+                        data: [100, 55, 60, 10],
+                        backgroundColor: ['#15803d', '#34d399', '#3b82f6', '#cbd5e1'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' $' + context.raw + 'M';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Profit Margins Bar Chart
+            const ctx2 = document.getElementById('profitChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Gross Margin (Target)', 'Net Margin (Avg)', 'Net Margin (High Perf)', 'High-Complexity (Design)'],
+                    datasets: [{
+                        label: 'Margin %',
+                        data: [50, 15, 20, 40],
+                        backgroundColor: ['#15803d', '#64748b', '#ca8a04', '#000000'],
+                        borderRadius: 4,
+                        barThickness: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { callback: function(value){return value + "%"} }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+```

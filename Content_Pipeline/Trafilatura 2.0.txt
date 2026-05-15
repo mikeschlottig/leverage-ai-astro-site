@@ -1,0 +1,59 @@
+Trafilatura 2.0
+
+Managing custom BeautifulSoup scrapers for diverse web domains creates a significant technical debt trap for your engineering team. Instead of wasting cycles on brittle, site-specific CSS selectors, adopting the Trafilatura library allows you to leverage advanced heuristics that automatically strip HTML noise to isolate core content. This shift drastically cuts developer setup time from 85 units down to just 15, enabling your senior talent to focus on high-value data modeling rather than the constant upkeep of fragile extraction pipelines.
+
+Beyond development speed, Trafilatura optimizes your entire data infrastructure by delivering lean, high-density text outputs. By eliminating the overhead of raw HTML, you can reduce compute time from 90 units to 30 and slash storage costs from 75 units down to 20. Implementing this specialized tool transforms a costly, maintenance-heavy process into a high-performance engine that scales seamlessly across millions of documents without the bloat of traditional scraping scripts.
+
+
+
+---
+
+import sys
+from trafilatura.spider import focused_crawler
+
+def create_sitemap(base_url, output_file="sitemap.xml"):
+    """
+    Crawls a single URL to discover internal links and saves them as an XML sitemap.
+    """
+    print(f"Crawling {base_url} to discover links...")
+
+    # focused_crawler returns a set of discovered internal links (to_visit) 
+    # and the set of already visited links (known_links).
+    # We use it to map the structure of the site starting from the single URL.
+    # max_seen_urls can be adjusted to limit the size of the crawl.
+    links, _ = focused_crawler(base_url, max_seen_urls=500)
+
+    if not links:
+        print("No links found or crawl failed.")
+        return
+
+    # Sort links for a clean output
+    sorted_links = sorted(list(links))
+
+    # Construct the XML sitemap structure
+    xml_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+
+    for link in sorted_links:
+        xml_lines.append('  <url>')
+        xml_lines.append(f'    <loc>{link}</loc>')
+        xml_lines.append('  </url>')
+
+    xml_lines.append('</urlset>')
+
+    # Write the result to a file
+    try:
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write("\n".join(xml_lines))
+        print(f"Successfully created {output_file} with {len(sorted_links)} URLs.")
+    except IOError as e:
+        print(f"Error writing to file: {e}")
+
+if __name__ == "__main__":
+    # Define the starting URL
+    target_url = "https://example.com" # Replace with your target URL
+    
+    # Run the sitemap creation process
+    create_sitemap(target_url)

@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentsView — Comprehensive Research Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0b0e;
+    --bg-card:   #0f1117;
+    --bg-code:   #0d1118;
+    --border:    #1e2330;
+    --border-hi: #2e3548;
+    --amber:     #f59e0b;
+    --amber-dim: #92600a;
+    --teal:      #2dd4bf;
+    --teal-dim:  #0d6e63;
+    --blue:      #60a5fa;
+    --purple:    #a78bfa;
+    --green:     #34d399;
+    --red:       #f87171;
+    --text:      #e2e8f0;
+    --text-muted:#7c8ca1;
+    --text-faint:#3d4a5c;
+    --mono:      'JetBrains Mono', monospace;
+    --display:   'Playfair Display', serif;
+    --sans:      'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── LAYOUT ─────────────────────────────────────────────── */
+  .page-wrap {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ─── SIDEBAR ─────────────────────────────────────────────── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 240px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 32px 0 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-logo-mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--amber);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sidebar-logo-title {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .sidebar-section {
+    padding: 8px 24px 4px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 6px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar a:hover {
+    color: var(--amber);
+    background: rgba(245,158,11,0.05);
+    border-left-color: var(--amber-dim);
+  }
+
+  /* ─── MAIN ─────────────────────────────────────────────────── */
+  .main {
+    margin-left: 240px;
+    max-width: 900px;
+    padding: 0 56px 120px;
+  }
+
+  /* ─── HERO ─────────────────────────────────────────────────── */
+  .hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 72px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -56px; right: -56px; bottom: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(245,158,11,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .hero-meta span { color: var(--amber); }
+  .hero-meta::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--amber);
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--amber);
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 620px;
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .tag-amber { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+  .tag-teal  { background: rgba(45,212,191,0.10); color: var(--teal);  border: 1px solid rgba(45,212,191,0.2); }
+  .tag-blue  { background: rgba(96,165,250,0.10); color: var(--blue);  border: 1px solid rgba(96,165,250,0.2); }
+  .tag-green { background: rgba(52,211,153,0.10); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+
+  /* ─── SECTION HEADINGS ─────────────────────────────────────── */
+  .section {
+    margin-bottom: 72px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 32px 0 12px;
+  }
+
+  h4 {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 24px 0 10px;
+  }
+
+  p { color: var(--text-muted); margin-bottom: 16px; }
+
+  a { color: var(--amber); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  strong { color: var(--text); font-weight: 600; }
+
+  /* ─── CARDS ─────────────────────────────────────────────────── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-amber  { background: var(--amber); }
+  .dot-teal   { background: var(--teal);  }
+  .dot-blue   { background: var(--blue);  }
+  .dot-green  { background: var(--green); }
+  .dot-purple { background: var(--purple);}
+
+  .card p { margin-bottom: 0; font-size: 14px; }
+
+  /* ─── GRID ─────────────────────────────────────────────────── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  /* ─── CODE BLOCKS ─────────────────────────────────────────── */
+  pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
+  pre .lang-tag {
+    position: absolute;
+    top: 8px; right: 12px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: #cdd6f4;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; font-size: 13px; }
+
+  /* token colors */
+  .k { color: var(--purple); }        /* keyword */
+  .s { color: var(--green); }         /* string */
+  .c { color: var(--text-faint); font-style: italic; } /* comment */
+  .f { color: var(--amber); }         /* flag / option */
+  .v { color: var(--teal); }          /* value */
+  .h { color: var(--blue); }          /* heading in comment */
+  .p { color: #cdd6f4; }             /* punctuation */
+
+  code.inline {
+    background: rgba(255,255,255,0.06);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 12.5px;
+    color: var(--teal);
+    border: 1px solid var(--border);
+  }
+
+  /* ─── TABLE ─────────────────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-hi);
+    background: rgba(245,158,11,0.04);
+  }
+  tbody td {
+    padding: 10px 16px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody td:first-child { color: var(--text); font-weight: 500; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ─── CALLOUT ────────────────────────────────────────────────── */
+  .callout {
+    border-left: 3px solid;
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .callout p { margin-bottom: 0; font-size: 14px; }
+  .callout-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .callout-amber {
+    border-color: var(--amber);
+    background: rgba(245,158,11,0.06);
+  }
+  .callout-amber .callout-title { color: var(--amber); }
+  .callout-teal {
+    border-color: var(--teal);
+    background: rgba(45,212,191,0.06);
+  }
+  .callout-teal .callout-title { color: var(--teal); }
+  .callout-blue {
+    border-color: var(--blue);
+    background: rgba(96,165,250,0.06);
+  }
+  .callout-blue .callout-title { color: var(--blue); }
+  .callout-red {
+    border-color: var(--red);
+    background: rgba(248,113,113,0.06);
+  }
+  .callout-red .callout-title { color: var(--red); }
+
+  /* ─── CHECKLIST ──────────────────────────────────────────────── */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .checklist li::before {
+    content: '✓';
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.2);
+    border-radius: 3px;
+    width: 20px; height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .checklist li strong { color: var(--text); }
+
+  .badlist li::before {
+    content: '✗';
+    color: var(--red);
+    background: rgba(248,113,113,0.1);
+    border-color: rgba(248,113,113,0.2);
+  }
+
+  /* ─── ARCHITECTURE BLOCK ─────────────────────────────────────── */
+  .arch-box {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ─── NUMBER LIST ────────────────────────────────────────────── */
+  ol.numbered {
+    counter-reset: step;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 16px 0;
+  }
+  ol.numbered li {
+    counter-increment: step;
+    display: flex;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+  ol.numbered li::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--amber);
+    background: rgba(245,158,11,0.08);
+    border: 1px solid var(--amber-dim);
+    border-radius: 3px;
+    width: 28px; height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  /* ─── DIVIDER ────────────────────────────────────────────────── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* ─── KEYBOARD ────────────────────────────────────────────────── */
+  .kbd {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 2px 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-hi);
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    color: var(--text);
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────────── */
+  .footer {
+    margin-left: 240px;
+    padding: 24px 56px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .footer span { color: var(--amber); }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .page-wrap { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 0 24px 80px; }
+    .footer { margin-left: 0; padding: 20px 24px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ───────────────────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">Research Report</div>
+    <div class="sidebar-logo-title">AgentsView</div>
+  </div>
+
+  <div class="sidebar-section">Overview</div>
+  <a href="#overview">Project Summary</a>
+  <a href="#author">Author &amp; Provenance</a>
+  <a href="#architecture">Architecture</a>
+
+  <div class="sidebar-section">Features</div>
+  <a href="#agents">Supported Agents</a>
+  <a href="#interface">Web Interface</a>
+  <a href="#analytics">Analytics</a>
+  <a href="#insights">AI Insights</a>
+  <a href="#search">Search</a>
+
+  <div class="sidebar-section">Operations</div>
+  <a href="#installation">Installation</a>
+  <a href="#cli">CLI Reference</a>
+  <a href="#config">Configuration</a>
+  <a href="#remote">Remote Access</a>
+  <a href="#sync">Sync Engine</a>
+
+  <div class="sidebar-section">Guidance</div>
+  <a href="#bestpractices">Best Practices</a>
+  <a href="#llmguide">LLM CLI Guide</a>
+  <a href="#workflows">Workflow Patterns</a>
+  <a href="#security">Security</a>
+</aside>
+
+<!-- ─── MAIN ──────────────────────────────────────────────────── -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-meta"><span>Comprehensive Research Report</span> — March 2026</div>
+    <h1 class="hero-title">
+      <em>AgentsView</em><br>
+      Local-First Session Intelligence<br>for AI Coding Agents
+    </h1>
+    <p class="hero-subtitle">
+      A deep technical report covering the architecture, feature set, operational patterns, 
+      best practices, and an LLM-optimized CLI usage guide for <strong>agentsview</strong> — 
+      the open-source session browser built by Wes McKinney.
+    </p>
+    <div class="hero-tags">
+      <span class="tag tag-amber">Go + Svelte 5</span>
+      <span class="tag tag-teal">SQLite FTS5</span>
+      <span class="tag tag-blue">Local-First</span>
+      <span class="tag tag-green">12 Agents Supported</span>
+      <span class="tag tag-amber">MIT License</span>
+      <span class="tag tag-teal">Open Source</span>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: OVERVIEW ──────────────────────────────────── -->
+  <section class="section" id="overview">
+    <div class="section-label">01 — Project Overview</div>
+    <h2>What Is AgentsView?</h2>
+    <p>
+      AgentsView is a <strong>local-first desktop and web application</strong> for browsing, 
+      searching, and analyzing AI agent coding sessions. It solves a real problem in 
+      the modern AI-assisted development workflow: as coding agents generate ever-larger 
+      volumes of session data across projects, finding, reviewing, and learning from that 
+      data becomes increasingly difficult.
+    </p>
+    <p>
+      AgentsView acts as a unified local intelligence layer on top of all your agent 
+      session files. It watches directories, parses JSONL (and other format) files from 
+      every supported agent, indexes them into a local SQLite database with FTS5 
+      full-text search, and serves a rich Svelte SPA for review and analysis. 
+      <strong>Nothing leaves your machine.</strong>
+    </p>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">Core Value Proposition</div>
+      <p>
+        AI coding agents generate large volumes of session data across projects. AgentsView 
+        indexes these sessions into a local SQLite database with full-text search, providing 
+        a web interface to find past conversations, review agent behavior, and track usage 
+        patterns over time — entirely offline and privacy-preserving.
+      </p>
+    </div>
+
+    <h3>Key Capabilities at a Glance</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Full-Text Search</div>
+        <p>FTS5-powered search across all message content across all agents and all sessions, with sub-second response even on large datasets.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Live Session Streaming</div>
+        <p>SSE-based real-time updates as active agent sessions receive new messages. Watch a session evolve as Claude works.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Analytics Dashboard</div>
+        <p>Activity heatmaps, tool usage breakdowns, velocity metrics, session distribution charts, and agent comparison views.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>AI-Powered Insights</div>
+        <p>Generate daily digests, date-range analyses, and agent-behavior reports using Claude, Codex, or Gemini — running locally.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-purple"></span>Session Export / Share</div>
+        <p>Export any session as a standalone offline HTML file. Publish to GitHub Gist directly from the UI with one keypress.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Multi-Agent Unification</div>
+        <p>12 agents unified under a single interface: Claude Code, Codex, Gemini, Cursor, Copilot CLI, VS Code Copilot, OpenCode, Amp, OpenClaw, Pi, iFlow, Zencoder.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 2: AUTHOR ─────────────────────────────────────── -->
+  <section class="section" id="author">
+    <div class="section-label">02 — Author &amp; Provenance</div>
+    <h2>Wes McKinney</h2>
+    <p>
+      AgentsView is created and maintained by <strong>Wes McKinney</strong> — creator of 
+      Python <strong>pandas</strong>, co-creator of <strong>Apache Arrow</strong> and 
+      <strong>Ibis</strong>, Apache Member, and Principal Architect at Posit. McKinney 
+      is a General Partner at Composed Ventures and has a long track record of building 
+      high-quality, widely-used open-source infrastructure.
+    </p>
+    <p>
+      The project supersedes an earlier prototype (<code class="inline">archived-agent-session-viewer</code>) 
+      and has been actively maintained since early 2026. The GitHub repository has accumulated 
+      over 413 stars as of mid-March 2026. It is licensed under the <strong>MIT License</strong>.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>agentsview</td><td>This project — local session browser for AI coding agents</td></tr>
+          <tr><td>roborev</td><td>Continuous code review via git hooks, autonomous fix capability</td></tr>
+          <tr><td>msgvault</td><td>Full Gmail backup with DuckDB analytics and MCP server, entirely offline</td></tr>
+          <tr><td>pandas</td><td>The foundational Python data analysis library</td></tr>
+          <tr><td>Apache Arrow</td><td>Cross-language columnar in-memory analytics</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SECTION 3: ARCHITECTURE ───────────────────────────────── -->
+  <section class="section" id="architecture">
+    <div class="section-label">03 — Architecture</div>
+    <h2>Technical Architecture</h2>
+    <p>
+      AgentsView is built with a clean, minimal-dependency Go backend and a Svelte 5 
+      SPA frontend. The entire application is distributed as a single statically-linked 
+      binary (with the frontend embedded) for maximum portability.
+    </p>
+
+    <div class="arch-box">
+<span class="h">── Source Layout ──────────────────────────────────────</span>
+cmd/agentsview/        <span class="c">CLI entrypoint</span>
+internal/
+  config/              <span class="c">Configuration loading (JSON + env vars)</span>
+  db/                  <span class="c">SQLite operations (sessions, FTS5, analytics)</span>
+  parser/              <span class="c">Session parsers — one per supported agent</span>
+  server/              <span class="c">HTTP handlers, SSE, middleware, API v1</span>
+  sync/                <span class="c">Sync engine, file watcher, discovery</span>
+frontend/              <span class="c">Svelte 5 SPA (Vite, TypeScript)</span>
+    </div>
+
+    <h3>Data Pipeline</h3>
+    <ol class="numbered">
+      <li><strong>Discovery</strong> — on startup, the sync engine traverses all configured session directories for every supported agent type.</li>
+      <li><strong>Parsing</strong> — each agent has a dedicated parser that reads JSONL, JSON, SQLite (OpenCode), or plain-text transcripts into a normalized internal format.</li>
+      <li><strong>Ingestion</strong> — parsed messages, tool calls, and session metadata are upserted into SQLite tables using 8 parallel workers. File size and mtime comparisons skip unchanged files.</li>
+      <li><strong>Indexing</strong> — message content is indexed in an FTS5 virtual table for full-text search.</li>
+      <li><strong>Watching</strong> — fsnotify watches all session directories in real time (500ms debounce) and re-ingests changed files immediately.</li>
+      <li><strong>Serving</strong> — the HTTP server exposes a REST+SSE API consumed by the embedded Svelte SPA.</li>
+    </ol>
+
+    <h3>Storage Schema</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Table</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">sessions</code></td><td>Session metadata — project, agent, timestamps, file info, user message count</td></tr>
+          <tr><td><code class="inline">messages</code></td><td>Message content with role, ordinal, timestamps</td></tr>
+          <tr><td><code class="inline">tool_calls</code></td><td>Tool invocations with normalized category taxonomy (Read, Edit, Write, Bash, Search, Web, Task)</td></tr>
+          <tr><td><code class="inline">insights</code></td><td>AI-generated session analysis and summaries (markdown)</td></tr>
+          <tr><td><code class="inline">starred_sessions</code></td><td>Server-side star persistence</td></tr>
+          <tr><td><code class="inline">pinned_messages</code></td><td>Pinned message references with session linkage</td></tr>
+          <tr><td><code class="inline">stats</code></td><td>Aggregate counts (session_count, message_count)</td></tr>
+          <tr><td><code class="inline">skipped_files</code></td><td>Cache of non-interactive/unparseable files</td></tr>
+          <tr><td><code class="inline">messages_fts</code></td><td>FTS5 virtual table for full-text search</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-teal">
+      <div class="callout-title">Build Requirements (from source)</div>
+      <p>Go 1.25+ with CGO enabled (required for SQLite driver), Node.js 22+. The <code class="inline">fts5</code> build tag enables full-text search. CGO is non-negotiable — pure-Go SQLite drivers lack FTS5.</p>
+    </div>
+  </section>
+
+  <!-- ── SECTION 4: AGENTS ─────────────────────────────────────── -->
+  <section class="section" id="agents">
+    <div class="section-label">04 — Supported Agents</div>
+    <h2>Supported AI Coding Agents</h2>
+    <p>
+      AgentsView auto-discovers session files from <strong>twelve agent types</strong> 
+      with zero manual path configuration required in the default setup.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Default Directory</th>
+            <th>File Format</th>
+            <th>Env Override</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Claude Code</td>
+            <td><code class="inline">~/.claude/projects/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">CLAUDE_PROJECTS_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Codex (OpenAI)</td>
+            <td><code class="inline">~/.codex/sessions/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">CODEX_SESSIONS_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Copilot CLI</td>
+            <td><code class="inline">~/.copilot/session-state/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">COPILOT_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Cursor</td>
+            <td><code class="inline">~/.cursor/projects/</code></td>
+            <td>JSONL / plain-text</td>
+            <td><code class="inline">CURSOR_PROJECTS_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Gemini CLI</td>
+            <td><code class="inline">~/.gemini/</code></td>
+            <td>JSONL in tmp/ subdir</td>
+            <td><code class="inline">GEMINI_DIR</code></td>
+          </tr>
+          <tr>
+            <td>OpenCode</td>
+            <td><code class="inline">~/.local/share/opencode/</code></td>
+            <td>SQLite database</td>
+            <td><code class="inline">OPENCODE_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Amp</td>
+            <td><code class="inline">~/.local/share/amp/threads/</code></td>
+            <td>JSON per thread</td>
+            <td><code class="inline">AMP_DIR</code></td>
+          </tr>
+          <tr>
+            <td>VS Code Copilot</td>
+            <td>Platform-specific (see config docs)</td>
+            <td>JSON / JSONL</td>
+            <td><code class="inline">VSCODE_COPILOT_DIR</code></td>
+          </tr>
+          <tr>
+            <td>OpenClaw</td>
+            <td><code class="inline">~/.openclaw/agents/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">OPENCLAW_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Pi</td>
+            <td><code class="inline">~/.pi/agent/sessions/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">PI_DIR</code></td>
+          </tr>
+          <tr>
+            <td>iFlow</td>
+            <td><code class="inline">~/.iflow/projects/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">IFLOW_DIR</code></td>
+          </tr>
+          <tr>
+            <td>Zencoder</td>
+            <td><code class="inline">~/.zencoder/sessions/</code></td>
+            <td>JSONL per session</td>
+            <td><code class="inline">ZENCODER_DIR</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">WSL / Windows Multi-Directory Support</div>
+      <p>For mixed Windows + WSL setups, specify multiple directories per agent in <code class="inline">~/.agentsview/config.json</code> using the array fields (<code class="inline">claude_project_dirs</code>, etc.). All listed directories are discovered, watched, and synced independently.</p>
+    </div>
+
+    <pre><code><span class="c">// ~/.agentsview/config.json — multi-directory for Windows+WSL</span>
+{
+  <span class="s">"claude_project_dirs"</span>: [
+    <span class="s">"~/.claude/projects"</span>,
+    <span class="s">"/mnt/c/Users/you/.claude/projects"</span>
+  ],
+  <span class="s">"codex_sessions_dirs"</span>: [
+    <span class="s">"~/.codex/sessions"</span>
+  ]
+}</code></pre>
+  </section>
+
+  <!-- ── SECTION 5: INTERFACE ──────────────────────────────────── -->
+  <section class="section" id="interface">
+    <div class="section-label">05 — Web Interface</div>
+    <h2>Web Interface Deep Dive</h2>
+
+    <h3>Session Browser</h3>
+    <p>
+      The left sidebar provides a virtually-scrolled session list that handles thousands 
+      of sessions without performance degradation. Each session entry is color-coded by 
+      agent, shows relative timestamps, user prompt count, and supports starring 
+      (persisted server-side, not just localStorage).
+    </p>
+    <p>
+      Sessions can be filtered by: <strong>Starred</strong>, <strong>Recently Active</strong> 
+      (last 24h), <strong>Agent</strong>, <strong>Min Prompts</strong> (2, 3, 5, 10+), 
+      and <strong>Hide Unknown</strong>. Filters sync bidirectionally with the analytics dashboard.
+    </p>
+
+    <h4>URL-Driven Deep Linking</h4>
+    <pre><code><span class="c"># Filter by project + agent + date range</span>
+http://127.0.0.1:8080/#/sessions?project=myapp&agent=claude&date_from=2025-01-01
+
+<span class="c"># Available parameters</span>
+project, agent, date, date_from, date_to,
+min_messages, max_messages, min_user_messages,
+active_since, exclude_project</code></pre>
+
+    <h3>Message Viewer</h3>
+    <p>
+      Selecting a session opens a message viewer with three rendering layouts (Default, 
+      Compact, Stream) cycleable with <span class="kbd">l</span>. Messages are color-coded 
+      by role (blue = user, purple = assistant). Tool invocations appear as collapsible 
+      amber-bordered blocks showing tool name, arguments, and output.
+    </p>
+
+    <h4>Special Message Types</h4>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-purple"></span>Thinking Blocks</div>
+        <p>Extended thinking / reasoning content appears in collapsible purple-bordered sections. Toggled via block-type filter.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Tool Blocks</div>
+        <p>Collapsed by default with 80-char preview. Structured metadata tags extracted from tool call inputs. Task/Bash tools get special formatting.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Subagent Linking</div>
+        <p>Task tool blocks linked to subagent sessions show an inline expand toggle — view the full subagent transcript without leaving the parent session.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Progressive Loading</div>
+        <p>Sessions with 20,000+ messages load the most recent 1,000 first. Older messages load automatically as you scroll up.</p>
+      </div>
+    </div>
+
+    <h3>Keyboard Shortcuts</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Key</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="kbd">Cmd+K</span> / <span class="kbd">Ctrl+K</span></td><td>Open command palette / full-text search</td></tr>
+          <tr><td><span class="kbd">j</span> / <span class="kbd">↓</span></td><td>Next message</td></tr>
+          <tr><td><span class="kbd">k</span> / <span class="kbd">↑</span></td><td>Previous message</td></tr>
+          <tr><td><span class="kbd">]</span></td><td>Next session</td></tr>
+          <tr><td><span class="kbd">[</span></td><td>Previous session</td></tr>
+          <tr><td><span class="kbd">o</span></td><td>Toggle sort order (newest/oldest first)</td></tr>
+          <tr><td><span class="kbd">l</span></td><td>Cycle message layout</td></tr>
+          <tr><td><span class="kbd">s</span></td><td>Star / unstar current session</td></tr>
+          <tr><td><span class="kbd">r</span></td><td>Trigger manual sync</td></tr>
+          <tr><td><span class="kbd">e</span></td><td>Export session as standalone HTML</td></tr>
+          <tr><td><span class="kbd">p</span></td><td>Publish session to GitHub Gist</td></tr>
+          <tr><td><span class="kbd">?</span></td><td>Show all shortcuts</td></tr>
+          <tr><td><span class="kbd">Esc</span></td><td>Close modal / deselect session</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SECTION 6: ANALYTICS ──────────────────────────────────── -->
+  <section class="section" id="analytics">
+    <div class="section-label">06 — Analytics Dashboard</div>
+    <h2>Analytics Dashboard</h2>
+    <p>
+      The analytics dashboard is the default landing view (no session selected). It 
+      provides a comprehensive overview of agent activity scoped by project and date range.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Summary Cards</div>
+        <p>Sessions, Messages, Projects, Active Days, Messages/Session (p50, p90), Concentration.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Activity Heatmap</div>
+        <p>GitHub-style contribution graph. Click any day to filter all charts + the session list to that single day.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Hour of Week Grid</div>
+        <p>7×24 heatmap showing peak agent usage times by day of week and hour.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Activity Timeline</div>
+        <p>Stacked chart of messages, sessions, tool calls, and thinking blocks. Daily/weekly/monthly granularity. Agent breakdown.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Tool Usage</div>
+        <p>Total tool call count, breakdown by category (Read, Edit, Write, Bash, Search, Web, Task), and by agent. Trend chart.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Velocity Metrics</div>
+        <p>Turn cycle time (p50, p90), first response time, messages/active minute, breakdown by agent and complexity.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Session Shape</div>
+        <p>Histograms: session length (message count), duration (minutes), autonomy ratio (tool calls / turns).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Project Breakdown</div>
+        <p>Bar chart of projects by session or message count. Click any bar to filter the entire dashboard to that project.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Agent Comparison</div>
+        <p>Side-by-side metrics: session count, total messages, avg response time, tool patterns, concentration metrics.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-teal">
+      <div class="callout-title">CSV Export</div>
+      <p>Click <strong>Export CSV</strong> in the dashboard toolbar to download all analytics data. Includes summary, activity, projects, tools, and velocity sections — ready for external analysis in Excel, DuckDB, or pandas.</p>
+    </div>
+  </section>
+
+  <!-- ── SECTION 7: INSIGHTS ───────────────────────────────────── -->
+  <section class="section" id="insights">
+    <div class="section-label">07 — AI-Powered Insights</div>
+    <h2>Session Insights</h2>
+    <p>
+      The Insights feature generates AI-powered summaries and analyses of your coding 
+      sessions using an AI agent CLI running <strong>locally on your machine</strong>. 
+      Your session data is processed locally — it flows through your agent's API call 
+      (Claude, Codex, or Gemini) and the generated markdown is stored in your local 
+      SQLite database. AgentsView does not manage or store API keys.
+    </p>
+
+    <h3>Insight Modes</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Mode</th><th>Output Type</th><th>Use Case</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Daily Activity</td>
+            <td><code class="inline">daily_activity</code></td>
+            <td>End-of-day recap of what was accomplished — one specific date</td>
+          </tr>
+          <tr>
+            <td>Date Range Activity</td>
+            <td><code class="inline">daily_activity</code></td>
+            <td>Weekly or monthly summary across a span of days (presets: 7d, 30d)</td>
+          </tr>
+          <tr>
+            <td>Agent Analysis</td>
+            <td><code class="inline">agent_analysis</code></td>
+            <td>Deeper pattern analysis, effectiveness review, and improvement recommendations</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>How Insight Generation Works</h3>
+    <ol class="numbered">
+      <li>AgentsView queries your session database for sessions matching the date range and optional project filter (up to 50 sessions).</li>
+      <li>A markdown prompt is built containing session metadata: IDs, projects, agents, timestamps, message counts, and first message previews.</li>
+      <li>The prompt is sent to the selected agent CLI (<code class="inline">claude -p</code>, <code class="inline">codex exec</code>, or <code class="inline">gemini</code>) running locally.</li>
+      <li>The response streams back via SSE, showing progress in the sidebar task list.</li>
+      <li>The completed insight is saved to the database and rendered as markdown in the content panel.</li>
+    </ol>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">Optional Custom Context</div>
+      <p>Before generating, expand the <strong>Prompt</strong> field to inject additional context: <em>"Focus on test coverage improvements"</em>, <em>"Summarize the refactoring work"</em>, or <em>"What patterns should I change?"</em>. This is a high-leverage input — use it.</p>
+    </div>
+  </section>
+
+  <!-- ── SECTION 8: SEARCH ─────────────────────────────────────── -->
+  <section class="section" id="search">
+    <div class="section-label">08 — Search</div>
+    <h2>Full-Text Search</h2>
+    <p>
+      The command palette (<span class="kbd">Cmd+K</span>) is the primary search interface. 
+      Queries of 3+ characters trigger FTS5 full-text search across all message content 
+      with a 300ms debounce. Results show role badge, matching snippet with highlighted 
+      terms, and project name. Selecting a result jumps to the session and scrolls 
+      to the matching message.
+    </p>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">FTS5 Query Syntax Tips</div>
+      <p>
+        SQLite FTS5 supports prefix matching (<code class="inline">async*</code>), phrase 
+        search (<code class="inline">"useEffect hook"</code>), column filtering, and boolean 
+        operators. These can be used directly in the search bar for power queries.
+      </p>
+    </div>
+
+    <h3>Session Upload API</h3>
+    <p>Sessions from remote machines or other environments can be uploaded via the REST API:</p>
+    <pre><code><span class="c"># Upload a session JSONL file from another machine</span>
+curl <span class="f">-F</span> <span class="s">"file=@session.jsonl"</span> \
+  <span class="s">"http://127.0.0.1:8080/api/v1/sessions/upload?project=myapp"</span></code></pre>
+    <p>Uploaded files are stored in <code class="inline">~/.agentsview/uploads/</code> and synced into the database.</p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── SECTION 9: INSTALLATION ──────────────────────────────── -->
+  <section class="section" id="installation">
+    <div class="section-label">09 — Installation</div>
+    <h2>Installation</h2>
+
+    <h3>Desktop App (Recommended for Non-CLI Users)</h3>
+    <p>Download the <code class="inline">.dmg</code> (macOS), <code class="inline">.exe</code> (Windows), or <code class="inline">.AppImage</code> (Linux) from <a href="https://github.com/wesm/agentsview/releases" target="_blank">GitHub Releases</a>. Fully bundled, no dependencies, includes auto-update. Shares the same <code class="inline">~/.agentsview/</code> data directory as the CLI.</p>
+
+    <h3>CLI — macOS / Linux</h3>
+    <pre><code><span class="c"># One-line installer (verifies SHA-256 checksum)</span>
+curl <span class="f">-fsSL</span> https://agentsview.io/install.sh | bash
+
+<span class="c"># Verify</span>
+agentsview version</code></pre>
+
+    <h3>CLI — Windows (PowerShell)</h3>
+    <pre><code>powershell <span class="f">-ExecutionPolicy</span> ByPass <span class="f">-c</span> <span class="s">"irm https://agentsview.io/install.ps1 | iex"</span></code></pre>
+
+    <h3>Build from Source</h3>
+    <pre><code><span class="c"># Requirements: Go 1.25+ with CGO, Node.js 22+</span>
+git clone https://github.com/wesm/agentsview.git
+cd agentsview
+make build
+make install  <span class="c"># installs to ~/.local/bin</span></code></pre>
+  </section>
+
+  <!-- ── SECTION 10: CLI REFERENCE ────────────────────────────── -->
+  <section class="section" id="cli">
+    <div class="section-label">10 — CLI Reference</div>
+    <h2>CLI Commands</h2>
+
+    <h3><code class="inline">agentsview</code> / <code class="inline">agentsview serve</code></h3>
+    <p>Start the HTTP server with embedded web UI. Auto-discovers an available port if 8080 is busy.</p>
+    <pre><code>agentsview [flags]
+agentsview serve [flags]</code></pre>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Flag</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">-host</code></td><td><code class="inline">127.0.0.1</code></td><td>Host to bind to</td></tr>
+          <tr><td><code class="inline">-port</code></td><td><code class="inline">8080</code></td><td>Port to listen on</td></tr>
+          <tr><td><code class="inline">-browser</code></td><td><code class="inline">false</code></td><td>Open browser on startup</td></tr>
+          <tr><td><code class="inline">-public-url</code></td><td>—</td><td>Public URL for hostname or proxy access</td></tr>
+          <tr><td><code class="inline">-public-origin</code></td><td>—</td><td>Trusted browser origin (repeatable/comma-separated)</td></tr>
+          <tr><td><code class="inline">-proxy</code></td><td>—</td><td>Managed proxy mode (<code class="inline">caddy</code>)</td></tr>
+          <tr><td><code class="inline">-caddy-bin</code></td><td><code class="inline">caddy</code></td><td>Caddy binary path</td></tr>
+          <tr><td><code class="inline">-proxy-bind-host</code></td><td><code class="inline">127.0.0.1</code></td><td>Interface for managed proxy</td></tr>
+          <tr><td><code class="inline">-public-port</code></td><td><code class="inline">8443</code></td><td>External port for managed proxy</td></tr>
+          <tr><td><code class="inline">-tls-cert</code></td><td>—</td><td>TLS certificate path</td></tr>
+          <tr><td><code class="inline">-tls-key</code></td><td>—</td><td>TLS key path</td></tr>
+          <tr><td><code class="inline">-allowed-subnet</code></td><td>—</td><td>Client CIDR allowlist (repeatable/comma-separated)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Startup Sequence</h4>
+    <ol class="numbered">
+      <li>Load or create <code class="inline">~/.agentsview/sessions.db</code></li>
+      <li>Run initial sync across all discovered session directories</li>
+      <li>Start file watcher (500ms debounce)</li>
+      <li>Start periodic sync (every 15 minutes)</li>
+      <li>Serve the Svelte SPA and REST API on the configured host:port</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h3><code class="inline">agentsview sync</code></h3>
+    <p>Run the sync engine to populate the database, then exit. Useful for scripting, CI pipelines, or one-shot data refresh.</p>
+    <pre><code>agentsview sync          <span class="c"># incremental sync and exit</span>
+agentsview sync <span class="f">-full</span>    <span class="c"># full resync and exit</span></code></pre>
+
+    <hr class="divider">
+
+    <h3><code class="inline">agentsview prune</code></h3>
+    <p>Delete sessions matching filters. At least one filter required. Filters use AND logic.</p>
+    <pre><code><span class="c"># Safe dry-run first — always</span>
+agentsview prune <span class="f">-project</span> <span class="s">"scratch"</span> <span class="f">-dry-run</span>
+
+<span class="c"># Delete short sessions from before a date</span>
+agentsview prune <span class="f">-max-messages</span> <span class="v">2</span> <span class="f">-before</span> <span class="v">2025-01-01</span>
+
+<span class="c"># Delete sessions starting with "test" (skip confirmation)</span>
+agentsview prune <span class="f">-first-message</span> <span class="s">"test"</span> <span class="f">-yes</span>
+
+<span class="c"># Combine multiple filters (AND logic)</span>
+agentsview prune \
+  <span class="f">-project</span> <span class="s">"old-project"</span> \
+  <span class="f">-max-messages</span> <span class="v">5</span> \
+  <span class="f">-before</span> <span class="v">2025-06-01</span></code></pre>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Flag</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">-project</code></td><td>Sessions whose project contains this substring</td></tr>
+          <tr><td><code class="inline">-max-messages</code></td><td>Sessions with at most N messages</td></tr>
+          <tr><td><code class="inline">-before</code></td><td>Sessions that ended before this date (YYYY-MM-DD)</td></tr>
+          <tr><td><code class="inline">-first-message</code></td><td>Sessions whose first message starts with this text</td></tr>
+          <tr><td><code class="inline">-dry-run</code></td><td>Show what would be pruned without deleting</td></tr>
+          <tr><td><code class="inline">-yes</code></td><td>Skip confirmation prompt</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <h3><code class="inline">agentsview version</code> / <code class="inline">agentsview help</code></h3>
+    <pre><code>agentsview version   <span class="c"># prints version, git commit, build date</span>
+agentsview help      <span class="c"># prints usage</span></code></pre>
+  </section>
+
+  <!-- ── SECTION 11: CONFIGURATION ────────────────────────────── -->
+  <section class="section" id="config">
+    <div class="section-label">11 — Configuration</div>
+    <h2>Configuration</h2>
+
+    <h3>Data Directory</h3>
+    <pre><code>~/.agentsview/
+├── sessions.db     <span class="c"># SQLite database (WAL mode)</span>
+├── config.json     <span class="c"># Configuration file (0600 permissions)</span>
+└── uploads/        <span class="c"># Uploaded session files</span></code></pre>
+
+    <p>Override the data directory with <code class="inline">AGENT_VIEWER_DATA_DIR</code>:</p>
+    <pre><code>AGENT_VIEWER_DATA_DIR=/tmp/av-test agentsview</code></pre>
+
+    <h3>Config File (<code class="inline">~/.agentsview/config.json</code>)</h3>
+    <pre><code>{
+  <span class="s">"cursor_secret"</span>: <span class="s">"base64-encoded-secret"</span>,   <span class="c">// auto-generated</span>
+  <span class="s">"github_token"</span>: <span class="s">"ghp_xxxxx"</span>,                <span class="c">// for Gist publishing</span>
+  <span class="s">"result_content_blocked_categories"</span>: [<span class="s">"Read"</span>, <span class="s">"Glob"</span>],
+  <span class="s">"remote_access"</span>: <span class="k">false</span>,                      <span class="c">// enable remote connections</span>
+  <span class="s">"auth_token"</span>: <span class="s">"auto-generated-256bit-token"</span>,  <span class="c">// bearer token</span>
+  <span class="s">"public_url"</span>: <span class="s">"https://agents.example.com"</span>,
+  <span class="s">"public_origins"</span>: [<span class="s">"https://agents.example.com"</span>]
+}</code></pre>
+
+    <h3>Environment Variables Reference</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Variable</th><th>Default</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">AGENT_VIEWER_DATA_DIR</code></td><td><code class="inline">~/.agentsview</code></td></tr>
+          <tr><td><code class="inline">CLAUDE_PROJECTS_DIR</code></td><td><code class="inline">~/.claude/projects</code></td></tr>
+          <tr><td><code class="inline">CODEX_SESSIONS_DIR</code></td><td><code class="inline">~/.codex/sessions</code></td></tr>
+          <tr><td><code class="inline">COPILOT_DIR</code></td><td><code class="inline">~/.copilot</code></td></tr>
+          <tr><td><code class="inline">CURSOR_PROJECTS_DIR</code></td><td><code class="inline">~/.cursor/projects</code></td></tr>
+          <tr><td><code class="inline">GEMINI_DIR</code></td><td><code class="inline">~/.gemini</code></td></tr>
+          <tr><td><code class="inline">OPENCODE_DIR</code></td><td><code class="inline">~/.local/share/opencode</code></td></tr>
+          <tr><td><code class="inline">AMP_DIR</code></td><td><code class="inline">~/.local/share/amp/threads</code></td></tr>
+          <tr><td><code class="inline">VSCODE_COPILOT_DIR</code></td><td>Platform-specific</td></tr>
+          <tr><td><code class="inline">OPENCLAW_DIR</code></td><td><code class="inline">~/.openclaw/agents</code></td></tr>
+          <tr><td><code class="inline">PI_DIR</code></td><td><code class="inline">~/.pi/agent/sessions</code></td></tr>
+          <tr><td><code class="inline">IFLOW_DIR</code></td><td><code class="inline">~/.iflow/projects</code></td></tr>
+          <tr><td><code class="inline">ZENCODER_DIR</code></td><td><code class="inline">~/.zencoder/sessions</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SECTION 12: REMOTE ACCESS ────────────────────────────── -->
+  <section class="section" id="remote">
+    <div class="section-label">12 — Remote Access</div>
+    <h2>Remote Access</h2>
+    <p>
+      By default, agentsview binds to <code class="inline">127.0.0.1</code> — loopback only. 
+      Remote access can be enabled to reach the UI from other devices (phone, tablet, 
+      or another machine on your network) while the server and all data remain local.
+    </p>
+
+    <h3>Quick Enable</h3>
+    <pre><code><span class="c">// ~/.agentsview/config.json</span>
+{ <span class="s">"remote_access"</span>: <span class="k">true</span> }</code></pre>
+    <p>When <code class="inline">remote_access</code> is true and no explicit <code class="inline">-host</code> is given, the server auto-binds to <code class="inline">0.0.0.0</code>. A 256-bit bearer token is auto-generated and printed on first start.</p>
+
+    <h3>Direct HTTP (Custom Hostname)</h3>
+    <pre><code>agentsview \
+  <span class="f">-host</span> <span class="v">0.0.0.0</span> \
+  <span class="f">-port</span> <span class="v">8004</span> \
+  <span class="f">-public-url</span> http://viewer.example.test:8004</code></pre>
+
+    <h3>HTTPS Behind Your Own Reverse Proxy</h3>
+    <pre><code>agentsview \
+  <span class="f">-host</span> <span class="v">127.0.0.1</span> \
+  <span class="f">-port</span> <span class="v">8004</span> \
+  <span class="f">-public-url</span> https://viewer.example.test</code></pre>
+
+    <h3>Managed Caddy Mode (TLS + Subnet ACL)</h3>
+    <pre><code>agentsview \
+  <span class="f">-public-url</span> https://agents.example.com \
+  <span class="f">-proxy</span> caddy \
+  <span class="f">-tls-cert</span> /path/to/cert.pem \
+  <span class="f">-tls-key</span>  /path/to/key.pem \
+  <span class="f">-proxy-bind-host</span> <span class="v">0.0.0.0</span> \
+  <span class="f">-allowed-subnet</span> <span class="v">192.168.1.0/24</span> \
+  <span class="f">-allowed-subnet</span> <span class="v">10.0.0.0/8</span></code></pre>
+
+    <h3>SSE / EventSource Auth</h3>
+    <pre><code><span class="c"># EventSource API cannot set headers — pass token as query param</span>
+http://&lt;host&gt;:8080/watch?token=&lt;your-bearer-token&gt;</code></pre>
+  </section>
+
+  <!-- ── SECTION 13: SYNC ──────────────────────────────────────── -->
+  <section class="section" id="sync">
+    <div class="section-label">13 — Sync Engine</div>
+    <h2>Sync Engine</h2>
+    <p>
+      The sync engine is the core of agentsview. It keeps the SQLite database 
+      synchronized with session files through two complementary mechanisms:
+    </p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>File Watcher</div>
+        <p>Uses fsnotify to detect file changes in real time with a 500ms debounce. Skips common build folders (node_modules, __pycache__, .git, vendor, dist) automatically.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Periodic Sync</div>
+        <p>Full directory scan every 15 minutes as a safety net for systems where file watching may be unreliable (network filesystems, WSL quirks, etc.).</p>
+      </div>
+    </div>
+    <p>Change detection uses file size + mtime comparison to skip unchanged files. A pool of 8 workers processes files in parallel during sync. Non-parseable files are cached in <code class="inline">skipped_files</code> and skipped on subsequent syncs until mtime changes.</p>
+
+    <h3>API Endpoints</h3>
+    <pre><code><span class="c"># Trigger incremental sync</span>
+curl <span class="f">-X</span> POST http://127.0.0.1:8080/api/v1/sync
+
+<span class="c"># Trigger full resync (non-destructive)</span>
+curl http://127.0.0.1:8080/api/trigger-resync
+
+<span class="c"># Check sync status</span>
+curl http://127.0.0.1:8080/api/v1/sync/status</code></pre>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── SECTION 14: BEST PRACTICES ───────────────────────────── -->
+  <section class="section" id="bestpractices">
+    <div class="section-label">14 — Best Practices</div>
+    <h2>Best Practices Guide</h2>
+
+    <h3>Setup &amp; Configuration</h3>
+    <ul class="checklist">
+      <li><strong>Always run a dry-run before pruning.</strong> Use <code class="inline">agentsview prune -dry-run</code> to preview affected sessions before any destructive operation.</li>
+      <li><strong>Pin your data directory.</strong> Set <code class="inline">AGENT_VIEWER_DATA_DIR</code> to a stable, backed-up location — especially when running agentsview as a service.</li>
+      <li><strong>Configure multi-directory for mixed environments.</strong> If you use Claude Code in both WSL and Windows natively, set <code class="inline">claude_project_dirs</code> as an array in config.json to capture both.</li>
+      <li><strong>Use the desktop app for daily browsing, CLI for automation.</strong> The desktop app handles startup and auto-updates. The CLI is better for scripting and server deployments. They share the same database.</li>
+      <li><strong>Do a full resync after upgrades.</strong> After upgrading agentsview, use the gear icon → Full Resync to ensure all sessions are re-parsed with the new parser versions.</li>
+    </ul>
+
+    <h3>Storage Management</h3>
+    <ul class="checklist">
+      <li><strong>Prune throwaway sessions regularly.</strong> Short sessions (1–2 messages) from interrupted or test interactions add noise. Schedule periodic: <code class="inline">agentsview prune -max-messages 2 -before [last-quarter] -yes</code></li>
+      <li><strong>Block result content for noisy categories.</strong> <code class="inline">result_content_blocked_categories</code> defaults to <code class="inline">["Read", "Glob"]</code> — this significantly reduces database size by not storing file-read outputs, while preserving tool call metadata for analytics.</li>
+      <li><strong>Use project filters aggressively.</strong> When searching or generating insights, always scope by project first. Cross-project searches on large databases benefit from the project typeahead filter on the dashboard.</li>
+    </ul>
+
+    <h3>Search Effectiveness</h3>
+    <ul class="checklist">
+      <li><strong>Use FTS5 prefix matching for partial identifiers.</strong> Search <code class="inline">useCallback*</code> to find all discussions of useCallback variants.</li>
+      <li><strong>Quote multi-word technical terms.</strong> <code class="inline">"database migration"</code> returns exact phrase matches rather than individual word hits.</li>
+      <li><strong>Star sessions with novel solutions immediately.</strong> The star feature (<span class="kbd">s</span>) persists server-side. Star any session where an agent produced an unusually good pattern, architecture decision, or debugging approach — before you close the session.</li>
+      <li><strong>Use URL filters for recurring queries.</strong> Deep-link bookmarks like <code class="inline">/#/sessions?agent=claude&min_messages=10&date_from=2025-01-01</code> make recurring analytical views instant to access.</li>
+    </ul>
+
+    <h3>Insights Generation</h3>
+    <ul class="checklist">
+      <li><strong>Run daily digests at end of workday.</strong> The Daily Activity insight over the current date is the fastest way to summarize what was accomplished. Run it before closing your work session.</li>
+      <li><strong>Use Agent Analysis on a monthly cadence.</strong> The Agent Analysis mode surfaces workflow pattern changes over time — run it monthly on your most active project to identify optimization opportunities.</li>
+      <li><strong>Add specific context to the Prompt field.</strong> Generic insights are generic. Provide focused context: <em>"We were migrating from REST to tRPC — what decisions did we make and why?"</em></li>
+      <li><strong>Queue multiple insights simultaneously.</strong> The task queue supports concurrent generation — trigger a daily digest and a date-range summary together rather than waiting for each.</li>
+    </ul>
+
+    <h3>Remote Access &amp; Security</h3>
+    <ul class="checklist">
+      <li><strong>Never expose agentsview to the open internet without authentication.</strong> Always use <code class="inline">remote_access: true</code> (bearer token) and <code class="inline">-allowed-subnet</code> to restrict access to trusted CIDR ranges.</li>
+      <li><strong>Use managed Caddy mode for LAN access with TLS.</strong> For access from your phone or tablet on the local network, managed Caddy with a self-signed cert is the cleanest setup.</li>
+      <li><strong>For Tailscale / VPN setups, set public-url explicitly.</strong> Agentsview's DNS-rebinding protection requires knowing the trusted origin — always set <code class="inline">-public-url</code> to your Tailscale hostname.</li>
+      <li><strong>Rotate the auth token if exposed.</strong> Delete <code class="inline">auth_token</code> from config.json and restart — a new 256-bit token will be auto-generated.</li>
+    </ul>
+
+    <h3>Anti-Patterns to Avoid</h3>
+    <ul class="checklist badlist">
+      <li><strong>Don't skip dry-run on prune operations.</strong> The prune command operates on AND logic across all filters — a mismatch between intended and actual filter scope can delete valuable sessions permanently.</li>
+      <li><strong>Don't run agentsview as root.</strong> The config file is written at 0600 (owner-only). Running as root changes the config location and creates permission issues for the actual user's session files.</li>
+      <li><strong>Don't set remote_access without also setting a public_url.</strong> Without a public_url, host and origin validation falls back to weaker checks — always pair them.</li>
+      <li><strong>Don't block the Bash tool category in result_content_blocked_categories.</strong> Bash command output is often the most diagnostic content in a session — losing it makes retrospective debugging much harder.</li>
+    </ul>
+  </section>
+
+  <!-- ── SECTION 15: LLM CLI GUIDE ────────────────────────────── -->
+  <section class="section" id="llmguide">
+    <div class="section-label">15 — LLM CLI Usage Guide</div>
+    <h2>LLM CLI Usage Guide</h2>
+    <p>
+      This section is written for LLMs (Claude Code, Gemini CLI, Codex, etc.) operating 
+      in agentic contexts where they may need to install, configure, query, or manage 
+      <code class="inline">agentsview</code> programmatically via shell. All commands are 
+      safe to run non-interactively unless noted.
+    </p>
+
+    <h4>1. Detect Whether AgentsView Is Running</h4>
+    <pre><code><span class="c"># Check if server is up</span>
+curl <span class="f">-s</span> <span class="f">-o</span> /dev/null <span class="f">-w</span> <span class="s">"%{http_code}"</span> http://127.0.0.1:8080/api/v1/sync/status
+<span class="c"># Returns 200 if running, connection refused if not</span>
+
+<span class="c"># Get version info</span>
+agentsview version 2>/dev/null || echo <span class="s">"not installed"</span></code></pre>
+
+    <h4>2. Install AgentsView (macOS/Linux)</h4>
+    <pre><code><span class="c"># Non-interactive install — safe for automated scripts</span>
+curl <span class="f">-fsSL</span> https://agentsview.io/install.sh | bash
+
+<span class="c"># Verify binary is on PATH</span>
+which agentsview && agentsview version</code></pre>
+
+    <h4>3. Start Server in Background</h4>
+    <pre><code><span class="c"># Start server on default port, log to file</span>
+nohup agentsview > ~/.agentsview/server.log 2>&1 &
+echo "Started agentsview PID $!"
+
+<span class="c"># Start on custom port (useful if 8080 is occupied)</span>
+nohup agentsview <span class="f">-port</span> <span class="v">9090</span> > ~/.agentsview/server.log 2>&1 &
+
+<span class="c"># Wait for server to be ready (max 10s)</span>
+for i in $(seq 1 10); do
+  curl <span class="f">-s</span> http://127.0.0.1:8080/api/v1/sync/status >/dev/null 2>&1 && break
+  sleep 1
+done</code></pre>
+
+    <h4>4. Run Sync Without Starting Server</h4>
+    <pre><code><span class="c"># Incremental sync — skips unchanged files (fast)</span>
+agentsview sync
+
+<span class="c"># Full resync — re-parses all session files from scratch</span>
+agentsview sync <span class="f">-full</span>
+
+<span class="c"># Sync with custom session directories</span>
+CLAUDE_PROJECTS_DIR=/path/to/custom agentsview sync</code></pre>
+
+    <h4>5. Query Session Data via REST API</h4>
+    <pre><code><span class="c"># List sessions (JSON)</span>
+curl <span class="f">-s</span> http://127.0.0.1:8080/api/v1/sessions | jq <span class="s">'.'</span>
+
+<span class="c"># Filter sessions by project</span>
+curl <span class="f">-s</span> <span class="s">"http://127.0.0.1:8080/api/v1/sessions?project=myapp"</span> | jq <span class="s">'.'</span>
+
+<span class="c"># Get messages for a specific session ID</span>
+curl <span class="f">-s</span> <span class="s">"http://127.0.0.1:8080/api/v1/sessions/&lt;SESSION_ID&gt;/messages"</span> | jq <span class="s">'.'</span>
+
+<span class="c"># Full-text search across all sessions</span>
+curl <span class="f">-s</span> <span class="s">"http://127.0.0.1:8080/api/v1/search?q=useCallback"</span> | jq <span class="s">'.'</span>
+
+<span class="c"># Trigger incremental sync via API</span>
+curl <span class="f">-s</span> <span class="f">-X</span> POST http://127.0.0.1:8080/api/v1/sync</code></pre>
+
+    <h4>6. Upload Session Files from Remote or Non-Standard Locations</h4>
+    <pre><code><span class="c"># Upload a JSONL session file — project param required</span>
+curl <span class="f">-F</span> <span class="s">"file=@/path/to/session.jsonl"</span> \
+  <span class="s">"http://127.0.0.1:8080/api/v1/sessions/upload?project=my-project"</span>
+
+<span class="c"># Upload all Claude sessions from a non-default path</span>
+find /custom/claude/projects <span class="f">-name</span> <span class="s">"*.jsonl"</span> | while read f; do
+  curl <span class="f">-s</span> <span class="f">-F</span> <span class="s">"file=@$f"</span> \
+    <span class="s">"http://127.0.0.1:8080/api/v1/sessions/upload?project=imported"</span>
+done</code></pre>
+
+    <h4>7. Prune Sessions (Non-Interactive)</h4>
+    <pre><code><span class="c"># ALWAYS dry-run first, then execute</span>
+agentsview prune <span class="f">-max-messages</span> <span class="v">1</span> <span class="f">-before</span> <span class="v">2025-01-01</span> <span class="f">-dry-run</span>
+agentsview prune <span class="f">-max-messages</span> <span class="v">1</span> <span class="f">-before</span> <span class="v">2025-01-01</span> <span class="f">-yes</span>
+
+<span class="c"># Prune project-scoped junk sessions</span>
+agentsview prune \
+  <span class="f">-project</span> <span class="s">"scratch"</span> \
+  <span class="f">-max-messages</span> <span class="v">3</span> \
+  <span class="f">-yes</span></code></pre>
+
+    <h4>8. Configure Custom Session Directories</h4>
+    <pre><code><span class="c"># Inline env vars — no config file changes required</span>
+CLAUDE_PROJECTS_DIR=/custom/claude/sessions agentsview sync
+
+<span class="c"># Persistent multi-directory config for WSL + Windows</span>
+cat > ~/.agentsview/config.json &lt;&lt; 'EOF'
+{
+  "claude_project_dirs": [
+    "~/.claude/projects",
+    "/mnt/c/Users/YourName/.claude/projects"
+  ]
+}
+EOF
+agentsview sync</code></pre>
+
+    <h4>9. Remote Access Setup (Automated)</h4>
+    <pre><code><span class="c"># Enable remote access programmatically via config</span>
+python3 <span class="f">-c</span> <span class="s">"
+import json, pathlib
+cfg_path = pathlib.Path.home() / '.agentsview/config.json'
+cfg = json.loads(cfg_path.read_text()) if cfg_path.exists() else {}
+cfg['remote_access'] = True
+cfg_path.write_text(json.dumps(cfg, indent=2))
+"</span>
+
+<span class="c"># Start with explicit public URL (required for Tailscale/reverse proxy)</span>
+agentsview \
+  <span class="f">-public-url</span> http://100.x.x.x:8080 \
+  <span class="f">-host</span> <span class="v">0.0.0.0</span> &</code></pre>
+
+    <h4>10. Watch for Session Changes (SSE)</h4>
+    <pre><code><span class="c"># Stream live session updates (bash + curl)</span>
+curl <span class="f">-N</span> <span class="f">-H</span> <span class="s">"Accept: text/event-stream"</span> \
+  http://127.0.0.1:8080/watch
+
+<span class="c"># With auth token (remote access mode)</span>
+curl <span class="f">-N</span> <span class="f">-H</span> <span class="s">"Accept: text/event-stream"</span> \
+  <span class="s">"http://&lt;host&gt;:8080/watch?token=&lt;bearer-token&gt;"</span></code></pre>
+
+    <h4>11. Trigger Full Resync via API</h4>
+    <pre><code><span class="c"># Full resync endpoint — streams SSE progress when called with Accept header</span>
+curl <span class="f">-s</span> http://127.0.0.1:8080/api/trigger-resync
+
+<span class="c"># Poll sync status until complete</span>
+while true; do
+  STATUS=$(curl <span class="f">-s</span> http://127.0.0.1:8080/api/v1/sync/status | jq <span class="f">-r</span> <span class="s">'.status'</span>)
+  echo "Sync status: $STATUS"
+  [ "$STATUS" = <span class="s">"idle"</span> ] && break
+  sleep 2
+done</code></pre>
+
+    <h4>12. Isolation / Testing Environments</h4>
+    <pre><code><span class="c"># Use a temp data dir so no production data is affected</span>
+AGENT_VIEWER_DATA_DIR=/tmp/av-test \
+  CLAUDE_PROJECTS_DIR=/path/to/test/sessions \
+  agentsview sync
+
+<span class="c"># Or start a fully isolated server</span>
+AGENT_VIEWER_DATA_DIR=/tmp/av-test \
+  agentsview <span class="f">-port</span> <span class="v">18080</span></code></pre>
+  </section>
+
+  <!-- ── SECTION 16: WORKFLOW PATTERNS ─────────────────────────── -->
+  <section class="section" id="workflows">
+    <div class="section-label">16 — Workflow Patterns</div>
+    <h2>Workflow Patterns</h2>
+
+    <h3>Pattern 1: Session-Aware Development Loop</h3>
+    <p>Run agentsview alongside your active development session to create a real-time audit trail and enable instant retrospection.</p>
+    <ol class="numbered">
+      <li>Start agentsview in one terminal / as a background service</li>
+      <li>Open a Claude Code session in your project directory</li>
+      <li>AgentsView detects and indexes the session in real time via fsnotify</li>
+      <li>After each major feature or bug fix, switch to agentsview and review the session — star any particularly good exchanges</li>
+      <li>At end of day, generate a Daily Activity insight to create a persistent summary</li>
+    </ol>
+
+    <h3>Pattern 2: Cross-Agent Benchmarking</h3>
+    <p>Use the Agent Comparison dashboard to evaluate which agents are most effective for different task types.</p>
+    <ol class="numbered">
+      <li>For a given project type (e.g. frontend refactoring), intentionally use multiple agents across similar tasks</li>
+      <li>After 2–3 weeks, open the dashboard → Agent Comparison for that project</li>
+      <li>Compare: session count, average message count, tool usage patterns, velocity metrics, turn cycle time</li>
+      <li>Generate an Agent Analysis insight: "Compare Claude vs Gemini performance on this project over the past month"</li>
+    </ol>
+
+    <h3>Pattern 3: Session Knowledge Base</h3>
+    <p>Use agentsview as a searchable knowledge base for architectural decisions made by or with AI agents.</p>
+    <ol class="numbered">
+      <li>Establish a convention: when an agent produces a good architecture decision, star the session immediately</li>
+      <li>Use URL filters to create bookmark links: <code class="inline">/#/sessions?agent=claude&min_messages=5</code> (starred + substantive sessions)</li>
+      <li>Before starting a new feature, search agentsview for related past sessions: <code class="inline">"authentication middleware"</code></li>
+      <li>Export particularly valuable sessions as HTML for team sharing or GitHub Gist for asynchronous review</li>
+    </ol>
+
+    <h3>Pattern 4: Multi-Machine Setup (Laptop + Dev Box)</h3>
+    <p>Run agentsview on a dev box and access from a laptop using Tailscale.</p>
+    <pre><code><span class="c"># On dev box — start with Tailscale IP as public URL</span>
+agentsview \
+  <span class="f">-host</span> <span class="v">0.0.0.0</span> \
+  <span class="f">-public-url</span> http://100.x.x.x:8080 \
+  <span class="f">-allowed-subnet</span> <span class="v">100.64.0.0/10</span>  # Tailscale CGNAT range
+
+<span class="c"># Or use managed Caddy for TLS</span>
+agentsview \
+  <span class="f">-proxy</span> caddy \
+  <span class="f">-public-url</span> https://devbox.your-tailnet.ts.net \
+  <span class="f">-tls-cert</span> /path/to/cert.pem \
+  <span class="f">-tls-key</span>  /path/to/key.pem \
+  <span class="f">-allowed-subnet</span> <span class="v">100.64.0.0/10</span></code></pre>
+  </section>
+
+  <!-- ── SECTION 17: SECURITY ──────────────────────────────────── -->
+  <section class="section" id="security">
+    <div class="section-label">17 — Security Model</div>
+    <h2>Security Model</h2>
+
+    <h3>Local-First by Default</h3>
+    <p>
+      The default binding is <code class="inline">127.0.0.1</code> — nothing is accessible 
+      from outside the machine. No data is sent to any external service. All AI Insights 
+      generation flows through your local agent CLI using your existing API subscription — 
+      AgentsView never sees your API keys.
+    </p>
+
+    <h3>Remote Access Security Layers</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Bearer Token Auth</div>
+        <p>Auto-generated 256-bit cryptographically random token. Must be in Authorization header for all API requests (or as query param for SSE).</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>DNS Rebinding Protection</div>
+        <p>Host and Origin validation is enforced. Setting public_url tells agentsview which origins to trust without weakening protections globally.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>CIDR Subnet Allowlist</div>
+        <p>-allowed-subnet restricts TCP connections at the network layer. Requests from outside listed CIDRs receive 403 regardless of token.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>File Permissions</div>
+        <p>config.json is written with 0600 permissions (owner read/write only) — the bearer token stored inside is not world-readable.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-title">Security Warning</div>
+      <p>
+        Your session files contain your full AI coding history — prompts, code, system context, 
+        and potentially secrets accidentally included in conversations. Treat the agentsview 
+        data directory (<code class="inline">~/.agentsview/</code>) and the underlying session 
+        directories as sensitive. Do not expose agentsview to the public internet without 
+        subnet allowlists and TLS.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── FOOTER ──────────────────────────────────────────────── -->
+<footer class="footer">
+  <span>AgentsView</span> — Comprehensive Research Report · March 2026
+  <span>MIT License · github.com/wesm/agentsview</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+---
+// ============================================================
+// CONTACT — Leverage AI LLC
+// Page hero + ContactForm React island
+// ============================================================
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm';
+import { siteConfig, contactConfig } from '../lib/site-config';
+
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: `${siteConfig.url}/contact` },
+  ],
+};
+---
+
+<BaseLayout
+  title="Contact | Leverage AI"
+  description="Get in touch with Leverage AI LLC. Start your AI search optimization or design strategy project today — based in Grants Pass, Oregon."
+  keywords="contact Leverage AI, AI search agency contact, Grants Pass Oregon digital agency, start AI strategy project"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+
+  <!-- ─── Page Hero ──────────────────────────────────────────── -->
+  <section
+    style="
+      padding-top: 10rem;
+      padding-bottom: 5rem;
+      background-color: var(--page-bg);
+      position: relative;
+      overflow: hidden;
+    "
+  >
+    <div style="position:absolute; top:-5%; right:-5%; width:600px; height:600px; background:radial-gradient(ellipse, rgba(212,144,15,0.05) 0%, transparent 70%); pointer-events:none;" />
+    <div class="container-custom" style="position: relative; z-index: 1; max-width: 700px;">
+      <p class="eyebrow" style="margin-bottom: 1rem;">{contactConfig.eyebrow}</p>
+      <h1
+        style="
+          font-family: var(--font-heading);
+          font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+          font-weight: 300;
+          line-height: 1.1;
+          color: var(--text-primary);
+          margin: 0 0 1.5rem;
+        "
+      >
+        {contactConfig.headline}
+      </h1>
+      <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; max-width: 520px; margin: 0;">
+        {contactConfig.subtext}
+      </p>
+
+      <!-- Contact items quick reference -->
+      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2.5rem;">
+        {contactConfig.contactItems.map((item) => (
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span style="font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted);">
+              {item.label}
+            </span>
+            <span style="color: var(--border-subtle);">|</span>
+            {item.href ? (
+              <a
+                href={item.href}
+                style="font-size: 0.9rem; color: var(--accent); text-decoration: none;"
+              >
+                {item.value}
+              </a>
+            ) : (
+              <span style="font-size: 0.9rem; color: var(--text-secondary);">{item.value}</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Cal.com Discovery Call Booking ─────────────────────── -->
+  <section
+    style="
+      background: hsl(220 40% 5%);
+      border-top: 1px solid hsl(38 80% 55% / 0.12);
+      border-bottom: 1px solid hsl(38 80% 55% / 0.12);
+      padding: 3.5rem 0;
+    "
+  >
+    <div class="container-custom" style="max-width: 700px; text-align: center;">
+      <p
+        style="
+          font-family: monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: hsl(38 80% 55%);
+          margin-bottom: 0.75rem;
+        "
+      >
+        Schedule a Call
+      </p>
+      <h2
+        style="
+          font-family: var(--font-heading, 'Playfair Display', serif);
+          font-size: clamp(1.5rem, 3vw, 2rem);
+          font-weight: 700;
+          color: hsl(45 30% 92%);
+          margin: 0 0 1rem;
+        "
+      >
+        {contactConfig.calCtaText}
+      </h2>
+      <p style="color: hsl(210 15% 55%); font-size: 0.9rem; margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto;">
+        30 minutes. No fluff. We'll assess your AI search visibility, show you where the gaps are, and tell you exactly what it would take to close them.
+      </p>
+
+      <!-- Cal.com inline embed -->
+      <div
+        id="cal-booking-embed"
+        style="
+          background: hsl(220 40% 7%);
+          border: 1px solid hsl(38 80% 55% / 0.2);
+          border-radius: 8px;
+          overflow: hidden;
+          min-height: 500px;
+          position: relative;
+        "
+      >
+        <!-- Inline Cal.com embed via iframe fallback -->
+        <iframe
+          src={`${contactConfig.calLink}?embed=true&theme=dark&layout=month_view`}
+          style="width: 100%; min-height: 500px; border: none; display: block;"
+          loading="lazy"
+          title="Book a Free Discovery Call with Leverage AI"
+          allow="camera; microphone; payment"
+        ></iframe>
+      </div>
+
+      <p style="color: hsl(210 15% 40%); font-size: 0.75rem; margin-top: 1rem;">
+        Prefer email? Reach us at <a href="mailto:leverage_labs_alpha@proton.me" style="color: hsl(38 80% 55%);">leverage_labs_alpha@proton.me</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── Contact Form (React island) ───────────────────────── -->
+  <ContactForm client:visible />
+
+</BaseLayout>

@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeverageLabs — Cultivating Premium Content with Claude</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0b0e; --bg-card:#0f1117; --bg-code:#0d1118;
+    --border:#1e2330; --border-hi:#2e3548;
+    --amber:#f59e0b; --amber-dim:#92600a;
+    --teal:#2dd4bf; --teal-dim:#0d6e63;
+    --blue:#60a5fa; --purple:#a78bfa;
+    --green:#34d399; --red:#f87171;
+    --text:#e2e8f0; --text-muted:#7c8ca1; --text-faint:#3d4a5c;
+    --mono:'JetBrains Mono',monospace;
+    --display:'Playfair Display',serif;
+    --sans:'DM Sans',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+  .page-wrap{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;overflow-y:auto;background:var(--bg-card);border-right:1px solid var(--border);padding:32px 0 48px;display:flex;flex-direction:column;gap:0;z-index:100;}
+  .sidebar-logo{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+  .sidebar-logo-mark{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--amber);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;}
+  .sidebar-logo-title{font-family:var(--display);font-size:18px;color:var(--text);line-height:1.2;}
+  .sidebar-section{padding:8px 24px 4px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-faint);}
+  .sidebar a{display:block;padding:6px 24px;font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .15s,background .15s;border-left:2px solid transparent;}
+  .sidebar a:hover{color:var(--amber);background:rgba(245,158,11,0.05);border-left-color:var(--amber-dim);}
+
+  /* MAIN */
+  .main{margin-left:240px;max-width:900px;padding:0 56px 120px;}
+
+  /* HERO */
+  .hero{padding:80px 0 64px;border-bottom:1px solid var(--border);margin-bottom:72px;position:relative;}
+  .hero::before{content:'';position:absolute;top:0;left:-56px;right:-56px;bottom:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(245,158,11,0.06) 0%,transparent 70%);pointer-events:none;}
+  .hero-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;font-family:var(--mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.12em;}
+  .hero-meta span{color:var(--amber);}
+  .hero-meta::before{content:'';display:block;width:24px;height:1px;background:var(--amber);}
+  .hero-title{font-family:var(--display);font-size:clamp(36px,5vw,54px);font-weight:900;line-height:1.05;color:var(--text);margin-bottom:20px;}
+  .hero-title em{font-style:normal;color:var(--amber);}
+  .hero-subtitle{font-size:16px;color:var(--text-muted);max-width:620px;line-height:1.65;margin-bottom:36px;}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:4px 10px;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;}
+  .tag-amber{background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.2);}
+  .tag-teal{background:rgba(45,212,191,0.10);color:var(--teal);border:1px solid rgba(45,212,191,0.2);}
+  .tag-blue{background:rgba(96,165,250,0.10);color:var(--blue);border:1px solid rgba(96,165,250,0.2);}
+  .tag-green{background:rgba(52,211,153,0.10);color:var(--green);border:1px solid rgba(52,211,153,0.2);}
+
+  /* SECTIONS */
+  .section{margin-bottom:72px;scroll-margin-top:32px;}
+  .section-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--amber);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  h2{font-family:var(--display);font-size:30px;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.2;}
+  h3{font-family:var(--sans);font-size:17px;font-weight:600;color:var(--text);margin:32px 0 12px;}
+  h4{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase;margin:24px 0 10px;}
+  p{color:var(--text-muted);margin-bottom:16px;}
+  a{color:var(--amber);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  strong{color:var(--text);font-weight:600;}
+
+  /* CARDS */
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:24px 28px;margin-bottom:16px;}
+  .card-title{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .card-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot-amber{background:var(--amber);} .dot-teal{background:var(--teal);} .dot-blue{background:var(--blue);} .dot-green{background:var(--green);} .dot-purple{background:var(--purple);}
+  .card p{margin-bottom:0;font-size:14px;}
+
+  /* GRIDS */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;}
+
+  /* CODE */
+  pre{background:var(--bg-code);border:1px solid var(--border);border-radius:6px;padding:20px 24px;overflow-x:auto;margin:16px 0;position:relative;}
+  pre .lang-tag{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:9px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;}
+  code{font-family:var(--mono);font-size:13px;line-height:1.7;color:#cdd6f4;}
+  pre code{background:none;padding:0;border-radius:0;font-size:13px;}
+  .k{color:var(--purple);} .s{color:var(--green);} .c{color:var(--text-faint);font-style:italic;} .f{color:var(--amber);} .v{color:var(--teal);} .h{color:var(--blue);}
+  code.inline{background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:3px;font-size:12.5px;color:var(--teal);border:1px solid var(--border);}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:20px 0;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);padding:10px 16px;text-align:left;border-bottom:1px solid var(--border-hi);background:rgba(245,158,11,0.04);}
+  tbody td{padding:10px 16px;color:var(--text-muted);border-bottom:1px solid var(--border);vertical-align:top;}
+  tbody td:first-child{color:var(--text);font-weight:500;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:rgba(255,255,255,0.02);}
+
+  /* CALLOUT */
+  .callout{border-left:3px solid;padding:16px 20px;border-radius:0 6px 6px 0;margin:20px 0;font-size:14px;}
+  .callout p{margin-bottom:0;font-size:14px;}
+  .callout-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;}
+  .callout-amber{border-color:var(--amber);background:rgba(245,158,11,0.06);}
+  .callout-amber .callout-title{color:var(--amber);}
+  .callout-teal{border-color:var(--teal);background:rgba(45,212,191,0.06);}
+  .callout-teal .callout-title{color:var(--teal);}
+  .callout-blue{border-color:var(--blue);background:rgba(96,165,250,0.06);}
+  .callout-blue .callout-title{color:var(--blue);}
+  .callout-red{border-color:var(--red);background:rgba(248,113,113,0.06);}
+  .callout-red .callout-title{color:var(--red);}
+
+  /* CHECKLIST */
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+  .checklist li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-muted);line-height:1.5;}
+  .checklist li::before{content:'✓';font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green);background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);border-radius:3px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .checklist li strong{color:var(--text);}
+  .badlist li::before{content:'✗';color:var(--red);background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.2);}
+
+  /* NUMBERED */
+  ol.numbered{counter-reset:step;list-style:none;display:flex;flex-direction:column;gap:14px;margin:16px 0;}
+  ol.numbered li{counter-increment:step;display:flex;gap:14px;font-size:14px;color:var(--text-muted);line-height:1.6;align-items:flex-start;}
+  ol.numbered li::before{content:counter(step,decimal-leading-zero);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--amber);background:rgba(245,158,11,0.08);border:1px solid var(--amber-dim);border-radius:3px;width:28px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+
+  /* ARCH BOX */
+  .arch-box{background:var(--bg-code);border:1px solid var(--border);border-radius:6px;padding:24px 28px;margin:20px 0;font-family:var(--mono);font-size:12.5px;color:var(--text-muted);line-height:1.8;}
+
+  /* STYLE PROFILE */
+  .profile{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px 36px;margin-bottom:56px;}
+  .profile-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:16px;}
+  .profile-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--amber);letter-spacing:0.15em;}
+  .profile-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.15;}
+  .profile-subtitle{font-family:var(--mono);font-size:11px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;}
+  .profile-principle{border-left:3px solid var(--amber);background:rgba(245,158,11,0.05);padding:16px 20px;border-radius:0 6px 6px 0;margin:20px 0 28px;font-size:15px;color:var(--text-muted);font-style:italic;line-height:1.6;}
+  .profile-principle strong{color:var(--amber);font-style:normal;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:6px;}
+  .profile h4{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--teal);letter-spacing:0.15em;text-transform:uppercase;margin:24px 0 10px;}
+  .profile p{font-size:14px;}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:16px 0;}
+
+  /* PROMPT BLOCK */
+  .prompt-block{background:var(--bg-code);border:1px solid var(--border-hi);border-radius:6px;padding:20px 24px;margin:16px 0;position:relative;}
+  .prompt-block .prompt-label{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--purple);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .prompt-block .prompt-label::before{content:'⬡';color:var(--purple);}
+  .prompt-block p{font-size:13.5px;color:#cdd6f4;margin-bottom:0;line-height:1.65;font-family:var(--mono);}
+
+  .divider{border:none;border-top:1px solid var(--border);margin:56px 0;}
+  .kbd{font-family:var(--mono);font-size:11px;padding:2px 6px;background:var(--bg-card);border:1px solid var(--border-hi);border-bottom-width:2px;border-radius:3px;color:var(--text);}
+
+  /* FOOTER */
+  .footer{margin-left:240px;padding:24px 56px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--text-faint);}
+  .footer span{color:var(--amber);}
+
+  @media(max-width:900px){
+    .page-wrap{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+    .main{margin-left:0;padding:0 24px 80px;}
+    .footer{margin-left:0;padding:20px 24px;}
+    .grid-2,.grid-3,.two-col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">LeverageLabs</div>
+    <div class="sidebar-logo-title">Premium Content<br>with Claude</div>
+  </div>
+
+  <div class="sidebar-section">Foundation</div>
+  <a href="#overview">How to Use This Guide</a>
+  <a href="#philosophy">The Synthesis Philosophy</a>
+  <a href="#claude-workflow">Claude Activation Workflow</a>
+
+  <div class="sidebar-section">Style Profiles</div>
+  <a href="#s1">1. Narrative Economist</a>
+  <a href="#s2">2. Extreme Correspondent</a>
+  <a href="#s3">3. Pattern Detective</a>
+  <a href="#s4">4. Essayist-Witness</a>
+  <a href="#s5">5. Structural Geologist</a>
+  <a href="#s6">6. Curious Empiricist</a>
+  <a href="#s7">7. Footnote Maximalist</a>
+  <a href="#s8">8. Conversational Philosopher</a>
+  <a href="#s9">9. Moral Cartographer</a>
+  <a href="#s10">10. Gonzo Correspondent</a>
+
+  <div class="sidebar-section">Reference</div>
+  <a href="#matrix">Style Selection Matrix</a>
+  <a href="#combining">Combining Styles</a>
+  <a href="#process">The Synthesis Process</a>
+  <a href="#prompts">Master Prompt Templates</a>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-meta"><span>LeverageLabs</span> — Content Intelligence Series</div>
+    <h1 class="hero-title">
+      Cultivating <em>Premium Content</em><br>
+      with Claude: Leveraging &amp;<br>
+      Extending Authorship Style
+    </h1>
+    <p class="hero-subtitle">
+      A practitioner's field guide for activating 10 distinct narrative voices through Claude — 
+      internalizing the machinery of master writers and extending it into original, 
+      high-leverage content that serves your clients, your brand, and your audience.
+    </p>
+    <div class="hero-tags">
+      <span class="tag tag-amber">10 Voice Engines</span>
+      <span class="tag tag-teal">Claude Prompt Templates</span>
+      <span class="tag tag-blue">Structural Patterns</span>
+      <span class="tag tag-green">Do's &amp; Don'ts</span>
+      <span class="tag tag-amber">Style Combos</span>
+      <span class="tag tag-teal">Selection Matrix</span>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="section" id="overview">
+    <div class="section-label">Foundation — 01</div>
+    <h2>How to Use This Guide</h2>
+    <p>
+      Most AI-generated content is recognizable not because it's wrong, but because it's 
+      <strong>voiceless</strong>. It covers the topic. It hits the word count. And it 
+      reads like every other piece on the subject. This guide exists to solve that problem 
+      at the root.
+    </p>
+    <p>
+      Each profile below is a <strong>writing engine</strong> — a precise set of 
+      structural patterns, tonal mechanics, and rhetorical moves drawn from a master-class 
+      narrative tradition. When you feed these patterns into Claude with the right activation 
+      prompts, the output stops being content and starts being <em>writing</em>.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Patterns</div>
+        <p>Describe what the style does structurally and tonally — the repeatable moves that define the voice.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Do's &amp; Don'ts</div>
+        <p>The guardrails. Do's are moves to instruct Claude to practice. Don'ts are the traps that turn synthesis into caricature.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Claude Prompts</div>
+        <p>Ready-to-use activation prompts and structural instructions for directing Claude into each voice with precision.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">Cardinal Rule</div>
+      <p>
+        Never reference the source author, their books, or their public persona in your Claude prompts or the final output. You are using the <strong>engine</strong>, not the brand. The reader should feel the effect without knowing the source. Instruct Claude the same way.
+      </p>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="section" id="philosophy">
+    <div class="section-label">Foundation — 02</div>
+    <h2>The Synthesis Philosophy</h2>
+    <p>
+      The goal is not imitation. It's <strong>internalization</strong>. When you give Claude 
+      a structural engine — not "write like X" but "open with a person doing something 
+      slightly strange, withhold the stakes for three paragraphs, then flip the reader's 
+      assumption" — you get output that carries the <em>mechanics</em> of a master voice 
+      without being a copy of one.
+    </p>
+    <p>
+      The distinction matters for two reasons. First, instructing Claude by pattern rather 
+      than by author name produces more reliable, higher-fidelity output — Claude is 
+      responding to craft instructions, not attempting persona imitation. Second, the 
+      resulting content is genuinely original: the pattern is the inheritance; the 
+      voice that emerges from your specific subject and angle is new.
+    </p>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-red"></span>Weak Prompt Approach</div>
+        <p>"Write this article in the style of [Author Name]." Claude pattern-matches to surface features — sentence length, famous tics — and produces imitation without substance.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>LeverageLabs Approach</div>
+        <p>Feed Claude the structural template, the do's and don'ts, and a Claude-specific activation prompt. The output carries the mechanics without the mimicry.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-teal">
+      <div class="callout-title">The Final Test</div>
+      <p>
+        If someone reads the output and says "who does this remind you of?" and the answer is "I'm not sure, but I liked it" — you've synthesized. If they name the author — go back and edit against the don'ts list. The patterns should be invisible. The quality should be unmistakable.
+      </p>
+    </div>
+  </section>
+
+  <!-- CLAUDE WORKFLOW -->
+  <section class="section" id="claude-workflow">
+    <div class="section-label">Foundation — 03</div>
+    <h2>Claude Activation Workflow</h2>
+    <p>
+      Every style profile in this guide follows the same six-step activation pattern with Claude.
+      Internalize this workflow before working with individual profiles.
+    </p>
+
+    <ol class="numbered">
+      <li><strong>Select the Engine.</strong> Use the Style Selection Matrix to match your content type, desired reader emotion, and target length to the right profile. When in doubt, pick two candidates and run the opening paragraph through both — the better fit will be immediately apparent.</li>
+      <li><strong>Load the Structural Template.</strong> Paste the template structure into Claude's system prompt or as the first user turn. This establishes the architectural shape of the piece before any content is introduced.</li>
+      <li><strong>Inject the Patterns as Instructions.</strong> Convert each pattern bullet into a direct instruction: "Open with a person doing something specific and slightly strange" not "use character-first structure."</li>
+      <li><strong>Feed the Do's as a Checklist.</strong> Include the Do's list verbatim as a self-check instruction: "After drafting each section, verify it against this checklist before continuing."</li>
+      <li><strong>Encode the Don'ts as Hard Constraints.</strong> Frame Don'ts as absolute prohibitions in the prompt. Claude responds better to "never open with a thesis statement" than to "try to avoid thesis-led openings."</li>
+      <li><strong>Review and Edit Against the Voice.</strong> After generation, use the profile's key principle as your editorial lens. Does every paragraph serve that principle? Cut what doesn't.</li>
+    </ol>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">System Prompt vs. User Turn</div>
+      <p>
+        For long-form content, load the structural template and pattern list into the <strong>system prompt</strong> (or a first-turn context block) and save your actual content brief for the user turn. This gives Claude the voice engine before it encounters the subject matter — which produces more consistent style adherence than mixing both in a single prompt.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── STYLE 1 ──────────────────────────────────────────────── -->
+  <section class="section" id="s1">
+    <div class="section-label">Style Profile — 01</div>
+    <div class="profile">
+      <div class="profile-num">01 / 10</div>
+      <div class="profile-title">The Narrative Economist</div>
+      <div class="profile-subtitle">Character-driven systems journalism</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Every complex system has a human standing at its weakest seam. Find that person. Tell their story. The system explains itself.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Character-first structure.</strong> The piece opens with a person — usually someone overlooked or underestimated — and the reader's understanding of the topic grows as the character's story unfolds.</li>
+        <li><strong>Scene-setting through specific, odd details.</strong> Not "he walked into the office" but "he walked into an office where someone had taped a Calvin and Hobbes strip to a Bloomberg terminal."</li>
+        <li><strong>The slow reveal.</strong> Information is metered out. The reader discovers the stakes with the protagonist, not ahead of them.</li>
+        <li><strong>Systemic critique delivered through anecdote.</strong> The argument is never stated as argument. It emerges from what happened to someone.</li>
+        <li><strong>Tonal contrast.</strong> Dry, almost deadpan narration layered over situations that are genuinely absurd or consequential.</li>
+        <li><strong>Short declarative sentences punctuating longer contextual passages.</strong> The rhythm shifts to signal importance.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Open with a person doing something specific and slightly strange</li>
+            <li>Use dialogue — even reconstructed — to show character and stakes</li>
+            <li>Let the reader feel smarter as the piece progresses; teach without teaching</li>
+            <li>Deploy humor through observation, not jokes — state absurd facts plainly</li>
+            <li>Build to a "wait, what?" turn where the reader's assumption flips</li>
+            <li>End with a scene, not a summary — let the image carry the conclusion</li>
+            <li>Use concrete numbers and details to ground abstract concepts</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Never open with a thesis statement or topic sentence</li>
+            <li>Don't explain the system first and add characters later — reverse it</li>
+            <li>Never editorialize or tell the reader what to think</li>
+            <li>Don't use jargon without a human moment to decode it</li>
+            <li>Don't overuse humor — one perfectly placed observation beats three clever quips</li>
+            <li>Never write "in conclusion" or "to summarize"</li>
+            <li>Don't make the protagonist a hero; make them <em>interesting</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Tech industry explainers</td><td>Turns product launches and platform shifts into character-driven narratives</td></tr>
+            <tr><td>Industry disruption pieces</td><td>Perfect for "nobody saw this coming" narratives about markets, startups, or policy</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>Cold open</strong> — A person. A moment. Something that doesn't quite add up.</li>
+        <li><strong>Context drop</strong> — Pull back just enough to show the world this person operates in.</li>
+        <li><strong>The problem</strong> — Revealed through what the character <em>does</em>, not through exposition.</li>
+        <li><strong>Rising action</strong> — Stakes escalate. Other characters enter. The system's flaws become visible.</li>
+        <li><strong>The turn</strong> — The moment the reader sees what the character saw before anyone else did.</li>
+        <li><strong>Resolution as image</strong> — End on a scene that crystallizes the theme without stating it.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing a character-driven systems piece. STRUCTURE: Open with a specific, slightly unusual scene involving a single person — no context, no explanation, just them doing something. In the second section, pull back to show the world they operate in. Reveal the core problem only through what the character does or says — never through direct exposition. Let stakes escalate through other characters entering the scene. Build to a moment where the reader's initial assumption about the situation flips entirely. End on a concrete image, not a summary. HARD RULES: Never open with a thesis or topic sentence. Never use the phrase "in conclusion" or "to summarize." Never explain the system before the character. Never editorialize. All humor must come from stating absurd facts plainly — no jokes. Short declarative sentences signal importance; use them sparingly and deliberately.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 2 ──────────────────────────────────────────────── -->
+  <section class="section" id="s2">
+    <div class="section-label">Style Profile — 02</div>
+    <div class="profile">
+      <div class="profile-num">02 / 10</div>
+      <div class="profile-title">The Extreme Correspondent</div>
+      <div class="profile-subtitle">Immersive, high-stakes narrative journalism</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Put the reader's body in the scene. If they can feel the cold, the altitude, the fear — they'll follow you anywhere, including into the argument.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Immersive, sensory-first prose.</strong> The writing is physical. Temperature, terrain, fatigue, hunger — the body is always present.</li>
+        <li><strong>Non-linear timeline with purpose.</strong> Jumps between past and present create dramatic irony — the reader knows the outcome before the characters do.</li>
+        <li><strong>First-person credibility without ego.</strong> The narrator is present but not the point. Their presence establishes "I was there" authority without making it about them.</li>
+        <li><strong>Research worn lightly.</strong> Enormous depth of investigation surfaces as telling details, not data dumps.</li>
+        <li><strong>Moral complexity without moralizing.</strong> Characters make decisions the reader might disagree with, presented with enough context that judgment becomes difficult.</li>
+        <li><strong>Momentum through compression.</strong> Paragraphs get shorter as danger increases. The pace mirrors the experience.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Ground every scene in physical detail — what the body feels, not just what the mind thinks</li>
+            <li>Use timeline shifts to create tension (reader knows the ending; suspense is in how)</li>
+            <li>Include yourself sparingly and only to establish credibility or vulnerability</li>
+            <li>Let sources speak in their own words — direct quotes carry authenticity</li>
+            <li>Build dread through accumulation of small, factual details</li>
+            <li>Compress sentences during high-stakes moments; expand during reflection</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't sensationalize — the facts are dramatic enough; let them work</li>
+            <li>Don't over-explain motivation; show the decision and let the reader infer</li>
+            <li>Don't turn the narrator into a hero or center of the story</li>
+            <li>Don't drop research in blocks — weave it through scene and action</li>
+            <li>Don't soften consequences; this style's power comes from unflinching honesty</li>
+            <li>Don't rush the setup — the payoff depends on the reader being fully immersed first</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Founder / startup origin stories</td><td>Startups are survival narratives — this style treats them that way</td></tr>
+            <tr><td>High-stakes case studies</td><td>The timeline-inversion and sensory detail transform dry outcomes into lived experience</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>Flash-forward</strong> — The outcome, stated starkly. A failure, a crisis, a pivot. The reader knows <em>what</em>.</li>
+        <li><strong>Rewind to origin</strong> — How did we get here? Introduce the person before the crisis.</li>
+        <li><strong>The descent into commitment</strong> — Small decisions compound. The point of no return arrives quietly.</li>
+        <li><strong>Immersive crisis</strong> — Tight, sensory, compressed. The reader is <em>in it</em>.</li>
+        <li><strong>Aftermath</strong> — Pull back. What changed? What didn't? What does it mean?</li>
+        <li><strong>Final image</strong> — A detail that haunts. Something the reader will carry out of the piece.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing an immersive, high-stakes narrative piece. STRUCTURE: Open with the outcome — state it plainly and without softening. Then rewind to the beginning. Build through a series of small, compounding decisions that lead inevitably to the outcome the reader already knows. During the crisis section, shorten sentences progressively as tension increases. End on a single haunting physical detail, not a lesson. HARD RULES: Every scene must contain at least one physical, sensory detail (temperature, weight, sound, smell). Never explain a character's motivation directly — show the decision and let the reader infer. Never soften consequences. The narrator may appear but only briefly and only to establish presence. Research surfaces as scene details, never as paragraphs of background context.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 3 ──────────────────────────────────────────────── -->
+  <section class="section" id="s3">
+    <div class="section-label">Style Profile — 03</div>
+    <div class="profile">
+      <div class="profile-num">03 / 10</div>
+      <div class="profile-title">The Pattern Detective</div>
+      <div class="profile-subtitle">Counterintuitive insight journalism</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        The most interesting thing about any topic is the thing everyone assumed was obvious — until you show them it isn't.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>The counterintuitive hook.</strong> Every piece starts with a widely held assumption and then methodically dismantles it.</li>
+        <li><strong>Anecdote → research → insight → anecdote.</strong> The structure alternates between story and study, creating a rhythm that's both entertaining and persuasive.</li>
+        <li><strong>Accessible academic translation.</strong> Dense research is repackaged as narrative. Studies become stories about the researchers who ran them.</li>
+        <li><strong>The "what if" reframe.</strong> Takes familiar events and asks the reader to see them from a completely different angle.</li>
+        <li><strong>Conversational authority.</strong> Writes like someone explaining something fascinating at a dinner party — confident, curious, slightly incredulous.</li>
+        <li><strong>Named concepts.</strong> Introduces sticky frameworks and labels that give the reader new vocabulary.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Start with a story that seems to have nothing to do with your actual topic</li>
+            <li>Connect two seemingly unrelated domains — the surprise connection <em>is</em> the insight</li>
+            <li>Cite research by telling the story of the researcher, not just the findings</li>
+            <li>Use repetition strategically — return to the opening anecdote with new context</li>
+            <li>Ask rhetorical questions that genuinely shift perspective</li>
+            <li>Create a "name" for the phenomenon you're describing — make it memorable</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't cherry-pick data without acknowledging complexity — loses trust if it feels glib</li>
+            <li>Don't stack more than 2–3 studies in sequence without a narrative break</li>
+            <li>Don't let the cleverness overwhelm the substance — insight must be earned</li>
+            <li>Don't explain the connection too early; let the reader sit in productive confusion</li>
+            <li>Don't be smug — the tone is curious and generous, not superior</li>
+            <li>Don't force a tidy conclusion if the evidence is messy; ambiguity can be the point</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Industry trend analysis</td><td>The "pattern across domains" structure is built for connecting dots</td></tr>
+            <tr><td>"Why X is actually about Y" articles</td><td>The counterintuitive reframe is the core move</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The unexpected anecdote</strong> — A specific story that seems like a tangent.</li>
+        <li><strong>The question</strong> — "But what if this isn't really about [obvious thing]?"</li>
+        <li><strong>The research</strong> — Introduce a study or expert, told as narrative.</li>
+        <li><strong>The pattern</strong> — Connect the anecdote and the research. Name the phenomenon.</li>
+        <li><strong>The second example</strong> — A different domain, same pattern. The insight solidifies.</li>
+        <li><strong>The return</strong> — Come back to the opening story. Now the reader sees it differently.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing a counterintuitive insight piece. STRUCTURE: Open with a specific anecdote that seems unrelated to the main topic. Then ask a rhetorical question that reframes the obvious interpretation. Present research or evidence by narrating the person who discovered it, not just the finding. Name the phenomenon you're describing — give it a memorable label. Find a second, entirely different domain where the same pattern appears. Return to the opening anecdote and let the reader see it with new eyes. HARD RULES: Never explain the central connection before section 4. Tone must be curious and generous, never superior or knowing. Research must be rendered as story (who discovered this, where, under what circumstances) — never as citation lists or data blocks. Every academic concept must be translated into a concrete human moment before moving on.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 4 ──────────────────────────────────────────────── -->
+  <section class="section" id="s4">
+    <div class="section-label">Style Profile — 04</div>
+    <div class="profile">
+      <div class="profile-num">04 / 10</div>
+      <div class="profile-title">The Essayist-Witness</div>
+      <div class="profile-subtitle">Cool, precise observational prose</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Pay attention to what's actually there — not what should be there. The gap between the story people tell themselves and the reality in front of them is where all the interesting writing lives.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Cool, precise observation.</strong> The prose is controlled, almost clinical, but the precision itself conveys emotion.</li>
+        <li><strong>The telling detail elevated.</strong> A single object, weather pattern, or overheard phrase carries the weight of an entire argument.</li>
+        <li><strong>Personal stakes acknowledged but not indulged.</strong> The writer is present, affected, but never sentimental.</li>
+        <li><strong>Fragmented structure reflecting fragmented reality.</strong> Short sections. White space. The form mirrors the disorientation of the subject.</li>
+        <li><strong>Sentences that do double work.</strong> Surface meaning and subtext operating simultaneously.</li>
+        <li><strong>Atmosphere as argument.</strong> The <em>feeling</em> of a place or moment communicates what direct statement cannot.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Open with a concrete, specific image that sets mood before meaning</li>
+            <li>Use short, declarative sentences to establish authority</li>
+            <li>Let silence and white space do emotional work</li>
+            <li>Include yourself only as a lens, not a subject</li>
+            <li>Notice what's <em>missing</em> from a scene and name it</li>
+            <li>Write sentences that reward re-reading</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't explain your feelings — show the thing that caused them</li>
+            <li>Don't be warm or encouraging; this voice is cool, not cold — there's a difference</li>
+            <li>Don't over-punctuate trying to "feel" fragmented</li>
+            <li>Don't generalize; this style works through radical specificity</li>
+            <li>Don't resolve tension neatly — leave the reader sitting with something</li>
+            <li>Don't confuse brevity with emptiness; every short sentence must carry weight</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Company culture pieces</td><td>The gap between stated values and lived reality is this style's home turf</td></tr>
+            <tr><td>Personal essays with professional relevance</td><td>Controlled vulnerability builds trust without oversharing</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The image</strong> — A single, vivid scene. No context yet. Just observation.</li>
+        <li><strong>The context</strong> — Pull back slowly. Where are we? When? Why does it matter?</li>
+        <li><strong>The fracture</strong> — Something doesn't match. The official story and the observed reality diverge.</li>
+        <li><strong>The investigation</strong> — Follow the fracture. What does it reveal?</li>
+        <li><strong>The personal thread</strong> — Brief, controlled. Why this matters to the writer. Why it should matter to you.</li>
+        <li><strong>The final image</strong> — Return to observation. The same world, seen differently now.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing a cool, precise observational essay. STRUCTURE: Open with a single concrete image — no context, no framing, just what is physically there. Pull back slowly. Identify one place where the official narrative and the observed reality diverge — follow that divergence. Include one brief, controlled personal reference only as a lens. End on an image, not a conclusion. HARD RULES: Never explain an emotion — describe the object or scene that caused it. Every paragraph should contain at least one detail so specific it could not apply to any other situation. Short sentences establish authority; use them at the start and end of sections. Leave the central tension unresolved. The tone is cool, not cold — engaged but not sentimental. Never use the word "feel" or "feelings."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 5 ──────────────────────────────────────────────── -->
+  <section class="section" id="s5">
+    <div class="section-label">Style Profile — 05</div>
+    <div class="profile">
+      <div class="profile-num">05 / 10</div>
+      <div class="profile-title">The Structural Geologist</div>
+      <div class="profile-subtitle">Obsessive depth, patient revelation</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Structure is not decoration. The <em>shape</em> of the piece should mirror the shape of the subject. And any topic — absolutely any — becomes fascinating when you go deep enough.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Obsessive, patient detail.</strong> This style doesn't skim. It goes deeper into a subject than the reader thought possible, and the depth itself becomes hypnotic.</li>
+        <li><strong>Innovative structure matched to subject.</strong> The architecture of each piece is custom-built for its specific content.</li>
+        <li><strong>Expertise treated with reverence.</strong> People who know things deeply are portrayed with genuine admiration. The writing celebrates craft and mastery.</li>
+        <li><strong>Digressions that aren't digressions.</strong> Apparent tangents always circle back, and the connection, when it arrives, feels inevitable.</li>
+        <li><strong>Specificity as style.</strong> Names, measurements, processes, technical vocabulary — used not to show off but because precision <em>is</em> the beauty.</li>
+        <li><strong>Long, winding sentences that carry you through process.</strong> The syntax mirrors the act of making or building something.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Spend time with your subject — depth of knowledge becomes depth of prose</li>
+            <li>Use technical vocabulary and then make it sing through context</li>
+            <li>Let experts speak at length; their passion is contagious on the page</li>
+            <li>Experiment with structure — chronological is rarely the most interesting shape</li>
+            <li>Include process: <em>how</em> things are made, done, built, discovered</li>
+            <li>Use digression purposefully — should feel like wandering but arrive somewhere precise</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't simplify to the point of losing what makes the subject interesting</li>
+            <li>Don't rush — this style needs room to breathe</li>
+            <li>Don't condescend to experts or to readers</li>
+            <li>Don't use generic descriptions when specific ones exist</li>
+            <li>Don't impose drama artificially; find the inherent drama in mastery and process</li>
+            <li>Don't neglect structure planning — this style falls apart without architectural intention</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>"How it's made" content</td><td>Process-oriented writing is the core competency</td></tr>
+            <tr><td>Long-form reports and white papers</td><td>The patient depth suits material that needs space to unfold</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The entry point</strong> — Meet the person or place. Something specific and vivid.</li>
+        <li><strong>The first layer</strong> — Surface knowledge. What most people know about this subject.</li>
+        <li><strong>Going deeper</strong> — Technical detail introduced through action and process.</li>
+        <li><strong>The digression</strong> — A related story, history, or parallel that enriches understanding.</li>
+        <li><strong>The convergence</strong> — Everything connects. The digression was the point all along.</li>
+        <li><strong>The deepest layer</strong> — The insight that only comes from sustained attention.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing a deep, process-oriented piece that treats its subject with the patience it deserves. STRUCTURE: Open with a person or place — specific, vivid, unhurried. Layer in technical depth gradually, always through action and process rather than explanation. Introduce an apparent digression approximately two-thirds of the way through — a related history, parallel, or seemingly tangential detail. Make it converge. End at the deepest layer of the subject, the insight only sustained attention reveals. HARD RULES: Every technical term must earn its place through context — never define terms in parentheses. Use the exact name of the thing, not a paraphrase. Allow sentences to run long when describing process — the length is the point. Never rush. Never condescend. The reader is as intelligent as you are; they simply haven't spent as long with this subject.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 6 ──────────────────────────────────────────────── -->
+  <section class="section" id="s6">
+    <div class="section-label">Style Profile — 06</div>
+    <div class="profile">
+      <div class="profile-num">06 / 10</div>
+      <div class="profile-title">The Curious Empiricist</div>
+      <div class="profile-subtitle">Humor-driven science and tech accessibility</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        If you're willing to ask the embarrassing question — the one everyone's thinking but nobody says out loud — you'll get the most interesting answer in the room.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Humor as access point.</strong> The writing is genuinely funny, and the humor is the vehicle that carries the reader past the "I don't care about this topic" barrier.</li>
+        <li><strong>The writer as curious civilian.</strong> The narrator isn't an expert — they're a fascinated outsider learning in real time, and the reader learns alongside them.</li>
+        <li><strong>Taboo subjects treated with cheerful directness.</strong> Nothing is too gross, weird, or awkward. The lack of squeamishness <em>is</em> the charm.</li>
+        <li><strong>Scene-based reporting.</strong> The writer goes places: labs, factories, test facilities. The writing is grounded in physical visits and real conversations.</li>
+        <li><strong>Science explained through anecdote and analogy.</strong> Never a textbook explanation when a story will do.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Put yourself in the room — describe what you saw, smelled, felt uncomfortable about</li>
+            <li>Ask the dumb question on the page; the reader is grateful you did</li>
+            <li>Use humor to lower defenses before delivering real information</li>
+            <li>Let scientists and experts be characters, not just citation sources</li>
+            <li>Include the weird, tangential fact — it's often the most memorable part</li>
+            <li>Be honest about confusion; the journey from ignorance to understanding <em>is</em> the story</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't sacrifice accuracy for a laugh — humor must coexist with rigor</li>
+            <li>Don't make fun of subjects or experts; laugh <em>with</em>, never <em>at</em></li>
+            <li>Don't hide behind cleverness when the material calls for sincerity</li>
+            <li>Don't skip the gross or awkward details — they're where the engagement lives</li>
+            <li>Don't front-load too much context before the fun starts</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Product / engineering deep-dives</td><td>The "curious outsider visits the lab" structure is endlessly adaptable</td></tr>
+            <tr><td>"How does X actually work?" articles</td><td>The learning-in-real-time structure mirrors the reader's experience</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The question nobody asks</strong> — Start with something surprising, weird, or slightly taboo.</li>
+        <li><strong>The visit</strong> — Go somewhere. Meet someone. Describe the scene with humor and honesty.</li>
+        <li><strong>The science</strong> — Delivered through conversation and demonstration, not lecture.</li>
+        <li><strong>The tangent</strong> — A delightful related fact that deepens the picture.</li>
+        <li><strong>The deeper question</strong> — Beneath the funny surface, something genuinely important.</li>
+        <li><strong>The satisfying answer</strong> — Wrap with clarity, wonder, and maybe one last joke.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing a humor-forward science or technology explainer as a genuinely curious outsider. STRUCTURE: Open with the question nobody politely asks — the weird, slightly awkward, or embarrassing angle on the subject. Describe a physical scene (lab, facility, demonstration) with honest sensory detail including discomfort. Deliver all technical information through conversation and demonstration — never through textbook explanation. Include one tangential weird fact. Surface a genuine deeper question underneath the humor. End with clarity, wonder, and optionally one more laugh. HARD RULES: You are not an expert — you are learning. Ask dumb questions and be grateful for the answers. Never explain a concept academically when an analogy from everyday life will do. Humor comes before information; lower defenses first. Never make fun of experts or subjects — you laugh with them, about the situation, not at anyone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 7 ──────────────────────────────────────────────── -->
+  <section class="section" id="s7">
+    <div class="section-label">Style Profile — 07</div>
+    <div class="profile">
+      <div class="profile-num">07 / 10</div>
+      <div class="profile-title">The Footnote Maximalist</div>
+      <div class="profile-subtitle">Hyper-aware, encyclopedic immersion prose</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        The thing and the experience of the thing are both the subject. Consciousness is not a distraction from the story — it <em>is</em> the story.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Hyper-awareness rendered in prose.</strong> The writing captures the full bandwidth of a thinking mind — including the self-conscious awareness of its own thinking.</li>
+        <li><strong>Encyclopedic detail as texture.</strong> Lists, technical specifications, brand names, institutional language — deployed not for information but for <em>feel</em>.</li>
+        <li><strong>Nested digressions.</strong> Parenthetical thoughts inside parenthetical thoughts. The structure mirrors how attention actually works.</li>
+        <li><strong>High-low register mixing.</strong> Academic vocabulary and slang in the same sentence. The collision is deliberate.</li>
+        <li><strong>Radical sincerity buried in irony.</strong> The surface is clever and detached; underneath is someone who cares deeply.</li>
+        <li><strong>The long sentence as immersive experience.</strong> Sentences that extend because the experience of reading them mirrors the experience being described.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Use footnotes, parentheticals, or callout boxes to create a second track of thought</li>
+            <li>Mix technical precision with colloquial voice deliberately</li>
+            <li>Be exhaustive when exhaustiveness <em>is</em> the point</li>
+            <li>Allow vulnerability to surface through layers of cleverness</li>
+            <li>Include the meta-observation: what it feels like to be the person experiencing this</li>
+            <li>Use lists and catalogs for rhythm and immersion, not just information</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't mistake length for depth — every digression must earn its space</li>
+            <li>Don't be clever for cleverness's sake; sincerity is the engine, irony is the paint</li>
+            <li>Don't lose the reader in nested structures without a clear return path</li>
+            <li>Don't use this style for short pieces — it needs room</li>
+            <li>Don't hide behind irony permanently — the style demands a genuine moment</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Tech culture commentary</td><td>The high-low register and self-awareness match the subject perfectly</td></tr>
+            <tr><td>"What is it like to..." experiential pieces</td><td>Consciousness-as-subject is the whole game</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The overwhelming scene</strong> — Arrive somewhere with too much happening. Describe all of it.</li>
+        <li><strong>The zoom-in</strong> — Pick one thread from the chaos. Follow it.</li>
+        <li><strong>The digression</strong> — A seemingly unrelated observation that will matter later.</li>
+        <li><strong>The technical deep-dive</strong> — Go full-nerd on something specific. The detail is the pleasure.</li>
+        <li><strong>The sincere moment</strong> — Drop the irony. Say something real. Then recover.</li>
+        <li><strong>The pull-back</strong> — Return to the overwhelming scene. Now the reader sees the pattern in the chaos.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing a hyper-aware, encyclopedic immersion piece where the experience of reading mirrors the experience being described. STRUCTURE: Open with overwhelming sensory and informational density — describe everything happening at once. Zoom into one thread. Digress into something apparently unrelated. Go technically deep on one specific aspect (this is the pleasure of the piece). Surface one genuinely sincere, non-ironic observation — brief, direct, unhedged. Return to the opening scene; the reader now sees the pattern. HARD RULES: Use parentheticals to create a second track of running commentary. Mix academic vocabulary and colloquial language in the same paragraph intentionally. Allow sentences to run very long when describing complex experiences. Irony is the surface; sincerity is the core — one genuine moment must land cleanly. Lists and catalogs are structural tools, not lazy formatting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 8 ──────────────────────────────────────────────── -->
+  <section class="section" id="s8">
+    <div class="section-label">Style Profile — 08</div>
+    <div class="profile">
+      <div class="profile-num">08 / 10</div>
+      <div class="profile-title">The Conversational Philosopher</div>
+      <div class="profile-subtitle">Warm, direct, intimately persuasive</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Everything is personal. And the personal, stated with enough precision and humor, becomes universal.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Conversational intimacy.</strong> The prose reads like the best version of a smart friend talking to you — informal, confident, slightly conspiratorial.</li>
+        <li><strong>The ordinary made significant.</strong> Everyday experiences become vehicles for genuine insight.</li>
+        <li><strong>Lists as rhetoric.</strong> Enumeration used for comedic timing, emphasis, and structure.</li>
+        <li><strong>Self-deprecation as authority.</strong> Admitting weakness or failure first earns the right to be direct about everything else.</li>
+        <li><strong>Short paragraphs, fast pace.</strong> The writing moves. No paragraph overstays its welcome.</li>
+        <li><strong>The perfect closing line.</strong> Each piece ends with a sentence that lands like a punchline — satisfying, surprising, emotionally true.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Write like you're telling someone at dinner — direct, warm, slightly wicked</li>
+            <li>Start with something specific and small; let it expand into something meaningful</li>
+            <li>Use lists for rhythm and humor — three items where the third one twists</li>
+            <li>Be opinionated; hedging kills this voice</li>
+            <li>End strong — the last line should be quotable</li>
+            <li>Keep paragraphs short; white space is your friend</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't confuse casual with careless — every "casual" sentence is precisely constructed</li>
+            <li>Don't overshare; selectivity is what makes the personal universal</li>
+            <li>Don't be mean-spirited; the humor is affectionate, even when sharp</li>
+            <li>Don't write long paragraphs; if it goes past 4 sentences, break it</li>
+            <li>Don't bury the insight — this style is direct, not subtle</li>
+            <li>Don't forget that warmth is not weakness</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Opinion and commentary</td><td>The directness and humor make strong takes palatable</td></tr>
+            <tr><td>Email marketing and brand voice</td><td>The intimacy translates perfectly to direct-to-reader formats</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The small thing</strong> — A specific, relatable, slightly ridiculous observation.</li>
+        <li><strong>The expansion</strong> — Why this small thing is actually about a bigger thing.</li>
+        <li><strong>The list</strong> — Enumerate. Be funny. Be specific. Let the third item surprise.</li>
+        <li><strong>The confession</strong> — Something personal that earns trust and creates connection.</li>
+        <li><strong>The pivot to insight</strong> — Now that the reader is charmed, deliver the real point.</li>
+        <li><strong>The exit line</strong> — Short. Perfect. The sentence they'll remember.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing conversational, warmly opinionated prose. STRUCTURE: Open with something specific and slightly ridiculous — the smaller and more concrete, the better. Expand it into something that actually matters. Use a list of exactly three items somewhere in the piece; make the third item twist or surprise. Include a brief confession or admission of failure — one sentence is enough. Deliver the real insight directly, not subtly. End with a single line that is short, surprising, and true. HARD RULES: Maximum paragraph length is four sentences — break anything longer. No hedging, no qualifications, no "it depends." Tone is warm and direct — imagine explaining something you care about to a smart friend at dinner. Lists have exactly three items; the third must subvert the reader's expectation. The final line must be quotable in isolation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 9 ──────────────────────────────────────────────── -->
+  <section class="section" id="s9">
+    <div class="section-label">Style Profile — 09</div>
+    <div class="profile">
+      <div class="profile-num">09 / 10</div>
+      <div class="profile-title">The Moral Cartographer</div>
+      <div class="profile-subtitle">Lyrical precision with moral clarity</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Clarity is courage. The sentence that says exactly what it means — with no escape hatch, no ambiguity, no comfortable distance — is the most powerful tool a writer has.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>Unflinching directness wrapped in lyrical prose.</strong> The writing is beautiful <em>and</em> confrontational. It doesn't choose between art and argument.</li>
+        <li><strong>The long, building sentence.</strong> Clauses accumulate like evidence, building to a conclusion that feels both inevitable and devastating.</li>
+        <li><strong>Personal experience as universal evidence.</strong> Specific autobiography becomes a lens for examining systems, cultures, and histories.</li>
+        <li><strong>Moral clarity without simplification.</strong> Acknowledges complexity while refusing to use complexity as an excuse for inaction.</li>
+        <li><strong>Second person as challenge.</strong> "You" appears frequently — pulling the reader into accountability.</li>
+        <li><strong>The sentence that stops you.</strong> Periodically, a single sentence arrives that is so precisely true it halts the reading.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Say the thing directly — then say it more beautifully — then say it with consequences</li>
+            <li>Use long, clause-heavy sentences when building an argument; short ones when landing it</li>
+            <li>Ground abstract ideas in sensory, physical experience</li>
+            <li>Address the reader directly when the stakes demand it</li>
+            <li>Be willing to sit with discomfort — yours and the reader's</li>
+            <li>Write sentences you'd be proud to see quoted alone</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't preach — this voice <em>shows</em> moral reality, it doesn't lecture about it</li>
+            <li>Don't use anger without precision; emotion without craft is noise</li>
+            <li>Don't generalize when you can specify</li>
+            <li>Don't let lyricism obscure meaning — beauty serves clarity, not the reverse</li>
+            <li>Don't shy from saying something uncomfortable; hedging destroys this voice</li>
+            <li>Don't write about systems without people inside them</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Values and culture writing</td><td>The combination of personal truth and systemic analysis is unmatched</td></tr>
+            <tr><td>Leadership communications</td><td>When a company needs to say something real, not performative</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>The personal ground</strong> — Start in a specific memory or experience. Be precise.</li>
+        <li><strong>The widening lens</strong> — Pull from the personal to the cultural or systemic.</li>
+        <li><strong>The direct statement</strong> — Say the thing. No metaphor. No softening.</li>
+        <li><strong>The evidence</strong> — Historical, personal, observed. The case builds.</li>
+        <li><strong>The challenge</strong> — Address the reader. What does this demand of <em>them</em>?</li>
+        <li><strong>The closing image</strong> — Something that lingers. Beauty and truth in the same breath.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing lyrical, morally precise prose that does not flinch. STRUCTURE: Open in a specific personal scene or memory — the more precise the better. Widen the lens from personal to systemic. State the central point directly in one sentence with no hedging and no metaphor. Build the case through accumulated evidence — personal, historical, observed. Address the reader directly ("you") in the fourth or fifth section. End on an image that holds beauty and difficult truth simultaneously. HARD RULES: Long sentences build arguments; short sentences land them. Never explain the moral — show the situation that makes it visible. Every abstract claim must be grounded in a physical, sensory, or biographical detail before the paragraph ends. No hedging language. One sentence per piece should be so precisely true it stops the reader. Say the uncomfortable thing; comfort destroys this voice.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STYLE 10 ─────────────────────────────────────────────── -->
+  <section class="section" id="s10">
+    <div class="section-label">Style Profile — 10</div>
+    <div class="profile">
+      <div class="profile-num">10 / 10</div>
+      <div class="profile-title">The Gonzo Correspondent</div>
+      <div class="profile-subtitle">First-person immersion, controlled chaos</div>
+
+      <div class="profile-principle">
+        <strong>Key Principle</strong>
+        Objectivity is a myth. The honest thing is to put yourself in the story, admit your biases, and let the chaos of real experience be the narrative.
+      </div>
+
+      <h4>Structural Patterns</h4>
+      <ul class="checklist">
+        <li><strong>First-person immersion without apology.</strong> The writer isn't observing from a distance. They're in the middle of it, and the mess of being there <em>is</em> the story.</li>
+        <li><strong>Controlled chaos in sentence structure.</strong> Run-on sentences, fragments, sudden pivots — the prose feels breathless and barely contained, but it's carefully constructed.</li>
+        <li><strong>Hyperbole as truth-telling.</strong> Exaggeration is used not to distort reality but to capture the <em>emotional</em> reality that measured language misses.</li>
+        <li><strong>Institutions portrayed as absurd.</strong> Power structures, bureaucracies, and corporate machines are observed with savage amusement.</li>
+        <li><strong>High velocity.</strong> The pace rarely drops. Even reflective passages have an engine running underneath.</li>
+        <li><strong>Dark humor as survival mechanism.</strong> The laughter is often at the expense of the powerful, processing what the writer is witnessing.</li>
+      </ul>
+
+      <div class="two-col">
+        <div>
+          <h4>Do's</h4>
+          <ul class="checklist">
+            <li>Put yourself in the scene — your confusion, frustration, disbelief</li>
+            <li>Use momentum; if the reader can stop reading, you've lost</li>
+            <li>Exaggerate for emotional truth, not for deception</li>
+            <li>Attack systems, not people (unless the person <em>is</em> the system)</li>
+            <li>Mix registers wildly — precision next to slang, poetry next to profanity</li>
+            <li>Write like you're slightly unhinged but completely lucid</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Don'ts</h4>
+          <ul class="checklist badlist">
+            <li>Don't mistake chaos for laziness — the disorder is <em>designed</em></li>
+            <li>Don't be cruel to the powerless; aim up, always</li>
+            <li>Don't lose the actual story in stylistic excess</li>
+            <li>Don't try this voice at half-speed; it requires full commitment</li>
+            <li>Don't use this for content that requires trust over entertainment</li>
+            <li>Don't forget that underneath the chaos is a deeply moral perspective</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Best For</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Content Type</th><th>Why It Works</th></tr></thead>
+          <tbody>
+            <tr><td>Industry rants and hot takes</td><td>The hyperbolic style makes strong opinions electric</td></tr>
+            <tr><td>Newsletters with personality</td><td>Builds cult followings through sheer voice</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Structural Template</h4>
+      <ol class="numbered">
+        <li><strong>In medias res</strong> — You're already there. It's already happening. No preamble.</li>
+        <li><strong>The mission</strong> — Why are you here? What were you supposed to be doing? (It goes sideways.)</li>
+        <li><strong>The escalation</strong> — Things get weirder, faster, more absurd. Lean into it.</li>
+        <li><strong>The observation</strong> — In the middle of the chaos, a moment of startling clarity about what this all means.</li>
+        <li><strong>The dark turn</strong> — Beneath the humor, something real and uncomfortable.</li>
+        <li><strong>The exit</strong> — Leave before the reader expects it. The ending is abrupt, like waking up.</li>
+      </ol>
+
+      <h4>Claude Activation Prompt</h4>
+      <div class="prompt-block">
+        <div class="prompt-label">Paste into System Prompt</div>
+        <p>You are writing first-person immersion journalism with controlled chaos. STRUCTURE: Begin in the middle of the action — no setup, no preamble, already happening. Establish what you were supposed to be doing and how it immediately went sideways. Escalate the absurdity. Deliver one moment of startling, genuine clarity in the middle of the chaos. Introduce one dark, uncomfortable truth under the humor. Exit abruptly — before the reader expects it. HARD RULES: Maintain high velocity throughout — no section may feel slow. The narrator is fully present, fallible, and honest about their biases. Exaggeration must serve emotional truth, not deception — the reader should feel "yes, exactly like that" not "that's not true." Aim all criticism at systems and institutions, not at powerless individuals. The chaos is designed — every fragment and run-on is intentional. Underneath everything is a moral perspective; it need not be stated, but it must be present.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- MATRIX -->
+  <section class="section" id="matrix">
+    <div class="section-label">Reference — 01</div>
+    <h2>Style Selection Matrix</h2>
+    <p>Use this matrix to match your content type and desired reader experience to the right voice engine before activating Claude.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Style</th><th>Best Tone</th><th>Ideal Length</th><th>Reader Feeling</th><th>Use When You Need To...</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Narrative Economist</td><td>Wry, assured</td><td>1,500–4,000 words</td><td>"I never knew this was interesting"</td><td>Make complex systems feel like a story</td></tr>
+          <tr><td>Extreme Correspondent</td><td>Tense, visceral</td><td>2,000–5,000 words</td><td>"My palms are sweating"</td><td>Create urgency and physical immersion</td></tr>
+          <tr><td>Pattern Detective</td><td>Curious, surprising</td><td>1,500–3,500 words</td><td>"I never thought of it that way"</td><td>Reframe conventional wisdom</td></tr>
+          <tr><td>Essayist-Witness</td><td>Cool, precise</td><td>800–2,500 words</td><td>"Something is off and I can't look away"</td><td>Observe and critique culture or institutions</td></tr>
+          <tr><td>Structural Geologist</td><td>Patient, reverent</td><td>3,000–8,000 words</td><td>"I had no idea this went so deep"</td><td>Go deeper than anyone expects on a technical topic</td></tr>
+          <tr><td>Curious Empiricist</td><td>Funny, honest</td><td>1,200–3,000 words</td><td>"I'm laughing AND learning"</td><td>Make science or tech accessible and entertaining</td></tr>
+          <tr><td>Footnote Maximalist</td><td>Hyper-aware, sincere</td><td>2,500–6,000 words</td><td>"This is what it actually feels like to think"</td><td>Capture the full experience of a complex event or idea</td></tr>
+          <tr><td>Conversational Philosopher</td><td>Warm, sharp</td><td>600–1,800 words</td><td>"This person gets it"</td><td>Build intimacy and loyalty through voice</td></tr>
+          <tr><td>Moral Cartographer</td><td>Direct, lyrical</td><td>1,000–3,000 words</td><td>"I need to sit with this"</td><td>Say something true that most people avoid</td></tr>
+          <tr><td>Gonzo Correspondent</td><td>Chaotic, electric</td><td>1,500–4,000 words</td><td>"What did I just read and why can't I stop"</td><td>Blow up a sanitized narrative with lived experience</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- COMBINING -->
+  <section class="section" id="combining">
+    <div class="section-label">Reference — 02</div>
+    <h2>Combining Styles</h2>
+    <p>
+      These engines are not mutually exclusive. The highest-leverage content often blends 2–3 approaches. 
+      When combining, load the primary style's full template and activation prompt, then inject the secondary 
+      style's key pattern list as a modifier instruction. The primary structure holds; the secondary style 
+      colors the voice.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Narrative Economist + Pattern Detective</div>
+        <p>Business storytelling with counterintuitive insight. Character-driven structure carrying a "what if everything you assumed was wrong" reframe.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-teal"></span>Curious Empiricist + Conversational Philosopher</div>
+        <p>Accessible tech explainers with personality. The humor and "outsider learning" of Empiricist, plus the warmth and direct opinions of the Philosopher.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-blue"></span>Extreme Correspondent + Moral Cartographer</div>
+        <p>High-stakes reporting with moral clarity. The sensory immersion and non-linear timeline of Correspondent, grounded by the unflinching directness of Cartographer.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-purple"></span>Structural Geologist + Footnote Maximalist</div>
+        <p>Obsessive deep-dives with self-aware commentary. Technical patience of Geologist with the meta-awareness and parenthetical second track of Maximalist.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-green"></span>Essayist-Witness + Gonzo Correspondent</div>
+        <p>Cool observation that occasionally erupts into chaos. The Witness's controlled precision as the baseline, with the Gonzo's velocity breaking through at moments of genuine absurdity.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot dot-amber"></span>Pattern Detective + Moral Cartographer</div>
+        <p>Counterintuitive insight with stakes. The Detective's reframe mechanism driving toward the Cartographer's uncomfortable direct truth at the center.</p>
+      </div>
+    </div>
+
+    <h3>Multi-Style Claude Prompt Pattern</h3>
+    <pre><code><span class="c">// When combining two styles, structure your Claude prompt like this:</span>
+
+<span class="h">PRIMARY ENGINE: [Style Name]</span>
+[Full structural template from primary profile]
+[Full pattern list from primary profile]
+[Full do's and don'ts from primary profile]
+
+<span class="h">SECONDARY MODIFIER: [Style Name]</span>
+Layer the following voice characteristics over the primary structure:
+[Key patterns from secondary profile — 3-4 most relevant only]
+[2-3 do's from secondary profile that complement, not conflict with, primary]
+
+<span class="h">RESOLUTION RULE:</span>
+When the two styles create tension, defer to the primary engine's
+structural rules. Use the secondary style to influence tone, 
+register, and sentence-level decisions — not architecture.</code></pre>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section" id="process">
+    <div class="section-label">Reference — 03</div>
+    <h2>The Synthesis Process</h2>
+    <p>The six-step workflow for activating any style in this guide with Claude — from first brief to publish-ready output.</p>
+
+    <ol class="numbered">
+      <li><strong>Select the engine.</strong> Use the Style Selection Matrix to match content type, desired reader emotion, and target length. When uncertain, test two candidates against the same opening paragraph prompt.</li>
+      <li><strong>Load the structural template into the system prompt.</strong> The architecture goes in first, before any content brief. This gives Claude the shape before it encounters the subject.</li>
+      <li><strong>Inject patterns as direct instructions.</strong> Rewrite each pattern as an imperative: "Begin with a person doing something specific and slightly strange" not "use character-first structure."</li>
+      <li><strong>Feed do's as a self-check routine.</strong> Instruct Claude to verify each section against the do's list before continuing: "After each section, confirm compliance with this checklist."</li>
+      <li><strong>Encode don'ts as hard constraints.</strong> Frame prohibitions absolutely: "Never open with a thesis statement" not "try to avoid thesis-led openings."</li>
+      <li><strong>Edit with the key principle as your lens.</strong> After generation, apply the style's key principle as your editorial filter. Every paragraph either serves that principle or it doesn't. Cut what doesn't.</li>
+    </ol>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">The Final Test</div>
+      <p>Read the output aloud. If it sounds like an impression of a known author, revise. If it sounds like a voice you'd want to read more of — without being able to name where it came from — you've synthesized. That voice is now yours, built from the best structural thinking in the tradition. That's what LeverageLabs calls premium content.</p>
+    </div>
+  </section>
+
+  <!-- MASTER PROMPTS -->
+  <section class="section" id="prompts">
+    <div class="section-label">Reference — 04</div>
+    <h2>Master Prompt Templates</h2>
+    <p>Two reusable master prompts for deploying any style in this guide. Copy, fill in the bracketed fields, and load into Claude before your content brief.</p>
+
+    <h3>Master Prompt A — Single Style, Long-Form</h3>
+    <pre><code><span class="c">// System Prompt — Single Style Activation</span>
+
+You are writing a [CONTENT TYPE] of approximately [TARGET WORD COUNT] words.
+
+<span class="h">VOICE ENGINE: [STYLE NAME]</span>
+Key principle governing every paragraph:
+"[PASTE KEY PRINCIPLE FROM PROFILE]"
+
+<span class="h">STRUCTURE (follow in order):</span>
+[PASTE 6-STEP STRUCTURAL TEMPLATE FROM PROFILE]
+
+<span class="h">PATTERNS (apply throughout):</span>
+[PASTE PATTERN LIST FROM PROFILE AS BULLET IMPERATIVES]
+
+<span class="h">DO's (verify against each section before continuing):</span>
+[PASTE DO'S CHECKLIST FROM PROFILE]
+
+<span class="h">HARD PROHIBITIONS (non-negotiable):</span>
+[PASTE DON'TS AS ABSOLUTE CONSTRAINTS FROM PROFILE]
+
+The content brief follows in the next message.
+Write nothing until you receive it.</code></pre>
+
+    <h3>Master Prompt B — Combined Styles, Medium-Form</h3>
+    <pre><code><span class="c">// System Prompt — Dual Style Combination</span>
+
+You are writing a [CONTENT TYPE] of approximately [TARGET WORD COUNT] words.
+
+<span class="h">PRIMARY ENGINE: [STYLE 1 NAME]</span>
+Structure and architecture are governed entirely by this engine.
+Key principle: "[PASTE KEY PRINCIPLE]"
+[PASTE STRUCTURAL TEMPLATE]
+[PASTE PATTERNS]
+[PASTE HARD PROHIBITIONS]
+
+<span class="h">SECONDARY MODIFIER: [STYLE 2 NAME]</span>
+Layer these tonal and sentence-level characteristics over the primary structure.
+Do not let these override the primary structure.
+[PASTE 3-4 MOST RELEVANT PATTERNS FROM STYLE 2]
+[PASTE 2-3 COMPATIBLE DO'S FROM STYLE 2]
+
+<span class="h">CONFLICT RESOLUTION:</span>
+When primary and secondary create tension, defer to the primary engine.
+Use the secondary to influence tone, voice, and register — not shape.
+
+<span class="h">UNIVERSAL PROHIBITIONS (apply to all styles):</span>
+Never reference source authors by name.
+Never open with a thesis statement.
+Never use "in conclusion" or "to summarize."
+Never write a paragraph longer than 6 sentences without a specific reason.
+Never tell the reader what to think; show the situation that produces the thought.
+
+The content brief follows in the next message.
+Write nothing until you receive it.</code></pre>
+
+    <div class="callout callout-teal">
+      <div class="callout-title">LeverageLabs Deployment Note</div>
+      <p>
+        For multi-session content pipelines — where a piece is drafted in one session and revised in another — save the complete system prompt (engine + content brief) to your GED or project notes. Claude has no memory between sessions; the voice engine must be reloaded each time. Treat the activation prompt as part of the deliverable, not just a tool to produce it.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span>LeverageLabs</span> — Premium Content Intelligence · Leverage AI LLC
+  <span>Grants Pass, Oregon · leverageai.network</span>
+</footer>
+
+</body>
+</html>

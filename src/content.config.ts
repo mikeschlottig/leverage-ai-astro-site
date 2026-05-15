@@ -1,0 +1,95 @@
+// ============================================================
+// CONTENT COLLECTION SCHEMAS — Leverage AI LLC
+// Astro v6: import z from 'astro/zod' (not 'zod' directly)
+// Uses glob() loader from 'astro/loaders'
+// ============================================================
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+
+// Blog Posts
+const blog = defineCollection({
+  loader: glob({ base: './src/content/blog', pattern: '**/*.md' }),
+  schema: z.object({
+    title:       z.string(),
+    excerpt:     z.string(),
+    date:        z.string(),
+    category:    z.string(),
+    image:       z.string(),
+    featured:    z.boolean().optional(),
+    author:      z.string().optional(),
+    readingTime: z.string().optional(),
+    tags:        z.array(z.string()).optional(),
+    ogImage:     z.string().optional(),
+    tldr:        z.array(z.string()).optional(),
+  }),
+});
+
+// Case Studies
+const caseStudies = defineCollection({
+  loader: glob({ base: './src/content/case-studies', pattern: '**/*.md' }),
+  schema: z.object({
+    title:    z.string(),
+    client:   z.string(),
+    industry: z.string(),
+    services: z.array(z.string()),
+    image:    z.string(),
+    featured: z.boolean().optional(),
+    order:    z.number(),
+    results: z.object({
+      primary:   z.string(),
+      secondary: z.string().optional(),
+    }),
+    tags:     z.array(z.string()).optional(),
+    date:     z.string().optional(),
+  }),
+});
+
+// Testimonials
+const testimonials = defineCollection({
+  loader: glob({ base: './src/content/testimonials', pattern: '**/*.md' }),
+  schema: z.object({
+    name:   z.string(),
+    role:   z.string(),
+    rating: z.number().min(1).max(5),
+    order:  z.number(),
+    image:  z.string().optional(),
+    url:    z.string().optional(),
+  }),
+});
+
+// Services
+const services = defineCollection({
+  loader: glob({ base: './src/content/services', pattern: '**/*.md' }),
+  schema: z.object({
+    title:         z.string(),
+    slug:          z.string(),
+    tagline:       z.string(),
+    description:   z.string(),
+    icon:          z.string(),
+    order:         z.number(),
+    featured:      z.boolean().optional(),
+    heroStat:      z.string().optional(),
+    heroStatLabel: z.string().optional(),
+    image:         z.string(),
+    tags:          z.array(z.string()).optional(),
+  }),
+});
+
+// Catalog Items (service apps, tools, products)
+const items = defineCollection({
+  loader: glob({ base: './src/content/items', pattern: '**/*.md' }),
+  schema: z.object({
+    name:        z.string(),
+    description: z.string(),
+    category:    z.string(),
+    image:       z.string(),
+    url:         z.string(),
+    badge:       z.string().optional(),
+    order:       z.number(),
+    featured:    z.boolean().optional(),
+    tags:        z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = { blog, caseStudies, testimonials, services, items };

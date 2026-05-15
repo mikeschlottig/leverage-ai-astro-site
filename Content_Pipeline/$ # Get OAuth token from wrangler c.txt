@@ -1,0 +1,16 @@
+$ # Get OAuth token from wrangler config
+TOKEN=$(cat ~/.wrangler/config/default.toml 2>/dev/null | grep oauth_token | head -1 | cut -d'"' -f2)
+
+# Enable workers.dev subdomain for the script
+curl -s -X POST \
+  "https://api.cloudflare.com/client/v4/accounts/a5335954d3ced04c5f63a35b0454c266/workers/scripts/leverage-ai-astro-site/settings" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"logpush": false}' | python3 -c "import json,sys; d=json.load(sys.stdin); print('success:', d.get('success')); print('errors:', d.get('errors'))"
+
+success: False
+errors: [{'code': 10405, 'message': 'Method not allowed for this authentication scheme'}]
+
+**NEEDS FINISHED
+
+https://claude.ai/chat/b01e3929-5a09-4cef-ad5b-d4a249ab9419

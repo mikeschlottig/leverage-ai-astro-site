@@ -1,0 +1,11 @@
+
+Rebuilt from scratch, following every rule in your guide. Here's what changed architecturally:
+
+Rule compliance:
+
+Tabs — now a pure useState("all") → setActiveTab() state change. TabsBar receives activeTab as a prop and renders active class conditionally. Zero DOM manipulation.
+Modal — const [activeModal, setActiveModal] = useState(null). null = closed, a feature ID string = open. The Modal component conditionally renders with {activeModal !== null && <Modal ... />}. No getElementById, no innerHTML.
+Data never touches the DOM — all card and modal data (CARD_META, MODAL_DATA, SECTIONS) lives in module-scope constants. Cards receive an opaque id string; click handlers call onOpen(id), which sets state. Nothing is serialized into the DOM.
+Code highlighting — CodeBlock is a proper named component with its own useRef and useEffect that calls hljs.highlightElement() after mount. Hooks at top level, period.
+CSS injected once — single CSS constant, injectCSS() guarded by document.getElementById("cf-agents-css") check, called in useBootstrap().
+Routing is a filter — SECTIONS.filter(section => section.id === activeTab) drives what renders. React reconciles the rest.

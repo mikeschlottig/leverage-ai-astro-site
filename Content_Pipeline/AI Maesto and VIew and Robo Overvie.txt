@@ -1,0 +1,736 @@
+AI Maesto and VIew and Robo Overview - Funny App
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise AI Agent Stack | Architecture Report</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Hide scrollbar for horizontal scroll area but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Modal Transition */
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .modal.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-dark-900 text-slate-300 font-sans antialiased selection:bg-brand-500 selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="showView('home')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                        <i class="fa-solid fa-layer-group text-white text-lg"></i>
+                    </div>
+                    <span class="font-display font-bold text-xl text-white tracking-tight">Agent<span class="text-brand-500">Stack</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <button onclick="showView('home')" class="nav-btn text-white hover:text-brand-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Overview</button>
+                        <button onclick="showView('maestro')" class="nav-btn text-slate-300 hover:text-brand-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">AI Maestro</button>
+                        <button onclick="showView('agentsview')" class="nav-btn text-slate-300 hover:text-brand-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">AgentsView</button>
+                        <button onclick="showView('roborev')" class="nav-btn text-slate-300 hover:text-brand-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">RoboRev</button>
+                        <button onclick="showView('report')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10">Full Report</button>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-white/10">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="showView('home')" class="block w-full text-left text-white px-3 py-2 rounded-md text-base font-medium">Overview</button>
+                <button onclick="showView('maestro')" class="block w-full text-left text-slate-300 px-3 py-2 rounded-md text-base font-medium">AI Maestro</button>
+                <button onclick="showView('agentsview')" class="block w-full text-left text-slate-300 px-3 py-2 rounded-md text-base font-medium">AgentsView</button>
+                <button onclick="showView('roborev')" class="block w-full text-left text-slate-300 px-3 py-2 rounded-md text-base font-medium">RoboRev</button>
+                <button onclick="showView('report')" class="block w-full text-left text-brand-400 px-3 py-2 rounded-md text-base font-medium">Read Full Report</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="pt-20 min-h-screen relative">
+        
+        <!-- Background Elements -->
+        <div class="fixed inset-0 z-0 pointer-events-none">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- VIEW: HOME / OVERVIEW -->
+        <section id="view-home" class="view-section relative z-10 animate-fade-in">
+            <!-- Hero -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-900/30 border border-brand-500/30 text-brand-300 text-sm font-medium mb-8">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+                    </span>
+                    Enterprise Architecture Report 2026
+                </div>
+                <h1 class="text-5xl md:text-7xl font-display font-bold text-white mb-6 tracking-tight leading-tight">
+                    Orchestrating the <br>
+                    <span class="text-gradient">Autonomous Enterprise</span>
+                </h1>
+                <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-400 leading-relaxed">
+                    A comprehensive analysis of the triad unifying <strong>AI Maestro</strong>, <strong>AgentsView</strong>, and <strong>RoboRev</strong>. Moving beyond simple prompt wrappers to true agentic reliability.
+                </p>
+                
+                <div class="mt-10 flex justify-center gap-4">
+                    <button onclick="showView('maestro')" class="px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-brand-500/25 flex items-center gap-2">
+                        Explore Stack <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button onclick="showView('report')" class="px-8 py-4 bg-dark-800 hover:bg-dark-700 text-white border border-white/10 rounded-xl font-semibold transition-all">
+                        Read Documentation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div onclick="showView('maestro')" class="group cursor-pointer glass-card rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 border-t-4 border-t-indigo-500">
+                        <div class="w-14 h-14 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-brain text-2xl text-indigo-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-3">AI Maestro</h3>
+                        <p class="text-slate-400 leading-relaxed mb-6">The central nervous system. Event-driven orchestration for agent registration and inter-agent messaging.</p>
+                        <span class="text-indigo-400 font-medium text-sm group-hover:underline">View Partners &rarr;</span>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div onclick="showView('agentsview')" class="group cursor-pointer glass-card rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 border-t-4 border-t-emerald-500">
+                        <div class="w-14 h-14 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-shield-halved text-2xl text-emerald-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-3">AgentsView</h3>
+                        <p class="text-slate-400 leading-relaxed mb-6">The immutable ledger. Passive governance, cost tracking, and PII detection for full transparency.</p>
+                        <span class="text-emerald-400 font-medium text-sm group-hover:underline">View Partners &rarr;</span>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div onclick="showView('roborev')" class="group cursor-pointer glass-card rounded-2xl p-8 hover:-translate-y-2 transition-all duration-300 border-t-4 border-t-rose-500">
+                        <div class="w-14 h-14 rounded-xl bg-rose-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-vial-circle-check text-2xl text-rose-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-display font-bold text-white mb-3">RoboRev</h3>
+                        <p class="text-slate-400 leading-relaxed mb-6">The gatekeeper. Continuous testing, synthetic edge-case generation, and LLM-as-a-judge quality control.</p>
+                        <span class="text-rose-400 font-medium text-sm group-hover:underline">View Partners &rarr;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Teaser -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-20">
+                <div class="glass-card rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+                    <div class="flex-1">
+                        <h2 class="text-3xl font-display font-bold text-white mb-4">System Performance Impact</h2>
+                        <p class="text-slate-400 mb-6">Integrating the triad results in measurable improvements in reliability and cost efficiency over a 5-week deployment cycle.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <i class="fa-solid fa-check text-brand-500"></i> 95% Test Coverage (RoboRev)
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <i class="fa-solid fa-check text-brand-500"></i> 40% Reduction in Governance Costs
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <i class="fa-solid fa-check text-brand-500"></i> Real-time PII Detection
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 w-full h-64">
+                        <canvas id="homeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: AI MAESTRO -->
+        <section id="view-maestro" class="view-section hidden relative z-10 animate-slide-up">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="flex items-center gap-4 mb-12">
+                    <div class="p-3 bg-indigo-500/20 rounded-lg">
+                        <i class="fa-solid fa-brain text-3xl text-indigo-400"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-white">AI Maestro Ecosystem</h2>
+                        <p class="text-slate-400">Orchestration Partners & Integration Specialists</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Content Container -->
+                <div id="maestro-container" class="space-y-8">
+                    <!-- Content injected via JS -->
+                </div>
+                
+                <!-- Context Paragraph -->
+                <div class="mt-12 p-6 bg-indigo-900/10 border border-indigo-500/20 rounded-xl">
+                    <p class="text-indigo-200/80 italic">
+                        "AI Maestro functions as the event-driven router, solving multi-agent chaos. It allows agents to publish intents and subscribe to topics, effectively acting as the central nervous system for your autonomous enterprise."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: AGENTSVIEW -->
+        <section id="view-agentsview" class="view-section hidden relative z-10 animate-slide-up">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="flex items-center gap-4 mb-12">
+                    <div class="p-3 bg-emerald-500/20 rounded-lg">
+                        <i class="fa-solid fa-shield-halved text-3xl text-emerald-400"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-white">AgentsView Governance</h2>
+                        <p class="text-slate-400">Security, Compliance, and Logging Partners</p>
+                    </div>
+                </div>
+
+                <div id="agentsview-container" class="space-y-8">
+                    <!-- Content injected via JS -->
+                </div>
+
+                <div class="mt-12 p-6 bg-emerald-900/10 border border-emerald-500/20 rounded-xl">
+                    <p class="text-emerald-200/80 italic">
+                        "AgentsView acts as the immutable ledger, providing transparency by logging every prompt for governance. It ingests telemetry data asynchronously, ensuring zero latency impact on agent performance."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: ROBOREV -->
+        <section id="view-roborev" class="view-section hidden relative z-10 animate-slide-up">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="flex items-center gap-4 mb-12">
+                    <div class="p-3 bg-rose-500/20 rounded-lg">
+                        <i class="fa-solid fa-vial-circle-check text-3xl text-rose-400"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-white">RoboRev Quality Labs</h2>
+                        <p class="text-slate-400">Testing, Evaluation, and CI/CD Partners</p>
+                    </div>
+                </div>
+
+                <div id="roborev-container" class="space-y-8">
+                    <!-- Content injected via JS -->
+                </div>
+
+                <div class="mt-12 p-6 bg-rose-900/10 border border-rose-500/20 rounded-xl">
+                    <p class="text-rose-200/80 italic">
+                        "RoboRev is the gatekeeper, injecting quality control via continuous testing and automated evals. It utilizes synthetic edge-case generation to ensure your agents fail safely before production deployment."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: FULL REPORT -->
+        <section id="view-report" class="view-section hidden relative z-10 animate-fade-in pb-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-display font-bold text-white mb-4">Integration & Architecture Report</h2>
+                    <div class="h-1 w-24 bg-brand-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="prose prose-invert prose-lg max-w-none">
+                    <div class="glass-card p-8 rounded-2xl mb-8">
+                        <h3 class="text-2xl font-bold text-brand-400 mb-4">Executive Summary</h3>
+                        <p class="text-slate-300">
+                            Deploying Large Language Models (LLMs) as autonomous agents requires moving beyond simple prompt wrappers. This report evaluates the combination of three specialized platforms to form a highly reliable agentic stack.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 not-prose">
+                            <div class="p-4 bg-dark-800 rounded-lg border border-white/5">
+                                <div class="text-2xl mb-2">🧠</div>
+                                <h4 class="font-bold text-white">AI Maestro</h4>
+                                <p class="text-sm text-slate-400">Central nervous system for messaging.</p>
+                            </div>
+                            <div class="p-4 bg-dark-800 rounded-lg border border-white/5">
+                                <div class="text-2xl mb-2">🛡️</div>
+                                <h4 class="font-bold text-white">AgentsView</h4>
+                                <p class="text-sm text-slate-400">Immutable ledger for governance.</p>
+                            </div>
+                            <div class="p-4 bg-dark-800 rounded-lg border border-white/5">
+                                <div class="text-2xl mb-2">🚦</div>
+                                <h4 class="font-bold text-white">RoboRev</h4>
+                                <p class="text-sm text-slate-400">Gatekeeper for quality control.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl mb-8">
+                        <h3 class="text-2xl font-bold text-indigo-400 mb-4">Architecture Deep Dive</h3>
+                        
+                        <h4 class="text-xl font-semibold text-white mt-6">AI Maestro</h4>
+                        <p class="text-slate-300">Built to solve "multi-agent chaos". AI Maestro functions as an event-driven router. Agents publish intents and subscribe to topics. It utilizes a Redis bus for high-throughput messaging and supports Human-in-the-Loop (HITL) dashboards for critical decision points.</p>
+                        
+                        <h4 class="text-xl font-semibold text-white mt-6">AgentsView</h4>
+                        <p class="text-slate-300">Passive observer that ingests telemetry data from agent executions asynchronously. It tracks costs per token, detects PII leakage in real-time, and provides a tamper-proof audit trail for compliance.</p>
+
+                        <h4 class="text-xl font-semibold text-white mt-6">RoboRev</h4>
+                        <p class="text-slate-300">Continuous testing and synthetic edge-case generation using LLM-as-a-judge. It integrates into CI/CD pipelines to prevent regression in agent behavior.</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl mb-8">
+                        <h3 class="text-2xl font-bold text-emerald-400 mb-4">The Integrated Flow</h3>
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold">1</div>
+                                <div>
+                                    <h5 class="text-white font-bold">Development</h5>
+                                    <p class="text-slate-400 text-sm">Agents are built and registered with Maestro.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold">2</div>
+                                <div>
+                                    <h5 class="text-white font-bold">Evaluation (RoboRev)</h5>
+                                    <p class="text-slate-400 text-sm">Synthetic tests are run. If coverage < 90%, deployment fails.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold">3</div>
+                                <div>
+                                    <h5 class="text-white font-bold">Orchestration (Maestro)</h5>
+                                    <p class="text-slate-400 text-sm">Live traffic is routed via the Redis bus.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold">4</div>
+                                <div>
+                                    <h5 class="text-white font-bold">Governance (AgentsView)</h5>
+                                    <p class="text-slate-400 text-sm">All actions logged immutably.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-8 rounded-2xl">
+                        <h3 class="text-2xl font-bold text-rose-400 mb-4">Setup Guide</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-slate-300">
+                            <li><strong>Step 1:</strong> Initialize AI Maestro base and setup Redis bus.</li>
+                            <li><strong>Step 2:</strong> Inject AgentsView Middleware by wrapping LLM generate functions with the AgentsView SDK.</li>
+                            <li><strong>Step 3:</strong> Configure RoboRev webhooks in your CI/CD pipeline.</li>
+                            <li><strong>Step 4:</strong> Deploy and monitor via the unified dashboard.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 border-t border-white/10 py-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-layer-group text-brand-500"></i>
+                <span class="font-display font-bold text-white">AgentStack</span>
+            </div>
+            <div class="text-slate-500 text-sm">
+                &copy; 2026 Enterprise Agent Stack Architecture Report. All rights reserved.
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL OVERLAY -->
+    <div id="detail-modal" class="modal hidden fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        
+        <div class="relative bg-dark-800 w-full max-w-2xl rounded-2xl shadow-2xl border border-white/10 overflow-hidden transform transition-all scale-100">
+            <!-- Modal Header -->
+            <div class="relative h-32 bg-gradient-to-r from-brand-900 to-dark-800 p-6 flex items-end">
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 text-white flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="flex items-center gap-4 translate-y-8">
+                    <div id="modal-icon-container" class="w-20 h-20 rounded-xl bg-dark-700 border-4 border-dark-800 flex items-center justify-center shadow-xl">
+                        <!-- Icon injected here -->
+                    </div>
+                    <div class="mb-2">
+                        <span id="modal-category" class="text-xs font-bold uppercase tracking-wider text-brand-400 mb-1 block">Category</span>
+                        <h3 id="modal-title" class="text-2xl font-display font-bold text-white">Company Name</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="pt-12 pb-8 px-8">
+                <p id="modal-desc" class="text-slate-300 leading-relaxed mb-6">
+                    Description goes here.
+                </p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-dark-900/50 p-4 rounded-xl border border-white/5">
+                        <span class="text-xs text-slate-500 uppercase font-bold block mb-1">Contact</span>
+                        <span id="modal-contact" class="text-white font-medium">contact@example.com</span>
+                    </div>
+                    <div class="bg-dark-900/50 p-4 rounded-xl border border-white/5">
+                        <span class="text-xs text-slate-500 uppercase font-bold block mb-1">Specialty</span>
+                        <span id="modal-specialty" class="text-white font-medium">Integration</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <a id="modal-link" href="#" target="_blank" class="flex-1 bg-brand-600 hover:bg-brand-500 text-white text-center py-3 rounded-xl font-semibold transition-colors">
+                        Visit Website <i class="fa-solid fa-external-link-alt ml-2 text-xs"></i>
+                    </a>
+                    <button onclick="closeModal()" class="px-6 py-3 border border-white/10 hover:bg-white/5 text-slate-300 rounded-xl font-semibold transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA MOCKUP ---
+        // Generating 25 mock companies for each category to demonstrate pagination
+        const generateCompanies = (category, iconClass, colorClass) => {
+            const companies = [];
+            const specialties = ['Integration', 'Consulting', 'Security', 'Development', 'Analytics'];
+            
+            for (let i = 1; i <= 25; i++) {
+                companies.push({
+                    id: `${category}-${i}`,
+                    name: `${category.charAt(0).toUpperCase() + category.slice(1)} Partner ${i}`,
+                    category: category,
+                    description: `Leading provider of ${category} solutions. Specializes in enterprise-grade deployments, offering robust support and scalable architecture for autonomous agent ecosystems.`,
+                    contact: `partner${i}@${category}.com`,
+                    specialty: specialties[Math.floor(Math.random() * specialties.length)],
+                    website: `https://example.com/${category}/${i}`,
+                    icon: iconClass,
+                    color: colorClass
+                });
+            }
+            return companies;
+        };
+
+        const allCompanies = [
+            ...generateCompanies('maestro', 'fa-brain', 'text-indigo-400'),
+            ...generateCompanies('agentsview', 'fa-shield-halved', 'text-emerald-400'),
+            ...generateCompanies('roborev', 'fa-vial-circle-check', 'text-rose-400')
+        ];
+
+        // --- STATE MANAGEMENT ---
+        const state = {
+            maestro: { page: 1, itemsPerPage: 10 },
+            agentsview: { page: 1, itemsPerPage: 10 },
+            roborev: { page: 1, itemsPerPage: 10 }
+        };
+
+        // --- VIEW LOGIC ---
+        function showView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected view
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) {
+                target.classList.remove('hidden');
+                window.scrollTo(0, 0);
+                
+                // Initialize charts or lists if needed
+                if (viewName === 'home' && !window.homeChartInstance) {
+                    initHomeChart();
+                } else if (viewName === 'maestro') {
+                    renderCategory('maestro');
+                } else if (viewName === 'agentsview') {
+                    renderCategory('agentsview');
+                } else if (viewName === 'roborev') {
+                    renderCategory('roborev');
+                }
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- RENDER LOGIC ---
+        function renderCategory(category) {
+            const container = document.getElementById(`${category}-container`);
+            const companies = allCompanies.filter(c => c.category === category);
+            const currentState = state[category];
+            
+            // Pagination Logic
+            const totalPages = Math.ceil(companies.length / currentState.itemsPerPage);
+            const start = (currentState.page - 1) * currentState.itemsPerPage;
+            const end = start + currentState.itemsPerPage;
+            const pageItems = companies.slice(start, end);
+
+            // Build HTML
+            let html = `
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl text-white font-display">Partner Listings <span class="text-slate-500 text-sm font-sans ml-2">(${companies.length} total)</span></h3>
+                    <div class="flex gap-2">
+                        <button onclick="changePage('${category}', -1)" ${currentState.page === 1 ? 'disabled' : ''} class="w-8 h-8 rounded-lg bg-dark-800 border border-white/10 flex items-center justify-center hover:bg-brand-600 hover:text-white disabled:opacity-50 disabled:hover:bg-dark-800 disabled:hover:text-slate-400 transition-colors">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                        </button>
+                        <span class="px-3 py-1 bg-dark-800 rounded-lg text-sm text-white border border-white/10">Page ${currentState.page} / ${totalPages}</span>
+                        <button onclick="changePage('${category}', 1)" ${currentState.page === totalPages ? 'disabled' : ''} class="w-8 h-8 rounded-lg bg-dark-800 border border-white/10 flex items-center justify-center hover:bg-brand-600 hover:text-white disabled:opacity-50 disabled:hover:bg-dark-800 disabled:hover:text-slate-400 transition-colors">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 pb-4">
+            `;
+
+            pageItems.forEach(company => {
+                html += `
+                    <div onclick="openModal('${company.id}')" class="glass-card p-6 rounded-xl cursor-pointer hover:bg-white/5 transition-all hover:-translate-y-1 group border-t-2 border-transparent hover:border-${company.color.split('-')[1]}-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 rounded-lg bg-dark-900 flex items-center justify-center border border-white/5 group-hover:border-${company.color.split('-')[1]}-500/50 transition-colors">
+                                <i class="fa-solid ${company.icon} text-xl ${company.color}"></i>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-slate-600 text-xs group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h4 class="text-white font-bold mb-1 truncate">${company.name}</h4>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider mb-3">${company.specialty}</p>
+                        <p class="text-sm text-slate-500 line-clamp-2">${company.description}</p>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function changePage(category, direction) {
+            const companies = allCompanies.filter(c => c.category === category);
+            const totalPages = Math.ceil(companies.length / state[category].itemsPerPage);
+            
+            const newPage = state[category].page + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                state[category].page = newPage;
+                renderCategory(category);
+            }
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(companyId) {
+            const company = allCompanies.find(c => c.id === companyId);
+            if (!company) return;
+
+            document.getElementById('modal-title').innerText = company.name;
+            document.getElementById('modal-category').innerText = company.category;
+            document.getElementById('modal-desc').innerText = company.description + " This partner offers comprehensive support for enterprise integration, ensuring scalability and security across your AI infrastructure.";
+            document.getElementById('modal-contact').innerText = company.contact;
+            document.getElementById('modal-specialty').innerText = company.specialty;
+            document.getElementById('modal-link').href = company.website;
+            
+            const iconContainer = document.getElementById('modal-icon-container');
+            iconContainer.innerHTML = `<i class="fa-solid ${company.icon} text-3xl ${company.color}"></i>`;
+
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.add('visible');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('visible');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // --- CHART LOGIC ---
+        function initHomeChart() {
+            const ctx = document.getElementById('homeChart').getContext('2d');
+            
+            // Gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(14, 165, 233, 0.5)');
+            gradient.addColorStop(1, 'rgba(14, 165, 233, 0)');
+
+            window.homeChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    datasets: [{
+                        label: 'System Reliability (%)',
+                        data: [65, 78, 85, 92, 98],
+                        borderColor: '#0ea5e9',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#0f172a',
+                        pointBorderColor: '#0ea5e9',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#94a3b8' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#64748b' },
+                            beginAtZero: true,
+                            max: 100
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#64748b' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showView('home');
+        });
+
+    </script>
+</body>
+</html>

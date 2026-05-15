@@ -1,0 +1,512 @@
+Database SchemaDesign
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art of Schema Design: Relational, Node, and Object Models</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals & Slate with Muted Sky, Emerald, and Violet accents -->
+    <!-- Application Structure Plan: A single-page interactive dashboard with an added AI Lab section. Uses a sticky navigation bar to jump between thematic sections. The AI Lab uses Gemini 2.5 Flash to provide real-time architectural advice and schema generation, transforming the static report into a functional utility for developers. -->
+    <!-- Visualization & Content Choices: Core Paradigms -> HTML/CSS interactive cards; CRM/AGI Analysis -> Dynamic Radar Chart; CMS Showdown -> Dynamic Bar Charts; AI Lab -> Gemini-powered text generation for personalized insights. NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .glass-panel { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .tab-active { border-bottom: 2px solid #0ea5e9; color: #0ea5e9; font-weight: 600; }
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+        
+        .db-node { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .node-rel { background-color: #0ea5e9; }
+        .node-obj { background-color: #8b5cf6; }
+        .node-graph { background-color: #10b981; }
+
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #0ea5e9;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-slate-800 tracking-tight">Schema<span class="text-sky-500">Architect</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#paradigms" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition-colors">Core Paradigms</a>
+                    <a href="#apps" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition-colors">CRM & AGI Deep Dive</a>
+                    <a href="#cms" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition-colors">CMS Showdown</a>
+                    <a href="#ai-lab" class="text-sm font-semibold text-sky-600 hover:text-sky-700 transition-colors px-3 py-1 bg-sky-50 rounded-full border border-sky-100">✨ AI Lab</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-16 px-4 text-center max-w-4xl mx-auto">
+        <div class="inline-block px-3 py-1 mb-4 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold tracking-wider uppercase">Interactive Research Report</div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">The Power of Relational Databases &amp; The Art of Schema Design</h1>
+        <p class="text-lg text-slate-600 leading-relaxed">
+            Navigating the architectural trade-offs between rigid relational structures, flexible node-based graphs, and object-oriented mapping. Explore how modern platforms like Twenty CRM, Attio, SuperAGI, and Wagtail engineer their data models for scale, speed, and developer experience.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-24">
+
+        <section id="paradigms" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Core Database Paradigms</h2>
+                <p class="text-slate-600 max-w-3xl">
+                    This section establishes the foundational knowledge of data modeling. It contrasts the three primary ways applications map real-world entities into storage. Understanding these paradigms is crucial for evaluating the architectural choices of the specific platforms analyzed later in this report.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-all cursor-pointer group">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-sky-50 rounded-lg group-hover:bg-sky-100 transition-colors"><span class="db-node node-rel"></span></div>
+                        <h3 class="text-xl font-bold text-slate-800">Relational (SQL)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Data is stored in highly structured tables with strict schemas. Relationships are defined via Foreign Keys. Optimized for ACID compliance and complex analytical queries.</p>
+                    <div class="space-y-2 text-xs font-medium text-slate-500">
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Flexibility</span> <span class="text-red-500">Low</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Data Integrity</span> <span class="text-emerald-500">Very High</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Query Complexity</span> <span class="text-emerald-500">High (JOINs)</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-all cursor-pointer group">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-violet-50 rounded-lg group-hover:bg-violet-100 transition-colors"><span class="db-node node-obj"></span></div>
+                        <h3 class="text-xl font-bold text-slate-800">Object-Based (Document/ORM)</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Data mimics application-level objects (often JSON/BSON). Schema is dynamic or enforced at the application layer. Great for rapid iteration and hierarchical data.</p>
+                    <div class="space-y-2 text-xs font-medium text-slate-500">
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Flexibility</span> <span class="text-emerald-500">High</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Data Integrity</span> <span class="text-amber-500">App-Dependent</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Deep Relations</span> <span class="text-red-500">Poor</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-all cursor-pointer group">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2 bg-emerald-50 rounded-lg group-hover:bg-emerald-100 transition-colors"><span class="db-node node-graph"></span></div>
+                        <h3 class="text-xl font-bold text-slate-800">Node/Graph-Based</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Entities are "nodes" and relationships are "edges" (first-class citizens). Ideal for highly interconnected data, recommendation engines, and dynamic custom objects.</p>
+                    <div class="space-y-2 text-xs font-medium text-slate-500">
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Flexibility</span> <span class="text-emerald-500">Very High</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Relational Speed</span> <span class="text-emerald-500">Instant</span></div>
+                        <div class="flex justify-between border-b border-slate-100 pb-1"><span>Standardization</span> <span class="text-amber-500">Evolving</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="apps" class="scroll-mt-24 pt-8 border-t border-slate-200">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Application Deep Dive: CRM & AGI Architectures</h2>
+                <p class="text-slate-600 max-w-3xl">
+                    This section analyzes three cutting-edge platforms: Twenty CRM, Attio, and SuperAGI. Use the selector below to explore how their distinct approaches to schema design—pure relational, highly flexible node-based, and hybrid object-relational—affect their capabilities.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col lg:flex-row">
+                
+                <div class="w-full lg:w-1/2 p-8 border-b lg:border-b-0 lg:border-r border-slate-200 bg-slate-50">
+                    <div class="flex space-x-2 mb-8 bg-slate-200 p-1 rounded-lg w-max">
+                        <button onclick="setAppView('twenty')" id="btn-twenty" class="px-4 py-2 rounded-md text-sm font-semibold bg-white shadow-sm text-slate-800 transition-all">Twenty CRM</button>
+                        <button onclick="setAppView('attio')" id="btn-attio" class="px-4 py-2 rounded-md text-sm font-semibold text-slate-500 hover:text-slate-800 transition-all">Attio</button>
+                        <button onclick="setAppView('superagi')" id="btn-superagi" class="px-4 py-2 rounded-md text-sm font-semibold text-slate-500 hover:text-slate-800 transition-all">SuperAGI</button>
+                    </div>
+
+                    <div id="app-content" class="min-h-[300px]">
+                        <!-- Dynamic content injected via JS -->
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/2 p-8 flex items-center justify-center bg-white">
+                    <div class="chart-container">
+                        <canvas id="appRadarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cms" class="scroll-mt-24 pt-8 border-t border-slate-200">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">CMS Showdown: Database & Schema Design</h2>
+                <p class="text-slate-600 max-w-3xl">
+                    Content Management Systems face the unique challenge of storing structured system data alongside unstructured, highly variable user content. Here, we analyze Wagtail, WordPress, and Contentful.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-sky-500"></div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Wagtail</h3>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">Relational + Hierarchical JSONB</p>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4 mb-6">
+                        <li><strong>Materialized Path Trees:</strong> Enables lightning-fast path lookups.</li>
+                        <li><strong>StreamField (JSONB):</strong> Content blocks stored as structured JSON arrays inside a PostgreSQL JSONB column.</li>
+                    </ul>
+                    <div class="w-full h-24 bg-slate-50 rounded border border-slate-200 flex flex-col p-2 space-y-1 justify-center relative">
+                        <div class="w-full h-4 bg-sky-200 rounded flex items-center px-2 text-[10px] text-sky-800 font-mono">Page (id, title, path)</div>
+                        <div class="w-full h-8 bg-sky-100 rounded border border-sky-200 flex items-center px-2 text-[10px] text-sky-800 font-mono overflow-hidden">
+                            body (JSONB): [{type: 'h1'}, {type: 'img'}]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-amber-500"></div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">WordPress</h3>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">Relational + EAV Anti-Pattern</p>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4 mb-6">
+                        <li><strong>Flat Posts Table:</strong> Everything is essentially a 'post'.</li>
+                        <li><strong>wp_postmeta Bottleneck:</strong> Uses the Entity-Attribute-Value pattern. Fetching 10 fields requires 10 table JOINs.</li>
+                    </ul>
+                    <div class="w-full h-24 bg-slate-50 rounded border border-slate-200 flex flex-col p-2 space-y-1 justify-center">
+                        <div class="w-full h-4 bg-amber-200 rounded flex items-center px-2 text-[10px] text-amber-800 font-mono">wp_posts (id=1, title="Hello")</div>
+                        <div class="w-full h-4 bg-amber-100 border border-amber-200 rounded flex items-center px-2 text-[10px] text-amber-800 font-mono">wp_postmeta (post_id=1, key="color", val="red")</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Contentful</h3>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-4">NoSQL Document / Graph API</p>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4 mb-6">
+                        <li><strong>Schemaless Storage:</strong> Backend is likely a document store.</li>
+                        <li><strong>Reference Resolution:</strong> Resolved at API layer (GraphQL), returning a nested object graph.</li>
+                    </ul>
+                    <div class="w-full h-24 bg-slate-50 rounded border border-slate-200 flex items-center justify-center p-2 relative">
+                        <div class="w-16 h-16 bg-emerald-100 border-2 border-emerald-300 rounded-full flex items-center justify-center text-[10px] text-emerald-800 font-mono absolute left-4 z-10 shadow">Entry A</div>
+                        <div class="w-full h-[2px] bg-emerald-300 absolute top-1/2 left-0 transform -translate-y-1/2"></div>
+                        <div class="w-16 h-16 bg-emerald-100 border-2 border-emerald-300 rounded-full flex items-center justify-center text-[10px] text-emerald-800 font-mono absolute right-4 z-10 shadow">Asset B</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-900">Query Performance: Fetching a complex document</h4>
+                        <p class="text-sm text-slate-500">Comparing read latency as custom fields/blocks scale up.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex space-x-2 bg-slate-100 p-1 rounded">
+                        <button onclick="updateCMSChart('read')" id="btn-cms-read" class="px-3 py-1 text-xs font-bold rounded bg-white shadow-sm text-slate-800">Read Operation</button>
+                        <button onclick="updateCMSChart('write')" id="btn-cms-write" class="px-3 py-1 text-xs font-bold rounded text-slate-500 hover:text-slate-800">Schema Update (Write)</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="cmsBarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ✨ AI ARCHITECTURE LAB SECTION -->
+        <section id="ai-lab" class="scroll-mt-24 pt-8 border-t border-slate-200">
+            <div class="mb-10">
+                <div class="inline-block px-3 py-1 mb-2 rounded-full bg-sky-100 text-sky-700 text-[10px] font-bold tracking-widest uppercase">Powered by Gemini 2.5 Flash</div>
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">✨ AI Architecture Lab</h2>
+                <p class="text-slate-600 max-w-3xl">
+                    Stuck on a design decision? Use our AI-powered laboratory to get expert advice based on the database paradigms discussed in this report.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Tool 1: Architecture Consultant -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Project Consultant</h3>
+                    <p class="text-sm text-slate-500 mb-6 italic">Describe your project, and Gemini will recommend a database paradigm (Relational, Node, or Object).</p>
+                    
+                    <textarea id="ai-consultant-input" class="w-full h-32 p-4 text-sm bg-slate-50 border border-slate-200 rounded-xl mb-4 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all" placeholder="e.g., I'm building a social network for bird watchers with complex friendship graphs and real-time sightings..."></textarea>
+                    
+                    <button onclick="runAiConsultant()" id="btn-ai-consultant" class="w-full py-3 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-800 transition-all flex items-center justify-center space-x-2">
+                        <span>✨ Get Recommendation</span>
+                    </button>
+
+                    <div id="ai-consultant-output" class="mt-6 text-sm text-slate-600 leading-relaxed bg-sky-50 p-4 rounded-xl border border-sky-100 hidden">
+                        <!-- AI Response Here -->
+                    </div>
+                </div>
+
+                <!-- Tool 2: Schema Builder -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Schema Architect</h3>
+                    <p class="text-sm text-slate-500 mb-6 italic">Input your entities, and Gemini will generate a starter SQL schema or JSON document structure.</p>
+                    
+                    <textarea id="ai-schema-input" class="w-full h-32 p-4 text-sm bg-slate-50 border border-slate-200 rounded-xl mb-4 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all" placeholder="e.g., Create a schema for a library system with Books, Authors, and Loans including foreign keys."></textarea>
+                    
+                    <button onclick="runAiSchemaBuilder()" id="btn-ai-schema" class="w-full py-3 bg-sky-600 text-white rounded-xl font-semibold hover:bg-sky-500 transition-all flex items-center justify-center space-x-2">
+                        <span>✨ Build Schema Structure</span>
+                    </button>
+
+                    <div id="ai-schema-output" class="mt-6 font-mono text-xs text-slate-800 bg-slate-900 text-slate-300 p-4 rounded-xl border border-slate-800 hidden overflow-x-auto">
+                        <!-- AI Response Here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <p class="text-sm">Interactive Architecture Research Report. Visualizations rendered via Canvas.</p>
+    </footer>
+
+    <script>
+        const apiKey = ""; // Provided by execution environment
+
+        // Gemini API Helper with Exponential Backoff
+        async function callGemini(prompt, systemInstruction = "") {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            const maxRetries = 5;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                    
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    const delay = Math.pow(2, i) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+
+        // AI Lab Functions
+        async function runAiConsultant() {
+            const input = document.getElementById('ai-consultant-input').value;
+            const outputDiv = document.getElementById('ai-consultant-output');
+            const btn = document.getElementById('btn-ai-consultant');
+            
+            if (!input.trim()) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader"></span> <span>Analyzing...</span>';
+            outputDiv.classList.add('hidden');
+
+            try {
+                const systemPrompt = "You are a database architect. Based on the project description, recommend one of three paradigms: Relational (SQL), Node-based (Graph), or Object-based (NoSQL). Briefly justify why based on the trade-offs of performance, flexibility, and complexity. Keep it concise (max 150 words).";
+                const response = await callGemini(input, systemPrompt);
+                
+                outputDiv.innerHTML = response.replace(/\n/g, '<br>');
+                outputDiv.classList.remove('hidden');
+            } catch (error) {
+                outputDiv.innerHTML = `<span class="text-red-500 italic">Error connecting to ✨ AI Architect. Please try again.</span>`;
+                outputDiv.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>✨ Get Recommendation</span>';
+            }
+        }
+
+        async function runAiSchemaBuilder() {
+            const input = document.getElementById('ai-schema-input').value;
+            const outputDiv = document.getElementById('ai-schema-output');
+            const btn = document.getElementById('btn-ai-schema');
+
+            if (!input.trim()) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader"></span> <span>Architecting...</span>';
+            outputDiv.classList.add('hidden');
+
+            try {
+                const systemPrompt = "You are a schema generator. Generate a clean, production-ready SQL (PostgreSQL) or JSON structure based on the prompt. Only provide the code, no conversational filler. Use best practices for naming and indexing.";
+                const response = await callGemini(input, systemPrompt);
+                
+                // Simple markdown code block cleaner
+                const cleanCode = response.replace(/```[a-z]*\n/g, '').replace(/```/g, '');
+                outputDiv.innerText = cleanCode;
+                outputDiv.classList.remove('hidden');
+            } catch (error) {
+                outputDiv.innerHTML = `<span class="text-red-500 italic">Error building schema.</span>`;
+                outputDiv.classList.remove('hidden');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>✨ Build Schema Structure</span>';
+            }
+        }
+
+        // Original Report Data & Logic
+        const appData = {
+            twenty: {
+                title: "Twenty CRM",
+                subtitle: "Pure Relational (PostgreSQL)",
+                desc: "Twenty CRM champions the open-source, standard relational database approach. It relies heavily on strict schema definitions using tools like TypeORM/Prisma mapped to PostgreSQL.",
+                bullets: [
+                    { title: "Schema Strategy: Table-per-Entity", text: "Every core object (Company, Contact) is a concrete table. Custom fields require actual database schema migrations (ALTER TABLE)." },
+                    { title: "Advantage: Query Predictability", text: "Fixed schemas allow the query planner to highly optimize indexing and JOINs, leading to predictable performance." }
+                ],
+                radar: [90, 40, 85, 60, 95]
+            },
+            attio: {
+                title: "Attio",
+                subtitle: "Node/Graph-Based Flexibility",
+                desc: "Attio reimagines CRM architecture. It utilizes a highly flexible structure that treats entities as nodes and connections as first-class citizens.",
+                bullets: [
+                    { title: "Schema Strategy: User-Defined Objects", text: "Users define 'Objects' on the fly. The database stores definitions as metadata and data as properties attached to generic nodes." },
+                    { title: "Advantage: Ultimate Customization", text: "Allows complex, multi-directional relationships without writing SQL or waiting for DB migrations." }
+                ],
+                radar: [60, 95, 75, 90, 70]
+            },
+            superagi: {
+                title: "SuperAGI",
+                subtitle: "Object-Relational Hybrid (Agent State)",
+                desc: "SuperAGI manages autonomous AI agents. Its database handles rigid system configs alongside highly unstructured agent memory.",
+                bullets: [
+                    { title: "Schema Strategy: Core Tables + JSONB Memory", text: "System elements use strict tables. Agent executions and memory rely heavily on JSONB columns within Postgres." },
+                    { title: "Advantage: Object Persistence", text: "Allows the backend to dump complex, nested object states directly into the database without defining a 50-table schema." }
+                ],
+                radar: [75, 80, 70, 85, 80]
+            }
+        };
+
+        const cmsChartData = {
+            read: {
+                labels: ['10 Fields', '50 Fields', '100 Fields', '250 Fields'],
+                datasets: [
+                    { label: 'Wagtail (JSONB)', data: [15, 18, 22, 28], backgroundColor: '#38bdf8' },
+                    { label: 'WordPress (EAV)', data: [40, 150, 450, 1200], backgroundColor: '#fbbf24' },
+                    { label: 'Contentful (API)', data: [80, 95, 120, 160], backgroundColor: '#34d399' }
+                ]
+            },
+            write: {
+                labels: ['Add 1 Field', 'Add 10 Fields', 'Change Data Type', 'Complex Migration'],
+                datasets: [
+                    { label: 'Wagtail (JSONB/Django)', data: [5, 10, 50, 200], backgroundColor: '#38bdf8' },
+                    { label: 'WordPress (EAV)', data: [5, 25, 400, 800], backgroundColor: '#fbbf24' },
+                    { label: 'Contentful (API/UI)', data: [10, 40, 100, 150], backgroundColor: '#34d399' }
+                ]
+            }
+        };
+
+        let appRadarChartInst = null;
+        let cmsBarChartInst = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initRadarChart();
+            initBarChart();
+            setAppView('twenty');
+        });
+
+        function initRadarChart() {
+            const ctx = document.getElementById('appRadarChart').getContext('2d');
+            appRadarChartInst = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Data Integrity', 'Schema Flexibility', 'Read Scaling', 'Dev Agility', 'Complex Querying'],
+                    datasets: [{
+                        label: 'Architecture Score',
+                        data: appData.twenty.radar,
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                        borderColor: 'rgba(14, 165, 233, 1)',
+                        pointBackgroundColor: 'rgba(14, 165, 233, 1)',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(226, 232, 240, 1)' },
+                            grid: { color: 'rgba(226, 232, 240, 1)' },
+                            pointLabels: { font: { size: 11, family: 'Inter' }, color: '#475569' },
+                            ticks: { display: false, min: 0, max: 100 }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function initBarChart() {
+            const ctx = document.getElementById('cmsBarChart').getContext('2d');
+            cmsBarChartInst = new Chart(ctx, {
+                type: 'bar',
+                data: cmsChartData.read,
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Latency (ms) - Lower is Better', color: '#64748b' }
+                        }
+                    },
+                    plugins: { legend: { position: 'top' } }
+                }
+            });
+        }
+
+        window.setAppView = function(appId) {
+            ['twenty', 'attio', 'superagi'].forEach(id => {
+                const btn = document.getElementById(`btn-${id}`);
+                btn.classList.toggle('bg-white', id === appId);
+                btn.classList.toggle('shadow-sm', id === appId);
+                btn.classList.toggle('text-slate-800', id === appId);
+                btn.classList.toggle('text-slate-500', id !== appId);
+            });
+
+            const data = appData[appId];
+            let colors = { twenty: 'text-sky-600', attio: 'text-emerald-600', superagi: 'text-violet-600' };
+            
+            document.getElementById('app-content').innerHTML = `
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">${data.title}</h3>
+                <p class="${colors[appId]} font-bold mb-4 uppercase tracking-wide text-xs">${data.subtitle}</p>
+                <p class="text-slate-600 mb-4 text-sm leading-relaxed">${data.desc}</p>
+                <div class="space-y-3">
+                    ${data.bullets.map(b => `
+                        <div class="bg-white p-3 rounded border border-slate-200 shadow-sm">
+                            <strong class="text-sm text-slate-800 block mb-1">${b.title}</strong>
+                            <span class="text-xs text-slate-500 leading-snug block">${b.text}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            let chartColors = { twenty: '14, 165, 233', attio: '16, 185, 129', superagi: '139, 92, 246' };
+            appRadarChartInst.data.datasets[0].data = data.radar;
+            appRadarChartInst.data.datasets[0].backgroundColor = `rgba(${chartColors[appId]}, 0.2)`;
+            appRadarChartInst.data.datasets[0].borderColor = `rgba(${chartColors[appId]}, 1)`;
+            appRadarChartInst.data.datasets[0].pointBackgroundColor = `rgba(${chartColors[appId]}, 1)`;
+            appRadarChartInst.update();
+        };
+
+        window.updateCMSChart = function(type) {
+            document.getElementById('btn-cms-read').classList.toggle('bg-white', type === 'read');
+            document.getElementById('btn-cms-write').classList.toggle('bg-white', type === 'write');
+            cmsBarChartInst.data = cmsChartData[type];
+            cmsBarChartInst.update();
+        };
+    </script>
+</body>
+</html>

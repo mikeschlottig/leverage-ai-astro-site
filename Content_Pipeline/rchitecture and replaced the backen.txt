@@ -1,0 +1,19 @@
+rchitecture and replaced the backend API implementation from Anthropic to a fully integrated Groq LLM API.
+Here are the major updates that have been made:
+Groq API Integration:
+Switched over to standard Groq completion API, sending instructions seamlessly toward the fast llama-3.3-70b-versatile models.
+Ensured the GROQ API key (GROQ_API_KEY) is read from standard environment variables with a proxy via an Express backend to keep your credentials strictly secure away from the client-side code.
+You will find a newly created .env.example placeholder allowing you to insert the GROQ_API_KEY into your secrets configuration.
+Full Component Architecture Refactor:
+Modularized your single massive file into well-structured components placed in the src/components/ folder for maintainability (such as InputPhase, WireframesPhase, ReportPhase, etc).
+Moved constant styling, layout properties, and logic to src/lib/constants.ts and src/lib/api.ts.
+Extracted central state management efficiently using the robust userReducer pattern to keep the states clean inside src/hooks/useWireframeState.
+Search Functionalities:
+Added two new responsive real-time search filtering fields:
+Quick Search bar inside the generated HTML report phase to filter discovered pages easily.
+Quick Search bar within the sidebar of the final built wireframe view section to quickly zoom into specific screens you generate.
+Error Handling & Logs Logging:
+Included enhanced error interception and reporting during scraping and LLM generation that properly outputs visually to the application UI.
+You can configure your Groq API key using the Settings (Secrets panel) and try running your new component structure!
+flag
+Checkpoint

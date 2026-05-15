@@ -1,0 +1,394 @@
+WARNING	
+Missing explicit dimensions
+File size: 1192KB (can be optimized based on image dimensions)
+Consider modern format (WebP/AVIF) instead of PNG
+Soil Health Framework Overview
+View Full
+page1_img1.png
+Alt:
+Soil Health Framework Overview
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Soil Microbial Ecosystem Map
+View Full
+page2_img2.png
+Alt:
+Soil Microbial Ecosystem Map
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Cation Exchange Mechanism — Molecular-Level Soil Chemistry
+View Full
+page3_img3.png
+Alt:
+Cation Exchange Mechanism — Molecular-Level Soil Chemistry
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Ion Exchange Visualization
+View Full
+page2_img2.png
+Alt:
+Ion Exchange Visualization
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Synthetic Impact Cascade — Degradation Pathway Diagram
+View Full
+page4_img4.png
+Alt:
+Synthetic Impact Cascade — Degradation Pathway Diagram
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Conventional vs. Biological Soil Comparison
+View Full
+page3_img3.png
+Alt:
+Conventional vs. Biological Soil Comparison
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Regenerative Cycle — Closed-Loop Nutrient Flow
+View Full
+page5_img5.png
+Alt:
+Regenerative Cycle — Closed-Loop Nutrient Flow
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Organic System Architecture Blueprint
+View Full
+page4_img4.png
+Alt:
+Organic System Architecture Blueprint
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Nutritional Pathway — Soil to Human Mineral Transfer
+View Full
+page6_img6.png
+Alt:
+Nutritional Pathway — Soil to Human Mineral Transfer
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Nutrient Density Comparison Chart
+View Full
+page5_img5.png
+Alt:
+Nutrient Density Comparison Chart
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Plant Cellular Calcium Dynamics
+View Full
+page7_img7.png
+Alt:
+Plant Cellular Calcium Dynamics
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Calcium Structural Role — Cell Wall Cross-Linking Model
+View Full
+page8_img8.png
+Alt:
+Calcium Structural Role — Cell Wall Cross-Linking Model
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Calcium Soil Architecture Impact
+View Full
+page6_img6.png
+Alt:
+Calcium Soil Architecture Impact
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Calcium Signal Cascade — From Stimulus to Gene Expression
+View Full
+page9_img9.png
+Alt:
+Calcium Signal Cascade — From Stimulus to Gene Expression
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+N-Ca Synergy Interaction Model
+View Full
+page7_img7.png
+Alt:
+N-Ca Synergy Interaction Model
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Ca:Mg Ratio Effects — Soil Structure and Plant Response
+View Full
+page10_img10.png
+Alt:
+Ca:Mg Ratio Effects — Soil Structure and Plant Response
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Base Saturation Target Zones
+View Full
+page8_img8.png
+Alt:
+Base Saturation Target Zones
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Calcium Bioavailability — Absorption Pathways Comparison
+View Full
+page11_img11.png
+Alt:
+Calcium Bioavailability — Absorption Pathways Comparison
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Mineral Source Application Guide
+View Full
+page9_img9.png
+Alt:
+Mineral Source Application Guide
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Plant Immune System — PTI and ETI Defense Layers
+View Full
+page12_img12.png
+Alt:
+Plant Immune System — PTI and ETI Defense Layers
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Nutrient-Disease Resistance Matrix
+View Full
+page10_img10.png
+Alt:
+Nutrient-Disease Resistance Matrix
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Root-Fungal Interface Architecture
+View Full
+page13_img13.png
+Alt:
+Root-Fungal Interface Architecture
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Mycorrhizal Hyphal Extension Model
+View Full
+page11_img11.png
+Alt:
+Mycorrhizal Hyphal Extension Model
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Common Mycelial Network Communication
+View Full
+page14_img14.png
+Alt:
+Common Mycelial Network Communication
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Forest Network Connectivity Map
+View Full
+page12_img12.png
+Alt:
+Forest Network Connectivity Map
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions
+Mother Tree Carbon Transfer Schematic
+View Full
+page15_img15.png
+Alt:
+Mother Tree Carbon Transfer Schematic
+
+Size:
+Not specified
+
+Format:
+png
+Lazy
+
+WARNING	
+Missing explicit dimensions

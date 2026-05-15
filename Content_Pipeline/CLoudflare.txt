@@ -1,0 +1,112 @@
+
+The user is getting the structure right (6 messages, correct roles) but all content fields are empty strings. This means the clipboard interception isn't working. Let me analyze why.
+
+Looking at the extraction strategy:
+
+Phase 1 — DOM Pre-scan ✓ (finds 6 messages, correct roles)
+Phase 2 — Artifact extraction (opens artifact panel ✓)
+Phase 3 — Message content via clipboard interception ✗ (all empty)
+The clipboard interception approach: we intercept navigator.clipboard.writeText, click copy buttons, capture the writes.
+
+Why is this failing?
+
+The key insight the user is asking about: "Would it be easier to extract the HTML?"
+
+Let me think about this more carefully. The clipboard approach has several failure points:
+
+The copy buttons might not exist - if Claude's UI doesn't render action bars for all messages (especially if messages aren't scrolled into view)
+The clipboard interception might not work - navigator.clipboard.writeText could be overridden by the page's own code, or the extension's content script context might not properly intercept it
+Timing issues - the delays might not be sufficient
+The action bar detection is wrong - the selectors might not match
+Wait, let me reconsider. The user says it detects 6 messages correctly (3 human, 3 assistant). That means classifyActionBars() is finding the action bars. But then extractMessagesViaClipboard returns empty strings.
+
+The issue is likely in the clipboard interception. In a Chrome extension content script, navigator.clipboard.writeText might not be interceptable in the same way, or the copy button might use a different clipboard API (like document.execCommand('copy')).
+
+Actually, the bigger issue: in Chrome extension content scripts, there are TWO JavaScript contexts:
+
+The page's JavaScript context (where react/claude's code runs)
+The extension's isolated world (where the content script runs)
+…
+
+Show less
+
+Read the full content.js to understand what to rewrite
+Now I have a clear picture. The core problem is exactly what I diagnosed - the clipboard interception approach fundamentally doesn't work in Chrome extension content scripts because content scripts run in an isolated JavaScript world.
+
+The fix is to completely replace the clipboard-interception approach with direct DOM extraction + HTML-to-markdown conversion.
+
+Let me write the complete new content.js file.
+
+Done
+I have a complete picture now. Let me diagnose this precisely before writing a single line of code.
+
+Root cause — Chrome Extension Isolated World boundary:
+
+Chrome content scripts run in an Isolated World — a separate JavaScript context from the page's Main World. Both worlds share the same DOM, but each has its own copy of window, navigator, and all Web APIs.
+
+When the content script does:
+
+js
+navigator.clipboard.writeText = function(text) { captured.push(text); }
+It's patching clipboard in the Isolated World. When Claude's React copy button is clicked, it calls navigator.clipboard.writeText in the Main World — a completely different object. The patch is invisible to it. Zero captures. Empty content. Every time.
+
+The correct fix: Throw out clipboard interception entirely. Extract content directly from the DOM using a recursive nodeToMarkdown walker. Content scripts have full DOM access across both worlds — that's the shared layer.
+
+For artifacts: read pre code textContent after switching to code view. No clipboard involved.
+
+Now writing the full rewrite:
+
+
+Ran 3 commands, created 2 files, read a file
+Ran 3 commands, created 2 files, read a file
+
+Complete rewrite of content.js — replaces broken clipboard-interception with direct DOM extraction and HTML-to-markdown conversion
+content.js
+
+Remove old content.js so we can write the new one
+
+Script
+
+Complete rewrite of content.js — pure DOM extraction replaces broken clipboard interception
+content.js
+
+Verify the rewrite is clean
+
+Script
+
+Repackage
+
+Script
+
+Presented file
+Done
+Complete diagnosis and rewrite:
+
+The Real Bug: Chrome's Isolated World Architecture
+┌─────────────────────────────────────┐
+│  PAGE TAB                           │
+│                                     │
+│  MAIN WORLD           ISOLATED WORLD│
+│  ┌─────────────┐      ┌───────────┐ │
+│  │ Claude's    │      │ Content   │ │
+│  │ React app   │      │ Script    │ │
+│  │             │      │           │ │
+│  │ navigator.  │      │ navigator.│ │ ← DIFFERENT OBJECTS
+│  │ clipboard   │      │ clipboard │ │
+│  │   .writeText│      │   = patch │ │ ← patch goes here
+│  │   ← calls   │      │           │ │ ← copy button fires here
+│  │     THIS    │      │           │ │
+│  └─────────────┘      └───────────┘ │
+│         ↑                           │
+│    Shared DOM (the only bridge)     │
+└─────────────────────────────────────┘
+Claude's copy button calls writeText in the Main World. Our patch lived in the Isolated World. They never touched. Zero captures. Always.
+
+What's new in v3
+findMessageContainer(actionBarGroup) — climbs the DOM until the action bar count goes from 1 → 2+, then returns one level down. That's the turn container, regardless of React's hashed class names.
+
+nodeToMarkdown(node) — full recursive DOM→Markdown walker. Code blocks via pre code textContent (browser decodes HTML entities automatically, so &lt; becomes < — clean code, no extra processing). Tables, lists, bold/italic, links, details/thinking blocks — all handled.
+
+readCodeFromPanel(panel) — three strategies for artifact code views: CodeMirror 6 .cm-line divs, Monaco hidden textarea.inputarea, standard pre code. Falls back to clipboard.readText() after clicking the copy button.
+
+Install: Remove the old extension entirely from chrome://extensions, then load unpacked from the new zip.

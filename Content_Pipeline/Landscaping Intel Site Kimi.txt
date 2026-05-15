@@ -1,0 +1,932 @@
+Landscaping Intel Site Kimi
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Southern Oregon Landscaping Market Analysis</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            green: '#15803d',
+                            gold: '#ca8a04',
+                            light: '#f8fafc'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'slide-in-right': 'slideInRight 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100%)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.9));
+        }
+
+        .tab-active {
+            border-bottom: 2px solid #15803d;
+            color: #15803d;
+            font-weight: 600;
+        }
+        
+        .tab-inactive {
+            color: #64748b;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-inactive:hover {
+            color: #334155;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        /* Table Styles */
+        .source-table th {
+            background-color: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .source-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        .source-table tr:hover td {
+            background-color: #f1f5f9;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-green selection:text-white">
+
+    <!-- Navigation / Header -->
+    <nav class="fixed w-full z-50 glass-panel shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-brand-green rounded-lg flex items-center justify-center text-white font-serif font-bold text-xl shadow-lg">
+                        SO
+                    </div>
+                    <span class="font-serif text-xl font-bold text-slate-900 tracking-tight">Landscaping<span class="text-brand-green">Intel</span></span>
+                </div>
+                
+                <!-- Desktop Tabs -->
+                <div class="hidden md:flex space-x-8 h-full items-end pb-6">
+                    <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-active pb-1 transition-all text-sm uppercase tracking-wider">Overview</button>
+                    <button onclick="switchTab('market')" id="tab-btn-market" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider">Market Data</button>
+                    <button onclick="switchTab('competition')" id="tab-btn-competition" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider">Competition</button>
+                    <button onclick="switchTab('strategy')" id="tab-btn-strategy" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider">Strategy</button>
+                    <button onclick="switchTab('sources')" id="tab-btn-sources" class="tab-inactive pb-1 transition-all text-sm uppercase tracking-wider text-brand-gold">Sources</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-brand-green focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <button onclick="switchTab('overview'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Overview</button>
+                <button onclick="switchTab('market'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Market Data</button>
+                <button onclick="switchTab('competition'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Competition</button>
+                <button onclick="switchTab('strategy'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-green rounded-md">Strategy</button>
+                <button onclick="switchTab('sources'); toggleMobileMenu()" class="block w-full text-left px-3 py-3 text-base font-medium text-brand-gold hover:bg-slate-50 rounded-md">Sources</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="pt-20 min-h-screen">
+
+        <!-- TAB 1: OVERVIEW / HERO -->
+        <section id="tab-overview" class="tab-content block animate-fade-in-up">
+            <!-- Hero Section -->
+            <div class="relative h-[85vh] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1558904541-efa843a96f01?q=80&w=2070&auto=format&fit=crop" alt="Southern Oregon Landscape" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 hero-gradient"></div>
+                </div>
+                
+                <div class="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
+                    <div class="inline-block px-4 py-1 mb-6 border border-white/30 rounded-full bg-white/10 backdrop-blur-md text-sm font-medium tracking-wider uppercase">
+                        Market Intelligence Report 2025
+                    </div>
+                    <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight shadow-sm">
+                        The Southern Oregon <br/> <span class="italic text-brand-green-light">Landscaping</span> Market
+                    </h1>
+                    <p class="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto font-light mb-10">
+                        An in-depth analysis of economic trends, competitive landscape, and growth opportunities in Jackson, Josephine, and Klamath Counties.
+                    </p>
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <button onclick="switchTab('market')" class="px-8 py-4 bg-brand-green hover:bg-green-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-green-900/20 flex items-center justify-center gap-2">
+                            Explore Data <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('strategy')" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-lg font-semibold transition-all flex items-center justify-center gap-2">
+                            View Strategies <i class="fas fa-lightbulb"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Stats Grid -->
+            <div class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-blue-50 rounded-lg text-blue-600">
+                                <i class="fas fa-users text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+9.0% Growth</span>
+                        </div>
+                        <h3 class="text-4xl font-bold text-slate-900 mb-1 counter" data-target="380342">0</h3>
+                        <p class="text-slate-500 font-medium">Total Regional Population</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-amber-50 rounded-lg text-amber-600">
+                                <i class="fas fa-home text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-full">3 Counties</span>
+                        </div>
+                        <h3 class="text-4xl font-bold text-slate-900 mb-1 counter" data-target="162396">0</h3>
+                        <p class="text-slate-500 font-medium">Total Households</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-green-50 rounded-lg text-green-600">
+                                <i class="fas fa-dollar-sign text-2xl"></i>
+                            </div>
+                            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">TAM 2025</span>
+                        </div>
+                        <h3 class="text-4xl font-bold text-slate-900 mb-1">$<span class="counter" data-target="225">0</span>M+</h3>
+                        <p class="text-slate-500 font-medium">Addressable Market</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intro Content -->
+            <div class="max-w-4xl mx-auto px-4 py-12 prose prose-lg prose-slate">
+                <h2 class="font-serif text-3xl font-bold text-slate-900 mb-6">Executive Summary</h2>
+                <p class="text-slate-600 leading-relaxed mb-6">
+                    The landscaping industry in Southern Oregon is shaped by a unique confluence of demographic trends, economic development, and pressing environmental factors. Positioned at the intersection of a growing residential base and a dynamic commercial sector, the region presents both significant opportunities and distinct challenges for landscaping contractors.
+                </p>
+                <p class="text-slate-600 leading-relaxed">
+                    This analysis defines the geographic scope as Jackson, Josephine, and Klamath Counties, capturing major population centers like Medford, Grants Pass, and Ashland. Key drivers include a <strong>9% population growth</strong> in Jackson County (2010-2022), pro-development housing legislation (HB 2001), and an urgent shift towards drought-tolerant landscaping due to regional water scarcity.
+                </p>
+                
+                <div class="my-8 p-6 bg-slate-50 border-l-4 border-brand-green rounded-r-lg">
+                    <h4 class="font-bold text-slate-900 mb-2">Key Takeaway</h4>
+                    <p class="text-slate-700 italic">"Contractors who specialize in water-wise and fire-resistant landscaping are not merely selling an aesthetic; they are providing a crucial solution to a tangible economic and safety problem."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: MARKET DATA -->
+        <section id="tab-market" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="mb-12 text-center">
+                <h2 class="font-serif text-4xl font-bold text-slate-900 mb-4">Market Size & Economics</h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">Quantitative analysis of the addressable market, segmentation, and profitability benchmarks.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Chart 1: Market Segmentation -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2">Estimated Market Segmentation ($225M Total)</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="marketSegmentChart"></canvas>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-green-600 mr-2"></span>Residential Maint. ($100M)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-400 mr-2"></span>Residential Install ($55M)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>Commercial ($60M)</div>
+                        <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-slate-300 mr-2"></span>Public ($10M)</div>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Profit Margins -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2">Profitability Benchmarks</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500 italic">
+                        *Net Margins vary significantly by service type. High-complexity design/build commands 30-45%, while high-volume maintenance operates at 10-20%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Regional Profile Table -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100 mb-12">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                    <h3 class="font-bold text-lg text-slate-800">Southern Oregon Regional Profile</h3>
+                    <span class="text-xs font-mono text-slate-500">DATA SOURCE: CENSUS 2022/23</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                            <tr>
+                                <th class="px-6 py-3">County</th>
+                                <th class="px-6 py-3">Key Cities</th>
+                                <th class="px-6 py-3 text-right">Population</th>
+                                <th class="px-6 py-3 text-right">Growth</th>
+                                <th class="px-6 py-3 text-right">Households</th>
+                                <th class="px-6 py-3 text-right">Median Income</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">Jackson</td>
+                                <td class="px-6 py-4 text-slate-600">Medford, Ashland, Central Point</td>
+                                <td class="px-6 py-4 text-right font-mono">221,644</td>
+                                <td class="px-6 py-4 text-right text-green-600 font-bold">+9.0%</td>
+                                <td class="px-6 py-4 text-right font-mono">~94,768</td>
+                                <td class="px-6 py-4 text-right font-mono">$71,443</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">Josephine</td>
+                                <td class="px-6 py-4 text-slate-600">Grants Pass, Cave Junction</td>
+                                <td class="px-6 py-4 text-right font-mono">88,695</td>
+                                <td class="px-6 py-4 text-right text-slate-500">N/A</td>
+                                <td class="px-6 py-4 text-right font-mono">~37,241</td>
+                                <td class="px-6 py-4 text-right font-mono">$49,335</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">Klamath</td>
+                                <td class="px-6 py-4 text-slate-600">Klamath Falls</td>
+                                <td class="px-6 py-4 text-right font-mono">70,003</td>
+                                <td class="px-6 py-4 text-right text-green-600 font-bold">+5.5%</td>
+                                <td class="px-6 py-4 text-right font-mono">~30,387</td>
+                                <td class="px-6 py-4 text-right font-mono">$41,818</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="bg-slate-50 font-semibold text-slate-900">
+                            <tr>
+                                <td class="px-6 py-3">Total</td>
+                                <td class="px-6 py-3"></td>
+                                <td class="px-6 py-3 text-right font-mono">~380,342</td>
+                                <td class="px-6 py-3"></td>
+                                <td class="px-6 py-3 text-right font-mono">~162,396</td>
+                                <td class="px-6 py-3"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Cost Benchmarks -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-800 text-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-slate-400 text-sm uppercase tracking-wider mb-2">Labor Cost (Oregon Avg)</h4>
+                    <div class="text-3xl font-bold mb-1">$18.64 <span class="text-lg font-normal text-slate-400">/hr</span></div>
+                    <p class="text-xs text-slate-400">Direct employer cost before taxes/benefits.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h4 class="text-slate-500 text-sm uppercase tracking-wider mb-2">Billing Rate (PNW)</h4>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">$40 - $80 <span class="text-lg font-normal text-slate-500">/hr</span></div>
+                    <p class="text-xs text-slate-500">Standard crew member billing rate.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+                    <h4 class="text-slate-500 text-sm uppercase tracking-wider mb-2">Min. Wage (Jackson/Josephine)</h4>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">$15.05 <span class="text-lg font-normal text-slate-500">/hr</span></div>
+                    <p class="text-xs text-slate-500">Standard region wage floor (2025).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: COMPETITION -->
+        <section id="tab-competition" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="mb-12">
+                <h2 class="font-serif text-4xl font-bold text-slate-900 mb-4">Competitive Landscape</h2>
+                <p class="text-lg text-slate-600 max-w-3xl">
+                    The market is highly fragmented with over 150+ active contractors. We have synthesized the top 55 based on reputation, longevity, and service scope.
+                </p>
+            </div>
+
+            <!-- Top 5 Highlight -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                    <i class="fas fa-crown text-yellow-500 mr-2"></i> Market Leaders (Top Tier)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-yellow-500 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #1</div>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Gary Krause</h4>
+                        <p class="text-xs text-slate-500 mb-3">Jacksonville, OR • 30+ Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] rounded-full">Design/Build</span>
+                            <span class="px-2 py-0.5 bg-green-50 text-green-700 text-[10px] rounded-full">Sustainable</span>
+                        </div>
+                        <a href="https://garykrauselandscaping.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-slate-300 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #2</div>
+                            <i class="fas fa-building text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Bumgardner's</h4>
+                        <p class="text-xs text-slate-500 mb-3">Medford, OR • 30+ Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded-full">Commercial</span>
+                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] rounded-full">HOA</span>
+                        </div>
+                        <a href="https://bumgardnerslandscape.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-slate-300 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #3</div>
+                            <i class="fas fa-tools text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Royal Green</h4>
+                        <p class="text-xs text-slate-500 mb-3">Grants Pass, OR • 35+ Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] rounded-full">Installation</span>
+                            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] rounded-full">Hardscape</span>
+                        </div>
+                        <a href="https://royalgreenlandscaping.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+                    
+                     <!-- Card 4 -->
+                     <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-slate-300 hover:shadow-xl transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-100 text-slate-800 font-bold px-2 py-1 rounded text-xs">Rank #4</div>
+                            <i class="fas fa-leaf text-slate-400"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 mb-1">Eric Simpson</h4>
+                        <p class="text-xs text-slate-500 mb-3">Ashland, OR • 27 Years</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="px-2 py-0.5 bg-orange-50 text-orange-700 text-[10px] rounded-full">Xeriscaping</span>
+                            <span class="px-2 py-0.5 bg-orange-50 text-orange-700 text-[10px] rounded-full">Fire-Wise</span>
+                        </div>
+                        <a href="https://ericsimpsonlandscaping.com" target="_blank" class="text-brand-green text-sm hover:underline">Website <i class="fas fa-external-link-alt text-xs"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Table Toggle -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center cursor-pointer" onclick="document.getElementById('full-ranking').classList.toggle('hidden')">
+                    <h3 class="font-bold text-slate-800">View Full Top 55 Rankings</h3>
+                    <i class="fas fa-chevron-down text-slate-400"></i>
+                </div>
+                <div id="full-ranking" class="hidden overflow-x-auto max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100 sticky top-0">
+                            <tr>
+                                <th class="px-4 py-3">Rank</th>
+                                <th class="px-4 py-3">Company</th>
+                                <th class="px-4 py-3">City</th>
+                                <th class="px-4 py-3">Focus</th>
+                                <th class="px-4 py-3">Est.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="ranking-table-body">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: STRATEGY -->
+        <section id="tab-strategy" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl font-bold text-slate-900 mb-4">Strategic Insights</h2>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">Actionable recommendations for capturing market share in Southern Oregon.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1591857177580-dc82b92811d1?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Drought Landscape">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div class="relative p-8 h-80 flex flex-col justify-end">
+                        <div class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded w-fit mb-2">High Opportunity</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Drought-Tolerant & Fire-Wise</h3>
+                        <p class="text-slate-200 text-sm">Shift from "eco-option" to "economic necessity." Xeriscaping and smart irrigation are premium niches solving critical regional problems.</p>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1628624747186-a941c476b7ad?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Digital Marketing">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div class="relative p-8 h-80 flex flex-col justify-end">
+                        <div class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded w-fit mb-2">Digital Moat</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">SEO & Digital Presence</h3>
+                        <p class="text-slate-200 text-sm">The #1 Google result gets 30% of clicks. A professional website is a 24/7 salesperson that builds trust and de-commoditizes your service.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 text-white rounded-2xl p-8 md:p-12 shadow-2xl">
+                <h3 class="text-2xl font-bold mb-8 border-b border-slate-700 pb-4">Blueprint for Success</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <ul class="space-y-6">
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">1</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">Specialize & Certify</h4>
+                                <p class="text-slate-400 text-sm mt-1">Avoid the low-margin generalist trap. Obtain Irrigation Association or Firewise certifications to justify premium pricing.</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">2</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">Integrate Financing</h4>
+                                <p class="text-slate-400 text-sm mt-1">Offer point-of-sale financing. Transform a $15,000 invoice into a $250/month conversation to close more sales.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="space-y-6">
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">3</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">Systematize Operations</h4>
+                                <p class="text-slate-400 text-sm mt-1">Track KPIs like "Callback Rate" and "Crew Efficiency." Operational excellence is the leading indicator of profit.</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50">
+                                <span class="font-bold text-green-400">4</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-bold text-white">The Maintenance Pipeline</h4>
+                                <p class="text-slate-400 text-sm mt-1">Use low-margin maintenance to build a captive audience for high-margin installation projects.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: SOURCES -->
+        <section id="tab-sources" class="tab-content hidden max-w-7xl mx-auto px-4 py-12 animate-fade-in-up">
+            <div class="mb-8 flex flex-col md:flex-row justify-between items-end">
+                <div>
+                    <h2 class="font-serif text-3xl font-bold text-slate-900">Data Sources & References</h2>
+                    <p class="text-slate-500 mt-2">All data points compiled from public records, industry reports, and local business directories.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <input type="text" id="sourceSearch" onkeyup="filterSources()" placeholder="Search sources..." class="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-transparent outline-none w-full md:w-64">
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full source-table text-sm" id="sourcesTable">
+                        <thead>
+                            <tr>
+                                <th class="w-1/4">Source / Organization</th>
+                                <th class="w-1/4">Category</th>
+                                <th class="w-1/2">URL / Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sources-tbody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-serif text-xl font-bold text-white">Landscaping<span class="text-brand-green">Intel</span></span>
+                <p class="text-sm mt-1">Southern Oregon Market Report 2025</p>
+            </div>
+            <div class="text-sm">
+                &copy; 2025 Market Analysis Report. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data & Config ---
+        
+        const rankingData = [
+            { rank: 1, name: "Gary Krause Landscaping & Design", city: "Jacksonville", focus: "Design/Build, Hardscape", est: "30+" },
+            { rank: 2, name: "Bumgardner's Landscape Management", city: "Medford", focus: "Full-Service, Commercial", est: "30+" },
+            { rank: 3, name: "Royal Green Landscaping", city: "Grants Pass", focus: "Full-Service Install", est: "35+" },
+            { rank: 4, name: "Scofield Landscape", city: "Jacksonville", focus: "Hardscape, Design", est: "15" },
+            { rank: 5, name: "Eric Simpson Landscaping", city: "Ashland", focus: "Xeriscaping, Fire-Wise", est: "27" },
+            { rank: 6, name: "Southern Oregon Property Maint.", city: "Grants Pass", focus: "Maintenance", est: "25+" },
+            { rank: 7, name: "Grounds Guys of The Rogue Valley", city: "Grants Pass", focus: "Full-Service", est: "20+" },
+            { rank: 8, name: "U.S. Lawns of Medford", city: "Medford", focus: "Commercial", est: "N/A" },
+            { rank: 9, name: "Zepeda General Landscape, LLC", city: "White City", focus: "Installation", est: "N/A" },
+            { rank: 10, name: "Carleton & Sons Landscaping", city: "Jacksonville", focus: "Design/Install", est: "45+" },
+            { rank: 11, name: "Terra Landscape & Construction", city: "Central Point", focus: "Hardscape", est: "20+" },
+            { rank: 12, name: "Ahimsa Gardens", city: "Ashland", focus: "Ecological Design", est: "8+" },
+            { rank: 13, name: "Monkey Business Landscape", city: "Eagle Point", focus: "Maintenance", est: "20+" },
+            { rank: 14, name: "Kingscape", city: "Murphy", focus: "Full-Service", est: "N/A" },
+            { rank: 15, name: "Expert Yard Care", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 16, name: "My Garden Landscape Maint.", city: "Phoenix", focus: "Full-Service", est: "16" },
+            { rank: 17, name: "Element Landscape Maint.", city: "Central Point", focus: "Design/Build", est: "N/A" },
+            { rank: 18, name: "Mountain View Landscaping", city: "Grants Pass", focus: "Full-Service", est: "N/A" },
+            { rank: 19, name: "DeSantis Landscapes", city: "Klamath Falls", focus: "Design/Build", est: "N/A" },
+            { rank: 20, name: "Hard Edge Construction", city: "Medford", focus: "Hardscaping", est: "N/A" },
+            { rank: 21, name: "Rogue Valley Lawncare", city: "Medford", focus: "Maintenance", est: "30+" },
+            { rank: 22, name: "Basin Landscape Maint.", city: "Klamath Falls", focus: "Commercial", est: "10" },
+            { rank: 23, name: "A New Start Landscaping", city: "Grants Pass", focus: "Full-Service", est: "N/A" },
+            { rank: 24, name: "Infinity Pro Maintenance", city: "Medford", focus: "Maintenance", est: "4+" },
+            { rank: 25, name: "All American City Landscaping", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 26, name: "Oregon Landscape Company", city: "Klamath Falls", focus: "Maintenance", est: "N/A" },
+            { rank: 27, name: "Alcon Landscaping", city: "White City", focus: "Maintenance", est: "N/A" },
+            { rank: 28, name: "Garcia's Landscaping", city: "White City", focus: "Maintenance", est: "8" },
+            { rank: 29, name: "Solid Ground Landscape", city: "Talent", focus: "Full-Service", est: "N/A" },
+            { rank: 30, name: "Sprinkler Pros, Inc.", city: "Grants Pass", focus: "Irrigation", est: "24" },
+            { rank: 31, name: "Patriot Irrigation", city: "White City", focus: "Irrigation", est: "N/A" },
+            { rank: 32, name: "Augusta Lawn Care", city: "Medford", focus: "Full-Service", est: "N/A" },
+            { rank: 33, name: "3 Oaks Landscape", city: "Klamath Falls", focus: "Maintenance", est: "N/A" },
+            { rank: 34, name: "Bear Claw Service", city: "Central Point", focus: "Contracting", est: "N/A" },
+            { rank: 35, name: "Veridian Outdoor Living", city: "Jacksonville", focus: "Design", est: "N/A" },
+            { rank: 36, name: "Cortez Farm Labor", city: "Talent", focus: "Land Cleanup", est: "10+" },
+            { rank: 37, name: "Natures Landscape", city: "Medford", focus: "Full-Service", est: "N/A" },
+            { rank: 38, name: "Creative Edge Landscaping", city: "Medford", focus: "Design", est: "N/A" },
+            { rank: 39, name: "E-Z's Landscape", city: "Eagle Point", focus: "Contracting", est: "N/A" },
+            { rank: 40, name: "Blacktail Landscape", city: "Cave Junction", focus: "Maintenance", est: "N/A" },
+            { rank: 41, name: "Mono Lawn Maintenance", city: "White City", focus: "Maintenance", est: "N/A" },
+            { rank: 42, name: "Superior Landscape", city: "Klamath Falls", focus: "Full-Service", est: "N/A" },
+            { rank: 43, name: "J.A Land Beautification", city: "Grants Pass", focus: "Cleanup", est: "N/A" },
+            { rank: 44, name: "Overstreet Landscape", city: "Eagle Point", focus: "Hydroseeding", est: "N/A" },
+            { rank: 45, name: "Valley View Landscaping", city: "Central Point", focus: "Contracting", est: "N/A" },
+            { rank: 46, name: "TB Contracting", city: "Medford", focus: "General", est: "N/A" },
+            { rank: 47, name: "Pineda Nunez Construction", city: "Talent", focus: "General", est: "10+" },
+            { rank: 48, name: "William Roy Pharr", city: "Shady Cove", focus: "Remodeling", est: "25+" },
+            { rank: 49, name: "Vohs Landscaping", city: "Cave Junction", focus: "Full-Service", est: "16+" },
+            { rank: 50, name: "Azteca Lawn Care", city: "Medford", focus: "Maintenance", est: "N/A" },
+            { rank: 51, name: "SR Lawn Specialists", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 52, name: "Advanced Landscape", city: "Grants Pass", focus: "Maintenance", est: "N/A" },
+            { rank: 53, name: "Alex on a Mission", city: "Medford", focus: "Maintenance", est: "N/A" },
+            { rank: 54, name: "Pine Mountain LLC", city: "Klamath Falls", focus: "Maintenance", est: "N/A" },
+            { rank: 55, name: "Exclusive Yard Maint.", city: "Klamath Falls", focus: "Maintenance", est: "N/A" }
+        ];
+
+        const sourcesData = [
+            { name: "U.S. Economic Development Administration", cat: "Government", url: "eda.gov" },
+            { name: "Southern Oregon Regional Economic Development (SOREDI)", cat: "Local Org", url: "soredi.org" },
+            { name: "South Central Oregon Economic Development (SCOEDD)", cat: "Local Org", url: "scoedd.org" },
+            { name: "Cascade Hasson Sotheby's (Market Report)", cat: "Real Estate", url: "cascadehasson.com" },
+            { name: "Census Reporter (Jackson, Josephine, Klamath)", cat: "Data", url: "censusreporter.org" },
+            { name: "USAFacts (Population Data)", cat: "Data", url: "usafacts.org" },
+            { name: "Philomath News (Small Business Data)", cat: "News", url: "philomathnews.com" },
+            { name: "The Chamber of Medford & Jackson County", cat: "Local Org", url: "medfordchamber.com" },
+            { name: "Choose Klamath (Workforce Data)", cat: "Local Org", url: "chooseklamath.com" },
+            { name: "City of Grants Pass (Economic Stats)", cat: "Government", url: "grantspassoregon.gov" },
+            { name: "Wikipedia (Klamath County)", cat: "Reference", url: "en.wikipedia.org" },
+            { name: "Data USA (Jackson County)", cat: "Data", url: "datausa.io" },
+            { name: "Cetan Funds (Construction Trends)", cat: "Finance", url: "cetanfunds.com" },
+            { name: "Schwabe (Real Estate Outlook)", cat: "Legal/Finance", url: "schwabe.com" },
+            { name: "Drought.gov (Josephine County)", cat: "Government", url: "drought.gov" },
+            { name: "Oregon Secretary of State (Blue Book)", cat: "Government", url: "sos.oregon.gov" },
+            { name: "Aspire (Industry Statistics)", cat: "Industry", url: "youraspire.com" },
+            { name: "FieldCamp (Industry Trends)", cat: "Industry", url: "fieldcamp.ai" },
+            { name: "Eugene Builders Exchange", cat: "Construction", url: "ebe.org" },
+            { name: "City of Medford (Public Works)", cat: "Government", url: "medfordoregon.gov" },
+            { name: "NALP (National Association Landscape Pros)", cat: "Industry", url: "landscapeprofessionals.org" },
+            { name: "Mordor Intelligence (Market Size)", cat: "Research", url: "mordorintelligence.com" },
+            { name: "Lawn Love (Cost Data)", cat: "Industry", url: "lawnlove.com" },
+            { name: "NerdWallet (Landscaping Cost)", cat: "Finance", url: "nerdwallet.com" },
+            { name: "Randall Landscaping (Commercial Costs)", cat: "Industry", url: "randalllandscaping.com" },
+            { name: "Verified Market Research", cat: "Research", url: "verifiedmarketresearch.com" },
+            { name: "Jobber (Industry Statistics)", cat: "Software/Industry", url: "getjobber.com" },
+            { name: "Real Green (Profit Margins)", cat: "Software/Industry", url: "blog.realgreen.com" },
+            { name: "Leap (Profit Margins)", cat: "Software/Industry", url: "leaptodigital.com" },
+            { name: "Invoice Fly (Margins)", cat: "Software/Industry", url: "invoicefly.com" },
+            { name: "OffDeal (Valuation)", cat: "Finance", url: "offdeal.io" },
+            { name: "ZipRecruiter (Labor Wages)", cat: "Labor", url: "ziprecruiter.com" },
+            { name: "GovDocs (Min Wage)", cat: "Government", url: "govdocs.com" },
+            { name: "HomeGuide (Cost Guides)", cat: "Industry", url: "homeguide.com" },
+            { name: "Pacific Topsoils (Materials)", cat: "Supplier", url: "pacifictopsoils.com" },
+            { name: "LawnStarter (Cost Data)", cat: "Industry", url: "lawnstarter.com" },
+            { name: "Classic Nursery (Seattle Costs)", cat: "Supplier", url: "classicnursery.com" },
+            { name: "Handoff AI (Portland Costs)", cat: "Industry", url: "handoff.ai" },
+            { name: "Angi (Cost Data)", cat: "Lead Gen", url: "angi.com" },
+            { name: "Wells Fargo (Loans)", cat: "Finance", url: "wellsfargo.com" },
+            { name: "Hearth (Financing)", cat: "Finance", url: "gethearth.com" },
+            { name: "Acorn Finance", cat: "Finance", url: "acornfinance.com" },
+            { name: "Bankrate (Loan Rates)", cat: "Finance", url: "bankrate.com" },
+            { name: "SMB Compass (Contractor Loans)", cat: "Finance", url: "smbcompass.com" },
+            { name: "Sunwise Capital", cat: "Finance", url: "sunwisecapital.com" },
+            { name: "PowerPay (Landscape Financing)", cat: "Finance", url: "getpowerpay.com" },
+            { name: "Optuno (SEO)", cat: "Marketing", url: "optuno.com" },
+            { name: "Smart Insights (CTR Data)", cat: "Marketing", url: "smartinsights.com" },
+            { name: "Backlinko (SEO Stats)", cat: "Marketing", url: "backlinko.com" },
+            { name: "LPagery (Local SEO)", cat: "Marketing", url: "lpagery.io" },
+            { name: "Brand Constructors (Web Design)", cat: "Marketing", url: "brandconstructors.com" },
+            { name: "LinkNow (SEO)", cat: "Marketing", url: "linknow.com" },
+            { name: "Activated Scale (Lead Gen)", cat: "Marketing", url: "activatedscale.com" },
+            { name: "ServiceTitan (Lead Gen)", cat: "Software", url: "servicetitan.com" },
+            { name: "Building Strong (Lead Gen)", cat: "Industry", url: "blog.strongtie.com" },
+            { name: "Green Industry Pros (Financials)", cat: "Industry", url: "greenindustrypros.com" },
+            { name: "Leanscaper (Budgeting)", cat: "Software", url: "leanscaper.com" },
+            { name: "Cycle CPA (Financials)", cat: "Accounting", url: "cyclecpa.com" },
+            { name: "DynaScape (KPIs)", cat: "Software", url: "dynascape.com" },
+            { name: "Modeliks (KPIs)", cat: "Software", url: "modeliks.com" },
+            { name: "Houzz (Contractor Listings)", cat: "Directory", url: "houzz.com" },
+            { name: "HomeAdvisor", cat: "Directory", url: "homeadvisor.com" },
+            { name: "BBB (Business Profiles)", cat: "Directory", url: "bbb.org" },
+            { name: "Individual Contractor Websites (Top 55)", cat: "Primary", url: "Various" }
+        ];
+
+        // --- Initialization ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCounters();
+            populateRankingTable();
+            populateSourcesTable();
+            initCharts();
+            
+            // Check URL hash for direct linking
+            const hash = window.location.hash.replace('#', '');
+            if(hash && ['overview', 'market', 'competition', 'strategy', 'sources'].includes(hash)) {
+                switchTab(hash);
+            }
+        });
+
+        // --- Tab Logic ---
+
+        function switchTab(tabId) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('animate-fade-in-up');
+            });
+            
+            // Show target
+            const target = document.getElementById(`tab-${tabId}`);
+            if(target) {
+                target.classList.remove('hidden');
+                // Trigger reflow for animation restart
+                void target.offsetWidth; 
+                target.classList.add('animate-fade-in-up');
+            }
+
+            // Update Nav Buttons
+            document.querySelectorAll('[id^="tab-btn-"]').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
+            
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('tab-inactive');
+                activeBtn.classList.add('tab-active');
+            }
+
+            // Update URL hash
+            window.history.replaceState(null, null, `#${tabId}`);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Data Population ---
+
+        function populateRankingTable() {
+            const tbody = document.getElementById('ranking-table-body');
+            let html = '';
+            rankingData.forEach(c => {
+                html += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-4 py-3 font-mono text-slate-500">#${c.rank}</td>
+                        <td class="px-4 py-3 font-medium text-slate-900">${c.name}</td>
+                        <td class="px-4 py-3 text-slate-600">${c.city}</td>
+                        <td class="px-4 py-3 text-slate-600"><span class="bg-slate-100 px-2 py-1 rounded text-xs">${c.focus}</span></td>
+                        <td class="px-4 py-3 text-slate-500">${c.est} Yrs</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function populateSourcesTable() {
+            const tbody = document.getElementById('sources-tbody');
+            let html = '';
+            sourcesData.forEach(s => {
+                // Clean URL for display
+                let displayUrl = s.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+                if(displayUrl.length > 40) displayUrl = displayUrl.substring(0, 37) + '...';
+                
+                html += `
+                    <tr>
+                        <td class="font-medium text-slate-900">${s.name}</td>
+                        <td><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">${s.cat}</span></td>
+                        <td class="font-mono text-xs text-brand-green">
+                            <a href="https://${s.url}" target="_blank" class="hover:underline flex items-center">
+                                ${displayUrl} <i class="fas fa-external-link-alt ml-1 opacity-50"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function filterSources() {
+            const input = document.getElementById('sourceSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('sourcesTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const tdName = tr[i].getElementsByTagName('td')[0];
+                const tdCat = tr[i].getElementsByTagName('td')[1];
+                if (tdName || tdCat) {
+                    const txtValue = (tdName.textContent || tdName.innerText) + (tdCat.textContent || tdCat.innerText);
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }       
+            }
+        }
+
+        // --- Animations & Charts ---
+
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000; 
+                const increment = target / (duration / 16); 
+                
+                let current = 0;
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current).toLocaleString();
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.innerText = target.toLocaleString();
+                    }
+                };
+                
+                // Use IntersectionObserver to start animation when visible
+                const observer = new IntersectionObserver((entries) => {
+                    if(entries[0].isIntersecting) {
+                        updateCounter();
+                        observer.disconnect();
+                    }
+                });
+                observer.observe(counter);
+            });
+        }
+
+        function initCharts() {
+            // Market Segmentation Pie Chart
+            const ctx1 = document.getElementById('marketSegmentChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Residential Maint.', 'Residential Install', 'Commercial', 'Public'],
+                    datasets: [{
+                        data: [100, 55, 60, 10],
+                        backgroundColor: ['#15803d', '#34d399', '#3b82f6', '#cbd5e1'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' $' + context.raw + 'M';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Profit Margins Bar Chart
+            const ctx2 = document.getElementById('profitChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Gross Margin (Target)', 'Net Margin (Avg)', 'Net Margin (High Perf)', 'High-Complexity (Design)'],
+                    datasets: [{
+                        label: 'Margin %',
+                        data: [50, 15, 20, 40],
+                        backgroundColor: ['#15803d', '#64748b', '#ca8a04', '#000000'],
+                        borderRadius: 4,
+                        barThickness: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { callback: function(value){return value + "%"} }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

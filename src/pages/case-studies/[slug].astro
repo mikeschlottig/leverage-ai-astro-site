@@ -1,0 +1,140 @@
+---
+// ============================================================
+// CASE STUDY DETAIL PAGE — Dynamic route /case-studies/[slug]
+//
+// Astro v6: uses render(entry) from 'astro:content'
+// Schema: CaseStudy as a CreativeWork with result metrics
+// ============================================================
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { siteConfig } from '../../lib/site-config';
+
+const { slug } = Astro.params;
+const studies = await getCollection('caseStudies');
+const entry = studies.find((e) => e.id === slug);
+if (!entry) return Astro.redirect('/404');
+const { Content } = await render(entry);
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home',         item: `${siteConfig.url}` },
+    { '@type': 'ListItem', position: 2, name: 'Case Studies', item: `${siteConfig.url}/case-studies` },
+    { '@type': 'ListItem', position: 3, name: entry.data.title, item: `${siteConfig.url}/case-studies/${entry.id}` },
+  ],
+};
+
+const caseStudySchema = {
+  '@context': 'https://schema.org',
+  '@type':    'CreativeWork',
+  name:        entry.data.title,
+  description: `${entry.data.results.primary}. ${entry.data.results.secondary ?? ''}`.trim(),
+  dateCreated: entry.data.date,
+  creator: {
+    '@type': 'Organization',
+    name:    'Leverage AI LLC',
+    url:     siteConfig.url,
+  },
+  about: entry.data.tags?.map(t => ({ '@type': 'Thing', name: t })) ?? [],
+};
+---
+
+<BaseLayout
+  title={`${entry.data.title} | Case Study — Leverage AI`}
+  description={`${entry.data.results.primary}. A Leverage AI case study.`}
+  keywords={(entry.data.tags ?? []).join(', ')}
+  canonical={`${siteConfig.url}/case-studies/${entry.id}`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(caseStudySchema)} />
+
+  <div style="padding-top: 4.5rem;">
+
+    <!-- Back nav -->
+    <div style="background: hsl(220 40% 5%); border-bottom: 1px solid hsl(38 80% 55% / 0.12); padding: 1rem 0;">
+      <div class="container-custom">
+        <a
+          href="/case-studies"
+          style="font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: hsl(210 15% 50%); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: color 0.2s;"
+        >
+          ← All Case Studies
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section style="padding: 5rem 0 3rem; background: linear-gradient(180deg, hsl(220 40% 5%) 0%, var(--page-bg) 100%); border-bottom: 1px solid hsl(38 80% 55% / 0.12);">
+      <div class="container-custom" style="max-width: 860px;">
+
+        <!-- Tags -->
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+          {(entry.data.tags ?? []).map((tag: string) => (
+            <span style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; background: hsl(38 80% 55% / 0.1); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 3px; color: hsl(38 80% 55%);">{tag}</span>
+          ))}
+        </div>
+
+        <h1 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 2rem; line-height: 1.1;">
+          {entry.data.title}
+        </h1>
+
+        <!-- Result callouts -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2.5rem;">
+          <div style="padding: 1.5rem; background: hsl(220 40% 8%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 6px; border-top: 2px solid hsl(38 80% 55%);">
+            <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(38 80% 55%); margin: 0 0 0.5rem;">Primary Result</p>
+            <p style="color: hsl(45 30% 88%); font-size: 0.95rem; line-height: 1.5; margin: 0; font-weight: 600;">{entry.data.results.primary}</p>
+          </div>
+          {entry.data.results.secondary && (
+            <div style="padding: 1.5rem; background: hsl(220 40% 8%); border: 1px solid hsl(145 60% 40% / 0.2); border-radius: 6px; border-top: 2px solid hsl(145 60% 50%);">
+              <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(145 60% 50%); margin: 0 0 0.5rem;">Secondary Result</p>
+              <p style="color: hsl(45 30% 88%); font-size: 0.95rem; line-height: 1.5; margin: 0;">{entry.data.results.secondary}</p>
+            </div>
+          )}
+        </div>
+
+        <!-- Meta row -->
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; font-size: 0.8rem; color: hsl(210 15% 50%); padding-top: 1.5rem; border-top: 1px solid hsl(220 40% 14%);">
+          <div>
+            <span style="display: block; font-family: monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.25rem; color: hsl(210 15% 40%);">Industry</span>
+            {entry.data.industry}
+          </div>
+          <div>
+            <span style="display: block; font-family: monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.25rem; color: hsl(210 15% 40%);">Client</span>
+            {entry.data.client}
+          </div>
+          <div>
+            <span style="display: block; font-family: monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.25rem; color: hsl(210 15% 40%);">Services</span>
+            {(entry.data.services ?? []).join(' · ')}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <article class="container-custom cs-prose" style="max-width: 860px; padding-top: 4rem; padding-bottom: 5rem;">
+      <Content />
+
+      <!-- CTA -->
+      <div style="margin-top: 4rem; padding: 2.5rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 8px; text-align: center;">
+        <p style="font-family: monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 0.75rem;">Want Results Like These?</p>
+        <h2 style="font-family: var(--font-heading, serif); font-size: 1.5rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1rem;">
+          Start with an AI Citation Audit
+        </h2>
+        <p style="color: hsl(210 15% 55%); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          We'll show you exactly where you're invisible in AI search — and what it will take to change that.
+        </p>
+        <a href="/contact" style="display: inline-block; background: hsl(38 80% 55%); color: hsl(220 40% 8%); padding: 0.75rem 2rem; border-radius: 4px; font-weight: 700; font-size: 0.85rem; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;">Request Your Audit</a>
+      </div>
+    </article>
+  </div>
+
+  <style>
+    .cs-prose h2 { font-family: var(--font-heading, serif); font-size: 1.6rem; font-weight: 700; color: hsl(45 30% 90%); margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid hsl(38 80% 55% / 0.15); }
+    .cs-prose h3 { font-family: var(--font-heading, serif); font-size: 1.25rem; font-weight: 600; color: hsl(45 30% 85%); margin: 2rem 0 0.75rem; }
+    .cs-prose p  { color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1.25rem; }
+    .cs-prose ul { padding-left: 1.5rem; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .cs-prose li { color: hsl(210 15% 62%); line-height: 1.7; }
+    .cs-prose strong { color: hsl(45 30% 88%); font-weight: 600; }
+    .cs-prose a { color: hsl(38 80% 55%); }
+  </style>
+</BaseLayout>

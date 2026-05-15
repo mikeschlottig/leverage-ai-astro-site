@@ -1,0 +1,3 @@
+Prompts
+
+Create a high converting, agency quality, landing page.  The landing page is for the domain www.roguevalleyrealestate.net.  Use React 19 and Vue for the frontend frameworks.  Combine the visuals of beautiful southern oregon natural landscapes with pictures of lovely country homes.  Build in embedded CTA links that link to the LEVERAGEAI Realtor Partner Network.  Premium quality, luxury, value are the themes.  Footer Contact Info:  Email: ceo@leverageai.network.  Phone: 541-450-2082.  Other Website: https://oregonsmbdirectory.com, https://master.leverageai-website.pages.dev/, https://seo.roguevalleymarketing.net, cost.roguevalleyvoip.com, roguevalleyvoip.com, https://leverage.roguevalleyai.io/, 

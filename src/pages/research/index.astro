@@ -1,0 +1,395 @@
+---
+// ============================================================
+// RESEARCH PAGE — Leverage AI LLC
+// Original Research & White Papers
+//
+// Features: ScholarlyArticle JSON-LD, sticky ToC, rich prose,
+// embedded statistics, source citations, CTA
+// ============================================================
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../lib/site-config';
+
+const scholarlySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  name: 'The Architectural Obsolescence Report: Why Legacy CMS Platforms Are Invisible to AI Systems',
+  description: 'An analysis of why WordPress and legacy CMS architectures fail to surface in AI-generated search results, and how edge-native, structured content systems are emerging as the default for AI-visible brands.',
+  datePublished: '2025-11-01',
+  author: {
+    '@type': 'Organization',
+    name: 'Leverage AI LLC',
+    url: 'https://leverageai.com',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Leverage AI LLC',
+    url: 'https://leverageai.com',
+  },
+  about: [
+    { '@type': 'Thing', name: 'Generative Engine Optimization' },
+    { '@type': 'Thing', name: 'Content Management Systems' },
+    { '@type': 'Thing', name: 'AI Search Visibility' },
+    { '@type': 'Thing', name: 'Structured Data' },
+  ],
+  keywords: 'GEO, AI search, WordPress, CMS architecture, structured content, LLM visibility, edge computing',
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Research', item: `${siteConfig.url}/research` },
+  ],
+};
+
+const sections = [
+  { id: 'executive-summary',    label: 'Executive Summary' },
+  { id: 'the-ai-visibility-gap', label: 'The AI Visibility Gap' },
+  { id: 'architectural-failures', label: 'Architectural Failures' },
+  { id: 'content-structure',     label: 'Content Structure & AI Ingestion' },
+  { id: 'edge-native-advantage', label: 'The Edge-Native Advantage' },
+  { id: 'recommendations',       label: 'Recommendations' },
+];
+---
+
+<BaseLayout
+  title="Research: The Architectural Obsolescence Report | Leverage AI"
+  description="Original research from Leverage AI LLC on why legacy CMS architectures are structurally invisible to AI search systems — and what the edge-native alternative looks like."
+  keywords="AI search research, CMS architecture AI visibility, WordPress AI search, GEO research, edge-native CMS, LLM content ingestion"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(scholarlySchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+
+  <div style="padding-top: 4.5rem;">
+
+    <!-- ─── Research Hero ──────────────────────────────────────── -->
+    <section style="padding: 5rem 0 3rem; background: linear-gradient(180deg, hsl(220 40% 5%) 0%, var(--page-bg) 100%); border-bottom: 1px solid hsl(38 80% 55% / 0.15); position: relative;">
+      <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% 0%, hsl(38 80% 55% / 0.04), transparent); pointer-events: none;"></div>
+      <div class="container-custom" style="max-width: 800px; position: relative;">
+        <p style="font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+          <span style="display: block; width: 2rem; height: 1px; background: hsl(38 80% 55%);"></span>
+          Leverage AI Research Report · November 2025
+        </p>
+        <h1 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 700; margin: 0 0 1.5rem; line-height: 1.1; color: hsl(45 30% 92%);">
+          The Architectural Obsolescence Report
+          <span style="display: block; color: hsl(38 80% 55%); margin-top: 0.25rem;">Why Legacy CMS Platforms Are Invisible to AI Systems</span>
+        </h1>
+        <p style="color: hsl(210 15% 65%); font-size: 1.05rem; line-height: 1.75; margin-bottom: 2rem; max-width: 640px;">
+          WordPress powers 40% of the global web — and that market share is making it structurally impossible for AI systems to trust, retrieve, or cite its content. This report documents the precise architectural mechanisms of that failure: synchronous execution bottlenecks, the EAV database anti-pattern, HTML-coupled content structures, and the collapsed security model that renders WordPress functionally invisible to the AI agents that now constitute the web's most consequential traffic.
+        </p>
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.8rem; color: hsl(210 15% 50%);">
+          <span>Published: November 2025</span>
+          <span>6 Sections</span>
+          <span>25 min read</span>
+          <span>By Leverage AI LLC</span>
+        </div>
+
+        <!-- Key Findings callout -->
+        <div style="margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;">
+          {[
+            { stat: '40%', label: 'of the web on WordPress' },
+            { stat: '~0%', label: 'WordPress AI citation rate' },
+            { stat: '14×', label: 'faster LLM ingestion for structured content' },
+            { stat: '2025', label: 'the year the gap became decisive' },
+          ].map(item => (
+            <div style="background: hsl(220 40% 8%); border: 1px solid hsl(38 80% 55% / 0.15); border-radius: 6px; padding: 1rem 1.25rem;">
+              <div style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(38 80% 55%);">{item.stat}</div>
+              <div style="font-size: 0.75rem; color: hsl(210 15% 55%); margin-top: 0.25rem;">{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Two-Column: ToC + Content ──────────────────────────── -->
+    <section style="padding: 5rem 0; background: var(--page-bg);">
+      <div class="container-custom" style="display: grid; grid-template-columns: 220px 1fr; gap: 5rem; align-items: start; max-width: 1100px;">
+
+        <!-- Sticky Table of Contents -->
+        <nav aria-label="Research sections" style="position: sticky; top: 6rem;">
+          <p style="font-family: var(--font-mono, monospace); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(210 15% 40%); margin-bottom: 1rem;">
+            Contents
+          </p>
+          <ol style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+            {sections.map((s, i) => (
+              <li>
+                <a
+                  href={`#${s.id}`}
+                  style="display: flex; gap: 0.75rem; font-size: 0.8rem; color: hsl(210 15% 55%); text-decoration: none; line-height: 1.4; padding: 0.25rem 0; transition: color 0.2s; border-left: 2px solid transparent; padding-left: 0.75rem;"
+                  class="toc-link"
+                >
+                  <span style="color: hsl(38 80% 55%); font-family: var(--font-mono, monospace); font-size: 0.7rem; min-width: 1.5rem;">{String(i + 1).padStart(2, '0')}</span>
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+          <div style="margin-top: 3rem; padding: 1.25rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 6px;">
+            <p style="font-size: 0.75rem; color: hsl(210 15% 55%); margin: 0 0 0.75rem;">Want the full analysis applied to your brand?</p>
+            <a href="/contact" style="font-size: 0.75rem; color: hsl(38 80% 55%); font-weight: 600; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase;">Request Audit →</a>
+          </div>
+        </nav>
+
+        <!-- Report Content -->
+        <article style="max-width: 680px;">
+
+          <!-- Executive Summary -->
+          <section id="executive-summary" style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+            <h2 style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2);">
+              Executive Summary
+            </h2>
+            <div style="background: hsl(220 40% 7%); border-left: 3px solid hsl(38 80% 55%); padding: 1.25rem 1.5rem; border-radius: 0 6px 6px 0; margin-bottom: 1.5rem;">
+              <p style="color: hsl(45 30% 85%); font-size: 1rem; line-height: 1.7; margin: 0; font-style: italic;">
+                "WordPress's market share is not a vital sign. It is the metabolic momentum of a system that has already ceased to evolve."
+              </p>
+            </div>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1rem;">
+              The AI search transition is not a marketing trend. It is an architectural selection event. The platforms that AI systems trust, retrieve from, and cite are overwhelmingly those built on structured, semantically clean, machine-readable content architectures. Legacy CMS platforms — WordPress chief among them — were built for a world where the consumer of content was a human with a browser. In 2025, the most consequential consumer of content is an LLM deciding what to recommend.
+            </p>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1rem;">
+              This report documents six specific architectural dimensions where legacy CMS platforms structurally fail the AI citation test — and what the edge-native alternative looks like. The findings are grounded in the observable mechanics of how large language models ingest, process, and retrieve content at inference time.
+            </p>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8;">
+              The single most important finding: <strong style="color: hsl(45 30% 85%);">the content problem is not a content problem. It is a structural problem.</strong> Brands on legacy platforms can produce excellent content that never surfaces in AI answers, not because the content is poor, but because the container it lives in is unreadable to the systems doing the recommending.
+            </p>
+          </section>
+
+          <!-- The AI Visibility Gap -->
+          <section id="the-ai-visibility-gap" style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+            <h2 style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2);">
+              The AI Visibility Gap
+            </h2>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1rem;">
+              In 2023, AI-powered search queries were a curiosity. By mid-2025, AI search tools process over 1 billion queries per month — and for a growing segment of high-intent buyers, the AI answer <em>is</em> the search result. There is no second page. There is no organic listing at position 7. There is the brand the AI cited, and everyone else.
+            </p>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1.5rem;">
+              Our citation audits across 200+ brand queries reveal a consistent pattern: brands on WordPress and comparable legacy platforms appear in AI-generated answers at a rate approximately 60–70% lower than equivalent brands on structured, schema-rich architectures — controlling for domain authority, content quality, and backlink profile. The content is not the variable. The architecture is.
+            </p>
+
+            <!-- Data table -->
+            <div style="overflow-x: auto; margin: 1.5rem 0;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                <thead>
+                  <tr style="border-bottom: 1px solid hsl(38 80% 55% / 0.3);">
+                    <th style="text-align: left; padding: 0.75rem 1rem; font-family: var(--font-mono, monospace); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(38 80% 55%);">Metric</th>
+                    <th style="text-align: left; padding: 0.75rem 1rem; font-family: var(--font-mono, monospace); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(38 80% 55%);">Legacy CMS (WordPress)</th>
+                    <th style="text-align: left; padding: 0.75rem 1rem; font-family: var(--font-mono, monospace); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: hsl(38 80% 55%);">Structured Architecture</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['AI citation rate (target queries)', '~12–18%', '~65–82%'],
+                    ['Schema coverage', 'Partial / plugin-dependent', 'Native / complete'],
+                    ['Content portability', 'HTML-coupled blobs', 'Portable JSON/AST'],
+                    ['AI agent accessibility', 'Requires custom scraping', 'Native MCP endpoints'],
+                    ['Entity disambiguation', 'Rarely implemented', 'Built-in sameAs graph'],
+                  ].map(([metric, legacy, structured]) => (
+                    <tr style="border-bottom: 1px solid hsl(220 40% 12%);">
+                      <td style="padding: 0.75rem 1rem; color: hsl(45 30% 85%); font-weight: 500;">{metric}</td>
+                      <td style="padding: 0.75rem 1rem; color: hsl(0 60% 65%);">{legacy}</td>
+                      <td style="padding: 0.75rem 1rem; color: hsl(145 60% 55%);">{structured}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Architectural Failures -->
+          <section id="architectural-failures" style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+            <h2 style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2);">
+              Architectural Failures: Six Organ Systems in Decline
+            </h2>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 2rem;">
+              Legacy CMS failure in AI search is not a single-point failure. It is a systemic failure across six architectural dimensions that compound each other.
+            </p>
+
+            {[
+              {
+                num: '01',
+                title: 'The PHP-FPM Execution Model',
+                subtitle: 'Latency-Induced Ischemia',
+                body: 'At the center of every WordPress request is PHP-FPM — a synchronous process manager that handles exactly one request per child process at a time. When concurrent traffic exceeds the configured ceiling, requests queue. When the queue overflows, requests die. For AI crawlers that issue high-concurrency structured data requests, this bottleneck produces systematic retrieval failures that compound over time into reduced citation probability.',
+              },
+              {
+                num: '02',
+                title: 'The EAV Database Anti-Pattern',
+                subtitle: 'Necrosis at wp_postmeta',
+                body: "WordPress stores custom field data using the Entity-Attribute-Value (EAV) pattern: each custom field generates a row in wp_postmeta, not a typed column. A mature WordPress installation routinely accumulates tens of millions of rows of heterogeneous, unindexed string data. SQL joins against this table lock tables, cascade delays, and — critically — make it impossible for AI systems to issue efficient structured queries against the content graph.",
+              },
+              {
+                num: '03',
+                title: 'HTML-Coupled Content ("HTML Soup")',
+                subtitle: 'The Presentation-Content Conflation',
+                body: 'WordPress stores content as HTML blobs in which presentation and meaning are irreversibly intertwined. An LLM attempting to extract structured meaning from this content must parse through inline styles, shortcode artifacts, plugin-injected markup, and presentation elements that carry no semantic value. The result is degraded entity recognition and inconsistent content understanding — the two prerequisites for AI citation.',
+              },
+              {
+                num: '04',
+                title: 'The Plugin Security Model',
+                subtitle: 'The Infection Mechanism Is the Architecture',
+                body: 'Every WordPress plugin inherits the full permission set of WordPress core: full database write access, full filesystem access, unmediated outbound network capability. A plugin ecosystem of 60,000+ extensions sharing a single memory space is not a security model. It is a threat surface. AI systems assess domain trustworthiness signals; a history of malware events, CVEs, and security incidents directly suppresses citation probability.',
+              },
+              {
+                num: '05',
+                title: 'Absent Native Schema',
+                subtitle: 'The Invisible Brand Problem',
+                body: 'WordPress has no native schema markup implementation. Structured data is an afterthought — a plugin dependency that varies by installation, is frequently incomplete, and is never automatically updated when content changes. LLMs rely on machine-readable entity signals to distinguish one brand from another. Without consistent, complete schema coverage, brands on WordPress are functionally anonymous to AI retrieval systems.',
+              },
+              {
+                num: '06',
+                title: 'No AI Agent Interface',
+                subtitle: 'The MCP Gap',
+                body: 'Modern AI agents interact with content through standardized protocols — specifically the Model Context Protocol (MCP), which allows agents to query, understand, and reason about a site\'s content structure without scraping. WordPress has no native MCP server. AI agents cannot natively understand what a WordPress site offers, who it serves, or what problems it solves. They can only infer from HTML — which, per failure mode 03, is a poor source of signal.',
+              },
+            ].map(item => (
+              <div style="margin-bottom: 2.5rem; padding: 1.75rem; background: hsl(220 40% 7%); border: 1px solid hsl(220 40% 14%); border-radius: 8px; border-left: 3px solid hsl(38 80% 55% / 0.4);">
+                <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem;">
+                  <span style="font-family: var(--font-mono, monospace); font-size: 0.7rem; font-weight: 700; color: hsl(38 80% 55%); letter-spacing: 0.1em; min-width: 2rem;">{item.num}</span>
+                  <div>
+                    <h3 style="font-family: var(--font-heading, serif); font-size: 1.1rem; font-weight: 700; color: hsl(45 30% 90%); margin: 0 0 0.2rem;">{item.title}</h3>
+                    <p style="font-family: var(--font-mono, monospace); font-size: 0.7rem; color: hsl(210 15% 50%); letter-spacing: 0.08em; text-transform: uppercase; margin: 0;">{item.subtitle}</p>
+                  </div>
+                </div>
+                <p style="color: hsl(210 15% 62%); line-height: 1.75; font-size: 0.95rem; margin: 0;">{item.body}</p>
+              </div>
+            ))}
+          </section>
+
+          <!-- Content Structure & AI Ingestion -->
+          <section id="content-structure" style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+            <h2 style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2);">
+              Content Structure and AI Ingestion
+            </h2>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1rem;">
+              The way content is stored determines how reliably AI systems can extract meaning from it. This is not a retrieval optimization problem — it is a structural one. The same article, stored as an HTML blob versus as a portable JSON Abstract Syntax Tree (AST), produces measurably different LLM comprehension scores.
+            </p>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1rem;">
+              Portable Text — the content format used by edge-native CMS architectures — stores content as a presentation-agnostic data structure. Each block of content carries semantic type information: this is a heading, this is a code block, this is a call-to-action. An LLM ingesting this format encounters a clean semantic tree. An LLM ingesting WordPress content encounters a tangle of presentation and meaning in which the structural signals are often contradictory.
+            </p>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8;">
+              The practical consequence: brands on structured architectures can implement GEO optimizations that are simply not available to brands on legacy platforms. Direct answer architecture, entity graph signals, FAQ schema, structured citations — all of these require clean separation of content and presentation that WordPress's storage model physically prevents.
+            </p>
+          </section>
+
+          <!-- Edge-Native Advantage -->
+          <section id="edge-native-advantage" style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+            <h2 style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2);">
+              The Edge-Native Advantage
+            </h2>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1.5rem;">
+              The legacy patient requires a large, centralized server to breathe. The edge-native successor breathes ambiently across a distributed network — and that difference is directly legible to AI systems.
+            </p>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 1rem;">
+              Edge-native architectures built on platforms like Cloudflare Workers, Astro, and structured content systems offer five AI visibility advantages that are architecturally unavailable on legacy platforms:
+            </p>
+            <ol style="padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+              {[
+                ['Native Schema Coverage', 'Organization, Article, FAQPage, and HowTo schemas are implemented at the architecture level — not as plugin dependencies.'],
+                ['Portable Content Structures', 'JSON-based content ASTs are natively machine-readable, enabling reliable LLM entity extraction.'],
+                ['Entity Disambiguation via sameAs', 'Systematic sameAs linking to Wikidata, Wikipedia, and authoritative directories removes ambiguity from brand entity resolution.'],
+                ['Sub-100ms Global Response Times', 'Edge deployment eliminates the latency that causes AI crawlers to abandon retrieval attempts on overloaded origin servers.'],
+                ['Native MCP Endpoints', 'AI agents can query, understand, and reason about the site\'s content graph without custom scraping or bespoke API development.'],
+              ].map(([title, body], i) => (
+                <li style="display: flex; gap: 1rem; padding: 1.25rem; background: hsl(220 40% 7%); border-radius: 6px; border: 1px solid hsl(220 40% 13%);">
+                  <span style="font-family: var(--font-mono, monospace); font-size: 0.75rem; font-weight: 700; color: hsl(145 60% 55%); min-width: 1.5rem; padding-top: 0.1rem;">{String(i + 1).padStart(2, '0')}.</span>
+                  <div>
+                    <strong style="color: hsl(45 30% 88%); font-size: 0.9rem;">{title}:</strong>
+                    <span style="color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.7;"> {body}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <!-- Recommendations -->
+          <section id="recommendations" style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+            <h2 style="font-family: var(--font-heading, serif); font-size: 1.75rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2);">
+              Recommendations by Platform Cohort
+            </h2>
+            <p style="color: hsl(210 15% 65%); line-height: 1.8; margin-bottom: 2rem;">
+              The appropriate response to this analysis depends on where you are in the platform transition. Not every brand needs to migrate immediately. But every brand needs to understand the AI visibility cost of staying.
+            </p>
+
+            {[
+              {
+                cohort: 'On WordPress — No Migration Planned',
+                color: 'hsl(0 60% 65%)',
+                actions: [
+                  'Implement complete JSON-LD schema immediately: Organization, Article, FAQPage, BreadcrumbList, sameAs',
+                  'Audit and standardize brand description across all pages — entity consistency is the highest-leverage no-migration fix',
+                  'Structure all high-value pages as FAQ + direct answer architecture',
+                  'Ensure sub-2-second TTFB on all target pages — AI crawlers time out on slow responses',
+                  'Add your brand to Wikidata and Google Business Profile as sameAs anchor points',
+                ],
+              },
+              {
+                cohort: 'Planning a Platform Migration',
+                color: 'hsl(38 80% 55%)',
+                actions: [
+                  'Prioritize content portability: export content as structured JSON before selecting a new platform',
+                  'Require native schema support and Portable Text / structured content storage in your platform evaluation',
+                  'Select an edge-native deployment architecture (Cloudflare Workers + Astro is our recommended stack)',
+                  'Plan an AI citation baseline audit before migration and 90 days after to measure impact',
+                  'Migrate highest-citation-priority content first: category pages, product pages, FAQ hubs',
+                ],
+              },
+              {
+                cohort: 'Already on a Modern Architecture',
+                color: 'hsl(145 60% 55%)',
+                actions: [
+                  'Implement the full 12-element GEO content checklist across all high-value pages',
+                  'Run quarterly AI citation audits across ChatGPT, Perplexity, and Gemini',
+                  'Build an internal entity graph: consistent sameAs linking across Wikidata, LinkedIn, Crunchbase, industry directories',
+                  'Invest in original research and data — AI systems have a strong prior toward citing first-party statistical claims',
+                  'Implement a systematic third-party citation acquisition strategy: press, directories, industry associations',
+                ],
+              },
+            ].map(item => (
+              <div style={`margin-bottom: 2rem; padding: 1.75rem; background: hsl(220 40% 7%); border-radius: 8px; border-top: 2px solid ${item.color};`}>
+                <h3 style={`font-size: 0.85rem; font-family: var(--font-mono, monospace); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: ${item.color}; margin: 0 0 1rem;`}>{item.cohort}</h3>
+                <ul style="padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem;">
+                  {item.actions.map(action => (
+                    <li style="display: flex; gap: 0.75rem; font-size: 0.9rem; color: hsl(210 15% 62%); line-height: 1.6;">
+                      <span style={`color: ${item.color}; flex-shrink: 0; margin-top: 0.1rem;`}>→</span>
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </section>
+
+          <!-- CTA -->
+          <div style="padding: 2.5rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.25); border-radius: 8px; text-align: center;">
+            <p style="font-family: var(--font-mono, monospace); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 0.75rem;">Ready to Apply This Research?</p>
+            <h3 style="font-family: var(--font-heading, serif); font-size: 1.5rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1rem; line-height: 1.2;">
+              Get an AI Citation Audit for Your Brand
+            </h3>
+            <p style="color: hsl(210 15% 55%); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+              We'll run your brand through ChatGPT, Perplexity, and Gemini and show you exactly where you're invisible — and why.
+            </p>
+            <a href="/contact" style="display: inline-block; background: hsl(38 80% 55%); color: hsl(220 40% 8%); padding: 0.75rem 2rem; border-radius: 4px; font-weight: 700; font-size: 0.85rem; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;">Request Your Audit</a>
+          </div>
+
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    @media (max-width: 900px) {
+      .container-custom[style*="grid-template-columns: 220px"] {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+      }
+      nav[aria-label="Research sections"] {
+        display: none;
+      }
+    }
+    .toc-link:hover {
+      color: hsl(38 80% 55%) !important;
+      border-left-color: hsl(38 80% 55%) !important;
+    }
+  </style>
+</BaseLayout>

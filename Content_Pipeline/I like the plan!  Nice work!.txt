@@ -1,0 +1,7 @@
+I like the plan!  Nice work!
+
+**Before Proceeding**
+
+-- Document the workflow you did -- Each step --  Identify the steps that were necessary, and Identify the steps that can be skipped next time to save on tokens.
+
+-- Analyze the documentation  -- Create System Prompts for SubAgents to handle the workflow you just documented.

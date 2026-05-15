@@ -1,0 +1,743 @@
+The user wants me to build a premium wireframe generator powered by the Anthropic API. Let me read the frontend-design skill first, then build this as a single-file artifact.
+Key requirements:
+
+User submits a URL
+LLM checks sitemap.xml and robots.txt
+If no sitemap exists, it scans/extracts internal links
+Creates sitemap.xml
+Creates JSON schema of every page
+Generates a report
+Asks if user wants wireframes
+If yes, generates detailed wireframes
+
+Client-side only, powered by Anthropic API, single file artifact.
+I'm realizing the CORS limitation here—the browser can't directly fetch URLs, so I'll need to use a CORS proxy like https://api.allorigins.win/raw?url= to retrieve page content, then have Claude analyze it to extract links, generate the sitemap, and build the JSON schemas before creating wireframes.Show lessReading frontend design skillNow I have the skill guidance. Let me build this as a single-file HTML artifact that is fully functional with the Anthropic API.
+The approach:
+
+User enters a URL
+We try to fetch the URL via a CORS proxy (allorigins.win or similar)
+Send the HTML content to Claude API to analyze: find links, check for sitemap mentions, etc.
+Claude generates the sitemap, JSON schema, and analysis report
+Ask user if they want wireframes
+Claude generates detailed wireframe HTML/SVG descriptions per page
+
+For the CORS proxy, I'll use https://api.allorigins.win/get?url= which returns JSON with contents field.
+I should also attempt to fetch /sitemap.xml and /robots.txt directly through the proxy to gather more structural data. For the visual design, I'm going for a dark, technical aesthetic with an editorial edge—think intelligence dashboard meets premium design studio. I'll use monospace fonts for data and geometric sans-serif for headings, with an almost-black background, electric amber accents, and white text, incorporating grid lines and a subtle terminal feel while maintaining sophisticated spacing.
+Since the base design already uses Space Grotesk, I need to diverge completely. I'm settling on Syne for headings to get that geometric distinctiveness, DM Sans for body text, and JetBrains Mono for code—paired with a near-black background, electric amber as the primary accent, lime as secondary, and white for text. Though I'm second-guessing myself and considering Unbounded for headings instead, Plus Jakarta Sans for body, and Fira Code for monospace, with a deep charcoal base and electric orange as the primary color.
+For the actual functionality, I'm planning to use allorigins as a CORS proxy to fetch the target URL, parse the HTML for links, attempt to grab the sitemap and robots.txt files, then send everything to Claude's API for analysis. Claude will generate a structured JSON report along with wireframe HTML that I can render as visual mockups.
+The app will cycle through distinct states: starting with a landing page for URL input, moving to an analyzing state with progress indicators, then displaying the full report with sitemap data and JSON schema, followed by a wireframe generation phase, and finally showing a grid of rendered wireframe cards.
+Building out the application structure now... I see that the API key is automatically handled when making calls from the artifact, so I don't need to ask the user for it. The main challenge is handling CORS for fetching external URLs, which I can solve with the allorigins proxy. Now I'm mapping out the full flow starting with URL analysis and moving through the different discovery methods.
+For the analysis phase, I'll send the discovered content to Claude to evaluate crawl permissions, generate a proper sitemap structure, and create schemas for each page. Then in the wireframe generation phase, I'll have Claude produce the visual layouts for each discovered page.
+Now I'm building out the React component to handle all this. I'm going with a "Technical Noir" aesthetic—dark background with stark white text and electric orange highlights. The wireframes themselves will use SVG-based boxes with dashed borders to show the page structure, including placeholders for navigation, hero sections, content areas, and footers.
+Building the React component... Building the complete app...
+I'm structuring the JSON response so each page section renders as a wireframe box with the right layout and content. For the CORS issue, I'll try fetching through the proxy first, then fall back to Claude analyzing just the domain if that fails, so the tool stays responsive either way.
+Now I'm building the React component that renders these wireframes visually. Still writing component structure... I'm reconsidering the font approach—instead of relying on link tags, I'll inject the Google Fonts import directly via a style tag in the JSX, which should work cleanly in a React artifact. Now I'm writing out the complete component implementation...
+Setting up the API constants and defining the analysis workflow steps...
+Building utility functions...
+Extracting internal links from HTML...
+Now I'm also building a function to parse sitemap XML files and extract the page URLs from them, limiting both sources to 20 pages max. Then I need to construct a comprehensive prompt for the Claude API that combines the URL, robots.txt rules, and sitemap data to analyze the site structure.
+The analysis call should return structured JSON with the robots status, discovered pages with metadata, the complete sitemap XML, a site summary, and detected tech stack. I'll follow that with a second Claude call specifically for generating wireframe specifications for each page.
+For the app state, I'm setting up a state machine with screens for landing, analyzing, report display, wireframe loading, and the final wireframes view, tracking the input URL, progress steps, the full analysis result, and the generated wireframe specs. The wireframe call returns structured layout data for each page, detailing sections like navigation, hero, features grid, and footer with specific dimensions and content properties.
+Now I'm planning the implementation approach—I'll use SVG for a blueprint aesthetic with a dark background and orange-amber accents, then build section renderers for each wireframe type. I need to be mindful of what Tailwind utilities are already available in the base stylesheet to avoid unnecessary JIT compilation.
+Writing the JSX component... Writing the component implementation... Parsing the sitemap XML to extract location URLs, filtering out invalid entries and limiting to the first 15 results. Then I'm setting up the API call function that sends messages to Claude with a system prompt and token limit, handling the response parsing and error cases.
+Now I'm building the main App component with state management for the analysis workflow—tracking the current screen, input URL, step statuses, analysis results, generated wireframes, and progress indicators. I'm also defining a helper to update individual step statuses and starting to implement the core analysis function.
+The analysis function begins by validating the URL and initializing the workflow, then systematically fetches robots.txt, sitemaps, and other site data to gather information about the target domain. Writing the analysis logic... I'm constructing the analysis prompt that will guide the AI to examine the website and return structured JSON data about its architecture, SEO metrics, and page hierarchy. The prompt specifies the exact JSON schema needed, including site metadata, robots.txt status, technology stack, and detailed page information with estimated sections and page types. I'm also factoring in the number of extracted links to determine how many pages should be included in the analysis.
+Now I'm setting up the API call to Claude with this analysis prompt, requesting valid JSON output only. If the response comes back with markdown code blocks, I'll strip those out and parse the clean JSON. If parsing fails for any reason, I have a fallback structure that generates basic page data from the extracted links, creating reasonable defaults for missing information like page titles, descriptions, and priority scores.
+With the analysis complete, I'm building the sitemap XML by mapping through each page and formatting it according to the standard sitemap schema. Then I'm attaching this XML to the analysis result and marking the LLM step as done. The progress bar moves to 85%, and I'm moving into the final report generation step which completes at 100%. Once that's finished, I switch the screen to display the report with all the analysis data.
+Now I'm setting up the wireframe generation process. I'm crafting a detailed prompt for the LLM that asks it to act as a UX architect and generate wireframe specifications in JSON format for all the pages we've identified. The prompt includes the site information and page details, then specifies the exact JSON structure I want back, with examples showing how each section should be defined with its type, label, height, and specific elements like navigation bars and hero sections.
+Generating wireframe specs... Writing the wireframe renderer... I'm settling on a blueprint-style aesthetic with dark navy background and bright blue lines to give it that professional CAD look. Now I'm building out the WireframeSection component with a color palette that includes the dark background, blue accents for borders, light blue text, and darker navy for placeholder content areas.
+Writing the component structure... Now I'm ready to write out the complete implementation with all the major components—the styling, utility functions for fetching and parsing, the wireframe renderers for each section type, the main app with state management, and all the different screens from the initial landing through analysis to the final report and wireframe viewer.
+I need to make sure the Claude API integration works without requiring an explicit API key since the artifact environment handles that automatically, and I'm going to focus on creating a visually polished dark-industrial aesthetic with that burned orange and cyan color scheme, making sure the wireframe rendering actually displays visual components rather than just text output.
+Writing the React component... I'm realizing I should be more thoughtful about file size—aiming for around 500-700 lines of clean code that covers all the necessary components. Now I'm setting up the core structure with imports, configuration constants for the API endpoints and model, and helper functions to handle proxy fetching...
+Writing the helper functions... Completing the API call to Claude and parsing the JSON response, then setting up a color palette for the wireframe components I'm about to render.
+Building wireframe box and image components... Writing component structure... Building the component structure... Building the grid layout... Writing pricing cards... Writing component layouts... Building the footer layout... Building the form layout... I'm settling on a custom color palette with deep blues and oranges for contrast, and I'll import Google Fonts to get Syne, DM Sans, and JetBrains Mono for a distinctive look that avoids common defaults.
+Now I'm planning the sequential flow for the analysis steps—each one triggers after the previous completes, with robots.txt fetching first, then sitemap, crawl, LLM analysis, and finally report compilation, creating a natural progression through the async operations.
+Writing the complete implementation... Writing utility functions... Writing component styles... Writing component styles... Building the navbar and hero sections... Building the grid layout... Building the pricing section... Building the testimonials section... Building the footer layout... Writing form and gallery layouts... Now I'm setting up the analysis pipeline with five sequential steps—fetching robots.txt to check crawl permissions, locating the sitemap, crawling internal links to build a page graph, running LLM analysis on page schemas, and finally compiling everything into an intelligence report with sitemap and JSON outputs. Then I'm initializing the main app component with a screen state.
+Setting up state management for the URL input, step tracking, progress tracking, analysis results, workflow data with pagination, loading states, and error handling...
+Now I'm building the main analysis function that validates the URL input, normalizes it to include the protocol if needed, and initializes the analysis workflow by resetting the step map and progress counter. Starting with fetching the robots.txt file...
+Continuing with the analysis steps... Building the LLM prompt...
+I'm constructing the context object with the website data—robots.txt, sitemap, extracted links, and HTML content all sliced to manageable sizes—then crafting a prompt that asks the LLM to analyze this information and return structured JSON with the site name, description, and robots status. Now I'm setting up the API call to Claude with the prompt, and if that fails, I'm falling back to a basic structure that maps the extracted links into page objects with sensible defaults like using the URL path as the page name.
+Continuing with the analysis workflow, I'm marking the LLM step as complete, updating the progress to 78%, and moving into the build phase.
+Now I'm generating the sitemap XML by mapping through all the discovered pages and formatting each one with its location, last modified date, change frequency, and priority level. Once that's done, I'll mark the build step as complete and set the progress to 100%.
+After a brief delay, I'm storing the final result and switching to the report screen. Next up is the wireframe generation function, which will prompt an AI to create detailed wireframe sections for every page in the sitemap, starting with the homepage and its navigation bar component.
+Continuing with the wireframe structure... I'm setting up a fallback wireframe structure in case the API call fails, creating a basic layout template for each page with navbar, hero, content, CTA, and footer sections. Then I'm handling the sitemap download by creating a blob from the XML data and preparing it for export.
+Now I'm adding utility functions to copy the generated page data to the clipboard and importing the Google Fonts I'll need for the component rendering.
+Setting up the styles... Still writing styles... Still writing styles... Building the header layout... Building the landing page layout... Building the input interface... Writing component markup... Writing the analyzing screen layout... Writing the step indicators... Writing the progress display... Building the results header... Building the stats display... Writing component styles... Writing component styles... Writing the JSON preview and sitemap sections... Building the page details section... Writing the CTA banner... Building the wireframes interface... Writing the wireframe grid layout... Writing the page navigation... Writing the viewer header... Writing the footer section...
+I'm noticing the WfRect component doesn't accept a style prop in its signature, but I'm trying to pass one when creating the logo element. I need to update the component to accept and apply the style prop so it works consistently throughout the layout.
+There are also a few other issues to clean up: the footer is using WfRect in places where plain divs would be better, the sitemap references estimatedSections which needs to be an array, I defined a WfBox component that I ended up replacing with WfRect, and I'm importing a sleep function that doesn't exist. Let me do a complete, careful rewrite to address all of these problems.
+For the CORS proxy, I'll stick with allorigins.win and add proper error handling rather than trying multiple fallbacks. I also want to make sure the wireframe viewer handles page navigation clearly—the sidebar lists pages and clicking switches the main view, with prev/next buttons at the bottom for easier navigation.
+Now I'm thinking through the design direction: dark industrial with orange accents, using Syne font...
+Writing the implementation... Writing utility functions... I'm setting up a color palette for the wireframe blueprint with canvas, surface, border, and text colors, then defining a primitive box component that accepts width, height, accent styling, and label parameters.
+Building component primitives... Writing component structure... Building the hero section layout... Writing component grid... Building the pricing section...
+For the testimonials section, I'm creating a layout with three testimonial cards displayed horizontally, each with placeholder lines for text content and a circular avatar element with a border.
+Now handling the CTA and banner sections, which center their content and use a flexible column layout with a constrained width. Writing component layouts... Building the portfolio section with a 3-column grid of image placeholders, then handling the default case for content sections with a flexible layout.
+Now I'm setting up the analysis steps that will guide the crawl process, starting with robots.txt verification... Setting up state variables for wireframes, UI interactions, and error handling, then defining utility functions to normalize URLs and kick off the analysis pipeline by extracting the domain origin.
+Now I'm fetching robots.txt from the target site to check for crawl restrictions and extract any sitemap references...
+Then I'm parsing the sitemap.xml to gather all the paths I need to crawl, falling back to just the homepage if no sitemap exists...
+Now I'm moving into the AI analysis phase, where I'll compile all the gathered data—the robots.txt rules, sitemap structure, crawled page paths, and homepage HTML—into a prompt that asks Claude to synthesize this into a concise assessment of the website's SEO setup. Now I'm calling Claude to analyze the website structure and extract the JSON data, parsing the response to build out the site intelligence report with all detected pages and their metadata. I'm finishing up the page structure definitions, then moving into the compilation phase where I'm generating the sitemap XML with all the discovered URLs and their metadata.
+Now I'm wrapping up the analysis and starting the wireframe generation process... Continuing to build out the JSON structure... Generating fallback wireframes...
+Now I'm setting up utility functions to handle downloads and clipboard operations—one for exporting the sitemap as XML and another for copying the page schema as JSON to the clipboard.
+Writing CSS styles... Still writing styles... Building the navigation bar... Writing the header layout... Building the landing page layout... Building the input field... Building the stats display... Writing the analyzing screen layout... Writing the step indicators... Writing the status display and progress indicator... Writing the header section... Building the summary card... Writing component styles... Writing the insights and preview sections... Building the sitemap display... Writing the page list layout... Building the CTA section... Building the wireframes screen layout... Writing the wireframe UI... Building the wireframe viewer interface... Writing the navigation controls... Building the footer section... I'm reviewing the component implementation to verify all the custom box components are being used correctly throughout. Let me check the prop destructuring for BpBox — it takes w, h, accent, label, and style, and spreads the extra style into the outer div, which should work fine. I'm also verifying that the footer wireframe renderer is passing the right props to each component. I need to set a default value for the extraStyle parameter so it doesn't cause issues when spreading undefined, and I should verify that the style prop is being handled consistently across all the components that use it. Let me also trace through the callClaude function to see what parameters it's actually passing. Finishing the component implementation...
+I'm making sure the BpBox component safely handles an optional style prop by spreading an empty object if it's undefined, and I'm using Math.max to set reasonable minimum heights for wireframe sections. The normalizeUrl function is being used consistently throughout—storing the normalized result and deriving the origin from it, plus extracting the hostname safely in the analyzing screen header. The implementation should be ready to write out as the final artifact. I'm verifying that the marginBottom style prop will work correctly on BpBox since it renders as a flex div, so the margin should apply to the element itself. That checks out. Now I need to wrap the features and grid cases in a block scope to avoid potential issues with variable declarations inside the switch statement, then write out the complete JSX component.
+Let me do a final pass through the checklist: CORS proxy with timeout, HTML link extraction, sitemap parsing, Claude API integration, JSON fallback handling, all five screens, wireframe section rendering with 10+ types, sitemap download, schema copying, and page navigation are all accounted for.
+Writing the complete implementation... I've verified the switch statement logic—the pricing case works without braces since there's no variable declaration, while features and grid share a block scope for the cols constant. Now I'm ready to write out the complete implementation.Show lessChecking skills directory for any relevant existing skillsOK, no particularly relevant user skills beyond what I've already read. Let me now write the complete implementation.
+Let me write this as a JSX file in the output directory.
+I need to rewrite the request in my own words before starting.
+Request summary: Build a single-file React artifact — WireVision AI — that accepts a URL, fetches robots.txt/sitemap.xml via CORS proxy, crawls internal links if no sitemap exists, sends all data to the Claude API (no API key needed in artifacts), gets back a structured site analysis (JSON schema per page + sitemap XML), displays a report, then on demand generates blueprint wireframe layouts for each discovered page rendered as visual SVG/HTML wireframes.
+Now I'm building the complete React component with state management for URL input, API communication, and the wireframe generation logic.Show lessDoneRewriting in my own words: Build a single-file React JSX artifact — WireVision AI — that accepts a URL, fetches robots.txt + sitemap.xml via CORS proxy, crawls links if no sitemap exists, sends the data to the Claude API, receives a structured site analysis (page schemas, generated sitemap XML), displays a full intelligence report, then on user confirmation calls Claude again to generate detailed blueprint wireframes rendered visually for every discovered page.
+Let me build this now.WireVision AI - Complete React JSX artifactWireVision AI - Complete React JSX artifactWireVision AI - Complete React JSX artifactjavascriptimport { useState } from "react";
+
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const PROXY      = "https://api.allorigins.win/get?url=";
+const CLAUDE_API = "https://api.anthropic.com/v1/messages";
+const MODEL      = "claude-sonnet-4-20250514";
+const sleep      = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// ─── NETWORK UTILS ────────────────────────────────────────────────────────────
+async function proxyFetch(url) {
+  try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 9000);
+    const res  = await fetch(`${PROXY}${encodeURIComponent(url)}`, { signal: ctrl.signal });
+    clearTimeout(tid);
+    const data = await res.json();
+    return data.contents ?? null;
+  } catch { return null; }
+}
+
+function extractLinks(html, base) {
+  try {
+    const doc    = new DOMParser().parseFromString(html, "text/html");
+    const origin = new URL(base).origin;
+    const paths  = new Set(["/"]);
+    doc.querySelectorAll("a[href]").forEach((a) => {
+      try {
+        const href = a.getAttribute("href");
+        if (!href || /^(#|mailto:|tel:|javascript:)/i.test(href)) return;
+        const u = new URL(href, base);
+        if (u.origin === origin && !/\.(jpe?g|png|gif|webp|svg|css|js|pdf|zip|woff2?|ico|mp4|mov|xml|json)$/i.test(u.pathname)) {
+          paths.add(u.pathname || "/");
+        }
+      } catch {}
+    });
+    return [...paths].slice(0, 18);
+  } catch { return ["/"]; }
+}
+
+function parseSitemap(xml) {
+  try {
+    const doc = new DOMParser().parseFromString(xml, "text/xml");
+    return [...doc.querySelectorAll("url > loc")]
+      .map((n) => { try { return new URL(n.textContent.trim()).pathname || "/"; } catch { return null; } })
+      .filter(Boolean).slice(0, 18);
+  } catch { return []; }
+}
+
+async function callClaude(prompt, system, maxTokens = 4096) {
+  const res = await fetch(CLAUDE_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, system, messages: [{ role: "user", content: prompt }] }),
+  });
+  if (!res.ok) { const t = await res.text().catch(() => ""); throw new Error(`Claude ${res.status}: ${t}`); }
+  const d = await res.json();
+  return (d.content?.[0]?.text ?? "").replace(/```json\n?|```\n?/g, "").trim();
+}
+
+// ─── BLUEPRINT PALETTE ────────────────────────────────────────────────────────
+const BP = {
+  canvas:  "#040C1A",
+  surface: "#070F1E",
+  border:  "#0D2040",
+  line:    "#1A3A6A",
+  active:  "#1E4FC0",
+  text:    "#4A80BE",
+  faint:   "#060D1C",
+  label:   "#2563EB",
+  hatch:   `repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(20,50,100,0.45) 3px,rgba(20,50,100,0.45) 4px)`,
+};
+
+// ─── WIREFRAME PRIMITIVES ─────────────────────────────────────────────────────
+function Rect({ w = "100%", h = 28, accent = false, label, style: xStyle = {} }) {
+  return (
+    <div style={{ width: w, height: h, flexShrink: 0, border: `1px solid ${accent ? BP.active : BP.border}`, background: BP.faint, display: "flex", alignItems: "center", justifyContent: "center", ...xStyle }}>
+      {label && <span style={{ fontSize: 9, color: BP.text, fontFamily: "monospace", letterSpacing: "0.05em" }}>{label}</span>}
+    </div>
+  );
+}
+
+function Line({ w = "100%", op = 1 }) {
+  return <div style={{ height: 5, width: w, background: BP.line, borderRadius: 2, opacity: op }} />;
+}
+
+function Img({ w = "100%", h = 80 }) {
+  return (
+    <div style={{ width: w, height: h, flexShrink: 0, border: `1px solid ${BP.border}`, background: BP.hatch, position: "relative" }}>
+      <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: BP.label, fontFamily: "monospace" }}>IMAGE</span>
+    </div>
+  );
+}
+
+function Tag({ text }) {
+  return (
+    <div style={{ position: "absolute", top: 5, right: 8, zIndex: 2, fontSize: 9, color: BP.label, fontFamily: "monospace", background: BP.canvas, padding: "2px 7px", border: `1px solid ${BP.border}`, letterSpacing: "0.04em" }}>
+      {text}
+    </div>
+  );
+}
+
+const baseSection = (heightPx) => ({
+  position: "relative", border: `1px dashed ${BP.border}`, background: BP.canvas,
+  minHeight: Math.max(heightPx || 80, 60), padding: 14, overflow: "hidden",
+  display: "flex", flexDirection: "column", gap: 8,
+});
+
+// ─── WIREFRAME SECTION RENDERER ───────────────────────────────────────────────
+function WfSection({ sec }) {
+  const el   = sec.elements || {};
+  const base = baseSection(sec.heightPx);
+
+  switch (sec.type) {
+
+    case "navbar": case "header":
+      return (
+        <div style={base}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 36 }}>
+            <Rect w={90} h={26} label="LOGO" />
+            <div style={{ display: "flex", gap: 18, alignItems: "center" }}>
+              {(el.navItems || ["Home","About","Services"]).slice(0,5).map((n,i) => (
+                <span key={i} style={{ fontSize: 10, color: BP.text, fontFamily: "monospace", borderBottom: `1px solid ${BP.line}`, paddingBottom: 1 }}>{n}</span>
+              ))}
+            </div>
+            {el.cta && <Rect w={84} h={26} accent label={el.cta} />}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "hero":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 380, 300), justifyContent: "center" }}>
+          <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
+              <Line w="92%" /><Line w="76%" /><Line w="58%" />
+              <div style={{ marginTop: 6, display: "flex", flexDirection: "column", gap: 5 }}>
+                <Line w="83%" op={0.5} /><Line w="67%" op={0.5} />
+              </div>
+              <div style={{ display: "flex", gap: 9, marginTop: 14 }}>
+                <Rect w={108} h={35} accent label={el.primaryCta || "Get Started"} />
+                {el.secondaryCta && <Rect w={108} h={35} label={el.secondaryCta} />}
+              </div>
+            </div>
+            {el.hasMedia !== false && <Img w="40%" h={Math.max((sec.heightPx || 380) - 120, 160)} />}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "features": case "grid": {
+      const cols  = el.layout === "2-col" ? 2 : el.layout === "4-col" ? 4 : 3;
+      const items = (el.items || ["Feature A","Feature B","Feature C"]).slice(0, cols * 2);
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 280, 200) }}>
+          <div style={{ height: 7, width: "36%", background: BP.line, borderRadius: 2, alignSelf: "center", marginBottom: 8 }} />
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols},1fr)`, gap: 10 }}>
+            {items.map((_it, i) => (
+              <div key={i} style={{ border: `1px solid ${BP.border}`, background: BP.faint, padding: 10, display: "flex", flexDirection: "column", gap: 5 }}>
+                {el.hasIcons !== false && <div style={{ width: 26, height: 26, borderRadius: "50%", border: `1px solid ${BP.border}`, marginBottom: 3 }} />}
+                <Line w="65%" /><Line op={0.5} /><Line w="80%" op={0.5} />
+              </div>
+            ))}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+    }
+
+    case "pricing":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 340, 280) }}>
+          <div style={{ height: 7, width: "30%", background: BP.line, borderRadius: 2, alignSelf: "center", marginBottom: 10 }} />
+          <div style={{ display: "flex", gap: 12 }}>
+            {[0,1,2].map((i) => (
+              <div key={i} style={{ flex: 1, border: `1px solid ${i===1 ? BP.active : BP.border}`, padding: 14, display: "flex", flexDirection: "column", gap: 7, alignItems: "center" }}>
+                <Line w="55%" /><Line w="40%" />
+                <div style={{ height: 20, width: "45%", background: BP.line, borderRadius: 2, margin: "5px 0" }} />
+                {[1,2,3,4].map((j) => <Line key={j} w="80%" op={0.4} />)}
+                <Rect w="88%" h={30} accent={i===1} label={i===1 ? "Most Popular" : "Select Plan"} style={{ marginTop: 6 }} />
+              </div>
+            ))}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "testimonials":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 200, 160) }}>
+          <div style={{ display: "flex", gap: 10 }}>
+            {[0,1,2].map((i) => (
+              <div key={i} style={{ flex: 1, border: `1px solid ${BP.border}`, background: BP.faint, padding: 10, display: "flex", flexDirection: "column", gap: 5 }}>
+                <Line /><Line w="85%" op={0.5} /><Line w="70%" op={0.5} />
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6 }}>
+                  <div style={{ width: 26, height: 26, borderRadius: "50%", border: `1px solid ${BP.border}`, flexShrink: 0, background: BP.hatch }} />
+                  <div style={{ flex: 1 }}><Line w="65%" /><div style={{ height: 3 }} /><Line w="50%" op={0.5} /></div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "cta": case "banner":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 180, 140), alignItems: "center", justifyContent: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "60%" }}>
+            <Line w="80%" /><Line w="60%" op={0.5} />
+            <Rect w={134} h={38} accent label={el.cta || "Get Started"} style={{ marginTop: 10 }} />
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "footer":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 120, 100) }}>
+          <div style={{ display: "flex", gap: 18 }}>
+            <div style={{ flex: 2 }}>
+              <Rect w={80} h={18} label="LOGO" style={{ marginBottom: 8 }} />
+              <Line w="80%" /><div style={{ height: 3 }} /><Line w="60%" op={0.4} />
+            </div>
+            {Array.from({ length: Math.min(el.columns || 3, 4) }, (_, j) => (
+              <div key={j} style={{ flex: 1 }}>
+                <Line w="60%" />
+                <div style={{ height: 7 }} />
+                {[1,2,3].map((k) => <div key={k} style={{ marginBottom: 4 }}><Line w="80%" op={0.35} /></div>)}
+              </div>
+            ))}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "form": case "contact":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 300, 240) }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, maxWidth: 500, width: "100%", margin: "0 auto" }}>
+            {["Name","Email","Subject","Message"].map((f, i) => (
+              <div key={i} style={{ gridColumn: i >= 2 ? "1/-1" : "auto", display: "flex", flexDirection: "column", gap: 4 }}>
+                <Line w="30%" />
+                <Rect h={i === 3 ? 72 : 32} label={f} />
+              </div>
+            ))}
+            <div><Rect w={112} h={35} accent label="Submit" /></div>
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "gallery": case "portfolio":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 240, 180) }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8 }}>
+            {[1,2,3,4,5,6].map((i) => <Img key={i} h={90} />)}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "stats": case "metrics":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 160, 120) }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10 }}>
+            {[1,2,3,4].map((i) => (
+              <div key={i} style={{ border: `1px solid ${BP.border}`, background: BP.faint, padding: "14px 10px", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                <div style={{ height: 24, width: "55%", background: BP.line, borderRadius: 2 }} />
+                <Line w="70%" op={0.5} />
+              </div>
+            ))}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    case "faq": case "accordion":
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 260, 200) }}>
+          <div style={{ height: 7, width: "32%", background: BP.line, borderRadius: 2, alignSelf: "center", marginBottom: 12 }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {[1,2,3,4].map((i) => (
+              <div key={i} style={{ border: `1px solid ${BP.border}`, background: BP.faint, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Line w="60%" />
+                <div style={{ width: 14, height: 14, border: `1px solid ${BP.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <span style={{ fontSize: 9, color: BP.text, fontFamily: "monospace" }}>+</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+
+    default: // content, blog, text, etc.
+      return (
+        <div style={{ ...base, minHeight: Math.max(sec.heightPx || 200, 140) }}>
+          <div style={{ display: "flex", gap: 18 }}>
+            <div style={{ flex: 3, display: "flex", flexDirection: "column", gap: 6 }}>
+              <Line w="72%" />
+              <Line /><Line w="92%" op={0.5} /><Line w="82%" op={0.5} /><Line w="56%" op={0.5} />
+            </div>
+            <Img w="34%" h={130} />
+          </div>
+          <Tag text={sec.label} />
+        </div>
+      );
+  }
+}
+
+// ─── STEP CONFIG ──────────────────────────────────────────────────────────────
+const STEPS = [
+  { id: "robots",  num: "01", label: "Checking robots.txt",          note: "Verifying crawl permissions" },
+  { id: "sitemap", num: "02", label: "Locating sitemap.xml",         note: "Searching for existing map" },
+  { id: "crawl",   num: "03", label: "Crawling internal links",       note: "Extracting page graph" },
+  { id: "analyze", num: "04", label: "AI structural analysis",        note: "LLM processing architecture" },
+  { id: "compile", num: "05", label: "Building intelligence report",  note: "Generating schemas & sitemap" },
+];
+
+// ─── CSS ──────────────────────────────────────────────────────────────────────
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#050910;overflow-x:hidden;}
+  input,button{outline:none;}
+  button{cursor:pointer;}
+  :root{
+    --bg:#050910; --surf:#0A1020; --bord:#141E30; --bord2:#1C2B3E;
+    --acc:#E85D04; --acc2:#0EA5E9; --green:#10B981; --red:#EF4444;
+    --text:#E2E8F0; --sub:#94A3B8; --muted:#4A5B72;
+    --fh:'Syne',sans-serif; --fb:'DM Sans',sans-serif; --fm:'JetBrains Mono',monospace;
+  }
+  @keyframes fadein{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes glow{0%,100%{opacity:0.55;}50%{opacity:1;}}
+  @keyframes slide-right{from{width:0;}to{}}
+  .fadein{animation:fadein 0.45s ease both;}
+  .spin{animation:spin 0.75s linear infinite;}
+  .glow{animation:glow 2s ease infinite;}
+  ::-webkit-scrollbar{width:5px;height:5px;}
+  ::-webkit-scrollbar-track{background:var(--surf);}
+  ::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:2px;}
+  .tab-btn{transition:background 0.12s,border-color 0.12s;}
+  .tab-btn:hover{background:rgba(28,43,62,0.5)!important;}
+  .tab-btn.active{background:rgba(232,93,4,0.08)!important;border-color:rgba(232,93,4,0.35)!important;}
+  .grid-bg{
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);
+    background-size:44px 44px;
+  }
+  .step-row{transition:background 0.3s;}
+  .input-row:focus-within{border-color:rgba(232,93,4,0.5)!important;}
+  .btn-acc{transition:opacity 0.12s,transform 0.1s;}
+  .btn-acc:hover{opacity:0.88;transform:translateY(-1px);}
+  .btn-ghost{transition:border-color 0.12s,color 0.12s;}
+  .btn-ghost:hover{border-color:var(--sub)!important;color:var(--text)!important;}
+  .sitemap-row{transition:background 0.12s;}
+  .sitemap-row:hover{background:rgba(20,30,48,0.7)!important;}
+`;
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+export default function WireVisionApp() {
+  const [screen,    setScreen]    = useState("landing");
+  const [urlInput,  setUrlInput]  = useState("https://stripe.com");
+  const [stepState, setStepState] = useState({});
+  const [progress,  setProgress]  = useState(0);
+  const [site,      setSite]      = useState(null);
+  const [wireframes,setWireframes]= useState([]);
+  const [activeWf,  setActiveWf]  = useState(0);
+  const [wfLoading, setWfLoading] = useState(false);
+  const [error,     setError]     = useState(null);
+  const [copied,    setCopied]    = useState(false);
+
+  const setStep = (id, status) => setStepState((p) => ({ ...p, [id]: status }));
+
+  const normUrl = (raw) => {
+    const t = raw.trim();
+    return /^https?:\/\//i.test(t) ? t : `https://${t}`;
+  };
+
+  // ── ANALYSIS PIPELINE ───────────────────────────────────────────────────────
+  const runAnalysis = async () => {
+    const finalUrl = normUrl(urlInput);
+    let origin;
+    try { origin = new URL(finalUrl).origin; }
+    catch { setError("Please enter a valid URL — e.g. https://example.com"); return; }
+
+    setError(null);
+    setStepState({});
+    setProgress(0);
+    setScreen("analyzing");
+
+    let robots = null, sitemapXml = null, homeHtml = null;
+    let paths   = ["/"];
+    let hasSitemap    = false;
+    let robotsStatus  = "not_found";
+
+    // 01 robots.txt
+    setStep("robots", "running");
+    robots = await proxyFetch(`${origin}/robots.txt`);
+    if (robots?.includes("User-agent:")) {
+      const low = robots.toLowerCase();
+      robotsStatus = (low.includes("disallow: /") && !/disallow:\s*\/\s*\nallow:/m.test(low)) ? "restricted" : "allowed";
+    }
+    await sleep(320);
+    setStep("robots", "done");
+    setProgress(18);
+
+    // 02 sitemap.xml
+    setStep("sitemap", "running");
+    const sitemapRef = robots?.match(/Sitemap:\s*(.+)/i)?.[1]?.trim();
+    sitemapXml = await proxyFetch(sitemapRef || `${origin}/sitemap.xml`);
+    if (sitemapXml && (sitemapXml.includes("<urlset") || sitemapXml.includes("<sitemapindex"))) {
+      hasSitemap = true;
+      paths = parseSitemap(sitemapXml);
+      if (paths.length === 0) paths = ["/"];
+    }
+    await sleep(320);
+    setStep("sitemap", "done");
+    setProgress(36);
+
+    // 03 crawl
+    setStep("crawl", "running");
+    if (!hasSitemap) {
+      homeHtml = await proxyFetch(finalUrl);
+      if (homeHtml) paths = extractLinks(homeHtml, finalUrl);
+    }
+    await sleep(380);
+    setStep("crawl", "done");
+    setProgress(54);
+
+    // 04 AI analysis
+    setStep("analyze", "running");
+
+    const prompt = `Website: ${finalUrl}
+
+robots.txt (first 1200 chars):
+${robots?.slice(0, 1200) || "Not found"}
+
+${hasSitemap ? `Existing sitemap.xml (partial):\n${sitemapXml?.slice(0, 3000)}` : `Crawled page paths:\n${paths.join("\n")}`}
+
+${homeHtml ? `Homepage HTML snippet (first 4500 chars):\n${homeHtml.slice(0, 4500)}` : ""}
+
+Analyze this website and return ONLY this exact JSON (no markdown, no explanation):
+{
+  "siteName": "Brand name",
+  "siteDescription": "One sentence: what this site does and for whom",
+  "robotsStatus": "${robotsStatus}",
+  "robotsNotes": "Concise crawl policy summary",
+  "existingSitemap": ${hasSitemap},
+  "techStack": ["detected technologies"],
+  "seoScore": 75,
+  "siteInsights": "2-3 sentences of professional UX/SEO insight about this site's structure",
+  "pages": [
+    {
+      "path": "/",
+      "name": "Home",
+      "title": "SEO title",
+      "description": "What this page does in one sentence",
+      "priority": 1.0,
+      "changefreq": "weekly",
+      "pageType": "homepage",
+      "estimatedSections": ["navbar","hero","features","testimonials","cta","footer"]
+    }
+  ]
+}
+
+pageType options: homepage, product, about, contact, pricing, docs, blog, portfolio, faq, legal, other
+Include ALL ${paths.length} pages from the crawled paths. Use your knowledge of ${finalUrl} to make precise inferences.`;
+
+    let siteData;
+    try {
+      const raw = await callClaude(prompt, "You are a precise web intelligence analyst. Return only valid JSON — no markdown, no preamble.", 4096);
+      siteData = JSON.parse(raw);
+    } catch {
+      const hostname = new URL(origin).hostname.replace(/^www\./, "");
+      siteData = {
+        siteName: hostname,
+        siteDescription: `Professional website at ${origin}`,
+        robotsStatus, robotsNotes: robots ? "robots.txt parsed" : "No robots.txt — full crawl permitted",
+        existingSitemap: hasSitemap, techStack: [], seoScore: 72,
+        siteInsights: "Analysis complete based on crawled data. Sitemap and wireframes ready.",
+        pages: paths.map((p, i) => ({
+          path: p,
+          name: p === "/" ? "Home" : (p.split("/").filter(Boolean).pop()?.replace(/[-_]/g, " ") || "Page"),
+          title: `${p === "/" ? "Home" : p} — ${hostname}`,
+          description: "Page content", priority: i === 0 ? 1.0 : 0.7,
+          changefreq: "weekly",
+          pageType: i === 0 ? "homepage" : "other",
+          estimatedSections: i === 0 ? ["navbar","hero","features","cta","footer"] : ["navbar","content","footer"],
+        })),
+      };
+    }
+
+    setStep("analyze", "done");
+    setProgress(78);
+
+    // 05 compile
+    setStep("compile", "running");
+    siteData.sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${siteData.pages.map((p) => `  <url>
+    <loc>${origin}${p.path}</loc>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
+    <changefreq>${p.changefreq || "weekly"}</changefreq>
+    <priority>${p.priority || 0.7}</priority>
+  </url>`).join("\n")}
+</urlset>`;
+    await sleep(430);
+    setStep("compile", "done");
+    setProgress(100);
+    await sleep(550);
+
+    setSite(siteData);
+    setScreen("report");
+  };
+
+  // ── WIREFRAME PIPELINE ──────────────────────────────────────────────────────
+  const genWireframes = async () => {
+    if (!site) return;
+    setWfLoading(true);
+    setWireframes([]);
+    setActiveWf(0);
+    setScreen("wireframes");
+
+    const prompt = `Create detailed wireframe section specs for every page of "${site.siteName}" (${urlInput}).
+
+Pages to wireframe:
+${site.pages.map((p) => `- path="${p.path}" name="${p.name}" type="${p.pageType}" hints=${JSON.stringify(p.estimatedSections)}`).join("\n")}
+
+Return ONLY valid JSON (no markdown, no explanation):
+{
+  "wireframes": [
+    {
+      "path": "/",
+      "name": "Home",
+      "pageType": "homepage",
+      "sections": [
+        { "type": "navbar",       "label": "Navigation Bar",     "heightPx": 64,  "elements": { "logo": true, "navItems": ["Home","Features","Pricing","Docs"], "cta": "Start Free" } },
+        { "type": "hero",         "label": "Hero Section",       "heightPx": 440, "elements": { "headline": "Main value proposition", "subtext": "Supporting description", "primaryCta": "Get Started", "secondaryCta": "See Demo", "hasMedia": true } },
+        { "type": "features",     "label": "Feature Highlights", "heightPx": 320, "elements": { "layout": "3-col", "items": ["Feat A","Feat B","Feat C"], "hasIcons": true } },
+        { "type": "testimonials", "label": "Social Proof",       "heightPx": 220, "elements": {} },
+        { "type": "cta",          "label": "CTA Banner",         "heightPx": 180, "elements": { "cta": "Create Free Account" } },
+        { "type": "footer",       "label": "Footer",             "heightPx": 140, "elements": { "columns": 4 } }
+      ]
+    }
+  ]
+}
+
+Available section types: navbar, hero, features, grid, pricing, testimonials, cta, banner, footer, form, contact, gallery, portfolio, content, blog, text, stats, faq, accordion
+Generate wireframes for ALL ${site.pages.length} pages. Make sections realistic, specific, and proportional to each page type.`;
+
+    try {
+      const raw    = await callClaude(prompt, "You are a precise UX architect. Return only valid JSON — no markdown, no extra text.", 6144);
+      const parsed = JSON.parse(raw);
+      setWireframes(parsed.wireframes || []);
+    } catch {
+      setWireframes(site.pages.map((p) => ({
+        path: p.path, name: p.name, pageType: p.pageType,
+        sections: [
+          { type: "navbar",  label: "Navigation Bar", heightPx: 64,  elements: { logo: true, navItems: ["Home","About","Contact"], cta: "Get Started" } },
+          { type: "hero",    label: "Hero Section",   heightPx: 380, elements: { headline: `${p.name} Headline`, primaryCta: "Call to Action", hasMedia: true } },
+          { type: "content", label: "Main Content",   heightPx: 260, elements: {} },
+          { type: "cta",     label: "CTA Section",    heightPx: 160, elements: { cta: "Learn More" } },
+          { type: "footer",  label: "Footer",         heightPx: 120, elements: { columns: 3 } },
+        ],
+      })));
+    }
+    setWfLoading(false);
+  };
+
+  const downloadSitemap = () => {
+    if (!site?.sitemapXml) return;
+    const blob = new Blob([site.sitemapXml], { type: "application/xml" });
+    const a    = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "sitemap.xml" });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  };
+
+  const copyJson = () => {
+    if (!site?.pages) return;
+    navigator.clipboard.writeText(JSON.stringify(site.pages, null, 2)).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2200);
+  };
+
+  const currentWf = wireframes[activeWf];
+  const hostname  = (() => { try { return new URL(normUrl(urlInput)).hostname; } catch { return urlInput; } })();
+
+  // ─ STATUS COLORS ────────────────────────────────────────────────────────────
+  const statusBadge = (val) => {
+    const ok = ["allowed","found","generated"].includes(val);
+    return {
+      fontSize: 9, fontFamily: "var(--fm)", letterSpacing: "0.06em", padding: "2px 7px",
+      background: ok ? "rgba(16,185,129,0.1)"  : "rgba(232,93,4,0.1)",
+      color:      ok ? "var(--green)"           : "var(--acc)",
+      border:     `1px solid ${ok ? "rgba(16,185,129,0.22)" : "rgba(232,93,4,0.22)"}`,
+    };
+  };
+
+  // ─ RENDER ───────────────────────────────────────────────────────────────────
+  return (
+    <>
+      <style>{CSS}</style>
+      <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "var(--fb)", display: "flex", flexDirection: "column" }}>
+
+        {/* ─── NAVBAR ──────────────────────────────────────────────────────── */}
+        <nav style={{ position: "sticky", top: 0, zIndex: 100, borderBottom: "1px solid var(--bord)", background: "rgba(5,9,16,0.93)", backdropFilter: "blur(20px)" }}>
+          <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 32px", height: 60, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ width: 34, height: 34, background: "var(--acc)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 900, fontFamily: "var(--fh)", color: "#fff", flexShrink: 0 }}>W</div>
+              <span style={{ fontSize: 18, fontWeight: 800, fontFamily: "var(--fh)", letterSpacing: "-0.4px" }}>WireVision</span>
+              <span style={{ fontSize: 10, fontFamily: "var(--fm)", background: "rgba(232,93,4,0.12)", color: "var(--acc)", padding: "2px 8px", border: "1px solid rgba(232,93,4,0.24)", letterSpacing: "0.07em" }}>AI</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
+              <span style={{ fontSize: 11, fontFamily: "var(--fm)", color: "var(--muted)", letterSpacing: "0.09em" }}>CLAUDE VISION ENGINE</span>
+              {screen !== "landing" && (
+                <button onClick={() => { setScreen("landing"); setSite(null); setWireframes([]); }} className="btn-ghost" style={{ fontSize: 11, fontFamily: "var(--fh)", fontWeight: 700, letterSpacing: "0.07em", padding: "6px 14px", background: "transparent", border: "1px solid var(--bord2)", color: "var(--sub)" }}>
+                  ← NEW
+                </button>
+              )}
+              <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 10, fontFamily: "var(--fm)", color: "var(--green)" }}>
+                <span className="glow" style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)", display: "inline-block" }} />
+                LIVE
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <main style={{ flex: 1 }}>
+
+          {/* ════════════════ LANDING ════════════════ */}
+          {screen === "landing" && (
+            <div className="fadein grid-bg" style={{ maxWidth: 1440, margin: "0 auto", padding: "96px 32px 64px" }}>
+              <div style={{ maxWidth: 680, margin: "0 auto", textAlign: "center" }}>
+
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid var(--bord2)", background: "var(--surf)", padding: "5px 14px", marginBottom: 36, fontSize: 10, fontFamily: "var(--fm)", color: "var(--muted)", letterSpacing: "0.12em" }}>
+                  <span style={{ color: "var(--acc)" }}>◆</span>
+                  POWERED BY CLAUDE VISION API
+                </div>
+
+                <h1 style={{ fontSize: 72, fontWeight: 800, fontFamily: "var(--fh)", letterSpacing: "-2.5px", lineHeight: 1.03, marginBottom: 22 }}>
+                  Any URL into<br />
+                  <span style={{ color: "var(--acc)" }}>agency wireframes</span>
+                </h1>
+
+                <p style={{ fontSize: 17, color: "var(--sub)", lineHeight: 1.65, marginBottom: 52, maxWidth: 480, margin: "0 auto 52px" }}>
+                  Submit any URL. AI crawls the site, builds a full sitemap, creates JSON schemas per page, and generates blueprint wireframes.
+                </p>
+
+                {/* Input */}
+                <div className="input-row" style={{ border: "1px solid var(--bordClaude's response could not be fully generatedRetry

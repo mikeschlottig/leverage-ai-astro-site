@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trafilatura 2.0: Comprehensive Research & User Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        
+        .nav-active {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border-right: 4px solid #0369a1;
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #0369a1;
+            color: #0369a1;
+            font-weight: 600;
+        }
+        
+        .flow-node {
+            transition: all 0.3s ease;
+        }
+        .flow-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #0ea5e9;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased h-screen overflow-hidden flex">
+
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Sky Blue Accents -->
+    <!-- Application Structure Plan: The application uses a persistent sidebar navigation (dashboard style) to allow users to quickly jump between the required sections (Overview, Economics, Engineering, Integration, Roadmap). This non-linear structure is chosen because users of technical documentation have varying needs; a data scientist might jump to "Economics/Impact", a developer to "Engineering", and a systems architect to "Integration". Interactive tabs within sections group related content without overwhelming the page length. -->
+    <!-- Visualization & Content Choices: 
+         1. Economics: Bar chart comparing manual vs Trafilatura resource usage -> Goal: Compare/Persuade -> Chart.js Canvas. Justification: Quantifies abstract benefits of the library.
+         2. Engineering: Interactive Tabs -> Goal: Organize/Inform -> HTML/JS. Justification: Cleanly separates code syntaxes (CLI, Python, R) so users only see what they need.
+         3. Integration: HTML Grid Diagram -> Goal: Relationships/Process -> HTML/CSS (NO SVG). Justification: Shows how Trafilatura fits into a larger data pipeline, utilizing interactive hover states to explain nodes.
+         4. Roadmap: Interactive Accordion -> Goal: Organize -> HTML/JS. Justification: Details tutorials without cluttering the main view. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="w-64 bg-stone-100 border-r border-stone-200 flex flex-col h-full shrink-0 z-10 shadow-sm">
+        <div class="p-6 border-b border-stone-200">
+            <h1 class="text-2xl font-bold text-stone-900 tracking-tight">Trafilatura <span class="text-sky-700">2.0</span></h1>
+            <p class="text-xs text-stone-500 mt-1 uppercase tracking-wider font-semibold">Research & User Guide</p>
+        </div>
+        <div class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1" id="nav-list">
+                <li><button onclick="nav('overview', this)" class="nav-btn w-full text-left px-6 py-3 text-sm font-medium text-stone-600 hover:bg-stone-200 transition-colors nav-active">⚡ Executive Overview</button></li>
+                <li><button onclick="nav('economics', this)" class="nav-btn w-full text-left px-6 py-3 text-sm font-medium text-stone-600 hover:bg-stone-200 transition-colors">📈 Economic Implications</button></li>
+                <li><button onclick="nav('engineering', this)" class="nav-btn w-full text-left px-6 py-3 text-sm font-medium text-stone-600 hover:bg-stone-200 transition-colors">⚙️ Engineering Deep Dive</button></li>
+                <li><button onclick="nav('integration', this)" class="nav-btn w-full text-left px-6 py-3 text-sm font-medium text-stone-600 hover:bg-stone-200 transition-colors">🔗 Integrating Systems</button></li>
+                <li><button onclick="nav('roadmap', this)" class="nav-btn w-full text-left px-6 py-3 text-sm font-medium text-stone-600 hover:bg-stone-200 transition-colors">🗺️ Developers Roadmap</button></li>
+            </ul>
+        </div>
+        <div class="p-4 border-t border-stone-200 text-xs text-stone-400 text-center">
+            As of April 2026
+        </div>
+    </nav>
+
+    <main class="flex-1 overflow-y-auto p-8 md:p-12 scroll-smooth" id="main-content">
+        
+        <section id="overview" class="content-section animate-fade-in block max-w-5xl mx-auto">
+            <header class="mb-8 border-b border-stone-200 pb-4">
+                <h2 class="text-4xl font-extrabold text-stone-900 mb-2">Executive Overview</h2>
+                <p class="text-lg text-stone-600 leading-relaxed">This section provides a high-level summary of Trafilatura's purpose, core capabilities, and its role as a foundational tool for data acquisition and text extraction in modern computing.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <div class="text-3xl mb-2 text-sky-600">📥</div>
+                    <h3 class="text-lg font-bold text-stone-800 mb-2">Robust Acquisition</h3>
+                    <p class="text-sm text-stone-600">Downloads web pages flawlessly, handling sitemaps, RSS/Atom feeds, and complex URL management with built-in politeness rules.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <div class="text-3xl mb-2 text-sky-600">🧹</div>
+                    <h3 class="text-lg font-bold text-stone-800 mb-2">Precision Extraction</h3>
+                    <p class="text-sm text-stone-600">Strips away boilerplate, navigation, and noise to deliver pristine main text content, structured metadata, and comments.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <div class="text-3xl mb-2 text-sky-600">🗂️</div>
+                    <h3 class="text-lg font-bold text-stone-800 mb-2">Format Flexibility</h3>
+                    <p class="text-sm text-stone-600">Outputs data in TXT, CSV, JSON, and validated TEI-XML, preparing corpora instantly for NLP, LLM training, or statistical analysis.</p>
+                </div>
+            </div>
+
+            <div class="prose prose-stone max-w-none">
+                <p class="text-lg mb-4">Trafilatura v2.0 is a comprehensive Python package and command-line tool designed to gather text on the Web. It seamlessly combines discovery (web crawling) with high-fidelity text extraction. In the context of large language models and massive data ingestion needs, Trafilatura serves as the critical first layer, ensuring that downstream systems receive high-signal, low-noise data.</p>
+                <p>Key features validated in the official documentation include robust <strong>deduplication</strong> (at both document and paragraph levels), extensive <strong>URL management</strong> (filtering, sampling, blacklisting), and multi-interface support (CLI, Python, R, and a GUI).</p>
+            </div>
+        </section>
+
+        <section id="economics" class="content-section hidden max-w-5xl mx-auto">
+            <header class="mb-8 border-b border-stone-200 pb-4">
+                <h2 class="text-4xl font-extrabold text-stone-900 mb-2">Economic Indicators & Implications</h2>
+                <p class="text-lg text-stone-600 leading-relaxed">Analyzing the cost-benefit of Trafilatura. This section visualizes the reduction in computing overhead, storage costs, and developer hours when transitioning from custom scraping scripts to an optimized Trafilatura pipeline.</p>
+            </header>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 mb-8">
+                <h3 class="text-xl font-bold text-stone-800 mb-6 text-center">Resource Expenditure: Custom Scraping vs. Trafilatura</h3>
+                <div class="chart-container">
+                    <canvas id="economicsChart"></canvas>
+                </div>
+                <p class="text-sm text-center text-stone-500 mt-4 italic">Simulated data representing relative cost multipliers for extracting a 100k page corpus.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-stone-800 mb-3">The Cost of Noise</h3>
+                    <p class="text-stone-600 mb-4">Traditional scraping often yields high volumes of HTML markup, navigation menus, and footers. Storing and processing this noise incurs massive cloud compute and storage costs. Trafilatura's heuristic extraction immediately reduces the byte-size of the payload by isolating only the primary text content.</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-stone-800 mb-3">Developer Velocity</h3>
+                    <p class="text-stone-600 mb-4">Writing and maintaining custom Xpath/CSS selectors for thousands of diverse websites is an unsustainable economic sink. Trafilatura's generalized extraction algorithms eliminate this maintenance burden, reallocating data engineering hours from maintenance to model building and analysis.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-sky-50 border border-sky-200 rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-sky-900">Need to convince your boss?</h3>
+                    <button onclick="generatePitch()" id="btn-pitch" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded transition-colors shadow-sm focus:outline-none">✨ Generate Stakeholder Pitch</button>
+                </div>
+                <div id="pitch-output" class="text-stone-700 text-sm italic hidden bg-white p-4 rounded border border-sky-100 shadow-inner min-h-[60px] whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <section id="engineering" class="content-section hidden max-w-5xl mx-auto">
+            <header class="mb-8 border-b border-stone-200 pb-4">
+                <h2 class="text-4xl font-extrabold text-stone-900 mb-2">Engineering Deep Dive</h2>
+                <p class="text-lg text-stone-600 leading-relaxed">A technical breakdown of Trafilatura's interfaces. Explore syntax and usage across different environments to understand how to implement the library.</p>
+            </header>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden">
+                <div class="flex border-b border-stone-200 bg-stone-50">
+                    <button onclick="switchTab('tab-cli')" id="btn-tab-cli" class="tab-btn px-6 py-3 text-sm font-medium text-stone-600 hover:text-sky-700 focus:outline-none tab-active">Command-Line (CLI)</button>
+                    <button onclick="switchTab('tab-python')" id="btn-tab-python" class="tab-btn px-6 py-3 text-sm font-medium text-stone-600 hover:text-sky-700 focus:outline-none">Python Library</button>
+                    <button onclick="switchTab('tab-r')" id="btn-tab-r" class="tab-btn px-6 py-3 text-sm font-medium text-stone-600 hover:text-sky-700 focus:outline-none">R Integration</button>
+                </div>
+
+                <div class="p-6">
+                    <div id="tab-cli" class="tab-content block">
+                        <h3 class="text-xl font-bold text-stone-800 mb-3">CLI Quickstart</h3>
+                        <p class="text-stone-600 mb-4">The CLI is optimized for rapid testing, bulk processing, and shell scripting pipelines.</p>
+                        <div class="bg-stone-900 rounded-lg p-4 font-mono text-sm text-green-400 overflow-x-auto relative group">
+                            <span class="absolute top-2 right-2 text-stone-500 cursor-pointer hover:text-white" onclick="copyCode(this)" title="Copy">📋</span>
+                            <code># Extract from a single URL<br>
+                            trafilatura -u https://example.org<br><br>
+                            # Process a list of links and output JSON<br>
+                            trafilatura -i links.txt -o output_dir --json<br><br>
+                            # Discover links via sitemap and extract<br>
+                            trafilatura --sitemap https://example.org/sitemap.xml</code>
+                        </div>
+                        <ul class="mt-4 list-disc list-inside text-sm text-stone-600 space-y-1">
+                            <li>Supports extraction parameters like <code>--no-comments</code> or <code>--target-language</code>.</li>
+                            <li>Handles local file processing alongside web URLs.</li>
+                        </ul>
+                    </div>
+
+                    <div id="tab-python" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-stone-800 mb-3">Python Core Functions</h3>
+                        <p class="text-stone-600 mb-4">For building programmatic pipelines, asynchronous crawling, and custom processing logic.</p>
+                        <div class="bg-stone-900 rounded-lg p-4 font-mono text-sm text-blue-300 overflow-x-auto relative group">
+                            <span class="absolute top-2 right-2 text-stone-500 cursor-pointer hover:text-white" onclick="copyCode(this)" title="Copy">📋</span>
+                            <code>import trafilatura<br><br>
+                            url = 'https://example.org'<br>
+                            # 1. Download<br>
+                            downloaded = trafilatura.fetch_url(url)<br><br>
+                            # 2. Extract<br>
+                            if downloaded:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;result = trafilatura.extract(downloaded, include_comments=False)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;print(result)</code>
+                        </div>
+                        <p class="mt-4 text-sm text-stone-600 bg-sky-50 p-3 rounded border border-sky-100">
+                            <strong>Tip:</strong> The Python API allows fine-grained control over extraction settings via configuration files, enabling deduplication and complex URL management.
+                        </p>
+                    </div>
+
+                    <div id="tab-r" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-stone-800 mb-3">Using Trafilatura with R</h3>
+                        <p class="text-stone-600 mb-4">Trafilatura can be integrated into R workflows, bridging the gap between robust Python extraction and R's statistical ecosystems.</p>
+                        <div class="bg-stone-900 rounded-lg p-4 font-mono text-sm text-purple-300 overflow-x-auto relative group">
+                            <span class="absolute top-2 right-2 text-stone-500 cursor-pointer hover:text-white" onclick="copyCode(this)" title="Copy">📋</span>
+                            <code># Using reticulate to call Trafilatura from R<br>
+                            library(reticulate)<br><br>
+                            traf &lt;- import("trafilatura")<br>
+                            url &lt;- "https://example.org"<br><br>
+                            # Fetch and extract<br>
+                            html &lt;- traf$fetch_url(url)<br>
+                            text &lt;- traf$extract(html)<br>
+                            cat(text)</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-indigo-50 border border-indigo-200 rounded-xl p-6">
+                <h3 class="text-xl font-bold text-indigo-900 mb-2">Trafilatura Code Assistant</h3>
+                <p class="text-sm text-indigo-700 mb-4">Describe your web scraping or extraction task, and our AI will generate the appropriate Python script using Trafilatura.</p>
+                <textarea id="ai-prompt" class="w-full h-24 p-3 rounded border border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-sm bg-white" placeholder="e.g., I need a script that takes a sitemap URL, extracts the text of all pages, and saves them as separate text files."></textarea>
+                <button onclick="generateCode()" id="btn-generate-code" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition-colors shadow-sm focus:outline-none">✨ Generate Code</button>
+                <div id="code-output-container" class="hidden mt-4">
+                    <div class="bg-stone-900 rounded-lg p-4 font-mono text-sm text-indigo-300 overflow-x-auto relative group whitespace-pre-wrap" id="code-output"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="integration" class="content-section hidden max-w-5xl mx-auto">
+            <header class="mb-8 border-b border-stone-200 pb-4">
+                <h2 class="text-4xl font-extrabold text-stone-900 mb-2">Integrating Systems & Pipelines</h2>
+                <p class="text-lg text-stone-600 leading-relaxed">Interactive architecture diagram showing how Trafilatura connects discovery, extraction, and downstream data storage (e.g., Vector Databases like Epsilla mentioned in tutorials). Hover over nodes for details.</p>
+            </header>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200">
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    
+                    <div class="w-full md:w-1/4">
+                        <div class="flow-node bg-stone-100 border-2 border-stone-300 rounded-lg p-4 text-center cursor-help relative group" onmouseover="updatePipelineDetail('source')" onmouseout="updatePipelineDetail('default')">
+                            <div class="text-2xl mb-1">🌐</div>
+                            <div class="font-bold text-stone-700">Web Sources</div>
+                            <div class="text-xs text-stone-500">Sitemaps, RSS, URLs</div>
+                        </div>
+                    </div>
+
+                    <div class="text-stone-400 text-2xl hidden md:block">➔</div>
+                    <div class="text-stone-400 text-2xl md:hidden block">⬇</div>
+
+                    <div class="w-full md:w-1/4">
+                        <div class="flow-node bg-sky-50 border-2 border-sky-300 rounded-lg p-4 text-center cursor-help" onmouseover="updatePipelineDetail('engine')" onmouseout="updatePipelineDetail('default')">
+                            <div class="text-2xl mb-1">⚙️</div>
+                            <div class="font-bold text-sky-800">Trafilatura Engine</div>
+                            <div class="text-xs text-sky-600">Download & Extract</div>
+                        </div>
+                    </div>
+
+                    <div class="text-stone-400 text-2xl hidden md:block">➔</div>
+                    <div class="text-stone-400 text-2xl md:hidden block">⬇</div>
+
+                    <div class="w-full md:w-1/4">
+                        <div class="flow-node bg-stone-100 border-2 border-stone-300 rounded-lg p-4 text-center cursor-help" onmouseover="updatePipelineDetail('clean')" onmouseout="updatePipelineDetail('default')">
+                            <div class="text-2xl mb-1">🧹</div>
+                            <div class="font-bold text-stone-700">Data Refining</div>
+                            <div class="text-xs text-stone-500">Deduplication, Formatting</div>
+                        </div>
+                    </div>
+
+                    <div class="text-stone-400 text-2xl hidden md:block">➔</div>
+                    <div class="text-stone-400 text-2xl md:hidden block">⬇</div>
+
+                    <div class="w-full md:w-1/4">
+                        <div class="flow-node bg-indigo-50 border-2 border-indigo-300 rounded-lg p-4 text-center cursor-help" onmouseover="updatePipelineDetail('dest')" onmouseout="updatePipelineDetail('default')">
+                            <div class="text-2xl mb-1">🗄️</div>
+                            <div class="font-bold text-indigo-800">Downstream DB</div>
+                            <div class="text-xs text-indigo-600">Epsilla (Vectors), TEI-XML</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 p-4 bg-stone-50 border border-stone-200 rounded-lg min-h-[120px] flex items-center justify-center transition-all">
+                    <p id="pipeline-detail" class="text-stone-600 text-center">Hover over a node in the pipeline above to see detailed integration strategies based on the documentation.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="roadmap" class="content-section hidden max-w-5xl mx-auto">
+            <header class="mb-8 border-b border-stone-200 pb-4">
+                <h2 class="text-4xl font-extrabold text-stone-900 mb-2">Developers Roadmap & Mastery</h2>
+                <p class="text-lg text-stone-600 leading-relaxed">A structured path through the official tutorials. Click on a topic to expand and view the core learning objectives for mastering Trafilatura.</p>
+            </header>
+
+            <div class="space-y-4">
+                <div class="border border-stone-200 rounded-lg bg-white overflow-hidden">
+                    <button class="w-full text-left px-6 py-4 flex justify-between items-center bg-stone-50 hover:bg-stone-100 focus:outline-none font-bold text-stone-800" onclick="toggleAccordion('acc1', this)">
+                        <span>1. Gathering a Custom Web Corpus</span>
+                        <span class="acc-icon">➕</span>
+                    </button>
+                    <div id="acc1" class="hidden px-6 py-4 border-t border-stone-200 text-stone-600">
+                        <p class="mb-2"><strong>Goal:</strong> Learn to build a targeted dataset from scratch.</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li>System setup and environment preparation.</li>
+                            <li>Content discovery using sitemaps and feeds.</li>
+                            <li>Link filtering to ensure relevance.</li>
+                            <li>Batch processing a finalized list of links into a unified corpus.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border border-stone-200 rounded-lg bg-white overflow-hidden">
+                    <button class="w-full text-left px-6 py-4 flex justify-between items-center bg-stone-50 hover:bg-stone-100 focus:outline-none font-bold text-stone-800" onclick="toggleAccordion('acc2', this)">
+                        <span>2. From Links to Frequency Lists</span>
+                        <span class="acc-icon">➕</span>
+                    </button>
+                    <div id="acc2" class="hidden px-6 py-4 border-t border-stone-200 text-stone-600">
+                        <p class="mb-2"><strong>Goal:</strong> Transition from extraction to basic linguistic analysis.</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li>Processing links specifically for text-mining readiness.</li>
+                            <li>Applying tokenization and counting mechanisms to generate word frequency lists, essential for NLP baselines.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border border-stone-200 rounded-lg bg-white overflow-hidden">
+                    <button class="w-full text-left px-6 py-4 flex justify-between items-center bg-stone-50 hover:bg-stone-100 focus:outline-none font-bold text-stone-800" onclick="toggleAccordion('acc3', this)">
+                        <span>3. Validation of TEI Files</span>
+                        <span class="acc-icon">➕</span>
+                    </button>
+                    <div id="acc3" class="hidden px-6 py-4 border-t border-stone-200 text-stone-600">
+                        <p class="mb-2"><strong>Goal:</strong> Ensure output data meets academic and archival standards.</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li>Producing Text Encoding Initiative (TEI) compliant XML using Trafilatura.</li>
+                            <li>Validating existing TEI files against schemas to guarantee structural integrity for digital humanities projects.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border border-stone-200 rounded-lg bg-white overflow-hidden">
+                    <button class="w-full text-left px-6 py-4 flex justify-between items-center bg-stone-50 hover:bg-stone-100 focus:outline-none font-bold text-stone-800 border-l-4 border-l-sky-500" onclick="toggleAccordion('acc4', this)">
+                        <span>4. Advanced Integration: Text Embedding with Epsilla</span>
+                        <span class="acc-icon">➕</span>
+                    </button>
+                    <div id="acc4" class="hidden px-6 py-4 border-t border-stone-200 text-stone-600">
+                        <p class="mb-2"><strong>Goal:</strong> Prepare data for Retrieval-Augmented Generation (RAG) and semantic search.</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm">
+                            <li>Understanding the necessity of embeddings for crawled data.</li>
+                            <li>Setting up the Epsilla Vector Database.</li>
+                            <li>Crawling target project homepages, generating vector embeddings of the extracted text, and storing them.</li>
+                            <li>Performing vector similarity searches on the newly created knowledge base.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function nav(sectionId, btn) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.classList.remove('nav-active');
+            });
+            btn.classList.add('nav-active');
+
+            if(sectionId === 'economics' && !window.chartRendered) {
+                renderChart();
+                window.chartRendered = true;
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('tab-active'));
+            document.getElementById('btn-' + tabId).classList.add('tab-active');
+        }
+
+        function toggleAccordion(id, btn) {
+            const content = document.getElementById(id);
+            const icon = btn.querySelector('.acc-icon');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '➖';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '➕';
+            }
+        }
+
+        function copyCode(element) {
+            const code = element.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = element.innerText;
+                element.innerText = '✅';
+                setTimeout(() => { element.innerText = originalText; }, 2000);
+            });
+        }
+
+        const pipelineData = {
+            'default': "Hover over a node in the pipeline above to see detailed integration strategies based on the documentation.",
+            'source': "<strong>Web Sources:</strong> Utilize Trafilatura's built-in discovery tools. Feed it a sitemap URL or an RSS/Atom feed. It handles URL normalization, domain sampling, and blacklisting before requests are even made.",
+            'engine': "<strong>Trafilatura Engine:</strong> Executes downloads respecting politeness rules (rate limiting, robots.txt). Applies complex heuristics to strip boilerplate (nav, footers) and isolate main text, authors, dates, and comments.",
+            'clean': "<strong>Data Refining:</strong> Configure Trafilatura to perform LSH (Locality-Sensitive Hashing) for document-level deduplication, ensuring duplicate content from different URLs is dropped. Formats output to JSON or TEI.",
+            'dest': "<strong>Downstream DB:</strong> Pass the clean, extracted text to embedding models. As shown in the tutorials, integrate directly with Vector DBs like Epsilla to enable semantic search and RAG applications over the crawled corpus."
+        };
+
+        function updatePipelineDetail(key) {
+            document.getElementById('pipeline-detail').innerHTML = pipelineData[key];
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('economicsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Developer Setup Time', 'Compute/Processing Time', 'Storage Costs (DB)'],
+                    datasets: [
+                        {
+                            label: 'Custom BeautifulSoup/Regex Scripts',
+                            data: [85, 90, 75],
+                            backgroundColor: '#a8a29e', 
+                            borderWidth: 0
+                        },
+                        {
+                            label: 'Trafilatura Optimized Pipeline',
+                            data: [15, 30, 20],
+                            backgroundColor: '#0284c7', 
+                            borderWidth: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + ' relative units';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Relative Cost/Time Units' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Gemini API Integrations ---
+        const apiKey = ""; 
+
+        async function callGemini(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+            
+            let retries = 5;
+            let delay = 1000;
+            while (retries > 0) {
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+                } catch (error) {
+                    retries--;
+                    if (retries === 0) return "Error generating response. Please try again.";
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        async function generatePitch() {
+            const btn = document.getElementById('btn-pitch');
+            const output = document.getElementById('pitch-output');
+            
+            btn.disabled = true;
+            btn.innerHTML = '✨ Generating...';
+            output.classList.remove('hidden');
+            output.innerHTML = 'Drafting pitch...';
+
+            const prompt = "Write a concise, persuasive 2-paragraph pitch to a CTO explaining why they should adopt the Trafilatura library for web text extraction instead of writing custom BeautifulSoup scripts. Mention that it drastically cuts developer setup time (from 85 units down to 15), compute time (90 to 30), and storage costs (75 to 20) by stripping out HTML noise heuristically. Keep it professional and punchy. No markdown formatting, just plain text.";
+            
+            const response = await callGemini(prompt);
+            output.innerText = response;
+            
+            btn.disabled = false;
+            btn.innerHTML = '✨ Generate Stakeholder Pitch';
+        }
+
+        async function generateCode() {
+            const btn = document.getElementById('btn-generate-code');
+            const input = document.getElementById('ai-prompt').value;
+            const outputContainer = document.getElementById('code-output-container');
+            const output = document.getElementById('code-output');
+            
+            if(!input.trim()) {
+                outputContainer.classList.remove('hidden');
+                output.innerText = "Please enter a task description first.";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '✨ Generating...';
+            outputContainer.classList.remove('hidden');
+            output.innerText = 'Writing script...';
+
+            const prompt = `You are a Python developer. Write a complete Python script using the 'trafilatura' library based on the following request: "${input}". Only output the code, without Markdown backticks surrounding the whole block. Include brief comments.`;
+            
+            let response = await callGemini(prompt);
+            
+            // Clean up any stray markdown code fences if the model happens to return them
+            response = response.replace(/^```python\n/gi, '').replace(/^```\n/gi, '').replace(/```$/gi, '');
+            
+            output.innerText = response;
+            
+            btn.disabled = false;
+            btn.innerHTML = '✨ Generate Code';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeverageLabs — Cultivating Premium Content with Claude</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0b0e; --bg-card:#0f1117; --bg-code:#0d1118;
+    --border:#1e2330; --border-hi:#2e3548;
+    --amber:#f59e0b; --amber-dim:#92600a;
+    --teal:#2dd4bf; --teal-dim:#0d6e63;
+    --blue:#60a5fa; --purple:#a78bfa;
+    --green:#34d399; --red:#f87171;
+    --text:#e2e8f0; --text-muted:#7c8ca1; --text-faint:#3d4a5c;
+    --mono:'JetBrains Mono',monospace;
+    --display:'Playfair Display',serif;
+    --sans:'DM Sans',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+  .page-wrap{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;overflow-y:auto;background:var(--bg-card);border-right:1px solid var(--border);padding:32px 0 48px;display:flex;flex-direction:column;gap:0;z-index:100;}
+  .sidebar-logo{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+  .sidebar-logo-mark{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--amber);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;}
+  .sidebar-logo-title{font-family:var(--display);font-size:18px;color:var(--text);line-height:1.2;}
+  .sidebar-section{padding:8px 24px 4px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-faint);}
+  .sidebar a{display:block;padding:6px 24px;font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .15s,background .15s;border-left:2px solid transparent;}
+  .sidebar a:hover{color:var(--amber);background:rgba(245,158,11,0.05);border-left-color:var(--amber-dim);}
+
+  /* MAIN */
+  .main{margin-left:240px;max-width:900px;padding:0 56px 120px;}
+
+  /* HERO */
+  .hero{padding:80px 0 64px;border-bottom:1px solid var(--border);margin-bottom:72px;position:relative;}
+  .hero::before{content:'';position:absolute;top:0;left:-56px;right:-56px;bottom:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(245,158,11,0.06) 0%,transparent 70%);pointer-events:none;}
+  .hero-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;font-family:var(--mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.12em;}
+  .hero-meta span{color:var(--amber);}
+  .hero-meta::before{content:'';display:block;width:24px;height:1px;background:var(--amber);}
+  .hero-title{font-family:var(--display);font-size:clamp(36px,5vw,54px);font-weight:900;line-height:1.05;color:var(--text);margin-bottom:20px;}
+  .hero-title em{font-style:normal;color:var(--amber);}
+  .hero-subtitle{font-size:16px;color:var(--text-muted);max-width:620px;line-height:1.65;margin-bottom:36px;}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:4px 10px;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;}
+  .tag-amber{background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.2);}
+  .tag-teal{background:rgba(45,212,191,0.10);color:var(--teal);border:1px solid rgba(45,212,191,0.2);}
+  .tag-blue{background:rgba(96,165,250,0.10);color:var(--blue);border:1px solid rgba(96,165,250,0.2);}
+  .tag-green{background:rgba(52,211,153,0.10);color:var(--green);border:1px solid rgba(52,211,153,0.2);}
+
+  /* SECTIONS */
+  .section{margin-bottom:72px;scroll-margin-top:32px;}
+  .section-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--amber);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  h2{font-family:var(--display);font-size:30px;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.2;}
+  h3{font-family:var(--sans);font-size:17px;font-weight:600;color:var(--text);margin:32px 0 12px;}
+  h4{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--teal);letter-spacing:0.1em;text-transform:uppercase;margin:24px 0 10px;}
+  p{color:var(--text-muted);margin-bottom:16px;}
+  a{color:var(--amber);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  strong{color:var(--text);font-weight:600;}
+
+  /* CARDS */
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:24px 28px;margin-bottom:16px;}
+  .card-title{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .card-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot-amber{background:var(--amber);} .dot-teal{background:var(--teal);} .dot-blue{background:var(--blue);} .dot-green{background:var(--green);} .dot-purple{background:var(--purple);}
+  .card p{margin-bottom:0;font-size:14px;}
+
+  /* GRIDS */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;}
+
+  /* CODE */
+  pre{background:var(--bg-code);border:1px solid var(--border);border-radius:6px;padding:20px 24px;overflow-x:auto;margin:16px 0;position:relative;}
+  pre .lang-tag{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:9px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;}
+  code{font-family:var(--mono);font-size:13px;line-height:1.7;color:#cdd6f4;}
+  pre code{background:none;padding:0;border-radius:0;font-size:13px;}
+  .k{color:var(--purple);} .s{color:var(--green);} .c{color:var(--text-faint);font-style:italic;} .f{color:var(--amber);} .v{color:var(--teal);} .h{color:var(--blue);}
+  code.inline{background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:3px;font-size:12.5px;color:var(--teal);border:1px solid var(--border);}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:20px 0;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);padding:10px 16px;text-align:left;border-bottom:1px solid var(--border-hi);background:rgba(245,158,11,0.04);}
+  tbody td{padding:10px 16px;color:var(--text-muted);border-bottom:1px solid var(--border);vertical-align:top;}
+  tbody td:first-child{color:var(--text);font-weight:500;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:rgba(255,255,255,0.02);}
+
+  /* CALLOUT */
+  .callout{border-left:3px solid;padding:16px 20px;border-radius:0 6px 6px 0;margin:20px 0;font-size:14px;}
+  .callout p{margin-bottom:0;font-size:14px;}
+  .callout-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;}
+  .callout-amber{border-color:var(--amber);background:rgba(245,158,11,0.06);}
+  .callout-amber .callout-title{color:var(--amber);}
+  .callout-teal{border-color:var(--teal);background:rgba(45,212,191,0.06);}
+  .callout-teal .callout-title{color:var(--teal);}
+  .callout-blue{border-color:var(--blue);background:rgba(96,165,250,0.06);}
+  .callout-blue .callout-title{color:var(--blue);}
+  .callout-red{border-color:var(--red);background:rgba(248,113,113,0.06);}
+  .callout-red .callout-title{color:var(--red);}
+
+  /* CHECKLIST */
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:10px;margin:16px 0;}
+  .checklist li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-muted);line-height:1.5;}
+  .checklist li::before{content:'✓';font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green);background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);border-radius:3px;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .checklist li strong{color:var(--text);}
+  .badlist li::before{content:'✗';color:var(--red);background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.2);}
+
+  /* NUMBERED */
+  ol.numbered{counter-reset:step;list-style:none;display:flex;flex-direction:column;gap:14px;margin:16px 0;}
+  ol.numbered li{counter-increment:step;display:flex;gap:14px;font-size:14px;color:var(--text-muted);line-height:1.6;align-items:flex-start;}
+  ol.numbered li::before{content:counter(step,decimal-leading-zero);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--amber);background:rgba(245,158,11,0.08);border:1px solid var(--amber-dim);border-radius:3px;width:28px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+
+  /* ARCH BOX */
+  .arch-box{background:var(--bg-code);border:1px solid var(--border);border-radius:6px;padding:24px 28px;margin:20px 0;font-family:var(--mono);font-size:12.5px;color:var(--text-muted);line-height:1.8;}
+
+  /* STYLE PROFILE */
+  .profile{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px 36px;margin-bottom:56px;}
+  .profile-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:16px;}
+  .profile-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--amber);letter-spacing:0.15em;}
+  .profile-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.15;}
+  .profile-subtitle{font-family:var(--mono);font-size:11px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;}
+  .profile-principle{border-left:3px solid var(--amber);background:rgba(245,158,11,0.05);padding:16px 20px;border-radius:0 6px 6px 0;margin:20px 0 28px;font-size:15px;color:var(--text-muted);font-style:italic;line-height:1.6;}
+  .profile-principle strong{color:var(--amber);font-style:normal;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:6px;}
+  .profile h4{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--teal);letter-spacing:0.15em;text-transform:uppercase;margin:24px 0 10px;}
+  .profile p{font-size:14px;}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:16px 0;}
+
+  /* PROMPT BLOCK */
+  .prompt-block{background:var(--bg-code);border:1px solid var(--border-hi);border-radius:6px;padding:20px 24px;margin:16px 0;position:relative;}
+  .prompt-block .prompt-label{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--purple);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .prompt-block .prompt-label::before{content:'⬡';color:var(--purple);}
+  .prompt-block p{font-size:13.5px;color:#cdd6f4;margin-bottom:0;line-height:1.65;font-family:var(--mono);}
+
+  .divider{border:none;border-top:1px solid var(--border);margin:56px 0;}
+  .kbd{font-family:var(--mono);font-size:11px;padding:2px 6px;background:var(--bg-card);border:1px solid var(--border-hi);border-bottom-width:2px;border-radius:3px;color:var(--text);}
+
+  /* FOOTER */
+  .footer{margin-left:240px;padding:24px 56px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--text-faint);}
+  .footer span{color:var(--amber);}
+
+  @media(max-width:900px){
+    .page-wrap{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+    .main{margin-left:0;padding:0 24px 80px;}
+    .footer{margin-left:0;padding:20px 24px;}
+    .grid-2,.grid-3,.two-col{grid-template-columns:1fr;}
+  }
+
+
+
+
+
+
+
+    
+
+LeverageLabs
+
+
+    
+
+Premium Content
+with Claude
+
+
+
+  
+
+Foundation
+
+How to Use This GuideThe Synthesis PhilosophyClaude Activation Workflow
+
+  
+
+Style Profiles
+
+1. Narrative Economist2. Extreme Correspondent3. Pattern Detective4. Essayist-Witness5. Structural Geologist6. Curious Empiricist7. Footnote Maximalist8. Conversational Philosopher9. Moral Cartographer10. Gonzo Correspondent
+
+  
+
+Reference
+
+Style Selection MatrixCombining StylesThe Synthesis ProcessMaster Prompt Templates
+
+
+
+
+
+  
+
+
+    
+
+LeverageLabs — Content Intelligence Series
+
+
+    
+
+
+      Cultivating Premium Content
+
+      with Claude: Leveraging &
+
+      Extending Authorship Style
+    
+
+
+    
+
+
+      A practitioner's field guide for activating 10 distinct narrative voices through Claude — 
+      internalizing the machinery of master writers and extending it into original, 
+      high-leverage content that serves your clients, your brand, and your audience.
+    
+
+
+    
+
+
+      10 Voice Engines
+      Claude Prompt Templates
+      Structural Patterns
+      Do's & Don'ts
+      Style Combos
+      Selection Matrix
+    
+
+
+
+  
+
+
+    
+
+Foundation — 01
+
+
+    
+
+How to Use This Guide
+
+
+    
+
+
+      Most AI-generated content is recognizable not because it's wrong, but because it's 
+      voiceless. It covers the topic. It hits the word count. And it 
+      reads like every other piece on the subject. This guide exists to solve that problem 
+      at the root.
+    
+
+
+    
+
+
+      Each profile below is a writing engine — a precise set of 
+      structural patterns, tonal mechanics, and rhetorical moves drawn from a master-class 
+      narrative tradition. When you feed these patterns into Claude with the right activation 
+      prompts, the output stops being content and starts being writing.
+    
+
+
+
+    
+
+
+      
+
+
+        
+
+Patterns
+
+
+        
+
+Describe what the style does structurally and tonally — the repeatable moves that define the voice.
+
+
+      
+
+
+      
+
+
+        
+
+Do's & Don'ts
+
+
+        
+
+The guardrails. Do's are moves to instruct Claude to practice. Don'ts are the traps that turn synthesis into caricature.
+
+
+      
+
+
+      
+
+
+        
+
+Claude Prompts
+
+
+        
+
+Ready-to-use activation prompts and structural instructions for directing Claude into each voice with precision.
+
+
+      
+
+
+    
+
+
+
+    
+
+
+      
+
+Cardinal Rule
+
+
+      
+
+
+        Never reference the source author, their books, or their public persona in your Claude prompts or the final output. You are using the engine, not the brand. The reader should feel the effect without knowing the source. Instruct Claude the same way.
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Foundation — 02
+
+
+    
+
+The Synthesis Philosophy
+
+
+    
+
+
+      The goal is not imitation. It's internalization. When you give Claude 
+      a structural engine — not "write like X" but "open with a person doing something 
+      slightly strange, withhold the stakes for three paragraphs, then flip the reader's 
+      assumption" — you get output that carries the mechanics of a master voice 
+      without being a copy of one.
+    
+
+
+    
+
+
+      The distinction matters for two reasons. First, instructing Claude by pattern rather 
+      than by author name produces more reliable, higher-fidelity output — Claude is 
+      responding to craft instructions, not attempting persona imitation. Second, the 
+      resulting content is genuinely original: the pattern is the inheritance; the 
+      voice that emerges from your specific subject and angle is new.
+    
+
+
+
+    
+
+
+      
+
+
+        
+
+Weak Prompt Approach
+
+
+        
+
+"Write this article in the style of [Author Name]." Claude pattern-matches to surface features — sentence length, famous tics — and produces imitation without substance.
+
+
+      
+
+
+      
+
+
+        
+
+LeverageLabs Approach
+
+
+        
+
+Feed Claude the structural template, the do's and don'ts, and a Claude-specific activation prompt. The output carries the mechanics without the mimicry.
+
+
+      
+
+
+    
+
+
+
+    
+
+
+      
+
+The Final Test
+
+
+      
+
+
+        If someone reads the output and says "who does this remind you of?" and the answer is "I'm not sure, but I liked it" — you've synthesized. If they name the author — go back and edit against the don'ts list. The patterns should be invisible. The quality should be unmistakable.
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Foundation — 03
+
+
+    
+
+Claude Activation Workflow
+
+
+    
+
+
+      Every style profile in this guide follows the same six-step activation pattern with Claude.
+      Internalize this workflow before working with individual profiles.
+    
+
+
+
+    
+
+
+      
+
+Select the Engine. Use the Style Selection Matrix to match your content type, desired reader emotion, and target length to the right profile. When in doubt, pick two candidates and run the opening paragraph through both — the better fit will be immediately apparent.
+
+
+      
+
+Load the Structural Template. Paste the template structure into Claude's system prompt or as the first user turn. This establishes the architectural shape of the piece before any content is introduced.
+
+
+      
+
+Inject the Patterns as Instructions. Convert each pattern bullet into a direct instruction: "Open with a person doing something specific and slightly strange" not "use character-first structure."
+
+
+      
+
+Feed the Do's as a Checklist. Include the Do's list verbatim as a self-check instruction: "After drafting each section, verify it against this checklist before continuing."
+
+
+      
+
+Encode the Don'ts as Hard Constraints. Frame Don'ts as absolute prohibitions in the prompt. Claude responds better to "never open with a thesis statement" than to "try to avoid thesis-led openings."
+
+
+      
+
+Review and Edit Against the Voice. After generation, use the profile's key principle as your editorial lens. Does every paragraph serve that principle? Cut what doesn't.
+
+
+    
+
+
+
+    
+
+
+      
+
+System Prompt vs. User Turn
+
+
+      
+
+
+        For long-form content, load the structural template and pattern list into the system prompt (or a first-turn context block) and save your actual content brief for the user turn. This gives Claude the voice engine before it encounters the subject matter — which produces more consistent style adherence than mixing both in a single prompt.
+      
+
+
+    
+
+
+
+  
+
+  
+
+
+    
+
+Style Profile — 01
+
+
+    
+
+
+      
+
+01 / 10
+
+
+      
+
+The Narrative Economist
+
+
+      
+
+Character-driven systems journalism
+
+
+
+      
+
+
+        Key Principle
+        Every complex system has a human standing at its weakest seam. Find that person. Tell their story. The system explains itself.
+      
+
+
+
+      
+
+Structural Patterns
+
+
+      
+
+
+        
+
+Character-first structure. The piece opens with a person — usually someone overlooked or underestimated — and the reader's understanding of the topic grows as the character's story unfolds.
+
+
+        
+
+Scene-setting through specific, odd details. Not "he walked into the office" but "he walked into an office where someone had taped a Calvin and Hobbes strip to a Bloomberg terminal."
+
+
+        
+
+The slow reveal. Information is metered out. The reader discovers the stakes with the protagonist, not ahead of them.
+
+
+        
+
+Systemic critique delivered through anecdote. The argument is never stated as argument. It emerges from what happened to someone.
+
+
+        
+
+Tonal contrast. Dry, almost deadpan narration layered over situations that are genuinely absurd or consequential.
+
+
+        
+
+Short declarative sentences punctuating longer contextual passages. The rhythm shifts to signal importance.
+
+
+      
+
+
+
+      
+
+
+        
+
+
+          
+
+Do's
+
+
+          
+
+
+            
+
+Open with a person doing something specific and slightly strange
+
+
+            
+
+Use dialogue — even reconstructed — to show character and stakes
+
+
+            
+
+Let the reader feel smarter as the piece progresses; teach without teaching
+
+
+            
+
+Deploy humor through observation, not jokes — state absurd facts plainly
+
+
+            
+
+Build to a "wait, what?" turn where the reader's assumption flips
+
+
+            
+
+End with a scene, not a summary — let the image carry the conclusion
+
+
+            
+
+Use concrete numbers and details to ground abstract concepts
+
+
+          
+
+
+        
+
+
+        
+
+
+          
+
+Don'ts
+
+
+          
+
+
+            
+
+Never open with a thesis statement or topic sentence
+
+
+            
+
+Don't explain the system first and add characters later — reverse it
+
+
+            
+
+Never editorialize or tell the reader what to think
+
+
+            
+
+Don't use jargon without a human moment to decode it
+
+
+            
+
+Don't overuse humor — one perfectly placed observation beats three clever quips
+
+
+            
+
+Never write "in conclusion" or "to summarize"
+
+
+            
+
+Don't make the protagonist a hero; make them interesting
+
+
+          
+
+
+        
+
+
+      
+
+
+
+      
+
+Best For
+
+
+      
+
+
+        
+
+
+          Content TypeWhy It Works
+          
+            Tech industry explainersTurns product launches and platform shifts into character-driven narratives
+            Industry disruption piecesPerfect for "nobody saw this coming" narratives about markets, startups, or policy
+          
+        
+
+
+      
+
+
+
+      
+
+Structural Template
+
+
+      
+
+
+        
+
+Cold open — A person. A moment. Something that doesn't quite add up.
+
+
+        
+
+Context drop — Pull back just enough to show the world this person operates in.
+
+
+        
+
+The problem — Revealed through what the character does, not through exposition.
+
+
+        
+
+Rising action — Stakes escalate. Other characters enter. The system's flaws become visible.
+
+
+        
+
+The turn — The moment the reader sees what the character saw before anyone else did.
+
+
+        
+
+Resolution as image — End on a scene that crystallizes the theme without stating it.
+
+
+      
+
+
+
+      
+
+Claude Activation Prompt
+
+
+      
+
+
+        
+
+Paste into System Prompt
+
+
+        
+
+You are writing a character-driven systems piece. STRUCTURE: Open with a specific, slightly unusual scene involving a single person — no context, no explanation, just them doing something. In the second section, pull back to show the world they operate in. Reveal the core problem only through what the character does or says — never through direct exposition. Let stakes escalate through other characters entering the scene. Build to a moment where the reader's initial assumption about the situation flips entirely. End on a concrete image, not a summary. HARD RULES: Never open with a thesis or topic sentence. Never use the phrase "in conclusion" or "to summarize." Never explain the system before the character. Never editorialize. All humor must come from stating absurd facts plainly — no jokes. Short declarative sentences signal importance; use them sparingly and deliberately.
+
+
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Style Profile — 02
+
+
+    
+
+
+      
+
+02 / 10
+
+
+      
+
+The Extreme Correspondent
+
+
+      
+
+Immersive, high-stakes narrative journalism
+
+
+
+      
+
+
+        Key Principle
+        Put the reader's body in the scene. If they can feel the cold, the altitude, the fear — they'll follow you anywhere, including into the argument.
+      
+
+
+
+      
+
+Structural Patterns
+
+
+      
+
+
+        
+
+Immersive, sensory-first prose. The writing is physical. Temperature, terrain, fatigue, hunger — the body is always present.
+
+
+        
+
+Non-linear timeline with purpose. Jumps between past and present create dramatic irony — the reader knows the outcome before the characters do.
+
+
+        
+
+First-person credibility without ego. The narrator is present but not the point. Their presence establishes "I was there" authority without making it about them.
+
+
+        
+
+Research worn lightly. Enormous depth of investigation surfaces as telling details, not data dumps.
+
+
+        
+
+Moral complexity without moralizing. Characters make decisions the reader might disagree with, presented with enough context that judgment becomes difficult.
+
+
+        
+
+Momentum through compression. Paragraphs get shorter as danger increases. The pace mirrors the experience.
+
+
+      
+
+
+
+      
+
+
+        
+
+
+          
+
+Do's
+
+
+          
+
+
+            
+
+Ground every scene in physical detail — what the body feels, not just what the mind thinks
+
+
+            
+
+Use timeline shifts to create tension (reader knows the ending; suspense is in how)
+
+
+            
+
+Include yourself sparingly and only to establish credibility or vulnerability
+
+
+            
+
+Let sources speak in their own words — direct quotes carry authenticity
+
+
+            
+
+Build dread through accumulation of small, factual details
+
+
+            
+
+Compress sentences during high-stakes moments; expand during reflection
+
+
+          
+
+
+        
+
+
+        
+
+
+          
+
+Don'ts
+
+
+          
+
+
+            
+
+Don't sensationalize — the facts are dramatic enough; let them work
+
+
+            
+
+Don't over-explain motivation; show the decision and let the reader infer
+
+
+            
+
+Don't turn the narrator into a hero or center of the story
+
+
+            
+
+Don't drop research in blocks — weave it through scene and action
+
+
+            
+
+Don't soften consequences; this style's power comes from unflinching honesty
+
+
+            
+
+Don't rush the setup — the payoff depends on the reader being fully immersed first
+
+
+          
+
+
+        
+
+
+      
+
+
+
+      
+
+Best For
+
+
+      
+
+
+        
+
+
+          Content TypeWhy It Works
+          
+            Founder / startup origin storiesStartups are survival narratives — this style treats them that way
+            High-stakes case studiesThe timeline-inversion and sensory detail transform dry outcomes into lived experience
+          
+        
+
+
+      
+
+
+
+      
+
+Structural Template
+
+
+      
+
+
+        
+
+Flash-forward — The outcome, stated starkly. A failure, a crisis, a pivot. The reader knows what.
+
+
+        
+
+Rewind to origin — How did we get here? Introduce the person before the crisis.
+
+
+        
+
+The descent into commitment — Small decisions compound. The point of no return arrives quietly.
+
+
+        
+
+Immersive crisis — Tight, sensory, compressed. The reader is in it.
+
+
+        
+
+Aftermath — Pull back. What changed? What didn't? What does it mean?
+
+
+        
+
+Final image — A detail that haunts. Something the reader will carry out of the piece.
+
+
+      
+
+
+
+      
+
+Claude Activation Prompt
+
+
+      
+
+
+        
+
+Paste into System Prompt
+
+
+        
+
+You are writing an immersive, high-stakes narrative piece. STRUCTURE: Open with the outcome — state it plainly and without softening. Then rewind to the beginning. Build through a series of small, compounding decisions that lead inevitably to the outcome the reader already knows. During the crisis section, shorten sentences progressively as tension increases. End on a single haunting physical detail, not a lesson. HARD RULES: Every scene must contain at least one physical, sensory detail (temperature, weight, sound, smell). Never explain a character's motivation directly — show the decision and let the reader infer. Never soften consequences. The narrator may appear but only briefly and only to establish presence. Research surfaces as scene details, never as paragraphs of background context.
+
+
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Style Profile — 03
+
+
+    
+
+
+      
+
+03 / 10
+
+
+      
+
+The Pattern Detective
+
+
+      
+
+Counterintuitive insight journalism
+
+
+
+      
+
+
+        Key Principle
+        The most interesting thing about any topic is the thing everyone assumed was obvious — until you show them it isn't.
+      
+
+
+
+      
+
+Structural Patterns
+
+
+      
+
+
+        
+
+The counterintuitive hook. Every piece starts with a widely held assumption and then methodically dismantles it.
+
+
+        
+
+Anecdote → research → insight → anecdote. The structure alternates between story and study, creating a rhythm that's both entertaining and persuasive.
+
+
+        
+
+Accessible academic translation. Dense research is repackaged as narrative. Studies become stories about the researchers who ran them.
+
+
+        
+
+The "what if" reframe. Takes familiar events and asks the reader to see them from a completely different angle.
+
+
+        
+
+Conversational authority. Writes like someone explaining something fascinating at a dinner party — confident, curious, slightly incredulous.
+
+
+        
+
+Named concepts. Introduces sticky frameworks and labels that give the reader new vocabulary.
+
+
+      
+
+
+
+      
+
+
+        
+
+
+          
+
+Do's
+
+
+          
+
+
+            
+
+Start with a story that seems to have nothing to do with your actual topic
+
+
+            
+
+Connect two seemingly unrelated domains — the surprise connection is the insight
+
+
+            
+
+Cite research by telling the story of the researcher, not just the findings
+
+
+            
+
+Use repetition strategically — return to the opening anecdote with new context
+
+
+            
+
+Ask rhetorical questions that genuinely shift perspective
+
+
+            
+
+Create a "name" for the phenomenon you're describing — make it memorable
+
+
+          
+
+
+        
+
+
+        
+
+
+          
+
+Don'ts
+
+
+          
+
+
+            
+
+Don't cherry-pick data without acknowledging complexity — loses trust if it feels glib
+
+
+            
+
+Don't stack more than 2–3 studies in sequence without a narrative break
+
+
+            
+
+Don't let the cleverness overwhelm the substance — insight must be earned
+
+
+            
+
+Don't explain the connection too early; let the reader sit in productive confusion
+
+
+            
+
+Don't be smug — the tone is curious and generous, not superior
+
+
+            
+
+Don't force a tidy conclusion if the evidence is messy; ambiguity can be the point
+
+
+          
+
+
+        
+
+
+      
+
+
+
+      
+
+Best For
+
+
+      
+
+
+        
+
+
+          Content TypeWhy It Works
+          
+            Industry trend analysisThe "pattern across domains" structure is built for connecting dots
+            "Why X is actually about Y" articlesThe counterintuitive reframe is the core move
+          
+        
+
+
+      
+
+
+
+      
+
+Structural Template
+
+
+      
+
+
+        
+
+The unexpected anecdote — A specific story that seems like a tangent.
+
+
+        
+
+The question — "But what if this isn't really about [obvious thing]?"
+
+
+        
+
+The research — Introduce a study or expert, told as narrative.
+
+
+        
+
+The pattern — Connect the anecdote and the research. Name the phenomenon.
+
+
+        
+
+The second example — A different domain, same pattern. The insight solidifies.
+
+
+        
+
+The return — Come back to the opening story. Now the reader sees it differently.
+
+
+      
+
+
+
+      
+
+Claude Activation Prompt
+
+
+      
+
+
+        
+
+Paste into System Prompt
+
+
+        
+
+You are writing a counterintuitive insight piece. STRUCTURE: Open with a specific anecdote that seems unrelated to the main topic. Then ask a rhetorical question that reframes the obvious interpretation. Present research or evidence by narrating the person who discovered it, not just the finding. Name the phenomenon you're describing — give it a memorable label. Find a second, entirely different domain where the same pattern appears. Return to the opening anecdote and let the reader see it with new eyes. HARD RULES: Never explain the central connection before section 4. Tone must be curious and generous, never superior or knowing. Research must be rendered as story (who discovered this, where, under what circumstances) — never as citation lists or data blocks. Every academic concept must be translated into a concrete human moment before moving on.
+
+
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Style Profile — 04
+
+
+    
+
+
+      
+
+04 / 10
+
+
+      
+
+The Essayist-Witness
+
+
+      
+
+Cool, precise observational prose
+
+
+
+      
+
+
+        Key Principle
+        Pay attention to what's actually there — not what should be there. The gap between the story people tell themselves and the reality in front of them is where all the interesting writing lives.
+      
+
+
+
+      
+
+Structural Patterns
+
+
+      
+
+
+        
+
+Cool, precise observation. The prose is controlled, almost clinical, but the precision itself conveys emotion.
+
+
+        
+
+The telling detail elevated. A single object, weather pattern, or overheard phrase carries the weight of an entire argument.
+
+
+        
+
+Personal stakes acknowledged but not indulged. The writer is present, affected, but never sentimental.
+
+
+        
+
+Fragmented structure reflecting fragmented reality. Short sections. White space. The form mirrors the disorientation of the subject.
+
+
+        
+
+Sentences that do double work. Surface meaning and subtext operating simultaneously.
+
+
+        
+
+Atmosphere as argument. The feeling of a place or moment communicates what direct statement cannot.
+
+
+      
+
+
+
+      
+
+
+        
+
+
+          
+
+Do's
+
+
+          
+
+
+            
+
+Open with a concrete, specific image that sets mood before meaning
+
+
+            
+
+Use short, declarative sentences to establish authority
+
+
+            
+
+Let silence and white space do emotional work
+
+
+            
+
+Include yourself only as a lens, not a subject
+
+
+            
+
+Notice what's missing from a scene and name it
+
+
+            
+
+Write sentences that reward re-reading
+
+
+          
+
+
+        
+
+
+        
+
+
+          
+
+Don'ts
+
+
+          
+
+
+            
+
+Don't explain your feelings — show the thing that caused them
+
+
+            
+
+Don't be warm or encouraging; this voice is cool, not cold — there's a difference
+
+
+            
+
+Don't over-punctuate trying to "feel" fragmented
+
+
+            
+
+Don't generalize; this style works through radical specificity
+
+
+            
+
+Don't resolve tension neatly — leave the reader sitting with something
+
+
+            
+
+Don't confuse brevity with emptiness; every short sentence must carry weight
+
+
+          
+
+
+        
+
+
+      
+
+
+
+      
+
+Best For
+
+
+      
+
+
+        
+
+
+          Content TypeWhy It Works
+          
+            Company culture piecesThe gap between stated values and lived reality is this style's home turf
+            Personal essays with professional relevanceControlled vulnerability builds trust without oversharing
+          
+        
+
+
+      
+
+
+
+      
+
+Structural Template
+
+
+      
+
+
+        
+
+The image — A single, vivid scene. No context yet. Just observation.
+
+
+        
+
+The context — Pull back slowly. Where are we? When? Why does it matter?
+
+
+        
+
+The fracture — Something doesn't match. The official story and the observed reality diverge.
+
+
+        
+
+The investigation — Follow the fracture. What does it reveal?
+
+
+        
+
+The personal thread — Brief, controlled. Why this matters to the writer. Why it should matter to you.
+
+
+        
+
+The final image — Return to observation. The same world, seen differently now.
+
+
+      
+
+
+
+      
+
+Claude Activation Prompt
+
+
+      
+
+
+        
+
+Paste into System Prompt
+
+
+        
+
+You are writing a cool, precise observational essay. STRUCTURE: Open with a single concrete image — no context, no framing, just what is physically there. Pull back slowly. Identify one place where the official narrative and the observed reality diverge — follow that divergence. Include one brief, controlled personal reference only as a lens. End on an image, not a conclusion. HARD RULES: Never explain an emotion — describe the object or scene that caused it. Every paragraph should contain at least one detail so specific it could not apply to any other situation. Short sentences establish authority; use them at the start and end of sections. Leave the central tension unresolved. The tone is cool, not cold — engaged but not sentimental. Never use the word "feel" or "feelings."
+
+
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Style Profile — 05
+
+
+    
+
+
+      
+
+05 / 10
+
+
+      
+
+The Structural Geologist
+
+
+      
+
+Obsessive depth, patient revelation
+
+
+
+      
+
+
+        Key Principle
+        Structure is not decoration. The shape of the piece should mirror the shape of the subject. And any topic — absolutely any — becomes fascinating when you go deep enough.
+      
+
+
+
+      
+
+Structural Patterns
+
+
+      
+
+
+        
+
+Obsessive, patient detail. This style doesn't skim. It goes deeper into a subject than the reader thought possible, and the depth itself becomes hypnotic.
+
+
+        
+
+Innovative structure matched to subject. The architecture of each piece is custom-built for its specific content.
+
+
+        
+
+Expertise treated with reverence. People who know things deeply are portrayed with genuine admiration. The writing celebrates craft and mastery.
+
+
+        
+
+Digressions that aren't digressions. Apparent tangents always circle back, and the connection, when it arrives, feels inevitable.
+
+
+        
+
+Specificity as style. Names, measurements, processes, technical vocabulary — used not to show off but because precision is the beauty.
+
+
+        
+
+Long, winding sentences that carry you through process. The syntax mirrors the act of making or building something.
+
+
+      
+
+
+
+      
+
+
+        
+
+
+          
+
+Do's
+
+
+          
+
+
+            
+
+Spend time with your subject — depth of knowledge becomes depth of prose
+
+
+            
+
+Use technical vocabulary and then make it sing through context
+
+
+            
+
+Let experts speak at length; their passion is contagious on the page
+
+
+            
+
+Experiment with structure — chronological is rarely the most interesting shape
+
+
+            
+
+Include process: how things are made, done, built, discovered
+
+
+            
+
+Use digression purposefully — should feel like wandering but arrive somewhere precise
+
+
+          
+
+
+        
+
+
+        
+
+
+          
+
+Don'ts
+
+
+          
+
+
+            
+
+Don't simplify to the point of losing what makes the subject interesting
+
+
+            
+
+Don't rush — this style needs room to breathe
+
+
+            
+
+Don't condescend to experts or to readers
+
+
+            
+
+Don't use generic descriptions when specific ones exist
+
+
+            
+
+Don't impose drama artificially; find the inherent drama in mastery and process
+
+
+            
+
+Don't neglect structure planning — this style falls apart without architectural intention
+
+
+          
+
+
+        
+
+
+      
+
+
+
+      
+
+Best For
+
+
+      
+
+
+        
+
+
+          Content TypeWhy It Works
+          
+            "How it's made" contentProcess-oriented writing is the core competency
+            Long-form reports and white papersThe patient depth suits material that needs space to unfold
+          
+        
+
+
+      
+
+
+
+      
+
+Structural Template
+
+
+      
+
+
+        
+
+The entry point — Meet the person or place. Something specific and vivid.
+
+
+        
+
+The first layer — Surface knowledge. What most people know about this subject.
+
+
+        
+
+Going deeper — Technical detail introduced through action and process.
+
+
+        
+
+The digression — A related story, history, or parallel that enriches understanding.
+
+
+        
+
+The convergence — Everything connects. The digression was the point all along.
+
+
+        
+
+The deepest layer — The insight that only comes from sustained attention.
+
+
+      
+
+
+
+      
+
+Claude Activation Prompt
+
+
+      
+
+
+        
+
+Paste into System Prompt
+
+
+        
+
+You are writing a deep, process-oriented piece that treats its subject with the patience it deserves. STRUCTURE: Open with a person or place — specific, vivid, unhurried. Layer in technical depth gradually, always through action and process rather than explanation. Introduce an apparent digression approximately two-thirds of the way through — a related history, parallel, or seemingly tangential detail. Make it converge. End at the deepest layer of the subject, the insight only sustained attention reveals. HARD RULES: Every technical term must earn its place through context — never define terms in parentheses. Use the exact name of the thing, not a paraphrase. Allow sentences to run long when describing process — the length is the point. Never rush. Never condescend. The reader is as intelligent as you are; they simply haven't spent as long with this subject.
+
+
+      
+
+
+    
+
+
+
+  
+
+
+    
+
+Style Profile — 06
+
+
+    
+
+
+      
+
+06 / 10
+
+
+      
+
+The Curious Empiricist
+
+
+      
+
+Humor-driven science and tech accessibility
+
+
+
+      
+
+
+        Key Principle
+        If you're willing to ask the embarrassing question — the one everyone's thinking but nobody says out loud — you'll get the most interesting answer in the room.
+      
+
+
+
+      
+
+Structural Patterns
+
+
+      
+
+
+        
+
+Humor as access point. The writing is genuinely funny, and the humor is the vehicle that carries the reader past the "I don't care about this topic" barrier.
+
+
+        
+
+The writer as curious civilian. The narrator isn't an expert — they're a fascinated outsider learning in real time, and the reader learns alongside them.
+
+
+        
+
+Taboo subjects treated with cheerful directness. Nothing is too gross, weird, or awkward. The lack of squeamishness is the charm.
+
+
+        
+
+Scene-based reporting. The writer goes places: labs, factories, test facilities. The writing is grounded in physical visits and real conversations.
+
+
+        
+
+Science explained through anecdote and analogy. Never a textbook explanation when a story will do.
+
+
+      
+
+
+
+      
+
+
+        
+
+
+          
+
+Do's
+
+
+          
+
+
+            
+
+Put yourself in the room — describe what you saw, smelled, felt uncomfortable about
+
+
+            
+
+Ask the dumb question on the page; the reader is grateful you did
+
+
+            
+
+Use humor to lower defenses before delivering real information
+
+
+            
+
+Let scientists and experts be characters, not just citation sources
+
+
+            
+
+Include

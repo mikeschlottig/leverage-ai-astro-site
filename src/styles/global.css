@@ -1,0 +1,392 @@
+/* ============================================================
+   GLOBAL CSS — Leverage AI LLC Design System
+   Astro v6 | Node 22+
+
+   DESIGN LANGUAGE: Premium noir — deep navy/charcoal, gold accent,
+   glass morphism, film-grain texture, Playfair Display + Inter.
+
+   Token Architecture:
+     Primitive Tokens → Semantic Tokens → Component Classes
+
+   To retheme: update :root values below. Tailwind classes and
+   all components inherit via CSS custom properties.
+   ============================================================ */
+
+/* ─── FONT IMPORTS ──────────────────────────────────────────
+   Playfair Display: editorial serif for headlines (authority, prestige)
+   Inter: geometric sans for body (clarity, readability)
+   ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── DESIGN TOKENS ──────────────────────────────────────────
+   Primitive → Semantic → Component hierarchy.
+   Only update values here — all components inherit.
+   ─────────────────────────────────────────────────────────── */
+:root {
+  /* == PRIMITIVE: Gold Brand Scale (primary accent) ==
+     Warm gold — conveys excellence, intelligence, premium positioning.
+     brand-500 is the PRIMARY: CTAs, highlights, badges, icons. */
+  --brand-50:  #fefbf3;
+  --brand-100: #fdf3d7;
+  --brand-200: #fae5a3;
+  --brand-300: #f5ce65;
+  --brand-400: #f0b832;
+  --brand-500: #d4900f;  /* ← PRIMARY gold accent */
+  --brand-600: #b07208;
+  --brand-700: #8a5706;
+  --brand-800: #643e04;
+  --brand-900: #3e2603;
+
+  /* == PRIMITIVE: Noir Neutral Scale (backgrounds, surfaces) ==
+     Deep navy-charcoal — not pure black. Adds depth and warmth. */
+  --neutral-50:  #f0f2f5;
+  --neutral-100: #d8dce6;
+  --neutral-200: #b0b8cc;
+  --neutral-300: #8890a8;
+  --neutral-400: #606880;
+  --neutral-500: #424a62;
+  --neutral-600: #2e3448;
+  --neutral-700: #1e2538;
+  --neutral-800: #141926;
+  --neutral-900: #0b0e17;
+
+  /* == SEMANTIC: Leverage AI Color Roles == */
+  --page-bg:       #0d1119;               /* Deep noir page background */
+  --surface-1:     #141926;               /* Card / panel surface */
+  --surface-2:     #1e2538;               /* Elevated surface (modal, tooltip) */
+  --border-subtle: rgba(255,255,255,0.08); /* Subtle glass border */
+  --border-accent: rgba(212,144,15,0.35); /* Gold-tinted accent border */
+
+  --text-primary:   #eef0f5;              /* Cream-white — main text */
+  --text-secondary: #9ba3bb;              /* Muted blue-grey — body copy */
+  --text-muted:     #606880;              /* Dim text, captions */
+  --text-cream:     hsl(40 30% 90%);      /* Warm cream — hero headings */
+  --text-accent:    hsl(38 80% 65%);      /* Gold text for links & highlights */
+
+  --accent:         hsl(38 80% 55%);      /* Gold — primary CTA / highlight */
+  --accent-light:   hsl(38 80% 70%);      /* Lighter gold */
+  --accent-dark:    hsl(38 80% 38%);      /* Darker gold for hover states */
+
+  /* == GLASS MORPHISM ==
+     Use these on dark surface overlays. */
+  --glass-bg:       rgba(20, 25, 38, 0.60);
+  --glass-bg-strong: rgba(13, 17, 25, 0.85);
+  --glass-border:   rgba(255, 255, 255, 0.08);
+
+  /* == TYPOGRAPHY TOKENS == */
+  --font-heading: 'Playfair Display'; /* Serif — authority, editorial presence */
+  --font-body:    'Inter';            /* Sans — clarity, precision */
+  --font-accent:  'Playfair Display'; /* Same as heading for accent italics */
+
+  /* == LAYOUT TOKENS == */
+  --section-y:        8rem;     /* Section vertical padding (desktop) */
+  --section-y-mobile: 4rem;     /* Section padding (mobile) */
+  --container-max:    1200px;   /* Max content width */
+  --border-radius:    0.5rem;   /* Default border radius */
+  --border-radius-lg: 1rem;     /* Large border radius (cards) */
+  --border-radius-xl: 1.5rem;   /* XL border radius (hero sections) */
+}
+
+/* ─── BASE LAYER ─────────────────────────────────────────────
+   Global element defaults. Tailwind base is reset above.
+   ─────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    border-color: var(--border-subtle);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--page-bg);
+    color: var(--text-primary);
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.15;
+  }
+
+  /* Prose markdown content */
+  .prose h1 { font-size: 2.5rem; }
+  .prose h2 { font-size: 2rem;   }
+  .prose h3 { font-size: 1.5rem; }
+  .prose h4 { font-size: 1.25rem; }
+  .prose p  { margin-bottom: 1.25rem; color: var(--text-secondary); }
+  .prose h2, .prose h3 { font-family: var(--font-heading); font-weight: 600; color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem; }
+  .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+  .prose li { margin-bottom: 0.4rem; color: var(--text-secondary); }
+  .prose strong { color: var(--text-primary); font-weight: 600; }
+  .prose em { color: var(--text-accent); font-style: italic; }
+  .prose blockquote { border-left: 2px solid var(--accent); padding: 0.5rem 1rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
+  .prose code { background-color: var(--surface-1); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.875em; }
+  .prose a { color: var(--text-accent); text-decoration: underline; }
+
+  /* Service detail prose content */
+  .svc-prose h2 { font-family: var(--font-heading, serif); font-size: 2rem; font-weight: 700; color: hsl(38 80% 55%); margin: 3.5rem 0 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid hsl(38 80% 55% / 0.2); }
+  .svc-prose h3 { font-family: var(--font-heading, serif); font-size: 1.5rem; font-weight: 600; color: hsl(38 80% 55%); margin: 2.5rem 0 1rem; }
+  .svc-prose p  { color: hsl(210 15% 65%); line-height: 1.9; margin-bottom: 2rem; }
+  .svc-prose ul { padding-left: 0; list-style: none; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .svc-prose li { color: hsl(210 15% 62%); line-height: 1.7; padding-left: 1.5rem; position: relative; }
+  .svc-prose li::before { content: '→'; position: absolute; left: 0; color: hsl(38 80% 55%); }
+  .svc-prose strong { color: hsl(45 30% 88%); font-weight: 600; }
+  .svc-prose a { color: hsl(38 80% 55%); }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ─── COMPONENT CLASSES ──────────────────────────────────────
+   Reusable patterns. Apply via className in components.
+   ─────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Eyebrow labels ──────────────────────────────────────── */
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .eyebrow-lg {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ── Heading display style ───────────────────────────────── */
+  .heading-display {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-cream);
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-8 py-4 font-semibold text-sm tracking-widest uppercase transition-all duration-300;
+    background-color: var(--accent);
+    color: var(--page-bg);
+    border-radius: var(--border-radius);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    background-color: var(--accent-light);
+    box-shadow: 0 8px 32px rgba(212, 144, 15, 0.3);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-8 py-4 font-semibold text-sm tracking-widest uppercase transition-all duration-300;
+    border: 1px solid var(--border-accent);
+    color: var(--text-accent);
+    border-radius: var(--border-radius);
+  }
+  .btn-secondary:hover {
+    background-color: rgba(212, 144, 15, 0.1);
+    border-color: var(--accent);
+    color: var(--accent-light);
+  }
+
+  /* ── Glass morphism cards ────────────────────────────────── */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-strong {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(30px) saturate(1.8);
+    -webkit-backdrop-filter: blur(30px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── Film grain texture overlay ──────────────────────────── */
+  /* Apply .grain to sections that should have the texture effect */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Premium hover (cards, buttons) ──────────────────────── */
+  .premium-hover {
+    transition: all 400ms ease-out;
+  }
+  .premium-hover:hover {
+    transform: scale(1.02);
+  }
+
+  /* ── Section eyebrow with decorative bar ─────────────────── */
+  .has-bar {
+    @apply inline-flex items-center gap-4;
+  }
+  .has-bar::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background-color: var(--accent);
+  }
+
+  /* ── Scroll-reveal animation classes ─────────────────────── */
+  .slide-in-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .slide-in-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .slide-in-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .slide-in-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .scale-in.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ── Section spacing ─────────────────────────────────────── */
+  .section-padding {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+  }
+  @media (max-width: 768px) {
+    .section-padding {
+      padding-top: var(--section-y-mobile);
+      padding-bottom: var(--section-y-mobile);
+    }
+  }
+
+  /* ── Container ───────────────────────────────────────────── */
+  .container-custom {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  @media (max-width: 640px) {
+    .container-custom {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+  }
+
+  /* ── Background gradient helpers ─────────────────────────── */
+  .hero-gradient {
+    background:
+      linear-gradient(180deg,
+        rgba(13,17,25,0.3) 0%,
+        rgba(13,17,25,0.7) 40%,
+        rgba(13,17,25,1.0) 100%
+      ),
+      radial-gradient(ellipse 80% 60% at 30% 20%, rgba(30,50,100,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 70% 30%, rgba(100,70,20,0.3) 0%, transparent 60%);
+  }
+
+  .section-transition {
+    background: linear-gradient(180deg, transparent 0%, var(--page-bg) 100%);
+  }
+
+  /* ── Kenburns / breathe background animations ────────────── */
+  .kenburns {
+    animation: kenburns 12s ease-in-out infinite;
+  }
+  .hero-breathe {
+    animation: breathe 20s ease-in-out infinite;
+  }
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+}
+
+/* ─── UTILITY CLASSES ────────────────────────────────────────
+   One-off utilities that complement Tailwind.
+   ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Gradient text */
+  .text-gradient-brand {
+    background: linear-gradient(135deg, var(--brand-300) 0%, var(--brand-500) 50%, var(--brand-700) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gold glow */
+  .glow-gold {
+    background: radial-gradient(
+      ellipse 50% 40% at 50% 50%,
+      rgba(212, 144, 15, 0.06) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Blue glow (for accent sections) */
+  .glow-radial {
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 30%,
+      rgba(60, 80, 160, 0.08) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Box shadow glows */
+  .glow-brand {
+    box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  /* Cream / warm white text (for hero headlines) */
+  .text-cream {
+    color: var(--text-cream);
+  }
+}

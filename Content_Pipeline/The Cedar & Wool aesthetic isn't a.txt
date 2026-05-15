@@ -1,0 +1,68 @@
+The **"Cedar & Wool"** aesthetic isn't a single "off-the-shelf" Tailwind theme you can just toggle on—it’s a curated design system that mimics high-end, Pacific Northwest physical textures. It specifically uses a high-contrast pairing of deep, organic wood tones (Cedar) and soft, warm neutrals (Wool).
+
+### 1\. The "Cedar & Wool" Design System
+
+In Tailwind terms, this is usually implemented via custom color variables in your `tailwind.config.ts`.
+
+  * **The Wool:** Usually a warm, off-white or light stone (e.g., `stone-50` or a custom `#F5F5F0`). It avoids the "blue-light" sterile look of pure white.
+  * **The Cedar:** Deep browns or dark, desaturated greens (e.g., `#3D2B1F` or `stone-900`).
+  * **The Typography:** High-contrast serif headlines (**Fraunces**) paired with a clean, functional sans-serif for body text (**Inter**).
+
+This pairing is popular because it feels "expensive" and "established"—exactly what you want for a service that involves drilling holes into someone's roof.
+
+-----
+
+### 2\. Fast-Tracking to Astro 6.1.7
+
+Since you're on the absolute edge with **Astro 6.1.7** (which includes recent patches for React hydration and the new `Sharp` image service defaults), the "port" is more of a "migration of parts" than a full rewrite.
+
+#### Step 1: The "Shell" Setup
+
+Don't try to move the React project into Astro. Instead, initialize a fresh Astro 6 project and pull the React components into it.
+
+```bash
+# Initialize the latest Astro
+npm create astro@latest -- --template minimal
+
+# Add the essential integrations
+npx astro add react tailwind sitemap
+```
+
+#### Step 2: The "Islands" Migration (The Fastest Path)
+
+Astro 6 is designed to run React components as "islands." You don't need to convert your React code to `.astro` files immediately.
+
+1.  **Copy Files:** Move your `/src/components` and `/src/hooks` from your React project into the Astro `/src` folder.
+2.  **The Main Page:** In `src/pages/index.astro`, import your top-level React component.
+3.  **Hydrate:** Use the `client:load` directive to ensure interactivity (like your lead form) works.
+
+<!-- end list -->
+
+```astro
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.tsx';
+import LeadForm from '../components/QuoteForm.tsx';
+---
+
+<Layout title="Oregon Roofer Connect">
+  <Hero client:load /> 
+  <LeadForm client:visible /> </Layout>
+```
+
+#### Step 3: Leverage Astro 6.1.7 Specifics
+
+Since you're using the latest version, take advantage of these two features to save time:
+
+  * **Global Image Defaults:** Astro 6.1+ allows you to set `Sharp` encoding defaults in your `astro.config.mjs`. This means your "Misty Oregon" background images will be auto-optimized for WebP/AVIF without you touching a single line of CSS.
+  * **Astro Actions:** Instead of a complex custom API for your **Turso** lead routing, use **Astro Actions**. It handles the form submission server-side with type safety, making the "wiring up" later much faster.
+
+### Summary Checklist for the Port:
+
+1.  **Rename Extensions:** Ensure all your React files are `.jsx` or `.tsx` (Astro is strict about this).
+2.  **Move Styles:** Move your global CSS into a `src/styles/global.css` file and import it into a single Astro `Layout.astro` file.
+3.  **Public Assets:** Move your hero images and icons to the `/public` folder.
+4.  **Route Mapping:** Since you want city-specific pages, use Astro’s **[dynamic routing](https://www.google.com/search?q=https://docs.astro.build/en/guides/routing/%23dynamic-routes)** (`src/pages/[city].astro`) to generate those pages from your Turso DB.
+
+**Quick Recommendation:** Stick with the **Static (SSG)** output mode for now. It will make the site incredibly fast for SEO, and you can still handle the Lead Form via a simple serverless function or an Astro Action once you're ready to flip the switch on the Turso backend.

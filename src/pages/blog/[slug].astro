@@ -1,0 +1,267 @@
+---
+// ============================================================
+// BLOG POST — Dynamic route for individual blog articles.
+//
+// ASTRO V6 SYNTAX:
+//   - getStaticPaths: params.slug = post.id
+//   - render(post) from 'astro:content' — NOT post.render()
+// ============================================================
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { siteConfig } from '../../lib/site-config';
+import ReadingProgress from '../../components/ReadingProgress';
+
+const { slug } = Astro.params;
+const posts = await getCollection('blog');
+const post = posts.find((p) => p.id === slug);
+if (!post) return Astro.redirect('/404');
+const { Content } = await render(post);
+
+// Article JSON-LD structured data
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline:      post.data.title,
+  description:   post.data.excerpt,
+  datePublished: post.data.date,
+  author: {
+    '@type': 'Person',
+    name: post.data.author ?? 'LEVERAGE AI',
+  },
+  image: post.data.ogImage ?? post.data.image,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Leverage AI LLC',
+    url: siteConfig.url,
+  },
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.excerpt}
+  keywords={(post.data.tags ?? []).join(', ')}
+  ogImage={post.data.ogImage ?? post.data.image}
+  canonical={`${siteConfig.url}/blog/${post.id}`}
+>
+  <!-- Article JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <!-- Reading progress bar — tracks scroll through article -->
+  <ReadingProgress client:load articleId="blog-article" />
+
+  <div style="padding-top: 4.5rem;">
+    <article id="blog-article" style="max-width: 820px; margin: 0 auto; padding: 4rem 2rem 5rem;">
+
+      <!-- ─── Back link ────────────────────────────────────── -->
+      <a
+        href="/blog"
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.75rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--text-muted);
+          margin-bottom: 2.5rem;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        "
+      >
+        &larr; Back to Blog
+      </a>
+
+      <!-- ─── Meta ─────────────────────────────────────────── -->
+      <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem;">
+        <span
+          style="
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.6rem;
+            background-color: var(--accent);
+            color: #0d1119;
+            border-radius: 999px;
+            font-weight: 600;
+          "
+        >
+          {post.data.category}
+        </span>
+        {post.data.readingTime && (
+          <span style="font-size: 0.75rem; color: var(--text-muted);">{post.data.readingTime}</span>
+        )}
+        <span style="font-size: 0.75rem; color: var(--text-muted);">
+          {new Date(post.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        </span>
+        {post.data.author && (
+          <span style="font-size: 0.75rem; color: var(--text-muted);">By {post.data.author}</span>
+        )}
+      </div>
+
+      <!-- ─── Headline ─────────────────────────────────────── -->
+      <h1
+        style="
+          font-family: var(--font-heading);
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 300;
+          line-height: 1.15;
+          margin: 0 0 2rem;
+          color: var(--text-primary);
+        "
+      >
+        {post.data.title}
+      </h1>
+
+      <!-- ─── Hero Image ───────────────────────────────────── -->
+      {post.data.image && (
+        <div style="border-radius: var(--border-radius); overflow: hidden; margin-bottom: 2.5rem; aspect-ratio: 16/9;">
+          <img src={post.data.image} alt={post.data.title} style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+      )}
+
+      <!-- ─── TLDR Box (before content — AI/GEO optimization) -->
+      {post.data.tldr && post.data.tldr.length > 0 && (
+        <div
+          style="
+            background-color: var(--surface-1);
+            border-left: 3px solid var(--accent);
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+          "
+        >
+          <p
+            style="
+              font-size: 0.8rem;
+              letter-spacing: 0.2em;
+              text-transform: uppercase;
+              color: var(--accent);
+              font-weight: 600;
+              margin: 0 0 0.75rem;
+            "
+          >
+            TL;DR
+          </p>
+          <ul style="margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            {post.data.tldr.map((point: string) => (
+              <li style="color: var(--text-secondary); font-size: 1.125rem; line-height: 1.6;">{point}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- ─── Article Body ─────────────────────────────────── -->
+      <div class="prose" style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem;">
+        <Content />
+      </div>
+
+      <!-- ─── Tags ─────────────────────────────────────────── -->
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle);">
+          <p style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">
+            Tags
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            {post.data.tags.map((tag: string) => (
+              <span
+                style="
+                  padding: 0.25rem 0.75rem;
+                  font-size: 0.75rem;
+                  border: 1px solid var(--border-subtle);
+                  border-radius: 999px;
+                  color: var(--text-muted);
+                "
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- ─── Author Bio ───────────────────────────────────── -->
+      <div
+        style="
+          margin-top: 3rem;
+          padding: 2rem;
+          background-color: var(--surface-1);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--border-radius);
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 1.5rem;
+          align-items: start;
+        "
+      >
+        <div
+          style="
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid hsl(38 80% 55% / 0.4);
+            flex-shrink: 0;
+          "
+        >
+          <img src="/images/headshot-hat.jpg" alt="Jon 'Mike' Schlottig" width="80" height="80" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <div>
+          <p style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.25rem;">Jon &ldquo;Mike&rdquo; Schlottig</p>
+          <p style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.75rem;">Founder &mdash; Leverage AI</p>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; margin: 0;">
+            Jon &ldquo;Mike&rdquo; Schlottig moved to Grants Pass via the Bay Area back in 2001. He graduated from Grants Pass High School in 2005 near the top of his class and earned a Dean Scholarship to the University of Oregon. After nearly a decade of managing sales and operations in the commercial agriculture industry, and working as an in-home design consultant for the largest home remodeling company in the U.S., Mike recognized the opportunity in the quickly shifting tech industry and founded LEVERAGE AI LLC.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── CTA ──────────────────────────────────────────── -->
+      <div
+        style="
+          margin-top: 3.5rem;
+          padding: 2.5rem;
+          background-color: var(--surface-1);
+          border: 1px solid var(--border-accent);
+          border-radius: var(--border-radius);
+          text-align: center;
+        "
+      >
+        <p
+          style="
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            color: var(--text-primary);
+            margin: 0 0 0.75rem;
+            font-weight: 300;
+          "
+        >
+          Ready to dominate AI search results?
+        </p>
+        <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0 0 1.5rem;">
+          Let&rsquo;s build your AI visibility strategy from the ground up.
+        </p>
+        <a href="/contact" class="btn-primary" style="font-size: 0.8rem;">Start a Conversation</a>
+      </div>
+
+    </article>
+  </div>
+
+  <style>
+    .prose p { margin-bottom: 1.25rem; }
+    .prose h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: 300; margin: 2.5rem 0 1rem; color: var(--text-primary); }
+    .prose h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 300; margin: 2rem 0 0.75rem; color: var(--text-primary); }
+    .prose h4 { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 400; margin: 1.75rem 0 0.5rem; color: var(--text-primary); }
+    .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+    .prose li { margin-bottom: 0.4rem; color: var(--text-secondary); }
+    .prose strong { color: var(--text-primary); font-weight: 600; }
+    .prose em { color: var(--accent); font-style: italic; }
+    .prose blockquote { border-left: 2px solid var(--accent); padding: 0.5rem 1rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
+    .prose code { background-color: var(--surface-1); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.875em; color: var(--accent-light); }
+    .prose pre { background-color: var(--surface-1); padding: 1.25rem; border-radius: var(--border-radius); overflow-x: auto; margin-bottom: 1.25rem; }
+    .prose pre code { background: transparent; padding: 0; }
+    .prose a { color: var(--accent); text-decoration: underline; }
+    .prose a:hover { color: var(--accent-light); }
+    .prose hr { border: none; border-top: 1px solid var(--border-subtle); margin: 2rem 0; }
+    .prose img { border-radius: var(--border-radius); max-width: 100%; height: auto; }
+  </style>
+</BaseLayout>

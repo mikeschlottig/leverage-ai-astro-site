@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hemp E-Commerce — Full Stack Architecture Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f1eb;
+    --sage: #6b7c5a;
+    --gold: #c8a96e;
+    --rust: #b5451b;
+    --cream: #faf7f2;
+    --border: #d4cfc7;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,110,0.15) 0%, transparent 70%);
+  }
+  .cover-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.9;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+  }
+  .cover-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .cover-meta {
+    display: flex;
+    gap: 3rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  /* ── LAYOUT ── */
+  .doc { max-width: 1100px; margin: 0 auto; padding: 4rem 3rem; }
+  
+  .section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .section:first-child { border-top: none; }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 2.5rem 0 1rem;
+  }
+  p { margin-bottom: 1rem; color: #2a2a2a; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .doc { padding: 2rem 1.5rem; }
+    .cover { padding: 2rem; }
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem;
+  }
+  .card-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .card h4 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .card p { font-size: 0.875rem; }
+
+  /* ── STACK PILL ── */
+  .tech-pill {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    margin: 0.2rem;
+  }
+  .tech-pill.accent { background: var(--sage); }
+  .tech-pill.gold { background: var(--gold); color: var(--ink); }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: #1a1a1a;
+    color: #e0dbd0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .comment { color: #6b7c5a; }
+  .keyword { color: var(--gold); }
+  .string { color: #a8c4a2; }
+  .type { color: #c4a8c4; }
+
+  /* ── ROUTE TABLE ── */
+  .route-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.85rem; }
+  .route-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .route-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .route-table tr:last-child td { border-bottom: none; }
+  .route-table tr:hover td { background: rgba(107,124,90,0.05); }
+  .method { font-family: var(--mono); font-size: 0.7rem; font-weight: 500; }
+  .method.get { color: var(--sage); }
+  .method.post { color: var(--gold); }
+  .method.page { color: #7a9cc4; }
+
+  /* ── PHASE BLOCK ── */
+  .phase {
+    border-left: 3px solid var(--border);
+    padding-left: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .phase::before {
+    content: attr(data-num);
+    position: absolute;
+    left: -16px; top: 0;
+    width: 28px; height: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+  }
+  .phase.active { border-left-color: var(--sage); }
+  .phase.active::before { background: var(--sage); }
+  .phase-title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .phase-duration {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .phase ul { list-style: none; }
+  .phase ul li {
+    font-size: 0.875rem;
+    padding: 0.25rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+    color: #2a2a2a;
+  }
+  .phase ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sage);
+    font-family: var(--mono);
+  }
+
+  /* ── KEYWORD TABLE ── */
+  .kw-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin: 1.5rem 0; }
+  .kw-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .kw-table td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .kw-table tr:last-child td { border-bottom: none; }
+  .diff {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .diff.low { background: #e8f0e4; color: #3a5c30; }
+  .diff.med { background: #f0edd8; color: #6b5000; }
+  .diff.high { background: #f5e4e0; color: #8c2a0e; }
+
+  /* ── WARNING BOX ── */
+  .warn {
+    background: #fff8ef;
+    border: 1px solid #e8c97a;
+    border-left: 4px solid var(--gold);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+  }
+  .warn strong { color: #7a5000; }
+
+  .alert {
+    background: #fff0ec;
+    border: 1px solid #e8a07a;
+    border-left: 4px solid var(--rust);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+  }
+  .alert strong { color: var(--rust); }
+
+  /* ── DIVIDER ── */
+  .ornament {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--border);
+    padding: 1.5rem 0;
+  }
+
+  /* ── SCHEMA ── */
+  .schema-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+  .schema-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .schema-card .schema-header {
+    background: var(--sage);
+    color: white;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+  }
+  .schema-card pre {
+    margin: 0;
+    border-radius: 0;
+    font-size: 0.72rem;
+  }
+
+  .callout {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 10px;
+    padding: 2.5rem;
+    margin: 2rem 0;
+  }
+  .callout h3 { color: var(--gold); margin-top: 0; }
+  .callout p { color: #d4d0c8; font-size: 0.9rem; }
+  .callout ul { list-style: none; margin-top: 1rem; }
+  .callout ul li {
+    padding: 0.4rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #d4d0c8;
+    font-size: 0.875rem;
+  }
+  .callout ul li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 0.5rem;
+    top: 0.55rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div>
+    <div class="cover-tag">Full Stack Architecture Blueprint · 2026</div>
+  </div>
+  <div>
+    <h1 class="cover-title">
+      Hemp<br><em>E-Commerce</em><br>Platform
+    </h1>
+  </div>
+  <div class="cover-meta">
+    <span>Next.js 14 App Router</span>
+    <span>Stripe Payments</span>
+    <span>SEO-First Content Engine</span>
+    <span>Dropship Fulfillment</span>
+  </div>
+</div>
+
+<div class="doc">
+
+  <!-- ── EXECUTIVE SUMMARY ── -->
+  <div class="section">
+    <div class="section-num">00 — Overview</div>
+    <h2 class="section-title">What We're Building</h2>
+    <p>A premium, SEO-dominant hemp e-commerce brand built on top of your brother's fulfillment operation at 10dollarcartridge.com. You take the orders, he ships them. Your differentiation lives in three areas: <strong>brand positioning</strong> (premium, science-forward vs. budget), <strong>user experience</strong> (luxury feel, friction-free checkout), and <strong>content authority</strong> (becoming the go-to reference site that AI search cites).</p>
+
+    <div class="grid-3" style="margin-top:2rem">
+      <div class="card">
+        <div class="card-title">Model</div>
+        <h4>Dropship</h4>
+        <p>You collect orders + payment. Forward order details to brother. He fulfills. You keep the margin spread.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Moat</div>
+        <h4>Content & Brand</h4>
+        <p>Deep educational content builds domain authority, earns AI citations, and converts high-intent organic traffic.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Revenue</div>
+        <h4>E-Commerce + SEO</h4>
+        <p>Direct sales via Stripe, long-term compounding returns from search rankings and AI answer inclusion.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CRITICAL LEGAL ── -->
+  <div class="section">
+    <div class="section-num">01 — Legal & Compliance</div>
+    <h2 class="section-title">Non-Negotiables Before You Write a Line of Code</h2>
+
+    <div class="alert">
+      <strong>⚠ Stripe Hemp/THC Policy:</strong> Stripe allows hemp-derived CBD products but may flag or terminate accounts selling THC-containing products, even federally legal THCa/Delta-8. You need a backup processor ready on day one.
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Payment Stack</div>
+        <h4>Primary + Fallback</h4>
+        <p><strong>Primary:</strong> Stripe (with proper hemp MCC codes — use MCC 5912 or specialty retail). Describe products as hemp-derived botanicals in your Stripe account. Keep product descriptions compliant — never use "THC" in payment descriptors.</p>
+        <p style="margin-top:0.75rem"><strong>Fallback (Day 1):</strong> Set up <strong>Authorize.net</strong> or <strong>NMI</strong> via a high-risk merchant account. Costs more per transaction (~3.5%) but won't disappear overnight.</p>
+        <p style="margin-top:0.75rem"><strong>Optional:</strong> Crypto via Coinbase Commerce as a no-chargeback option popular in this market.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Site-Wide Requirements</div>
+        <h4>Legal Checklist</h4>
+        <p>Every page must include the 2018 Farm Bill disclaimer. Required pages:</p>
+        <ul style="list-style:none; margin-top:0.5rem">
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ Age gate (21+ modal — hard block)</li>
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ Terms & Conditions</li>
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ Privacy Policy (CCPA + GDPR)</li>
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ Lab Results page (COA uploads)</li>
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ Age Verification Policy</li>
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ No FDA evaluate/cure claims anywhere</li>
+          <li style="padding:0.2rem 0; font-size:0.875rem">✓ State restriction list (some states ban Delta-8)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>Delta-8 State Restrictions:</strong> Before checkout, check the shipping state against a blocked-states list. States currently restricting Delta-8 include Alaska, Colorado, Delaware, Idaho, Iowa, Minnesota, Montana, New York, Nevada, North Dakota, Oregon, Rhode Island, Vermont, Utah, and others. This must be enforced at checkout — not just disclosed.
+    </div>
+  </div>
+
+  <!-- ── TECH STACK ── -->
+  <div class="section">
+    <div class="section-num">02 — Technology Stack</div>
+    <h2 class="section-title">The Right Tools for the Job</h2>
+    <p>Chosen for SEO performance, developer velocity, and long-term maintainability. Every choice has a reason.</p>
+
+    <div class="grid-2" style="margin-top:1.5rem">
+      <div>
+        <h3>Frontend</h3>
+        <div>
+          <span class="tech-pill gold">Next.js 14 (App Router)</span>
+          <span class="tech-pill">React 18</span>
+          <span class="tech-pill">TypeScript</span>
+          <span class="tech-pill accent">Tailwind CSS</span>
+          <span class="tech-pill">Framer Motion</span>
+          <span class="tech-pill">Zustand</span>
+          <span class="tech-pill">React Query</span>
+        </div>
+        <p style="margin-top:1rem; font-size:0.875rem">Next.js App Router gives you RSC (React Server Components) for zero-JS product pages — critical for Core Web Vitals and SEO. Static generation for blog posts, dynamic for cart/checkout.</p>
+
+        <h3>Backend & Database</h3>
+        <div>
+          <span class="tech-pill gold">Next.js API Routes</span>
+          <span class="tech-pill">PostgreSQL</span>
+          <span class="tech-pill">Prisma ORM</span>
+          <span class="tech-pill accent">Redis (Upstash)</span>
+          <span class="tech-pill">Zod</span>
+        </div>
+        <p style="margin-top:1rem; font-size:0.875rem">Prisma gives type-safe DB access. Redis via Upstash for session caching, rate limiting, and cart state. All in one Next.js monorepo — no separate backend to manage.</p>
+      </div>
+      <div>
+        <h3>Auth & Accounts</h3>
+        <div>
+          <span class="tech-pill gold">NextAuth.js v5</span>
+          <span class="tech-pill">JWT Sessions</span>
+          <span class="tech-pill accent">Email Magic Links</span>
+          <span class="tech-pill">Google OAuth</span>
+        </div>
+        <p style="margin-top:1rem; font-size:0.875rem">Passwordless login via magic email links lowers signup friction dramatically. Google OAuth as one-click option. Age verification stored in session.</p>
+
+        <h3>Content / Blog</h3>
+        <div>
+          <span class="tech-pill gold">Sanity.io CMS</span>
+          <span class="tech-pill">MDX</span>
+          <span class="tech-pill accent">Portable Text</span>
+          <span class="tech-pill">Schema.org</span>
+        </div>
+        <p style="margin-top:1rem; font-size:0.875rem">Sanity is the best headless CMS for SEO content. GROQ queries are fast, the Studio is beautiful, and the portable text blocks support rich structured content with custom components.</p>
+
+        <h3>Infrastructure</h3>
+        <div>
+          <span class="tech-pill gold">Vercel</span>
+          <span class="tech-pill accent">Supabase (Postgres)</span>
+          <span class="tech-pill">Cloudflare (DNS + CDN)</span>
+          <span class="tech-pill">Resend (Email)</span>
+          <span class="tech-pill">Uploadthing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:2rem">
+      <h3>Why Not Shopify?</h3>
+      <p>Shopify is the obvious choice for e-commerce — but it carries real risk in this industry. Shopify has terminated hemp/THC stores without warning. You'd lose your entire store, domain, customer data, and SEO overnight. Building custom gives you control, portability, and full ownership of every asset. The build investment pays back in one bad Shopify termination event avoided.</p>
+    </div>
+  </div>
+
+  <!-- ── SITE ARCHITECTURE ── -->
+  <div class="section">
+    <div class="section-num">03 — Site Architecture</div>
+    <h2 class="section-title">Pages, Routes & Information Architecture</h2>
+
+    <h3>Next.js App Router Structure</h3>
+    <pre><span class="comment"># Directory structure</span>
+app/
+├── (shop)/                    <span class="comment"># Public storefront</span>
+│   ├── page.tsx               <span class="comment"># Home</span>
+│   ├── shop/
+│   │   ├── page.tsx           <span class="comment"># All products</span>
+│   │   ├── [category]/page.tsx <span class="comment"># Category pages</span>
+│   │   └── [category]/[slug]/page.tsx <span class="comment"># Product detail</span>
+│   ├── cart/page.tsx
+│   └── checkout/
+│       ├── page.tsx           <span class="comment"># Checkout form</span>
+│       └── success/page.tsx
+│
+├── (auth)/                    <span class="comment"># Auth flows</span>
+│   ├── login/page.tsx
+│   ├── register/page.tsx
+│   └── verify/page.tsx        <span class="comment"># Magic link verify</span>
+│
+├── (account)/                 <span class="comment"># Protected routes</span>
+│   └── account/
+│       ├── page.tsx           <span class="comment"># Dashboard</span>
+│       ├── orders/page.tsx
+│       └── settings/page.tsx
+│
+├── learn/                     <span class="comment"># SEO Content Engine</span>
+│   ├── page.tsx               <span class="comment"># Knowledge hub landing</span>
+│   ├── [slug]/page.tsx        <span class="comment"># Blog/research articles</span>
+│   └── guides/[slug]/page.tsx <span class="comment"># Long-form guides</span>
+│
+├── lab-results/page.tsx       <span class="comment"># COA documents</span>
+├── about/page.tsx
+├── faq/page.tsx
+├── contact/page.tsx
+│
+└── api/
+    ├── auth/[...nextauth]/
+    ├── checkout/
+    │   ├── create-session/    <span class="comment"># Stripe</span>
+    │   └── webhook/           <span class="comment"># Stripe webhook</span>
+    ├── orders/
+    │   ├── create/
+    │   └── [id]/
+    └── products/</pre>
+
+    <h3>API Endpoints</h3>
+    <table class="route-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Endpoint</th>
+          <th>Description</th>
+          <th>Auth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/checkout/create-session</code></td><td>Create Stripe PaymentIntent, validate cart, check state restrictions</td><td>None</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/checkout/webhook</code></td><td>Stripe webhook → create order record, forward to fulfillment, send email</td><td>Stripe sig</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/products</code></td><td>Paginated product list with filters</td><td>None</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/products/[slug]</code></td><td>Single product with variants</td><td>None</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/orders</code></td><td>User's order history</td><td>Session</td></tr>
+        <tr><td><span class="method get">GET</span></td><td><code>/api/orders/[id]</code></td><td>Single order status</td><td>Session</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/orders/forward</code></td><td>Internal: email brother with order details for fulfillment</td><td>Webhook</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/auth/magic-link</code></td><td>Send passwordless login email</td><td>None</td></tr>
+        <tr><td><span class="method post">POST</span></td><td><code>/api/reviews</code></td><td>Submit product review</td><td>Session</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── DATABASE SCHEMA ── -->
+  <div class="section">
+    <div class="section-num">04 — Data Model</div>
+    <h2 class="section-title">Database Schema (Prisma)</h2>
+
+    <div class="schema-grid">
+      <div class="schema-card">
+        <div class="schema-header">User</div>
+        <pre><span class="keyword">model</span> <span class="type">User</span> {
+  id            <span class="type">String</span>    @id @default(cuid())
+  email         <span class="type">String</span>    @unique
+  name          <span class="type">String?</span>
+  emailVerified <span class="type">DateTime?</span>
+  ageVerified   <span class="type">Boolean</span>   @default(false)
+  createdAt     <span class="type">DateTime</span>  @default(now())
+  orders        <span class="type">Order</span>[]
+  reviews       <span class="type">Review</span>[]
+  addresses     <span class="type">Address</span>[]
+}</pre>
+      </div>
+      <div class="schema-card">
+        <div class="schema-header">Product</div>
+        <pre><span class="keyword">model</span> <span class="type">Product</span> {
+  id           <span class="type">String</span>    @id @default(cuid())
+  slug         <span class="type">String</span>    @unique
+  name         <span class="type">String</span>
+  description  <span class="type">String</span>    @db.Text
+  category     <span class="type">Category</span>  @relation(...)
+  variants     <span class="type">Variant</span>[]
+  images       <span class="type">Json</span>      <span class="comment">// [{url, alt, isPrimary}]</span>
+  effects      <span class="type">String[]</span>  <span class="comment">// sleep, focus, pain...</span>
+  strain       <span class="type">StrainType</span> <span class="comment">// indica/sativa/hybrid</span>
+  thcaPercent  <span class="type">Float?</span>
+  terpenes     <span class="type">Json?</span>
+  coaUrl       <span class="type">String?</span>  <span class="comment">// lab results PDF</span>
+  publishedAt  <span class="type">DateTime?</span>
+  reviews      <span class="type">Review</span>[]
+  active       <span class="type">Boolean</span>  @default(true)
+}</pre>
+      </div>
+      <div class="schema-card">
+        <div class="schema-header">Order</div>
+        <pre><span class="keyword">model</span> <span class="type">Order</span> {
+  id              <span class="type">String</span>       @id
+  userId          <span class="type">String?</span>
+  user            <span class="type">User?</span>        @relation(...)
+  stripePaymentId <span class="type">String</span>       @unique
+  status          <span class="type">OrderStatus</span>  <span class="comment">// pending|paid|fulfilled|shipped</span>
+  items           <span class="type">OrderItem</span>[]
+  shippingAddress <span class="type">Json</span>
+  shippingState   <span class="type">String</span>       <span class="comment">// for restriction check</span>
+  subtotal        <span class="type">Int</span>          <span class="comment">// cents</span>
+  total           <span class="type">Int</span>          <span class="comment">// cents</span>
+  trackingNumber  <span class="type">String?</span>
+  forwardedAt     <span class="type">DateTime?</span>    <span class="comment">// when sent to brother</span>
+  createdAt       <span class="type">DateTime</span>     @default(now())
+}</pre>
+      </div>
+      <div class="schema-card">
+        <div class="schema-header">Content (Blog)</div>
+        <pre><span class="comment">// Managed in Sanity CMS
+// Prisma tracks analytics only</span>
+
+<span class="keyword">model</span> <span class="type">ArticleAnalytics</span> {
+  id         <span class="type">String</span>   @id
+  slug       <span class="type">String</span>   @unique
+  views      <span class="type">Int</span>      @default(0)
+  avgTimeOnPage <span class="type">Int</span>   @default(0)
+  topKeyword <span class="type">String?</span>
+  updatedAt  <span class="type">DateTime</span> @updatedAt
+}
+
+<span class="comment">// Sanity schema handles:
+// - Article body (Portable Text)
+// - SEO meta fields
+// - Author, categories
+// - Structured data (FAQ, How-To)
+// - Internal linking targets</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FULFILLMENT WORKFLOW ── -->
+  <div class="section">
+    <div class="section-num">05 — Fulfillment Integration</div>
+    <h2 class="section-title">Order Flow with Your Brother</h2>
+
+    <p>The core of this business is the handoff from your payment to his fulfillment. Automate as much as possible to avoid manual error.</p>
+
+    <h3>Automated Order Flow</h3>
+    <pre><span class="comment">// When Stripe webhook fires on payment_intent.succeeded:</span>
+
+<span class="keyword">async function</span> <span class="type">handleSuccessfulPayment</span>(paymentIntent: <span class="type">Stripe.PaymentIntent</span>) {
+  <span class="comment">// 1. Create order in your database</span>
+  <span class="keyword">const</span> order = <span class="keyword">await</span> prisma.order.create({ data: { ... } })
+
+  <span class="comment">// 2. Forward to brother via email (Resend)</span>
+  <span class="keyword">await</span> resend.emails.send({
+    from: <span class="string">'orders@yourstore.com'</span>,
+    to: <span class="string">'brother@10dollarcartridge.com'</span>,
+    subject: <span class="string">`New Order #${order.id}`</span>,
+    react: <span class="type">FulfillmentEmailTemplate</span>({ order }),
+  })
+
+  <span class="comment">// 3. Send customer confirmation email</span>
+  <span class="keyword">await</span> resend.emails.send({
+    from: <span class="string">'hello@yourstore.com'</span>,
+    to: order.customerEmail,
+    react: <span class="type">OrderConfirmationTemplate</span>({ order }),
+  })
+
+  <span class="comment">// 4. Mark order as "forwarded"</span>
+  <span class="keyword">await</span> prisma.order.update({
+    where: { id: order.id },
+    data: { forwardedAt: <span class="keyword">new</span> Date() }
+  })
+}</pre>
+
+    <div class="card" style="margin-top:1.5rem">
+      <div class="card-title">Fulfillment Email to Brother</div>
+      <h4>What the Order Email Contains</h4>
+      <p style="font-size:0.875rem">The email sent to your brother should be a clean, printable order sheet with: Customer name, shipping address, product names (matching his SKUs), quantities, any variant details (strain, size), order reference number, and a direct link to place the order on his site if you prefer he manually processes it. No pricing — he doesn't need to know your margin.</p>
+    </div>
+
+    <div class="warn">
+      <strong>Pro Tip:</strong> Consider building a simple admin panel at <code>/admin/orders</code> where you can view order status, manually update tracking numbers, and your brother can optionally log in to mark orders as shipped. This removes email as a single point of failure.
+    </div>
+  </div>
+
+  <!-- ── UX DESIGN ── -->
+  <div class="section">
+    <div class="section-num">06 — User Experience Design</div>
+    <h2 class="section-title">High-End UX That Converts</h2>
+    <p>Your competitive advantage vs. 10DC is sophistication. Same products, radically different experience — think <em>Goop meets MedMen</em>. The brand should feel like a premium wellness destination, not a vape shop website.</p>
+
+    <div class="grid-2">
+      <div>
+        <h3>Brand Direction</h3>
+        <div class="card">
+          <div class="card-title">Aesthetic</div>
+          <h4>Organic Luxury</h4>
+          <p>Color palette: Deep forest green, warm cream, gold accents, charcoal. Typography: Serif display font (Playfair Display or Canela) + clean sans-serif body. Photography: editorial, lifestyle, botanical. Zero neon, zero street art, zero "420" tropes.</p>
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <div class="card-title">Positioning</div>
+          <h4>Science-Forward Wellness</h4>
+          <p>Lead with cannabinoid education, lab results, and effect-based shopping. Customers shop by "I want to sleep better" not by product category. Position your brand as the resource they trust <em>before</em> buying.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Key UX Features</h3>
+        <ul style="list-style:none">
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Effect-Based Shop Filter</strong> — "Sleep / Focus / Euphoria / Pain Relief" filter bar on shop page. Maps to product tags. High conversion feature.</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Strain Type Filter</strong> — Indica / Sativa / Hybrid with visual icons</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Sticky Cart</strong> — Slide-out cart drawer, never leave the page to add items</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Terpene Profiles</strong> — Visual terpene wheel on product pages (beautiful + educational)</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Product Quiz</strong> — "Find Your Perfect Product" 5-question quiz → product recommendation</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Lab Results Inline</strong> — COA PDF viewer embedded on each product page, not just a link</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>One-Page Checkout</strong> — Stripe Elements embedded directly, no redirect</li>
+          <li style="padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.875rem"><strong>Age Gate</strong> — Beautiful full-screen gate, stored in localStorage + session</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEO CONTENT ENGINE ── -->
+  <div class="section">
+    <div class="section-num">07 — SEO & AI Search Strategy</div>
+    <h2 class="section-title">Becoming the Source AI Cites</h2>
+    <p>AI search (ChatGPT, Perplexity, Google AI Overviews) cites sources with high topical authority, clear structured data, and comprehensive coverage of a niche. Your content strategy targets the exact questions people ask before buying hemp products.</p>
+
+    <h3>Content Architecture</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Tier 1 — Pillar Pages</div>
+        <h4>Comprehensive Guides (3000–5000 words)</h4>
+        <p>One definitive guide per major topic. Updated quarterly. These earn backlinks and become the "source of truth" for AI systems.</p>
+        <ul style="font-size:0.8rem; list-style:none; margin-top:0.5rem">
+          <li style="padding:0.15rem 0">→ "Complete Guide to THCa: What It Is, Effects, Legality"</li>
+          <li style="padding:0.15rem 0">→ "Hemp-Derived Cannabinoids Explained: Delta-8, Delta-9, THCa"</li>
+          <li style="padding:0.15rem 0">→ "How to Choose Hemp Flower: A Buyer's Guide"</li>
+          <li style="padding:0.15rem 0">→ "Terpenes 101: The Complete Reference"</li>
+          <li style="padding:0.15rem 0">→ "Hemp vs. Marijuana: Legal Differences Explained"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Tier 2 — Supporting Articles</div>
+        <h4>Targeted Blog Posts (800–1500 words)</h4>
+        <p>Long-tail keyword targeting. Cluster around pillar topics. Internally link to pillar pages and relevant products.</p>
+        <ul style="font-size:0.8rem; list-style:none; margin-top:0.5rem">
+          <li style="padding:0.15rem 0">→ "THCa Diamonds vs. Badder: Which is Right for You?"</li>
+          <li style="padding:0.15rem 0">→ "Best Indica Strains for Sleep 2026"</li>
+          <li style="padding:0.15rem 0">→ "Is Delta-8 THC Legal in [State]?" (one per restricted state)</li>
+          <li style="padding:0.15rem 0">→ "What is Live Rosin? How It's Made"</li>
+          <li style="padding:0.15rem 0">→ "THCa Percentage: What the Lab Results Actually Mean"</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Target Keywords — Low Competition, High Intent</h3>
+    <table class="kw-table">
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th>Type</th>
+          <th>Difficulty</th>
+          <th>Intent</th>
+          <th>Target Page</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>"thca flower online"</td><td>Commercial</td><td><span class="diff low">Low</span></td><td>Buy</td><td>Shop / Flower category</td></tr>
+        <tr><td>"buy thca diamonds"</td><td>Commercial</td><td><span class="diff low">Low</span></td><td>Buy</td><td>Dabs category page</td></tr>
+        <tr><td>"is thca legal in [state]"</td><td>Informational</td><td><span class="diff low">Low</span></td><td>Research</td><td>State-specific blog post</td></tr>
+        <tr><td>"what does thca percentage mean"</td><td>Informational</td><td><span class="diff low">Low</span></td><td>Research</td><td>Pillar guide</td></tr>
+        <tr><td>"delta 8 vs thca"</td><td>Informational</td><td><span class="diff med">Medium</span></td><td>Research</td><td>Comparison article</td></tr>
+        <tr><td>"hemp flower for anxiety"</td><td>Informational</td><td><span class="diff low">Low</span></td><td>Research → Buy</td><td>Effects guide + product link</td></tr>
+        <tr><td>"best hemp concentrate 2026"</td><td>Commercial</td><td><span class="diff low">Low</span></td><td>Buy</td><td>Category + roundup article</td></tr>
+        <tr><td>"live rosin gummies effects"</td><td>Informational</td><td><span class="diff low">Low</span></td><td>Research</td><td>Product page + article</td></tr>
+        <tr><td>"thca vs delta 9 high"</td><td>Informational</td><td><span class="diff med">Medium</span></td><td>Research</td><td>Pillar article</td></tr>
+        <tr><td>"hemp derived thc legal states"</td><td>Informational</td><td><span class="diff low">Low</span></td><td>Research</td><td>Comprehensive legal guide</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Technical SEO Implementation</h3>
+    <pre><span class="comment">// app/learn/[slug]/page.tsx — Article page with full SEO</span>
+
+<span class="keyword">export async function</span> <span class="type">generateMetadata</span>({ params }) {
+  <span class="keyword">const</span> article = <span class="keyword">await</span> getArticle(params.slug)
+  <span class="keyword">return</span> {
+    title: article.seoTitle,
+    description: article.metaDescription,
+    openGraph: {
+      title: article.seoTitle,
+      description: article.metaDescription,
+      images: [{ url: article.ogImage }],
+      type: <span class="string">'article'</span>,
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+    },
+    alternates: { canonical: `https://yourstore.com/learn/${params.slug}` }
+  }
+}
+
+<span class="comment">// JSON-LD structured data (required for AI citations)</span>
+<span class="keyword">const</span> jsonLd = {
+  <span class="string">'@context'</span>: <span class="string">'https://schema.org'</span>,
+  <span class="string">'@type'</span>: <span class="string">'Article'</span>,
+  headline: article.title,
+  datePublished: article.publishedAt,
+  dateModified: article.updatedAt,
+  author: { <span class="string">'@type'</span>: <span class="string">'Person'</span>, name: article.author },
+  publisher: { <span class="string">'@type'</span>: <span class="string">'Organization'</span>, name: <span class="string">'Your Brand'</span> },
+  mainEntityOfPage: article.canonicalUrl,
+  <span class="comment">// FAQ schema for question-based articles — key for AI snippets</span>
+  hasPart: article.faqs?.map(faq => ({
+    <span class="string">'@type'</span>: <span class="string">'Question'</span>,
+    name: faq.question,
+    acceptedAnswer: { <span class="string">'@type'</span>: <span class="string">'Answer'</span>, text: faq.answer }
+  }))
+}</pre>
+
+    <div class="callout">
+      <h3>The AI Search Citation Playbook</h3>
+      <p>AI systems (Perplexity, ChatGPT, Google SGE) pull from sources that demonstrate:</p>
+      <ul>
+        <li>Comprehensive coverage — answer every sub-question within a topic</li>
+        <li>Structured data — FAQ schema, HowTo schema, Article schema on every page</li>
+        <li>Author credentials — visible author bios with expertise signals</li>
+        <li>Source citations within your content — cite studies, link to COAs, reference the Farm Bill</li>
+        <li>Update frequency — articles with recent "Last Updated" dates are heavily favored</li>
+        <li>Site trust signals — About page, Contact, Privacy Policy, real business info</li>
+        <li>Internal linking — tightly interconnected content signals topical authority</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── STRIPE CHECKOUT ── -->
+  <div class="section">
+    <div class="section-num">08 — Stripe Integration</div>
+    <h2 class="section-title">Payment Implementation</h2>
+
+    <pre><span class="comment">// app/api/checkout/create-session/route.ts</span>
+
+<span class="keyword">export async function</span> <span class="type">POST</span>(req: <span class="type">Request</span>) {
+  <span class="keyword">const</span> { items, shippingAddress } = <span class="keyword">await</span> req.json()
+
+  <span class="comment">// 1. Validate shipping state against restricted list</span>
+  <span class="keyword">const</span> restricted = checkStateRestrictions(items, shippingAddress.state)
+  <span class="keyword">if</span> (restricted.length > 0) {
+    <span class="keyword">return</span> Response.json({
+      error: <span class="string">`Sorry, we cannot ship ${restricted.join(', ')} to ${shippingAddress.state}.`</span>
+    }, { status: 400 })
+  }
+
+  <span class="comment">// 2. Calculate total server-side (NEVER trust client)</span>
+  <span class="keyword">const</span> products = <span class="keyword">await</span> prisma.variant.findMany({ where: { id: { in: items.map(i => i.variantId) } } })
+  <span class="keyword">const</span> total = items.reduce((sum, item) => {
+    <span class="keyword">const</span> product = products.find(p => p.id === item.variantId)
+    <span class="keyword">return</span> sum + (product.priceCents * item.quantity)
+  }, 0)
+
+  <span class="comment">// 3. Create Stripe PaymentIntent</span>
+  <span class="keyword">const</span> paymentIntent = <span class="keyword">await</span> stripe.paymentIntents.create({
+    amount: total,
+    currency: <span class="string">'usd'</span>,
+    <span class="comment">// IMPORTANT: Use descriptor that doesn't mention THC/cannabis</span>
+    statement_descriptor_suffix: <span class="string">'BOTANICALS'</span>,
+    metadata: {
+      orderId: generateOrderId(),
+      itemCount: items.length.toString(),
+    }
+  })
+
+  <span class="keyword">return</span> Response.json({ clientSecret: paymentIntent.client_secret })
+}</pre>
+
+    <div class="warn">
+      <strong>Statement Descriptor:</strong> Set your Stripe statement descriptor to your brand name + "BOTANICALS" or "WELLNESS". Never include cannabis, hemp, THC, CBD, or weed in the statement descriptor — it increases chargeback rates and Stripe scrutiny.
+    </div>
+  </div>
+
+  <!-- ── DEVELOPMENT ROADMAP ── -->
+  <div class="section">
+    <div class="section-num">09 — Development Roadmap</div>
+    <h2 class="section-title">Build Phases</h2>
+
+    <div class="phase active" data-num="1">
+      <div class="phase-title">Foundation</div>
+      <div class="phase-duration">Weeks 1–2</div>
+      <ul>
+        <li>Repo setup: Next.js 14, TypeScript, Tailwind, ESLint/Prettier</li>
+        <li>Supabase Postgres + Prisma schema creation and migrations</li>
+        <li>NextAuth.js config: email magic links + Google OAuth</li>
+        <li>Age gate component (localStorage + session, beautiful fullscreen design)</li>
+        <li>Base layout: nav, footer, cart drawer stub</li>
+        <li>Vercel deployment with environment variables</li>
+        <li>Domain + Cloudflare DNS setup</li>
+      </ul>
+    </div>
+
+    <div class="phase" data-num="2">
+      <div class="phase-title">Shop Core</div>
+      <div class="phase-duration">Weeks 3–4</div>
+      <ul>
+        <li>Seed database with all products from 10DC (scraped + reformatted)</li>
+        <li>Shop page with category navigation and effect filters</li>
+        <li>Product detail pages with variant selector, images, terpene data</li>
+        <li>Cart state (Zustand), add/remove/update, slide-out drawer</li>
+        <li>Product quiz component</li>
+        <li>Category pages with SEO metadata and static generation</li>
+      </ul>
+    </div>
+
+    <div class="phase" data-num="3">
+      <div class="phase-title">Checkout & Payments</div>
+      <div class="phase-duration">Week 5</div>
+      <ul>
+        <li>Stripe Elements integration in one-page checkout</li>
+        <li>Server-side price validation and state restriction enforcement</li>
+        <li>Stripe webhook handler → create order, forward email, confirm to customer</li>
+        <li>Order confirmation page with order summary</li>
+        <li>Resend transactional email templates</li>
+        <li>Test end-to-end with Stripe test mode</li>
+      </ul>
+    </div>
+
+    <div class="phase" data-num="4">
+      <div class="phase-title">User Accounts</div>
+      <div class="phase-duration">Week 6</div>
+      <ul>
+        <li>Account dashboard: order history, reorder functionality</li>
+        <li>Saved addresses, account settings</li>
+        <li>Order status tracking (manually updated by you/brother)</li>
+        <li>Product reviews system (post-purchase only)</li>
+        <li>Wishlist / save for later</li>
+      </ul>
+    </div>
+
+    <div class="phase" data-num="5">
+      <div class="phase-title">Content Engine</div>
+      <div class="phase-duration">Weeks 7–8</div>
+      <ul>
+        <li>Sanity CMS setup: article schema, author schema, category schema</li>
+        <li>Blog listing page + individual article pages with full SEO</li>
+        <li>JSON-LD structured data on all article and product pages</li>
+        <li>Write first 5 pillar guides (publish immediately at launch)</li>
+        <li>Write first 10 supporting articles targeting low-competition keywords</li>
+        <li>XML sitemap + robots.txt optimized for crawl budget</li>
+        <li>Internal linking strategy implemented</li>
+      </ul>
+    </div>
+
+    <div class="phase" data-num="6">
+      <div class="phase-title">Polish & Launch</div>
+      <div class="phase-duration">Week 9</div>
+      <ul>
+        <li>Core Web Vitals audit — target LCP &lt;2.5s, CLS &lt;0.1, FID &lt;100ms</li>
+        <li>Lighthouse score &gt;90 on all pages</li>
+        <li>Mobile UX final pass</li>
+        <li>Legal pages: Terms, Privacy, Age Policy, Refund Policy</li>
+        <li>Google Search Console + Analytics 4 setup</li>
+        <li>Stripe live mode testing with small real transactions</li>
+        <li>Soft launch → share with network for first reviews</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── COST ESTIMATE ── -->
+  <div class="section">
+    <div class="section-num">10 — Monthly Operating Costs</div>
+    <h2 class="section-title">Infrastructure Budget</h2>
+
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-title">Hosting</div>
+        <h4>Vercel Pro<br><span style="font-size:1.5rem; color:var(--sage)">$20</span><span style="font-size:0.8rem; color:#999">/mo</span></h4>
+        <p style="font-size:0.8rem">Next.js optimized, edge CDN, analytics</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Database</div>
+        <h4>Supabase Pro<br><span style="font-size:1.5rem; color:var(--sage)">$25</span><span style="font-size:0.8rem; color:#999">/mo</span></h4>
+        <p style="font-size:0.8rem">Postgres, auth, storage. Free tier okay to start.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">CMS</div>
+        <h4>Sanity Free<br><span style="font-size:1.5rem; color:var(--sage)">$0</span><span style="font-size:0.8rem; color:#999">/mo</span></h4>
+        <p style="font-size:0.8rem">Free tier covers most content needs at launch</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Email</div>
+        <h4>Resend<br><span style="font-size:1.5rem; color:var(--sage)">$20</span><span style="font-size:0.8rem; color:#999">/mo</span></h4>
+        <p style="font-size:0.8rem">100k emails/mo. Transactional + marketing.</p>
+      </div>
+    </div>
+    <p style="margin-top:1.5rem; font-size:0.875rem; color:#555">Plus Stripe fees (~2.9% + $0.30 per transaction). Total infrastructure: ~<strong>$65–75/month</strong> to run a production-grade store. Scale costs only rise significantly after significant revenue.</p>
+  </div>
+
+  <div class="ornament">◆ ◆ ◆</div>
+
+  <div class="callout" style="margin-bottom: 3rem">
+    <h3>Recommended First Action</h3>
+    <p>Before writing a line of code, do three things: (1) Register your domain and brand name — pick something that signals premium wellness, not budget vape. (2) Open your Stripe account and configure it for hemp/botanical products immediately so it ages before you go live. (3) Write your first 3 pillar SEO articles and publish them on launch day — fresh domains need content immediately to start earning trust with Google.</p>
+    <ul>
+      <li>Brand name ideas: something with "Verdant", "Canopy", "Grove", "Terrain", "Pura", "Alder" — botanical, premium, memorable</li>
+      <li>Get a high-risk merchant account application started in parallel with Stripe setup</li>
+      <li>Use AI tools (Claude) to help draft the initial 5 pillar content pieces — but edit heavily for brand voice and accuracy</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

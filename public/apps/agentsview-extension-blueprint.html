@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentsView — Extension Engineering Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@300;400;500;700&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:         #0c0e12;
+    --paper:       #f2f0eb;
+    --paper-2:     #e8e5de;
+    --paper-3:     #d6d1c7;
+    --accent:      #c8401a;
+    --accent-2:    #1a6bc8;
+    --accent-3:    #187a4a;
+    --warn:        #b06010;
+    --ink-2:       #3a3d45;
+    --ink-3:       #6b6f7a;
+    --ink-4:       #9a9fa8;
+    --border:      #ccc9be;
+    --border-2:    #b8b3a8;
+
+    --mono:     'Fira Code', monospace;
+    --display:  'Syne', sans-serif;
+    --body:     'Instrument Sans', sans-serif;
+
+    /* token colors for code */
+    --c-kw:   #9b2335;
+    --c-str:  #1a5c2a;
+    --c-type: #1a4a9b;
+    --c-fn:   #6b2a8a;
+    --c-cmt:  #888;
+    --c-num:  #b06010;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────────── */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ─────────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 0 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-brand {
+    padding: 0 24px 28px;
+    border-bottom: 1px solid #2a2d35;
+    margin-bottom: 20px;
+  }
+  .nav-brand-sub {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .nav-brand-title {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--paper);
+    line-height: 1.2;
+  }
+  .nav-brand-desc {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .nav-section {
+    padding: 10px 24px 4px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #444858;
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 24px;
+    font-size: 12.5px;
+    color: #8b91a0;
+    text-decoration: none;
+    transition: color 0.12s, background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  nav a:hover {
+    color: var(--paper);
+    background: rgba(255,255,255,0.04);
+    border-left-color: var(--accent);
+  }
+  nav a .nav-badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    background: rgba(200,64,26,0.2);
+    color: var(--accent);
+    border: 1px solid rgba(200,64,26,0.3);
+  }
+  nav a .nav-badge.new { background: rgba(26,107,200,0.2); color: var(--accent-2); border-color: rgba(26,107,200,0.3); }
+  nav a .nav-badge.ext { background: rgba(24,122,74,0.2); color: var(--accent-3); border-color: rgba(24,122,74,0.3); }
+
+  /* ── MAIN ─────────────────────────────────────────────── */
+  main {
+    padding: 0 72px 120px;
+    max-width: 920px;
+  }
+
+  /* ── HERO ─────────────────────────────────────────────── */
+  .hero {
+    padding: 72px 0 60px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 72px;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::after {
+    content: '';
+    height: 1px;
+    width: 40px;
+    background: var(--accent);
+    display: block;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(32px, 4.5vw, 50px);
+    font-weight: 800;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-desc {
+    font-size: 16px;
+    color: var(--ink-2);
+    max-width: 600px;
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .chip-red   { background: rgba(200,64,26,0.1);  color: var(--accent);   border: 1px solid rgba(200,64,26,0.25); }
+  .chip-blue  { background: rgba(26,107,200,0.1);  color: var(--accent-2); border: 1px solid rgba(26,107,200,0.25); }
+  .chip-green { background: rgba(24,122,74,0.1);   color: var(--accent-3); border: 1px solid rgba(24,122,74,0.25); }
+  .chip-gray  { background: rgba(0,0,0,0.06);      color: var(--ink-3);    border: 1px solid var(--border); }
+
+  /* ── SECTIONS ─────────────────────────────────────────── */
+  section {
+    margin-bottom: 80px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-eyebrow.blue { color: var(--accent-2); }
+  .section-eyebrow.green { color: var(--accent-3); }
+  .section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 36px 0 12px;
+  }
+
+  h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin: 28px 0 10px;
+  }
+
+  p { color: var(--ink-2); margin-bottom: 14px; }
+  strong { color: var(--ink); font-weight: 600; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── CODE ─────────────────────────────────────────────── */
+  pre {
+    background: var(--ink);
+    color: #d4d8e2;
+    border-radius: 4px;
+    padding: 22px 26px;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+    border-left: 3px solid var(--accent);
+  }
+  pre.blue { border-left-color: var(--accent-2); }
+  pre.green { border-left-color: var(--accent-3); }
+  .lang {
+    position: absolute;
+    top: 7px; right: 12px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.75;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  code.inline {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(0,0,0,0.07);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 1px 5px;
+    color: var(--accent);
+  }
+  code.inline.blue { color: var(--accent-2); }
+  code.inline.green { color: var(--accent-3); }
+
+  /* syntax highlighting */
+  .kw  { color: #e06c75; }   /* keyword */
+  .str { color: #98c379; }   /* string */
+  .ty  { color: #61afef; }   /* type */
+  .fn  { color: #c678dd; }   /* function */
+  .cm  { color: #5c6370; font-style: italic; } /* comment */
+  .nu  { color: #d19a66; }   /* number */
+  .op  { color: #56b6c2; }   /* operator/field */
+  .at  { color: #e5c07b; }   /* attribute / decorator */
+
+  /* ── CALLOUT ─────────────────────────────────────────── */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 3px;
+    margin: 18px 0;
+    font-size: 13.5px;
+  }
+  .callout p { margin-bottom: 0; font-size: 13.5px; }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .red-call  { background: rgba(200,64,26,0.08); border-left: 3px solid var(--accent); }
+  .red-call .callout-label { color: var(--accent); }
+  .blue-call { background: rgba(26,107,200,0.08); border-left: 3px solid var(--accent-2); }
+  .blue-call .callout-label { color: var(--accent-2); }
+  .green-call{ background: rgba(24,122,74,0.08);  border-left: 3px solid var(--accent-3); }
+  .green-call .callout-label { color: var(--accent-3); }
+  .gray-call { background: rgba(0,0,0,0.04); border-left: 3px solid var(--border-2); }
+  .gray-call .callout-label { color: var(--ink-3); }
+
+  /* ── TABLE ─────────────────────────────────────────────── */
+  .tbl { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 10px 14px;
+    text-align: left;
+    background: rgba(200,64,26,0.05);
+    border-bottom: 2px solid var(--border);
+  }
+  tbody td {
+    padding: 9px 14px;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--paper-3);
+    vertical-align: top;
+  }
+  tbody td:first-child { color: var(--ink); font-weight: 500; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(0,0,0,0.02); }
+
+  /* ── STEPS ───────────────────────────────────────────── */
+  ol.steps { counter-reset: s; list-style: none; display: flex; flex-direction: column; gap: 16px; margin: 16px 0; }
+  ol.steps li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    align-items: start;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  ol.steps li::before {
+    content: counter(s);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(200,64,26,0.08);
+    border: 1px solid rgba(200,64,26,0.25);
+    width: 28px; height: 28px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── GRID ─────────────────────────────────────────────── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+
+  /* ── CARD ─────────────────────────────────────────────── */
+  .card {
+    background: var(--paper-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 18px 20px;
+  }
+  .card-head {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .card-head .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot-r { background: var(--accent); }
+  .dot-b { background: var(--accent-2); }
+  .dot-g { background: var(--accent-3); }
+  .dot-y { background: var(--warn); }
+  .card p { font-size: 13px; margin-bottom: 0; }
+
+  /* ── ARCH DIAGRAM ─────────────────────────────────────── */
+  .arch {
+    background: var(--ink);
+    color: #c8cdd8;
+    border-radius: 4px;
+    padding: 26px 30px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.85;
+    margin: 18px 0;
+  }
+  .arch .ah { color: #e5c07b; }
+  .arch .ac { color: #5c6370; font-style: italic; }
+  .arch .ag { color: #98c379; }
+  .arch .ab { color: #61afef; }
+  .arch .ar { color: #e06c75; }
+
+  /* ── DIVIDER ─────────────────────────────────────────── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 64px 0; }
+
+  /* ── CHECKLIST ────────────────────────────────────────── */
+  ul.check { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  ul.check li {
+    display: flex;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    align-items: flex-start;
+  }
+  ul.check li::before {
+    content: '→';
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  footer {
+    border-top: 2px solid var(--ink);
+    padding: 24px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+  }
+  footer strong { color: var(--accent); }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { display: none; }
+    main { padding: 0 24px 80px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ── NAV ───────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-brand-sub">Engineering Blueprint</div>
+    <div class="nav-brand-title">AgentsView<br>Extension Guide</div>
+    <div class="nav-brand-desc">Parser architecture, new agent hooks, visual entry points &amp; branding system</div>
+  </div>
+
+  <div class="nav-section">Analysis</div>
+  <a href="#gaps">Gap Analysis</a>
+  <a href="#entrypoints">Core Entry Points</a>
+  <a href="#parseriface">Parser Interface</a>
+
+  <div class="nav-section">New Agent Parsers</div>
+  <a href="#agentzero">Agent-Zero <span class="nav-badge">new</span></a>
+  <a href="#claudedesktop">Claude Desktop <span class="nav-badge new">new</span></a>
+  <a href="#additional">More Agents <span class="nav-badge new">new</span></a>
+
+  <div class="nav-section">Frontend</div>
+  <a href="#svelte">Svelte Architecture</a>
+  <a href="#cssapi">CSS Variable API</a>
+  <a href="#colorsys">Color System <span class="nav-badge ext">ext</span></a>
+  <a href="#branding">Branding Extension <span class="nav-badge ext">ext</span></a>
+  <a href="#components">Component Hooks</a>
+
+  <div class="nav-section">Infrastructure</div>
+  <a href="#discovery">Discovery System</a>
+  <a href="#apiext">API Extension</a>
+  <a href="#roadmap">Extension Roadmap</a>
+</nav>
+
+<!-- ── MAIN ──────────────────────────────────────────────── -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Engineering Blueprint — March 2026</div>
+    <h1>AgentsView<br><em>Extension Architecture</em></h1>
+    <p class="hero-desc">
+      A thorough review of the codebase entry points, a detailed blueprint for adding 
+      Agent-Zero and Claude Desktop as first-class supported agents, and a complete map 
+      of the visual/branding extension system in the Svelte frontend.
+    </p>
+    <div class="hero-chips">
+      <span class="chip chip-red">Go Parser Interface</span>
+      <span class="chip chip-blue">Svelte 5 Frontend</span>
+      <span class="chip chip-green">Agent-Zero Integration</span>
+      <span class="chip chip-gray">Claude Desktop</span>
+      <span class="chip chip-red">CSS Variable API</span>
+      <span class="chip chip-blue">Branding System</span>
+    </div>
+  </div>
+
+  <!-- ── SECTION: GAP ANALYSIS ─────────────────────────── -->
+  <section id="gaps">
+    <div class="section-eyebrow">01 — Gap Analysis</div>
+    <h2>What the Research Reveals</h2>
+    <p>
+      After thorough review of all documentation and source research, here are the 
+      critical gaps and opportunities not fully surfaced in the initial report:
+    </p>
+
+    <h3>Undocumented Capabilities in the Initial Report</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><span class="dot dot-r"></span>Upload API is a Full Extension Point</div>
+        <p>The <code class="inline">/api/v1/sessions/upload</code> endpoint is not just for remote sessions — it's the primary injection surface for agents with no native filesystem parser. Any agent can be bridged via an uploader sidecar.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-b"></span>Starred Sessions Are Server-Side</div>
+        <p>Stars persist in SQLite (not localStorage) — the <code class="inline">starred_sessions</code> table is a first-class API resource. Programmatic starring (via agent scripts) is viable: useful for auto-starring key sessions.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-g"></span>FTS5 Power Queries Untapped</div>
+        <p>The SQLite FTS5 engine supports <code class="inline">MATCH</code> with full syntax including column filters, phrase proximity, and boolean operators — none of this is exposed in the UI search bar today.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-y"></span>Multiple Session Directories per Agent</div>
+        <p>The <code class="inline">claude_project_dirs</code> array config is the cleanest WSL/Windows bridge pattern but is almost entirely undiscovered in community usage. Critical for Mike's dual-machine setup.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-r"></span>Skipped Files Cache is Queryable</div>
+        <p>The <code class="inline">skipped_files</code> table in SQLite caches parse failures. Directly querying it reveals which agent sessions are silently failing to ingest — a critical observability gap.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-b"></span>iframe Theme Control via postMessage</div>
+        <p>The <code class="inline">theme:set</code> postMessage API is a full composability hook — agentsview can be embedded as an iframe panel in other tools (e.g., a Claude Desktop sidebar or agent dashboard).</p>
+      </div>
+    </div>
+
+    <h3>Missing Agent Coverage</h3>
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>Agent</th><th>Session Format</th><th>Integration Complexity</th><th>Priority</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Agent-Zero (agent0ai)</td><td>HTML logs + JSON context history</td><td>Medium — HTML parsing + JSON extraction</td><td>🔴 High</td></tr>
+          <tr><td>Claude Desktop</td><td>JSONL (same schema as Claude Code)</td><td>Low — identical parser, different path</td><td>🔴 High</td></tr>
+          <tr><td>Goose (Block)</td><td>JSONL sessions</td><td>Low</td><td>🟡 Medium</td></tr>
+          <tr><td>Aider</td><td>Plain markdown chat logs</td><td>Medium — markdown parsing</td><td>🟡 Medium</td></tr>
+          <tr><td>Continue.dev</td><td>SQLite (similar to OpenCode)</td><td>Medium</td><td>🟡 Medium</td></tr>
+          <tr><td>Cline / Roo</td><td>JSONL per conversation</td><td>Low</td><td>🟢 Easy win</td></tr>
+          <tr><td>Windsurf (Cascade)</td><td>JSON session files</td><td>Medium</td><td>🟡 Medium</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SECTION: ENTRY POINTS ─────────────────────────── -->
+  <section id="entrypoints">
+    <div class="section-eyebrow">02 — Core Entry Points</div>
+    <h2>Where AgentsView Can Be Extended</h2>
+    <p>
+      Based on the codebase layout, there are <strong>five independent extension surfaces</strong>. 
+      Each can be targeted without touching the others.
+    </p>
+
+    <div class="arch">
+<span class="ah">── AgentsView Extension Surfaces ──────────────────────────────────</span>
+
+<span class="ab">1. PARSER LAYER</span>  <span class="ac">internal/parser/</span>
+   <span class="ag">→</span> One Go file per agent  (e.g., claude.go, codex.go, gemini.go)
+   <span class="ag">→</span> Implement the <span class="ar">SessionParser</span> interface
+   <span class="ag">→</span> Register in the central <span class="ar">registry.go</span> / discovery config
+
+<span class="ab">2. DISCOVERY LAYER</span>  <span class="ac">internal/sync/ + internal/config/</span>
+   <span class="ag">→</span> Add default directory paths for new agents
+   <span class="ag">→</span> Map environment variable overrides
+   <span class="ag">→</span> Register array-config keys (for multi-directory support)
+
+<span class="ab">3. API LAYER</span>  <span class="ac">internal/server/</span>
+   <span class="ag">→</span> REST endpoints for sessions, messages, search, sync, insights
+   <span class="ag">→</span> Upload endpoint for push-based ingestion (agent sidecars)
+   <span class="ag">→</span> SSE endpoints for live-streaming new session content
+
+<span class="ab">4. FRONTEND LAYER</span>  <span class="ac">frontend/ (Svelte 5 + Vite)</span>
+   <span class="ag">→</span> CSS custom property system (theme tokens)
+   <span class="ag">→</span> Svelte component tree (session list, message viewer, dashboard)
+   <span class="ag">→</span> Agent accent colors (per-agent CSS variable slots)
+   <span class="ag">→</span> Branding override hook
+
+<span class="ab">5. INSIGHTS LAYER</span>  <span class="ac">internal/server/ + agent CLI subprocess</span>
+   <span class="ag">→</span> Add new CLI runtimes to the insight generation dispatcher
+   <span class="ag">→</span> Extend prompt templates for new agent types
+    </div>
+
+    <div class="callout red-call">
+      <div class="callout-label">Key Architectural Insight</div>
+      <p>
+        The parser layer and discovery layer are fully decoupled. A new parser doesn't need 
+        to modify discovery code if the agent is push-based (upload API). This means 
+        Agent-Zero, which doesn't write to a standard JSONL path, can be bridged via 
+        a lightweight uploader sidecar <em>without</em> any Go code changes — making it 
+        a zero-fork integration path.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── SECTION: PARSER INTERFACE ─────────────────────── -->
+  <section id="parseriface">
+    <div class="section-eyebrow">03 — Parser Interface</div>
+    <h2>The Go Parser Contract</h2>
+    <p>
+      Every agent parser must satisfy the <code class="inline">SessionParser</code> interface 
+      in <code class="inline">internal/parser/</code>. Based on the existing parsers and 
+      schema, here is the inferred interface and normalized types:
+    </p>
+
+    <pre><code class="lang-text">go</code><span class="cm">// internal/parser/parser.go — the core interface every parser must satisfy</span>
+
+<span class="kw">type</span> <span class="ty">SessionParser</span> <span class="kw">interface</span> {
+    <span class="cm">// AgentName returns the canonical lowercase agent identifier</span>
+    <span class="fn">AgentName</span>() <span class="ty">string</span>
+
+    <span class="cm">// CanParse reports whether this parser can handle the given file</span>
+    <span class="fn">CanParse</span>(path <span class="ty">string</span>) <span class="ty">bool</span>
+
+    <span class="cm">// Parse reads the file and returns a normalized Session</span>
+    <span class="fn">Parse</span>(ctx <span class="ty">context.Context</span>, path <span class="ty">string</span>) (*<span class="ty">Session</span>, <span class="ty">error</span>)
+}
+
+<span class="cm">// Session — normalized data model for all agents</span>
+<span class="kw">type</span> <span class="ty">Session</span> <span class="kw">struct</span> {
+    ID           <span class="ty">string</span>
+    Project      <span class="ty">string</span>
+    AgentName    <span class="ty">string</span>
+    FilePath     <span class="ty">string</span>
+    StartTime    <span class="ty">time.Time</span>
+    EndTime      <span class="ty">time.Time</span>
+    Messages     []<span class="ty">Message</span>
+    ToolCalls    []<span class="ty">ToolCall</span>
+    ParentID     <span class="ty">string</span>    <span class="cm">// for fork/subagent linking</span>
+}
+
+<span class="kw">type</span> <span class="ty">Message</span> <span class="kw">struct</span> {
+    ID        <span class="ty">string</span>
+    Role      <span class="ty">string</span>    <span class="cm">// "user" | "assistant" | "tool_result"</span>
+    Content   <span class="ty">string</span>
+    Timestamp <span class="ty">time.Time</span>
+    Ordinal   <span class="ty">int</span>
+    Blocks    []<span class="ty">ContentBlock</span>
+}
+
+<span class="kw">type</span> <span class="ty">ToolCall</span> <span class="kw">struct</span> {
+    Name     <span class="ty">string</span>
+    Category <span class="ty">string</span>    <span class="cm">// Read|Edit|Write|Bash|Search|Web|Task</span>
+    Input    <span class="ty">string</span>    <span class="cm">// JSON-serialized args</span>
+    Output   <span class="ty">string</span>    <span class="cm">// result content (if not blocked)</span>
+}</code></pre>
+
+    <h3>Normalized Tool Category Taxonomy</h3>
+    <p>All tool calls from all agents are normalized into this 7-category taxonomy. New parsers must map agent-specific tool names to these categories:</p>
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Examples (Claude Code)</th><th>Examples (Agent-Zero)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Read</td><td>Read, Glob, LS</td><td>knowledge_tool (read), response_tool</td></tr>
+          <tr><td>Edit</td><td>Edit, MultiEdit</td><td>code_execution_tool (file writes)</td></tr>
+          <tr><td>Write</td><td>Write</td><td>code_execution_tool (new files)</td></tr>
+          <tr><td>Bash</td><td>Bash</td><td>code_execution_tool (terminal)</td></tr>
+          <tr><td>Search</td><td>Glob, Grep</td><td>knowledge_tool (search)</td></tr>
+          <tr><td>Web</td><td>WebFetch, WebSearch</td><td>browser_agent_tool, webpage_content_tool</td></tr>
+          <tr><td>Task</td><td>Task, TodoWrite</td><td>call_subordinate_tool</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- ── SECTION: AGENT-ZERO ───────────────────────────── -->
+  <section id="agentzero">
+    <div class="section-eyebrow green">04 — Agent-Zero Integration</div>
+    <h2>Agent-Zero Parser Blueprint</h2>
+    <p>
+      Agent-Zero (agent0ai) is a Python-based general-purpose agentic framework using 
+      Flask + Socket.IO on the backend and a vanilla JS frontend. It stores sessions in 
+      two formats that need to be bridged:
+    </p>
+
+    <h3>Agent-Zero Data Architecture</h3>
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>Storage</th><th>Path</th><th>Format</th><th>Content</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chat context (JSON)</td>
+            <td><code class="inline">/a0/usr/chats/*.json</code></td>
+            <td>JSON per context</td>
+            <td>Full AgentContext including history, tool calls, agent hierarchy, memory references</td>
+          </tr>
+          <tr>
+            <td>HTML session logs</td>
+            <td><code class="inline">/a0/usr/logs/*.html</code></td>
+            <td>Styled HTML</td>
+            <td>Same output as terminal — human-readable, colored, timestamped</td>
+          </tr>
+          <tr>
+            <td>Scheduler tasks</td>
+            <td><code class="inline">/a0/usr/scheduler.json</code></td>
+            <td>JSON array</td>
+            <td>Scheduled and completed task runs with context snapshots</td>
+          </tr>
+          <tr>
+            <td>Settings</td>
+            <td><code class="inline">/a0/usr/settings.json</code></td>
+            <td>JSON flat dict</td>
+            <td>Model config, API keys (sensitive — don't ingest)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout green-call">
+      <div class="callout-label">Integration Strategy: Two-Path Approach</div>
+      <p>
+        <strong>Path A (Preferred):</strong> Parse the JSON context files in <code class="inline">/a0/usr/chats/</code>. 
+        These contain the structured History object serialized as nested JSON with all messages, 
+        tool calls, and agent hierarchy intact. This is the high-fidelity path.<br><br>
+        <strong>Path B (Fallback):</strong> A TypeScript sidecar that watches Agent-Zero's 
+        <code class="inline">/a0/usr/logs/</code> directory and converts HTML logs to JSONL, 
+        then uploads to AgentsView via the Upload API. Zero Go code required.
+      </p>
+    </div>
+
+    <h4>Path A: Direct JSON Context Parser (Go)</h4>
+    <p>Create <code class="inline">internal/parser/agentzero.go</code>:</p>
+
+    <pre class="green"><code class="lang-text">go</code><span class="cm">// internal/parser/agentzero.go</span>
+<span class="kw">package</span> parser
+
+<span class="kw">import</span> (
+    <span class="str">"context"</span>
+    <span class="str">"encoding/json"</span>
+    <span class="str">"os"</span>
+    <span class="str">"path/filepath"</span>
+    <span class="str">"strings"</span>
+    <span class="str">"time"</span>
+)
+
+<span class="cm">// Agent-Zero context file schema (inferred from agent0ai/agent-zero source)</span>
+<span class="kw">type</span> <span class="ty">azContext</span> <span class="kw">struct</span> {
+    GUID      <span class="ty">string</span>         `<span class="at">json:"guid"</span>`
+    Name      <span class="ty">string</span>         `<span class="at">json:"name"</span>`
+    CreatedAt <span class="ty">time.Time</span>      `<span class="at">json:"created_at"</span>`
+    Type      <span class="ty">string</span>         `<span class="at">json:"type"</span>`        <span class="cm">// "chat" | "task"</span>
+    Log       <span class="ty">azLog</span>          `<span class="at">json:"log"</span>`
+}
+
+<span class="kw">type</span> <span class="ty">azLog</span> <span class="kw">struct</span> {
+    Items []<span class="ty">azLogItem</span> `<span class="at">json:"items"</span>`
+}
+
+<span class="kw">type</span> <span class="ty">azLogItem</span> <span class="kw">struct</span> {
+    Type      <span class="ty">string</span>         `<span class="at">json:"type"</span>`       <span class="cm">// "user"|"agent"|"tool"|"error"</span>
+    AgentNo   <span class="ty">int</span>            `<span class="at">json:"agent"</span>`
+    Heading   <span class="ty">string</span>         `<span class="at">json:"heading"</span>`
+    Content   []<span class="ty">azContent</span>    `<span class="at">json:"content"</span>`
+    Timestamp <span class="ty">float64</span>        `<span class="at">json:"timestamp"</span>` <span class="cm">// unix epoch float</span>
+}
+
+<span class="kw">type</span> <span class="ty">azContent</span> <span class="kw">struct</span> {
+    Type    <span class="ty">string</span> `<span class="at">json:"type"</span>`   <span class="cm">// "text"|"tool_call"|"tool_result"</span>
+    Content <span class="ty">string</span> `<span class="at">json:"content"</span>`
+    Name    <span class="ty">string</span> `<span class="at">json:"name"</span>`   <span class="cm">// tool name if type==tool_call</span>
+    Params  <span class="ty">string</span> `<span class="at">json:"params"</span>` <span class="cm">// JSON-encoded tool params</span>
+    Result  <span class="ty">string</span> `<span class="at">json:"result"</span>` <span class="cm">// tool result content</span>
+}
+
+<span class="kw">type</span> <span class="ty">AgentZeroParser</span> <span class="kw">struct</span>{}
+
+<span class="kw">func</span> (p *<span class="ty">AgentZeroParser</span>) <span class="fn">AgentName</span>() <span class="ty">string</span> { <span class="kw">return</span> <span class="str">"agentzero"</span> }
+
+<span class="kw">func</span> (p *<span class="ty">AgentZeroParser</span>) <span class="fn">CanParse</span>(path <span class="ty">string</span>) <span class="ty">bool</span> {
+    <span class="cm">// Match: /a0/usr/chats/*.json (not settings.json or scheduler.json)</span>
+    base := filepath.<span class="fn">Base</span>(path)
+    dir  := filepath.<span class="fn">Base</span>(filepath.<span class="fn">Dir</span>(path))
+    <span class="kw">return</span> dir == <span class="str">"chats"</span> &&
+        strings.<span class="fn">HasSuffix</span>(base, <span class="str">".json"</span>) &&
+        base != <span class="str">"settings.json"</span> &&
+        base != <span class="str">"scheduler.json"</span>
+}
+
+<span class="kw">func</span> (p *<span class="ty">AgentZeroParser</span>) <span class="fn">Parse</span>(ctx <span class="ty">context.Context</span>, path <span class="ty">string</span>) (*<span class="ty">Session</span>, <span class="ty">error</span>) {
+    data, err := os.<span class="fn">ReadFile</span>(path)
+    <span class="kw">if</span> err != <span class="kw">nil</span> { <span class="kw">return</span> <span class="kw">nil</span>, err }
+
+    <span class="kw">var</span> azCtx <span class="ty">azContext</span>
+    <span class="kw">if</span> err = json.<span class="fn">Unmarshal</span>(data, &azCtx); err != <span class="kw">nil</span> { <span class="kw">return</span> <span class="kw">nil</span>, err }
+
+    session := &<span class="ty">Session</span>{
+        ID:        azCtx.GUID,
+        AgentName: <span class="str">"agentzero"</span>,
+        Project:   azCtx.Name,
+        FilePath:  path,
+        StartTime: azCtx.CreatedAt,
+    }
+
+    <span class="kw">for</span> i, item := <span class="kw">range</span> azCtx.Log.Items {
+        ts := <span class="fn">time.Unix</span>(<span class="ty">int64</span>(item.Timestamp), <span class="nu">0</span>)
+        <span class="kw">if</span> i == <span class="kw">len</span>(azCtx.Log.Items)-<span class="nu">1</span> { session.EndTime = ts }
+
+        role := <span class="fn">mapAZRole</span>(item.Type)
+        <span class="kw">var</span> textParts []<span class="ty">string</span>
+
+        <span class="kw">for</span> _, block := <span class="kw">range</span> item.Content {
+            <span class="kw">switch</span> block.Type {
+            <span class="kw">case</span> <span class="str">"text"</span>:
+                textParts = <span class="fn">append</span>(textParts, block.Content)
+            <span class="kw">case</span> <span class="str">"tool_call"</span>:
+                session.ToolCalls = <span class="fn">append</span>(session.ToolCalls, <span class="ty">ToolCall</span>{
+                    Name:     block.Name,
+                    Category: <span class="fn">mapAZToolCategory</span>(block.Name),
+                    Input:    block.Params,
+                    Output:   block.Result,
+                })
+            }
+        }
+
+        <span class="kw">if</span> <span class="kw">len</span>(textParts) > <span class="nu">0</span> || role == <span class="str">"user"</span> {
+            session.Messages = <span class="fn">append</span>(session.Messages, <span class="ty">Message</span>{
+                ID:        <span class="fn">generateID</span>(),
+                Role:      role,
+                Content:   strings.<span class="fn">Join</span>(textParts, <span class="str">"\n"</span>),
+                Timestamp: ts,
+                Ordinal:   i,
+            })
+        }
+    }
+    <span class="kw">return</span> session, <span class="kw">nil</span>
+}
+
+<span class="kw">func</span> <span class="fn">mapAZRole</span>(t <span class="ty">string</span>) <span class="ty">string</span> {
+    <span class="kw">switch</span> t {
+    <span class="kw">case</span> <span class="str">"user"</span>:        <span class="kw">return</span> <span class="str">"user"</span>
+    <span class="kw">case</span> <span class="str">"agent"</span>:       <span class="kw">return</span> <span class="str">"assistant"</span>
+    <span class="kw">case</span> <span class="str">"tool"</span>:        <span class="kw">return</span> <span class="str">"tool_result"</span>
+    <span class="kw">default</span>:           <span class="kw">return</span> <span class="str">"assistant"</span>
+    }
+}
+
+<span class="kw">func</span> <span class="fn">mapAZToolCategory</span>(name <span class="ty">string</span>) <span class="ty">string</span> {
+    m := <span class="kw">map</span>[<span class="ty">string</span>]<span class="ty">string</span>{
+        <span class="str">"code_execution_tool"</span>:    <span class="str">"Bash"</span>,
+        <span class="str">"knowledge_tool"</span>:         <span class="str">"Search"</span>,
+        <span class="str">"browser_agent_tool"</span>:     <span class="str">"Web"</span>,
+        <span class="str">"webpage_content_tool"</span>:   <span class="str">"Web"</span>,
+        <span class="str">"call_subordinate_tool"</span>:  <span class="str">"Task"</span>,
+        <span class="str">"response_tool"</span>:          <span class="str">"Read"</span>,
+        <span class="str">"memory_save_tool"</span>:       <span class="str">"Write"</span>,
+    }
+    <span class="kw">if</span> cat, ok := m[name]; ok { <span class="kw">return</span> cat }
+    <span class="kw">return</span> <span class="str">"Read"</span>
+}</code></pre>
+
+    <h4>Path B: Agent-Zero → AgentsView Sidecar (TypeScript)</h4>
+    <p>
+      Zero Go code. Runs alongside Agent-Zero's Docker container. Watches the 
+      <code class="inline">/a0/usr/chats/</code> directory, converts context JSON to 
+      normalized JSONL, and uploads to AgentsView. Works immediately without forking the repo.
+    </p>
+
+    <pre class="green"><code class="lang-text">typescript</code><span class="cm">// agentzero-sidecar.ts — drop in alongside Agent-Zero Docker compose</span>
+<span class="kw">import</span> { watch } <span class="kw">from</span> <span class="str">"node:fs"</span>
+<span class="kw">import</span> { readFile } <span class="kw">from</span> <span class="str">"node:fs/promises"</span>
+<span class="kw">import</span> path <span class="kw">from</span> <span class="str">"node:path"</span>
+
+<span class="kw">const</span> CHATS_DIR    = process.env.<span class="op">AZ_CHATS_DIR</span> ?? <span class="str">"/a0/usr/chats"</span>
+<span class="kw">const</span> AV_BASE      = process.env.<span class="op">AGENTSVIEW_URL</span> ?? <span class="str">"http://127.0.0.1:8080"</span>
+<span class="kw">const</span> AV_TOKEN     = process.env.<span class="op">AGENTSVIEW_TOKEN</span> ?? <span class="str">""</span>
+<span class="kw">const</span> processed    = <span class="kw">new</span> <span class="ty">Set</span>&lt;<span class="ty">string</span>&gt;()
+
+<span class="cm">/** Convert Agent-Zero context JSON → JSONL lines */</span>
+<span class="kw">function</span> <span class="fn">convertToJSONL</span>(ctx: <span class="ty">any</span>): <span class="ty">string</span> {
+  <span class="kw">const</span> lines: <span class="ty">any</span>[] = []
+  <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> ctx.log?.items ?? []) {
+    <span class="kw">const</span> ts = <span class="kw">new</span> <span class="ty">Date</span>(item.timestamp * <span class="nu">1000</span>).<span class="fn">toISOString</span>()
+    <span class="kw">const</span> role = item.type === <span class="str">"user"</span> ? <span class="str">"user"</span> : <span class="str">"assistant"</span>
+    <span class="kw">const</span> text = (item.content ?? [])
+      .<span class="fn">filter</span>((b: <span class="ty">any</span>) => b.type === <span class="str">"text"</span>)
+      .<span class="fn">map</span>((b: <span class="ty">any</span>) => b.content)
+      .<span class="fn">join</span>(<span class="str">"\n"</span>)
+    <span class="kw">if</span> (text) lines.<span class="fn">push</span>({ type: <span class="str">"message"</span>, timestamp: ts,
+      message: { role, content: [{ type: <span class="str">"text"</span>, text }] } })
+  }
+  <span class="kw">return</span> lines.<span class="fn">map</span>(l => <span class="ty">JSON</span>.<span class="fn">stringify</span>(l)).<span class="fn">join</span>(<span class="str">"\n"</span>)
+}
+
+<span class="cm">/** Upload JSONL to AgentsView upload API */</span>
+<span class="kw">async function</span> <span class="fn">upload</span>(project: <span class="ty">string</span>, jsonl: <span class="ty">string</span>) {
+  <span class="kw">const</span> blob = <span class="kw">new</span> <span class="ty">Blob</span>([jsonl], { type: <span class="str">"application/x-ndjson"</span> })
+  <span class="kw">const</span> fd = <span class="kw">new</span> <span class="ty">FormData</span>(); fd.<span class="fn">append</span>(<span class="str">"file"</span>, blob, <span class="str">"session.jsonl"</span>)
+  <span class="kw">const</span> url = `${AV_BASE}/api/v1/sessions/upload?project=${<span class="fn">encodeURIComponent</span>(project)}`
+  <span class="kw">await</span> <span class="fn">fetch</span>(url, { method: <span class="str">"POST"</span>, body: fd,
+    headers: AV_TOKEN ? { <span class="str">Authorization</span>: `Bearer ${AV_TOKEN}` } : {} })
+}
+
+<span class="cm">/** Process a single chats/*.json file */</span>
+<span class="kw">async function</span> <span class="fn">processFile</span>(file: <span class="ty">string</span>) {
+  <span class="kw">if</span> (processed.<span class="fn">has</span>(file)) <span class="kw">return</span>
+  <span class="kw">try</span> {
+    <span class="kw">const</span> raw = <span class="kw">await</span> <span class="fn">readFile</span>(file, <span class="str">"utf8"</span>)
+    <span class="kw">const</span> ctx = <span class="ty">JSON</span>.<span class="fn">parse</span>(raw)
+    <span class="kw">const</span> jsonl = <span class="fn">convertToJSONL</span>(ctx)
+    <span class="kw">if</span> (jsonl.<span class="fn">length</span> > <span class="nu">0</span>) <span class="kw">await</span> <span class="fn">upload</span>(ctx.name ?? <span class="str">"agentzero"</span>, jsonl)
+    processed.<span class="fn">add</span>(file)
+    console.<span class="fn">log</span>(`[sidecar] uploaded ${path.<span class="fn">basename</span>(file)}`)
+  } <span class="kw">catch</span> (e) { console.<span class="fn">error</span>(`[sidecar] error: ${file}`, e) }
+}
+
+<span class="cm">// Watch and process on change</span>
+<span class="fn">watch</span>(CHATS_DIR, { persistent: <span class="kw">true</span> }, (_evt, name) => {
+  <span class="kw">if</span> (name?.endsWith(<span class="str">".json"</span>)) <span class="fn">processFile</span>(path.<span class="fn">join</span>(CHATS_DIR, name))
+})
+console.<span class="fn">log</span>(<span class="str">`[sidecar] watching ${CHATS_DIR}`</span>)</code></pre>
+
+    <h3>Discovery Registration (Go — Path A)</h3>
+    <p>Add to <code class="inline">internal/config/config.go</code> and <code class="inline">internal/sync/discovery.go</code>:</p>
+
+    <pre class="green"><code class="lang-text">go</code><span class="cm">// internal/config/config.go — add to AgentDirs struct</span>
+<span class="ty">AgentZeroDirs</span> []<span class="ty">string</span> `<span class="at">json:"agent_zero_dirs"</span>`
+
+<span class="cm">// Default path resolution</span>
+<span class="kw">func</span> <span class="fn">defaultAgentZeroDir</span>() <span class="ty">string</span> {
+    <span class="kw">if</span> env := os.<span class="fn">Getenv</span>(<span class="str">"AGENT_ZERO_DIR"</span>); env != <span class="str">""</span> { <span class="kw">return</span> env }
+    <span class="cm">// Docker: /a0/usr/chats | Local: ~/agent-zero/usr/chats</span>
+    <span class="kw">return</span> filepath.<span class="fn">Join</span>(os.<span class="fn">Getenv</span>(<span class="str">"HOME"</span>), <span class="str">"agent-zero/usr/chats"</span>)
+}</code></pre>
+  </section>
+
+  <!-- ── SECTION: CLAUDE DESKTOP ───────────────────────── -->
+  <section id="claudedesktop">
+    <div class="section-eyebrow blue">05 — Claude Desktop</div>
+    <h2>Claude Desktop Parser Blueprint</h2>
+    <p>
+      Claude Desktop stores conversation sessions in the <strong>same JSONL schema as Claude Code</strong> — 
+      the parser code is essentially free. The only delta is the session file location, 
+      which is platform-specific under <code class="inline">Application Support</code>.
+    </p>
+
+    <div class="callout blue-call">
+      <div class="callout-label">Zero-Cost Parser Reuse</div>
+      <p>
+        Claude Desktop uses the identical JSONL event format as Claude Code 
+        (<code class="inline">type</code>, <code class="inline">message.role</code>, 
+        <code class="inline">message.content[]</code>, <code class="inline">timestamp</code>). 
+        The existing <code class="inline">internal/parser/claude.go</code> can parse 
+        Claude Desktop sessions without modification. Only discovery needs updating.
+      </p>
+    </div>
+
+    <h3>Claude Desktop Session Paths</h3>
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>Platform</th><th>Sessions Path</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>macOS</td><td><code class="inline">~/Library/Application Support/Claude/claude-code-sessions/*.jsonl</code></td></tr>
+          <tr><td>Windows</td><td><code class="inline">%APPDATA%\Anthropic\Claude\claude-code-sessions\*.jsonl</code></td></tr>
+          <tr><td>Linux</td><td><code class="inline">~/.config/Claude/claude-code-sessions/*.jsonl</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Discovery Registration</h3>
+
+    <pre class="blue"><code class="lang-text">go</code><span class="cm">// internal/config/config.go — platform-aware Claude Desktop path</span>
+<span class="kw">func</span> <span class="fn">defaultClaudeDesktopDir</span>() <span class="ty">string</span> {
+    <span class="kw">if</span> env := os.<span class="fn">Getenv</span>(<span class="str">"CLAUDE_DESKTOP_DIR"</span>); env != <span class="str">""</span> { <span class="kw">return</span> env }
+    home, _ := os.<span class="fn">UserHomeDir</span>()
+    <span class="kw">switch</span> runtime.GOOS {
+    <span class="kw">case</span> <span class="str">"darwin"</span>:
+        <span class="kw">return</span> filepath.<span class="fn">Join</span>(home,
+            <span class="str">"Library/Application Support/Claude/claude-code-sessions"</span>)
+    <span class="kw">case</span> <span class="str">"windows"</span>:
+        <span class="kw">return</span> filepath.<span class="fn">Join</span>(os.<span class="fn">Getenv</span>(<span class="str">"APPDATA"</span>),
+            <span class="str">"Anthropic/Claude/claude-code-sessions"</span>)
+    <span class="kw">default</span>:
+        <span class="kw">return</span> filepath.<span class="fn">Join</span>(home,
+            <span class="str">".config/Claude/claude-code-sessions"</span>)
+    }
+}
+
+<span class="cm">// internal/parser/claude_desktop.go — thin wrapper, reuses claude parser</span>
+<span class="kw">type</span> <span class="ty">ClaudeDesktopParser</span> <span class="kw">struct</span>{ <span class="ty">ClaudeParser</span> }
+
+<span class="kw">func</span> (p *<span class="ty">ClaudeDesktopParser</span>) <span class="fn">AgentName</span>() <span class="ty">string</span> { <span class="kw">return</span> <span class="str">"claude_desktop"</span> }
+
+<span class="kw">func</span> (p *<span class="ty">ClaudeDesktopParser</span>) <span class="fn">CanParse</span>(path <span class="ty">string</span>) <span class="ty">bool</span> {
+    <span class="cm">// Only match files in the claude-code-sessions directory</span>
+    <span class="kw">return</span> strings.<span class="fn">Contains</span>(path, <span class="str">"claude-code-sessions"</span>) &&
+           strings.<span class="fn">HasSuffix</span>(path, <span class="str">".jsonl"</span>)
+}</code></pre>
+
+    <h3>config.json Multi-Directory Entry</h3>
+    <pre class="blue"><code class="lang-text">json</code>{
+  <span class="str">"claude_project_dirs"</span>: [
+    <span class="str">"~/.claude/projects"</span>,
+    <span class="str">"~/Library/Application Support/Claude/claude-code-sessions"</span>
+  ],
+  <span class="str">"claude_desktop_dirs"</span>: [
+    <span class="str">"~/Library/Application Support/Claude/claude-code-sessions"</span>
+  ]
+}</code></pre>
+
+    <div class="callout blue-call">
+      <div class="callout-label">Quickest Path — No Fork Required</div>
+      <p>
+        Until a native parser ships, add the Claude Desktop sessions path to 
+        <code class="inline">claude_project_dirs</code> in your <code class="inline">config.json</code>. 
+        AgentsView will parse them as Claude Code sessions. They'll show the Claude Code 
+        agent badge but all content, search, and analytics will work perfectly.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── SECTION: MORE AGENTS ────────────────────────────── -->
+  <section id="additional">
+    <div class="section-eyebrow">06 — Additional Agent Templates</div>
+    <h2>Rapid Parser Templates</h2>
+    <p>These agents share enough format commonality with existing parsers to be implemented quickly:</p>
+
+    <h3>Cline / Roo-Code (JSONL — very close to Claude Code)</h3>
+    <pre><code class="lang-text">go</code><span class="cm">// Cline stores sessions at: ~/.vscode/extensions/.../clineSessions/*.jsonl</span>
+<span class="cm">// Format: nearly identical to Claude Code JSONL — reuse ClaudeParser with path filter</span>
+<span class="ty">ClineParser</span> <span class="kw">struct</span>{ <span class="ty">ClaudeParser</span> }
+
+<span class="kw">func</span> (p *<span class="ty">ClineParser</span>) <span class="fn">CanParse</span>(path <span class="ty">string</span>) <span class="ty">bool</span> {
+    <span class="kw">return</span> strings.<span class="fn">Contains</span>(path, <span class="str">"cline"</span>) && strings.<span class="fn">HasSuffix</span>(path, <span class="str">".jsonl"</span>)
+}</code></pre>
+
+    <h3>Aider (Markdown Chat Log)</h3>
+    <pre><code class="lang-text">go</code><span class="cm">// Aider logs: ~/.aider.chat.history.md per project (one big markdown file)</span>
+<span class="cm">// Parse pattern: lines starting with "####" are user turns, rest are assistant</span>
+<span class="cm">// Each "#### ..." heading is a message boundary</span>
+<span class="kw">func</span> (p *<span class="ty">AiderParser</span>) <span class="fn">Parse</span>(ctx <span class="ty">context.Context</span>, path <span class="ty">string</span>) (*<span class="ty">Session</span>, <span class="ty">error</span>) {
+    <span class="cm">// Split on "####" boundaries → alternate user/assistant messages</span>
+    <span class="cm">// Extract timestamps from heading content if present</span>
+}</code></pre>
+
+    <h3>Continue.dev (SQLite — same as OpenCode pattern)</h3>
+    <pre><code class="lang-text">go</code><span class="cm">// Continue.dev: ~/.continue/config/sessions.db (SQLite)</span>
+<span class="cm">// Tables: sessions, session_items</span>
+<span class="cm">// Reuse the OpenCode SQLite parser pattern — just different table names/schema</span>
+<span class="ty">ContinueParser</span> <span class="kw">struct</span>{ <span class="ty">SQLiteParser</span> }  <span class="cm">// if SQLiteParser is factored out</span></code></pre>
+  </section>
+
+  <hr>
+
+  <!-- ── SECTION: SVELTE ARCHITECTURE ──────────────────── -->
+  <section id="svelte">
+    <div class="section-eyebrow blue">07 — Svelte Frontend Architecture</div>
+    <h2>Frontend Component Tree</h2>
+    <p>
+      The frontend is a Svelte 5 SPA built with Vite. Based on the feature surface, here 
+      is the inferred component hierarchy — every node is an entry point for visual extension:
+    </p>
+
+    <div class="arch">
+<span class="ah">── frontend/ (Svelte 5 + Vite + TypeScript) ───────────────────────────</span>
+
+src/
+├── App.svelte               <span class="ac">// Root — theme class, global stores</span>
+├── lib/
+│   ├── stores/
+│   │   ├── sessions.ts      <span class="ac">// Session list reactive store</span>
+│   │   ├── theme.ts         <span class="ac">// ← THEME ENTRY POINT (light/dark, accent)</span>
+│   │   └── filters.ts       <span class="ac">// Active filter state</span>
+│   ├── components/
+│   │   ├── <span class="ab">SessionList</span>.svelte       <span class="ac">// Left sidebar — virtual scroll</span>
+│   │   │   ├── <span class="ab">SessionItem</span>.svelte    <span class="ac">// ← agent accent color slot</span>
+│   │   │   └── <span class="ab">AgentBadge</span>.svelte     <span class="ac">// ← per-agent color + icon</span>
+│   │   ├── <span class="ab">MessageViewer</span>.svelte     <span class="ac">// Main content area</span>
+│   │   │   ├── <span class="ab">MessageBlock</span>.svelte   <span class="ac">// ← role border color slots</span>
+│   │   │   ├── <span class="ab">ToolBlock</span>.svelte      <span class="ac">// ← amber tool call borders</span>
+│   │   │   ├── <span class="ab">ThinkingBlock</span>.svelte  <span class="ac">// ← purple thinking borders</span>
+│   │   │   └── <span class="ab">CodeBlock</span>.svelte      <span class="ac">// ← syntax highlight theme</span>
+│   │   ├── <span class="ab">Dashboard</span>.svelte         <span class="ac">// Analytics landing</span>
+│   │   │   ├── <span class="ab">Heatmap</span>.svelte        <span class="ac">// ← heatmap color scale</span>
+│   │   │   ├── <span class="ab">ActivityTimeline</span>.svelte
+│   │   │   └── <span class="ab">AgentComparison</span>.svelte
+│   │   ├── <span class="ab">CommandPalette</span>.svelte    <span class="ac">// ← search overlay styling</span>
+│   │   └── <span class="ab">Header</span>.svelte            <span class="ac">// ← logo / branding slot</span>
+│   └── utils/
+│       └── agentColors.ts   <span class="ac">// ← AGENT COLOR MAP — primary extension point</span>
+└── app.css                  <span class="ac">// ← CSS CUSTOM PROPERTY DEFINITIONS</span>
+    </div>
+  </section>
+
+  <!-- ── SECTION: CSS VARIABLE API ─────────────────────── -->
+  <section id="cssapi">
+    <div class="section-eyebrow blue">08 — CSS Variable API</div>
+    <h2>The CSS Custom Property System</h2>
+    <p>
+      Based on the documented dark/light theme toggle and per-agent accent colors, 
+      here is the inferred CSS variable architecture. These are the authoritative 
+      extension points for any visual customization:
+    </p>
+
+    <pre class="blue"><code class="lang-text">css</code><span class="cm">/* app.css — Root theme token definitions */</span>
+:root {
+  <span class="cm">/* ── SURFACE TOKENS ──────────────────────────── */</span>
+  --bg:               #0a0b0e;   <span class="cm">/* main background */</span>
+  --bg-sidebar:       #0f1117;   <span class="cm">/* left sidebar */</span>
+  --bg-card:          #0f1117;   <span class="cm">/* message/tool cards */</span>
+  --bg-code:          #0d1118;   <span class="cm">/* code block background */</span>
+  --bg-overlay:       #12151c;   <span class="cm">/* command palette overlay */</span>
+
+  <span class="cm">/* ── BORDER TOKENS ───────────────────────────── */</span>
+  --border:           #1e2330;
+  --border-hover:     #2e3548;
+
+  <span class="cm">/* ── TEXT TOKENS ─────────────────────────────── */</span>
+  --text-primary:     #e2e8f0;
+  --text-secondary:   #7c8ca1;
+  --text-disabled:    #3d4a5c;
+
+  <span class="cm">/* ── ROLE ACCENT TOKENS ──────────────────────── */</span>
+  --role-user:        #3b82f6;   <span class="cm">/* blue left border on user msgs */</span>
+  --role-assistant:   #8b5cf6;   <span class="cm">/* purple left border on assistant */</span>
+  --role-tool:        #f59e0b;   <span class="cm">/* amber left border on tool blocks */</span>
+  --role-thinking:    #7c3aed;   <span class="cm">/* deeper purple for thinking blocks */</span>
+
+  <span class="cm">/* ── AGENT ACCENT COLORS ─────────────────────── */</span>
+  --agent-claude:     #f97316;   <span class="cm">/* Claude Code (Anthropic orange) */</span>
+  --agent-codex:      #10b981;   <span class="cm">/* OpenAI Codex (green) */</span>
+  --agent-gemini:     #3b82f6;   <span class="cm">/* Google Gemini (blue) */</span>
+  --agent-copilot:    #6366f1;   <span class="cm">/* GitHub Copilot (indigo) */</span>
+  --agent-cursor:     #06b6d4;   <span class="cm">/* Cursor (cyan) */</span>
+  --agent-opencode:   #ec4899;   <span class="cm">/* OpenCode (pink) */</span>
+  --agent-amp:        #84cc16;   <span class="cm">/* Amp (lime) */</span>
+  --agent-openclaw:   #f43f5e;   <span class="cm">/* OpenClaw (rose) */</span>
+  --agent-pi:         #a78bfa;   <span class="cm">/* Pi (lavender) */</span>
+  --agent-iflow:      #fb923c;   <span class="cm">/* iFlow (orange-red) */</span>
+  --agent-zencoder:   #34d399;   <span class="cm">/* Zencoder (emerald) */</span>
+  <span class="cm">/* ← NEW AGENTS: add here */</span>
+  --agent-agentzero:  #fbbf24;   <span class="cm">/* Agent-Zero (yellow — terminal aesthetic) */</span>
+  --agent-claude_desktop: #ff6b35; <span class="cm">/* Claude Desktop (warmer orange) */</span>
+
+  <span class="cm">/* ── ANALYTICS CHART TOKENS ──────────────────── */</span>
+  --chart-primary:    #6366f1;
+  --chart-secondary:  #ec4899;
+  --chart-heat-low:   #1e293b;   <span class="cm">/* heatmap cold color */</span>
+  --chart-heat-high:  #6366f1;   <span class="cm">/* heatmap hot color */</span>
+
+  <span class="cm">/* ── INTERACTION TOKENS ──────────────────────── */</span>
+  --focus-ring:       #6366f1;
+  --selection:        rgba(99, 102, 241, 0.2);
+}
+
+<span class="cm">/* Light theme override */</span>
+:root.theme-light {
+  --bg:             #ffffff;
+  --bg-sidebar:     #f8fafc;
+  --bg-card:        #f1f5f9;
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --border:         #e2e8f0;
+}</code></pre>
+
+    <div class="callout blue-call">
+      <div class="callout-label">Extending via Upstream Patch vs Fork</div>
+      <p>
+        For production use, prefer opening a PR to <code class="inline">wesm/agentsview</code> with 
+        new agent colors added to the CSS variable file and the <code class="inline">agentColors.ts</code> 
+        utility. This is a low-effort, high-acceptance change since it's purely additive and doesn't 
+        touch parsing logic.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── SECTION: COLOR SYSTEM ─────────────────────────── -->
+  <section id="colorsys">
+    <div class="section-eyebrow blue">09 — Color System Extension</div>
+    <h2>Adding New Agent Colors</h2>
+    <p>
+      The <code class="inline">agentColors.ts</code> utility maps agent names to their CSS 
+      variable tokens. This is the single file to update when adding a new agent accent color.
+    </p>
+
+    <pre class="blue"><code class="lang-text">typescript</code><span class="cm">// frontend/src/lib/utils/agentColors.ts</span>
+
+<span class="kw">export type</span> <span class="ty">AgentName</span> = 
+  | <span class="str">"claude"</span> | <span class="str">"codex"</span> | <span class="str">"gemini"</span> | <span class="str">"copilot"</span> | <span class="str">"cursor"</span>
+  | <span class="str">"opencode"</span> | <span class="str">"amp"</span> | <span class="str">"openclaw"</span> | <span class="str">"pi"</span> | <span class="str">"iflow"</span> | <span class="str">"zencoder"</span>
+  | <span class="str">"agentzero"</span>       <span class="cm">// ← ADD NEW</span>
+  | <span class="str">"claude_desktop"</span>  <span class="cm">// ← ADD NEW</span>
+
+<span class="kw">export const</span> <span class="op">AGENT_COLOR_MAP</span>: <span class="ty">Record</span>&lt;<span class="ty">AgentName</span>, <span class="ty">string</span>&gt; = {
+  claude:         <span class="str">"var(--agent-claude)"</span>,
+  codex:          <span class="str">"var(--agent-codex)"</span>,
+  gemini:         <span class="str">"var(--agent-gemini)"</span>,
+  copilot:        <span class="str">"var(--agent-copilot)"</span>,
+  cursor:         <span class="str">"var(--agent-cursor)"</span>,
+  opencode:       <span class="str">"var(--agent-opencode)"</span>,
+  amp:            <span class="str">"var(--agent-amp)"</span>,
+  openclaw:       <span class="str">"var(--agent-openclaw)"</span>,
+  pi:             <span class="str">"var(--agent-pi)"</span>,
+  iflow:          <span class="str">"var(--agent-iflow)"</span>,
+  zencoder:       <span class="str">"var(--agent-zencoder)"</span>,
+  agentzero:      <span class="str">"var(--agent-agentzero)"</span>,      <span class="cm">// ← NEW</span>
+  claude_desktop: <span class="str">"var(--agent-claude_desktop)"</span>, <span class="cm">// ← NEW</span>
+}
+
+<span class="kw">export const</span> <span class="op">AGENT_LABEL_MAP</span>: <span class="ty">Record</span>&lt;<span class="ty">AgentName</span>, <span class="ty">string</span>&gt; = {
+  agentzero:      <span class="str">"Agent Zero"</span>,
+  claude_desktop: <span class="str">"Claude Desktop"</span>,
+  <span class="cm">// ... existing labels</span>
+}
+
+<span class="kw">export function</span> <span class="fn">getAgentColor</span>(agent: <span class="ty">string</span>): <span class="ty">string</span> {
+  <span class="kw">return</span> <span class="op">AGENT_COLOR_MAP</span>[agent <span class="kw">as</span> <span class="ty">AgentName</span>] ?? <span class="str">"var(--text-secondary)"</span>
+}</code></pre>
+
+    <h3>AgentBadge Component — Where Color is Applied</h3>
+    <pre class="blue"><code class="lang-text">svelte</code><span class="cm">&lt;!-- frontend/src/lib/components/AgentBadge.svelte --&gt;</span>
+&lt;<span class="kw">script</span> lang=<span class="str">"ts"</span>&gt;
+  <span class="kw">import</span> { <span class="op">getAgentColor</span>, <span class="op">AGENT_LABEL_MAP</span> } <span class="kw">from</span> <span class="str">"$lib/utils/agentColors"</span>
+  <span class="kw">let</span> { agent } = $<span class="fn">props</span>()
+  <span class="kw">const</span> color = <span class="fn">getAgentColor</span>(agent)
+  <span class="kw">const</span> label = <span class="op">AGENT_LABEL_MAP</span>[agent] ?? agent
+&lt;/<span class="kw">script</span>&gt;
+
+&lt;<span class="kw">span</span>
+  <span class="at">class</span>=<span class="str">"agent-badge"</span>
+  <span class="at">style</span>=<span class="str">"--color: {color}"</span>
+&gt;
+  &lt;<span class="kw">span</span> <span class="at">class</span>=<span class="str">"dot"</span> /&gt;
+  {label}
+&lt;/<span class="kw">span</span>&gt;
+
+&lt;<span class="kw">style</span>&gt;
+  .agent-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: <span class="fn">var</span>(--color);
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: <span class="fn">var</span>(--color);
+    <span class="cm">/* Recently active: add glow animation */</span>
+    box-shadow: 0 0 0 0 <span class="fn">var</span>(--color);
+  }
+  .dot.active {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%  { box-shadow: 0 0 0 0 <span class="fn">color-mix</span>(in srgb, var(--color) 60%, transparent); }
+    70% { box-shadow: 0 0 0 6px transparent; }
+  }
+&lt;/<span class="kw">style</span>&gt;</code></pre>
+  </section>
+
+  <!-- ── SECTION: BRANDING ──────────────────────────────── -->
+  <section id="branding">
+    <div class="section-eyebrow blue">10 — Branding Extension</div>
+    <h2>Branding Override System</h2>
+    <p>
+      The cleanest way to fork AgentsView for custom branding (e.g., "LeverageView" or 
+      a client-facing deployment) is via a CSS variable override file loaded after 
+      <code class="inline">app.css</code>, plus a Svelte slot in the Header component.
+    </p>
+
+    <h3>Strategy 1: CSS Override File</h3>
+    <p>Create <code class="inline">frontend/src/brand.css</code> and import it last in <code class="inline">main.ts</code>:</p>
+
+    <pre class="blue"><code class="lang-text">css</code><span class="cm">/* frontend/src/brand.css — loaded after app.css, overrides take precedence */</span>
+:root {
+  <span class="cm">/* Rebrand primary heatmap + chart + focus colors */</span>
+  --chart-primary:    #f59e0b;   <span class="cm">/* amber — matches your LeveragePrompts brand */</span>
+  --chart-heat-high:  #f59e0b;
+  --focus-ring:       #f59e0b;
+  --selection:        rgba(245, 158, 11, 0.15);
+
+  <span class="cm">/* Shift role accent if desired */</span>
+  --role-user:        #60a5fa;   <span class="cm">/* softer blue */</span>
+
+  <span class="cm">/* Override the active sidebar item highlight */</span>
+  --sidebar-active-border: #f59e0b;
+}
+
+<span class="cm">/* Typography override — e.g., use JetBrains Mono as the display font */</span>
+.session-name, .project-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}</code></pre>
+
+    <h3>Strategy 2: Header Slot (Svelte)</h3>
+    <pre class="blue"><code class="lang-text">svelte</code><span class="cm">&lt;!-- frontend/src/lib/components/Header.svelte — add a branding slot --&gt;</span>
+&lt;<span class="kw">script</span> lang=<span class="str">"ts"</span>&gt;
+  <span class="kw">import</span> { type <span class="ty">Snippet</span> } <span class="kw">from</span> <span class="str">"svelte"</span>
+  <span class="kw">let</span> { logo }: { logo?: <span class="ty">Snippet</span> } = $<span class="fn">props</span>()
+&lt;/<span class="kw">script</span>&gt;
+
+&lt;<span class="kw">header</span> <span class="at">class</span>=<span class="str">"app-header"</span>&gt;
+  &lt;<span class="kw">div</span> <span class="at">class</span>=<span class="str">"brand"</span>&gt;
+    {#if logo}
+      {@render logo()}          <span class="cm">&lt;!-- custom brand mark --&gt;</span>
+    {:else}
+      &lt;<span class="kw">span</span> <span class="at">class</span>=<span class="str">"default-brand"</span>&gt;agentsview&lt;/<span class="kw">span</span>&gt;
+    {/if}
+  &lt;/<span class="kw">div</span>&gt;
+  <span class="cm">&lt;!-- ... rest of header --&gt;</span>
+&lt;/<span class="kw">header</span>&gt;</code></pre>
+
+    <h3>Strategy 3: Theme Config JSON (No Rebuild)</h3>
+    <p>
+      The cleanest no-rebuild approach: serve a <code class="inline">theme.json</code> from 
+      the Go backend and inject it as CSS variables on page load.
+    </p>
+    <pre class="blue"><code class="lang-text">go</code><span class="cm">// Add to ~/.agentsview/config.json — read by the backend at startup</span>
+{
+  <span class="str">"theme"</span>: {
+    <span class="str">"chart_primary"</span>:   <span class="str">"#f59e0b"</span>,
+    <span class="str">"chart_heat_high"</span>: <span class="str">"#f59e0b"</span>,
+    <span class="str">"focus_ring"</span>:      <span class="str">"#f59e0b"</span>,
+    <span class="str">"app_title"</span>:       <span class="str">"LeverageView"</span>,
+    <span class="str">"logo_url"</span>:        <span class="str">"https://your-cdn.com/logo.svg"</span>
+  }
+}</code></pre>
+    <p>The Go server exposes this at <code class="inline">GET /api/v1/config/theme</code>, and the Svelte app fetches it on mount and injects the values as CSS custom properties on <code class="inline">:root</code>. This is the blueprint for a future <code class="inline">--theme-config</code> PR.</p>
+  </section>
+
+  <!-- ── SECTION: COMPONENT HOOKS ──────────────────────── -->
+  <section id="components">
+    <div class="section-eyebrow blue">11 — Component Extension Points</div>
+    <h2>Key Svelte Component Hooks</h2>
+
+    <h3>Extending the Dashboard — Adding a New Chart</h3>
+    <p>
+      New analytics panels should follow the existing card pattern: a Svelte component 
+      receiving session data from the store, using the chart color tokens.
+    </p>
+    <pre class="blue"><code class="lang-text">svelte</code><span class="cm">&lt;!-- New chart: Agent-Zero Tool Type Distribution --&gt;</span>
+&lt;<span class="kw">script</span> lang=<span class="str">"ts"</span>&gt;
+  <span class="kw">import</span> { sessions } <span class="kw">from</span> <span class="str">"$lib/stores/sessions"</span>
+  <span class="cm">// Derive tool stats from store — no API call needed</span>
+  <span class="kw">const</span> toolStats = $<span class="fn">derived</span>(sessions, $s =>
+    $s.<span class="fn">flatMap</span>(s => s.toolCalls)
+      .<span class="fn">reduce</span>((acc, t) => {
+        acc[t.category] = (acc[t.category] ?? <span class="nu">0</span>) + <span class="nu">1</span>; <span class="kw">return</span> acc
+      }, {} <span class="kw">as</span> <span class="ty">Record</span>&lt;<span class="ty">string</span>, <span class="ty">number</span>&gt;)
+  )
+&lt;/<span class="kw">script</span>&gt;
+<span class="cm">&lt;!-- Render using existing chart component patterns --&gt;</span></code></pre>
+
+    <h3>Extending the Message Viewer — Agent-Zero Thinking Blocks</h3>
+    <p>
+      Agent-Zero's chain-of-thought reasoning can be surfaced as thinking blocks using 
+      the existing <code class="inline">ThinkingBlock.svelte</code> component. Map Agent-Zero's 
+      internal reasoning outputs (type=<code class="inline">"agent"</code>, sub-type reasoning) 
+      to the <code class="inline">thinking</code> block type in the parser.
+    </p>
+
+    <h3>Extending Session List — Multi-Level Agent Grouping</h3>
+    <p>
+      Agent-Zero's multi-agent hierarchy (Agent 0 → Agent 1 → Agent 2) maps directly 
+      to AgentsView's existing subagent linking mechanism. The parser should:
+    </p>
+    <ul class="check">
+      <li>Set <code class="inline">ParentID</code> on subordinate agent sessions (from <code class="inline">call_subordinate_tool</code> invocations)</li>
+      <li>The existing subagent linking UI in <code class="inline">ToolBlock.svelte</code> will automatically render inline expand toggles for these sessions</li>
+      <li>No UI changes needed — pure parser configuration</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- ── SECTION: DISCOVERY ─────────────────────────────── -->
+  <section id="discovery">
+    <div class="section-eyebrow">12 — Discovery System</div>
+    <h2>Discovery Extension Checklist</h2>
+    <p>
+      For every new agent parser added, this is the complete set of changes across 
+      the discovery stack:
+    </p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>File</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code class="inline">internal/parser/&lt;agent&gt;.go</code></td><td>New file implementing <code class="inline">SessionParser</code> interface</td></tr>
+          <tr><td><code class="inline">internal/parser/registry.go</code></td><td>Register new parser in the parser slice</td></tr>
+          <tr><td><code class="inline">internal/config/config.go</code></td><td>Add <code class="inline">DefaultXxxDir()</code> + env variable + array config field</td></tr>
+          <tr><td><code class="inline">internal/sync/discovery.go</code></td><td>Add agent directory to the discovery list with the parser registered</td></tr>
+          <tr><td><code class="inline">frontend/src/lib/utils/agentColors.ts</code></td><td>Add to <code class="inline">AgentName</code> type + <code class="inline">AGENT_COLOR_MAP</code> + <code class="inline">AGENT_LABEL_MAP</code></td></tr>
+          <tr><td><code class="inline">frontend/src/app.css</code></td><td>Add <code class="inline">--agent-&lt;name&gt;</code> CSS variable</td></tr>
+          <tr><td><code class="inline">README.md</code> / docs</td><td>Add agent to supported list, document env variable and default directory</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SECTION: API EXTENSION ─────────────────────────── -->
+  <section id="apiext">
+    <div class="section-eyebrow">13 — API Extension</div>
+    <h2>REST API Extension for Agent Sidecars</h2>
+    <p>
+      For agents that can't be auto-discovered via filesystem (like Agent-Zero in Docker, 
+      or remote agents), the upload API + bearer token auth is the full integration path. 
+      No Go code changes required.
+    </p>
+
+    <pre><code class="lang-text">bash</code><span class="cm"># Full push-based pipeline for Agent-Zero</span>
+
+<span class="cm"># 1. Enable remote access on AgentsView (enables auth token)</span>
+echo '{"remote_access": true}' > ~/.agentsview/config.json
+agentsview &
+
+<span class="cm"># 2. Get the auto-generated token</span>
+TOKEN=$(jq -r '.auth_token' ~/.agentsview/config.json)
+
+<span class="cm"># 3. Test connectivity</span>
+curl -H "Authorization: Bearer $TOKEN" http://127.0.0.1:8080/api/v1/sync/status
+
+<span class="cm"># 4. Push an Agent-Zero context JSON (after conversion to JSONL by sidecar)</span>
+curl -F "file=@/tmp/az-session.jsonl" \
+  -H "Authorization: Bearer $TOKEN" \
+  "http://127.0.0.1:8080/api/v1/sessions/upload?project=agent-zero"
+
+<span class="cm"># 5. Trigger sync to pick up the uploaded session</span>
+curl -X POST -H "Authorization: Bearer $TOKEN" http://127.0.0.1:8080/api/v1/sync</code></pre>
+  </section>
+
+  <!-- ── SECTION: ROADMAP ───────────────────────────────── -->
+  <section id="roadmap">
+    <div class="section-eyebrow">14 — Extension Roadmap</div>
+    <h2>Prioritized Extension Roadmap</h2>
+
+    <h3>Tier 1 — Immediate, Low Effort</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><span class="dot dot-r"></span>Claude Desktop Path</div>
+        <p>Add Desktop session path to <code class="inline">claude_project_dirs</code> in config. Zero code. Works today. 15 minutes.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-r"></span>Agent-Zero Sidecar</div>
+        <p>Deploy the TypeScript sidecar alongside Agent-Zero Docker. Pushes sessions via upload API. No fork. 2 hours.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-r"></span>CSS Branding Override</div>
+        <p>Drop in a <code class="inline">brand.css</code> overriding chart and focus color tokens. Pure CSS, no rebuild needed if injected post-load. 30 minutes.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-r"></span>skipped_files Audit Query</div>
+        <p>Query <code class="inline">SELECT * FROM skipped_files</code> on <code class="inline">~/.agentsview/sessions.db</code> to find silently failing parse targets. Immediate insight.</p>
+      </div>
+    </div>
+
+    <h3>Tier 2 — Native Parsers (Fork + PR)</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head"><span class="dot dot-b"></span>Agent-Zero Go Parser</div>
+        <p>Implement <code class="inline">internal/parser/agentzero.go</code> per the blueprint above. Full analytics integration. Subagent hierarchy support via ParentID. ~1 day.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-b"></span>Claude Desktop Go Parser</div>
+        <p>Thin wrapper over ClaudeParser with path filter + platform-aware default dir. PRable upstream. ~2 hours.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-b"></span>Cline / Roo-Code Parser</div>
+        <p>JSONL format close to Claude Code. Path filter on <code class="inline">clineSessions</code> or <code class="inline">roo</code> directory. ~2 hours.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="dot dot-b"></span>Theme Config API</div>
+        <p>Expose <code class="inline">/api/v1/config/theme</code> endpoint. Read from config.json, inject as CSS vars in the Svelte app's mount. ~4 hours.</p>
+      </div>
+    </div>
+
+    <h3>Tier 3 — Upstream Contributions Worth Opening</h3>
+    <ul class="check">
+      <li><strong>Agent-Zero parser PR</strong> — well-specified by this blueprint. High acceptance chance since Agent-Zero has 50k+ stars and zero current AgentsView support.</li>
+      <li><strong>FTS5 advanced search UI</strong> — expose prefix matching (<code class="inline">term*</code>) and phrase search (<code class="inline">"exact phrase"</code>) directly in the command palette with a syntax hint.</li>
+      <li><strong>Multi-agent topology view</strong> — a tree visualization for sessions with subagents (Agent-Zero's hierarchy would be a perfect demo case).</li>
+      <li><strong>Insight custom prompt presets</strong> — save and reuse prompt field templates (e.g., "focus on tool usage patterns") as named presets stored in config.json.</li>
+      <li><strong>Session diff view</strong> — compare two sessions from the same project side-by-side. Useful for benchmarking the same task across Claude vs Gemini.</li>
+    </ul>
+  </section>
+
+</main>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <strong>AgentsView</strong> Extension Engineering Blueprint · March 2026
+  <span>github.com/wesm/agentsview · MIT License</span>
+</footer>
+</body>
+</html>

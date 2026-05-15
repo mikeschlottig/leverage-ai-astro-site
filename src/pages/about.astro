@@ -1,0 +1,209 @@
+---
+// ============================================================
+// ABOUT — Leverage AI LLC
+// Sections: page hero, about paragraphs, values grid, CTA
+// ============================================================
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm';
+import { aboutConfig, siteConfig } from '../lib/site-config';
+
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'About', item: `${siteConfig.url}/about` },
+  ],
+};
+---
+
+<BaseLayout
+  title="About Us | Leverage AI"
+  description="Learn about Leverage AI LLC — a Grants Pass, Oregon agency pioneering AI search visibility and design strategy for forward-thinking brands."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+
+  <!-- ─── Page Hero ──────────────────────────────────────────── -->
+  <section style="padding-top: 10rem; padding-bottom: 5rem; background-color: var(--page-bg); position: relative; overflow: hidden;">
+    <!-- Subtle radial accent -->
+    <div style="position:absolute; top:-10%; left:50%; transform:translateX(-50%); width:800px; height:600px; background:radial-gradient(ellipse, rgba(212,144,15,0.06) 0%, transparent 70%); pointer-events:none;" />
+
+    <div class="container-custom" style="position:relative; z-index:1; max-width: 800px;">
+      <p class="eyebrow" style="margin-bottom: 1rem;">{aboutConfig.eyebrow}</p>
+      <h1
+        style="
+          font-family: var(--font-heading);
+          font-size: clamp(2.8rem, 6vw, 5rem);
+          font-weight: 300;
+          line-height: 1.1;
+          color: var(--text-primary);
+          margin: 0 0 2rem;
+        "
+      >
+        {aboutConfig.headline}
+      </h1>
+      <div style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 640px;">
+        {aboutConfig.paragraphs.map((para) => (
+          <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin: 0;">
+            {para}
+          </p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Values Grid ────────────────────────────────────────── -->
+  <section class="section-padding" style="background-color: var(--surface-1);">
+    <div class="container-custom">
+      <p class="eyebrow" style="margin-bottom: 0.75rem; text-align: center;">Our Principles</p>
+      <h2
+        style="
+          font-family: var(--font-heading);
+          font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+          font-weight: 300;
+          color: var(--text-primary);
+          margin: 0 0 3rem;
+          text-align: center;
+        "
+      >
+        What We Stand For
+      </h2>
+
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        "
+        class="values-grid"
+      >
+        {aboutConfig.values.map((value, i) => (
+          <div
+            class="glass fade-up"
+            style="
+              padding: 2rem;
+              border-radius: var(--border-radius);
+              border: 1px solid var(--border-subtle);
+              display: flex;
+              flex-direction: column;
+              gap: 0.75rem;
+            "
+          >
+            <div
+              style="
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                background: var(--surface-2);
+                border: 1px solid var(--border-accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-heading);
+                font-size: 1rem;
+                font-weight: 300;
+                color: var(--accent);
+              "
+            >
+              {String(i + 1).padStart(2, '0')}
+            </div>
+            <h3
+              style="
+                font-family: var(--font-heading);
+                font-size: 1.35rem;
+                font-weight: 300;
+                color: var(--text-primary);
+                margin: 0;
+              "
+            >
+              {value.title}
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              {value.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Founder Bio ─────────────────────────────────────────── -->
+  <section
+    style="
+      padding: 5rem 0;
+      background-color: var(--page-bg);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    "
+  >
+    <div class="container-custom founder-grid" style="max-width: 860px; display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: center;">
+      <!-- Left: identity -->
+      <div style="text-align: center;">
+        <div style="width: 120px; height: 120px; border-radius: 50%; background: hsl(220 40% 10%); border: 2px solid hsl(38 80% 55% / 0.4); margin: 0 auto 1.25rem; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+          <img src="/images/headshot-hat.jpg" alt="Jon Schlottig — Founder, Leverage AI" width="120" height="120" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <p style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.25rem;">Jon Schlottig</p>
+        <p style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(38 80% 55%); margin: 0;">Founder &mdash; Leverage AI</p>
+      </div>
+
+      <!-- Right: quote -->
+      <div>
+        <p
+          style="
+            font-family: var(--font-heading);
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            font-style: italic;
+            line-height: 1.6;
+            margin: 0 0 1.25rem;
+            border-left: 3px solid hsl(38 80% 55%);
+            padding-left: 1.5rem;
+          "
+        >
+          &ldquo;Observe. Analyze. Identify. Dissect. Execute with Maximum Leverage. Repeat.&rdquo;
+        </p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; padding-left: 1.5rem; margin: 0;">
+          Founder of Leverage AI. Washed athlete that can still rip a powder day.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Contact CTA ────────────────────────────────────────── -->
+  <section class="section-padding" style="background-color: var(--surface-1);">
+    <div class="container-custom" style="text-align: center; max-width: 600px;">
+      <p class="eyebrow" style="margin-bottom: 0.75rem;">Work With Us</p>
+      <h2
+        style="
+          font-family: var(--font-heading);
+          font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+          font-weight: 300;
+          color: var(--text-primary);
+          margin: 0 0 1rem;
+        "
+      >
+        Ready to Own Your Digital Future?
+      </h2>
+      <p style="color: var(--text-secondary); margin: 0 0 2rem; line-height: 1.7;">
+        Partner with LEVERAGE AI to make your brand undeniably visible in the AI-first world.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/contact" class="btn-primary">Start a Conversation</a>
+        <a href="/case-studies" class="btn-secondary">See Our Work</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  @media (max-width: 900px) {
+    .values-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 600px) {
+    .values-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 640px) {
+    .founder-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  }
+</style>

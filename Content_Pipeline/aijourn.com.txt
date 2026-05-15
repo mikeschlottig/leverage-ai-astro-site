@@ -1,0 +1,110 @@
+aijourn.com
+
+Title 
+41 charactersAI & Technology Archives | The AI Journal
+Description 
+Description is missing!
+Keywords 
+Keywords are missing!
+URL https://aijourn.com/category/topics/ai/
+Canonical Canonical URL is not defined.
+Robots Tag NOFOLLOW, NOINDEX, NOARCHIVE, NOIMAGEINDEX, NOSNIPPET
+Author Author is missing.
+Publisher Publisher is missing.
+Lang en-GB
+H1	H2	H3	H4	H5	H6 	Images 	Links 
+1	40	1	0	0	0	38	265
+ 
+
+Robots.txt  | Sitemap.xml 
+
+ALL LINKS
+alternate : feed (application/rss+xml)
+alternate : feed (application/rss+xml)
+alternate : feed (application/rss+xml)
+alternate : 1387 (application/json)
+apple-touch-icon : cropped-The-AI-Journal-1-180x180.png
+dns-prefetch : https://ajax.googleapis.com
+dns-prefetch : https://ep2.adtrafficquality.google
+dns-prefetch : https://fonts.googleapis.com
+dns-prefetch : https://googleads.g.doubleclick.net
+dns-prefetch : https://gui.liquid.is
+dns-prefetch : //pagead2.googlesyndication.com
+dns-prefetch : https://pagead2.googlesyndication.com
+dns-prefetch : https://www.google.com
+dns-prefetch : //www.googletagmanager.com
+dns-prefetch : https://www.googletagmanager.com
+edituri : xmlrpc.php (application/rsd+xml)
+https://api.w.org/ : wp-json
+icon : cropped-The-AI-Journal-1-192x192.png
+icon : cropped-The-AI-Journal-1-32x32.png
+preload : Copy-of-6783Media-Kits-Website-Ads-1620-x-2880-px-scaled.png
+profile : 11
+stylesheet : style.min.css
+stylesheet : skin.css
+stylesheet : cookieblocker.min.css
+stylesheet : frontend.min.css
+stylesheet : general.min.css
+stylesheet : orgSeries-extra.css
+stylesheet : style.css
+stylesheet : style.css
+stylesheet : base.min.css
+stylesheet : fontawesome.css
+stylesheet : helpers.min.css
+stylesheet : shortcodes.min.css
+stylesheet : widgets.min.css
+stylesheet : style.min.css
+stylesheet : css
+ALL METAS
+charset : UTF-8
+generator : Elementor 4.0.2; features: e_font_icon_svg, additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-auto
+generator : Site Kit by Google 1.176.0
+generator : WP Rocket 3.21.1
+google-adsense-platform-account : ca-host-pub-2644536267352236
+google-adsense-platform-domain : sitekit.withgoogle.com
+http-equiv (X-UA-Compatible) : IE=edge
+http-equiv (origin-trial) : A1S5fojrAunSDrFbD8OfGmFHdRFZymSM/1ss3G+NEttCLfHkXvlcF6LGLH8Mo5PakLO1sCASXU1/gQf6XGuTBgwAAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9
+http-equiv (origin-trial) : A93bovR+QVXNx2/38qDbmeYYf1wdte9EO37K9eMq3r+541qo0byhYU899BhPB7Cv9QqD7wIbR1B6OAc9kEfYCA4AAACQeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9
+http-equiv (origin-trial) : A9nrunKdU5m96PSN1XsSGr3qOP0lvPFUB2AiAylCDlN5DTl17uDFkpQuHj1AFtgWLxpLaiBZuhrtb2WOu7ofHwEAAACKeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9
+http-equiv (origin-trial) : AlK2UR5SkAlj8jjdEc9p3F3xuFYlF6LYjAML3EOqw1g26eCwWPjdmecULvBH5MVPoqKYrOfPhYVL71xAXI1IBQoAAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ==
+http-equiv (origin-trial) : Amm8/NmvvQfhwCib6I7ZsmUxiSCfOxWxHayJwyU1r3gRIItzr7bNQid6O8ZYaE1GSQTa69WwhPC9flq/oYkRBwsAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3NTgwNjcxOTksImlzU3ViZG9tYWluIjp0cnVlfQ==
+msapplication-TileImage : cropped-The-AI-Journal-1-270x270.png
+og:locale : en_GB
+og:site_name : The AI Journal
+og:title : AI & Technology Archives | The AI Journal
+og:type : article
+og:url : ai
+robots : nofollow, noindex, noarchive, noimageindex, nosnippet
+twitter:card : summary_large_image
+twitter:data1 : 5343
+twitter:label1 : Posts
+twitter:title : AI & Technology Archives | The AI Journal
+viewport : width=device-width, initial-scale=1.0
+ALL SCRIPTS
+Script :  javascript;base64,CiAgd2luZG93LmRhdGFMYXllciA9IHdpbmRvdy5kYXRhTGF5ZXIgfHwgW107CiAgZnVuY3Rpb24gZ3RhZygpe2RhdGFMYXllci5wdXNoKGFyZ3VtZW50cyk7fQogIGd0YWcoJ2pzJywgbmV3IERhdGUoKSk7CgogIGd0YWcoJ2NvbmZpZycsICdHLURGTVg3VzNLM0QnKTsK
+Script :  widget.js
+Script :  show_ads_impl_fy2021.js
+Script :  js
+text/javascript :  javascript;base64,Ci8qIDwhW0NEQVRBWyAqLwp3aW5kb3cuZGF0YUxheWVyID0gd2luZG93LmRhdGFMYXllciB8fCBbXTtmdW5jdGlvbiBndGFnKCl7ZGF0YUxheWVyLnB1c2goYXJndW1lbnRzKTt9Cmd0YWcoInNldCIsImxpbmtlciIseyJkb21haW5zIjpbImFpam91cm4uY29tIl19KTsKZ3RhZygianMiLCBuZXcgRGF0ZSgpKTsKZ3RhZygic2V0IiwgImRldmVsb3Blcl9pZC5kWlROaU1UIiwgdHJ1ZSk7Cmd0YWcoImNvbmZpZyIsICJHLURGTVg3VzNLM0QiKTsKLy8jIHNvdXJjZVVSTD1nb29nbGVfZ3RhZ2pzLWpzLWFmdGVyCi8qIF1dPiAqLwo=
+text/javascript :  script.min.js
+text/javascript :  utm-tracker.min.js
+text/javascript :  jquery-migrate.min.js
+text/javascript :  jquery.min.js
+text/javascript :  webfont.js
+text/javascript :  adsbygoogle.js
+text/javascript :  js
+XFN / Rel attr. (Xhtml Friends Network)  
+external noopener nofollow: Instagram
+external noopener nofollow: YouTube
+external noopener nofollow: LinkedIn
+external noopener nofollow: X
+external noopener nofollow: Instagram
+external noopener nofollow: YouTube
+external noopener nofollow: LinkedIn
+external noopener nofollow: X
+nofollow noopener: https://tielabs.com/go/jnhstgr/
+nofollow noopener: The AI Journal
+You like this extension? Please rate it!
+a project by seo-extension.c
+
+--------------------------

@@ -1,0 +1,40 @@
+Decided to construct dashboard directly
+Decided to construct dashboard directly
+Here's the Hook Configuration & Management Dashboard — a production-grade React app built directly from the document's architecture.
+
+What's inside:
+
+State Architecture
+
+Single useReducer with a clean action/reducer pattern — no prop-drilling, no scattered useState for shared state
+useMemo for filtered hook lists and stats computation, useCallback for stable event handlers
+Features
+
+Stats bar — live counts for total hooks, active, errors, and cumulative runs
+Three-panel layout — filter sidebar, scrollable hook list, and a detail inspector
+Full CRUD — create/edit via modal form with validation, delete with confirmation, toggle active/inactive inline
+Multi-axis filtering — by category (Git / Webhook / Claude), status (active / inactive / error), and free-text search across name, event, and tags
+Detail panel — shows handler code in a styled code block, metrics, tags, and an architecture note specific to the hook type (webhook queue pattern vs. exit code behavior vs. agent subagent model)
+Reference panel — tabbed quick-reference for Git events, Claude Code events, and the 3-part hook architecture from the document
+Toast notifications — auto-dismissing with useEffect cleanup
+Pre-seeded with 8 hooks covering all three categories and all three handler types (command, prompt, agent)
+
+Hook dashboard
+Code · JSX 
+That's badass!! Nice job!   Can you write up a user guide?
+
+Mar 2
+
+Pivoted to crafting formatted HTML user guide instead
+Pivoted to crafting formatted HTML user guide instead
+Here's the user guide — styled to match the dashboard's dark aesthetic with a fixed sidebar nav that highlights as you scroll.
+
+What's covered:
+
+Overview & Core Concepts — the three-part hook structure (event → handler → outcome signal) explained up front so everything else clicks
+Interface Layout — every zone of the UI mapped and described
+Feature walkthroughs — Stats Bar, browsing, filtering/search, detail panel, create/edit/delete flows, and status toggling
+Per-category deep dives — Git (client vs. server-side, exit codes), Webhooks (polling vs. push, the two-phase processing pattern), Claude Code Hooks (deterministic vs. probabilistic, all 7 events)
+Handler type comparison — command / prompt / agent with guidance on when to use each
+Architecture reference — exit code semantics, the augmentation principle, and the in-app reference panel
+The sidebar nav auto-highlights the active section as you scroll, making it easy to jump

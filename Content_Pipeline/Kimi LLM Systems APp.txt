@@ -1,0 +1,1033 @@
+Kimi LLM Systems APp
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise LLM Integration | Best Practices Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#0a0a0f',
+                        secondary: '#12121a',
+                        accent: '#6366f1',
+                        'accent-glow': '#818cf8',
+                        surface: '#1a1a23',
+                        'surface-light': '#252532',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        info: '#3b82f6',
+                    },
+                    animation: {
+                        'gradient': 'gradient 8s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(26, 26, 35, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .code-block {
+            background: linear-gradient(180deg, #1e1e2e 0%, #16161e 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #c084fc);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .parameter-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #252532;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .parameter-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .parameter-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        .checklist-item {
+            transition: all 0.3s ease;
+        }
+        
+        .checklist-item.checked {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        
+        .checklist-item.checked .check-icon {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #c084fc, #f472b6);
+            z-index: 50;
+            transition: width 0.1s;
+        }
+        
+        .model-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .model-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .syntax-keyword { color: #c084fc; }
+        .syntax-string { color: #86efac; }
+        .syntax-function { color: #60a5fa; }
+        .syntax-comment { color: #6b7280; font-style: italic; }
+        .syntax-number { color: #fbbf24; }
+        
+        .interactive-demo {
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="antialiased">
+
+    <!-- Scroll Progress -->
+    <div class="scroll-indicator" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-40 glass-panel border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">LLM<span class="gradient-text">Architect</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#overview" class="nav-link text-sm font-medium text-gray-300 hover:text-white">Overview</a>
+                    <a href="#security" class="nav-link text-sm font-medium text-gray-300 hover:text-white">Security</a>
+                    <a href="#providers" class="nav-link text-sm font-medium text-gray-300 hover:text-white">Providers</a>
+                    <a href="#playground" class="nav-link text-sm font-medium text-gray-300 hover:text-white">Playground</a>
+                    <a href="#checklist" class="nav-link text-sm font-medium text-gray-300 hover:text-white">Checklist</a>
+                </div>
+                
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-surface hover:bg-surface-light transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="overview" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-surface border border-white/10 mb-8 animate-float">
+                <span class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                <span class="text-sm font-medium text-gray-300">Enterprise Best Practices v2.0</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                Mastering <span class="gradient-text">LLM Integration</span><br>
+                for Production Systems
+            </h1>
+            
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed">
+                A comprehensive guide to building robust, scalable, and secure web applications 
+                leveraging Groq and OpenRouter APIs with enterprise-grade patterns.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="scrollToSection('playground')" class="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transition-all transform hover:-translate-y-1">
+                    Try Interactive Playground
+                </button>
+                <button onclick="scrollToSection('security')" class="px-8 py-4 rounded-xl bg-surface border border-white/10 text-white font-semibold hover:bg-surface-light transition-all">
+                    Read Best Practices
+                </button>
+            </div>
+            
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Security First</h3>
+                    <p class="text-gray-400 text-sm">Environment variables, key rotation, and secure proxy patterns.</p>
+                </div>
+                
+                <div class="glass-panel p-6 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Resilient Architecture</h3>
+                    <p class="text-gray-400 text-sm">Exponential backoff, circuit breakers, and intelligent fallbacks.</p>
+                </div>
+                
+                <div class="glass-panel p-6 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Provider Agnostic</h3>
+                    <p class="text-gray-400 text-sm">Unified patterns for Groq, OpenRouter, and multi-provider setups.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section id="security" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16">
+                <h2 class="text-4xl font-bold mb-4">Security & <span class="gradient-text">Authentication</span></h2>
+                <p class="text-gray-400 max-w-2xl">Protect your API keys and implement secure communication patterns.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Code Example -->
+                <div class="code-block rounded-2xl p-6 overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-xs text-gray-500 font-mono">secure-api.js</span>
+                    </div>
+                    
+                    <div class="font-mono text-sm leading-relaxed overflow-x-auto">
+                        <div class="mb-4">
+                            <span class="syntax-comment">// ❌ NEVER: Expose keys client-side</span><br>
+                            <span class="syntax-keyword">const</span> <span class="syntax-function">apiKey</span> = <span class="syntax-string">"sk-..."</span>; <span class="syntax-comment">// Dangerous!</span>
+                        </div>
+                        
+                        <div class="mb-4 border-t border-white/10 pt-4">
+                            <span class="syntax-comment">// ✅ ALWAYS: Server-side proxy pattern</span><br>
+                            <span class="syntax-comment">// Server (Node.js/Express)</span><br>
+                            <span class="syntax-keyword">const</span> <span class="syntax-function">apiKey</span> = <span class="syntax-function">process.env</span>.<span class="syntax-function">GROQ_API_KEY</span>;<br><br>
+                            
+                            <span class="syntax-function">app.post</span>(<span class="syntax-string">'/api/llm/generate'</span>, <span class="syntax-keyword">async</span> (<span class="syntax-function">req</span>, <span class="syntax-function">res</span>) => {<br>
+                            &nbsp;&nbsp;<span class="syntax-keyword">try</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-keyword">const</span> <span class="syntax-function">response</span> = <span class="syntax-keyword">await</span> <span class="syntax-function">fetch</span>(<span class="syntax-string">'https://api.groq.com/openai/v1/chat/completions'</span>, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">headers</span>: { <span class="syntax-string">'Authorization'</span>: <span class="syntax-string">`Bearer ${apiKey}`</span> },<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">body</span>: <span class="syntax-function">JSON.stringify</span>(<span class="syntax-function">req.body</span>)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-keyword">const</span> <span class="syntax-function">data</span> = <span class="syntax-keyword">await</span> <span class="syntax-function">response.json</span>();<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">res.json</span>(<span class="syntax-function">data</span>);<br>
+                            &nbsp;&nbsp;} <span class="syntax-keyword">catch</span> (<span class="syntax-function">err</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">res.status</span>(<span class="syntax-number">500</span>).<span class="syntax-function">json</span>({ <span class="syntax-function">error</span>: <span class="syntax-string">'Processing failed'</span> });<br>
+                            &nbsp;&nbsp;}<br>
+                            });
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Checklist -->
+                <div class="space-y-4">
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-green-500">
+                        <h3 class="text-lg font-semibold mb-2 flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Environment Variables
+                        </h3>
+                        <p class="text-gray-400 text-sm">Store API keys in <code class="bg-surface px-2 py-1 rounded text-xs">.env</code> files. Never commit to version control. Use services like AWS Secrets Manager for production.</p>
+                    </div>
+                    
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-indigo-500">
+                        <h3 class="text-lg font-semibold mb-2 flex items-center">
+                            <svg class="w-5 h-5 text-indigo-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            HTTPS Only
+                        </h3>
+                        <p class="text-gray-400 text-sm">Enforce TLS 1.3 for all API communications. Implement certificate pinning for mobile applications.</p>
+                    </div>
+                    
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-purple-500">
+                        <h3 class="text-lg font-semibold mb-2 flex items-center">
+                            <svg class="w-5 h-5 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Key Rotation
+                        </h3>
+                        <p class="text-gray-400 text-sm">Implement automated key rotation every 90 days. Maintain backup keys for zero-downtime rotation.</p>
+                    </div>
+                    
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-yellow-500">
+                        <h3 class="text-lg font-semibold mb-2 flex items-center">
+                            <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            Rate Limiting
+                        </h3>
+                        <p class="text-gray-400 text-sm">Implement IP-based rate limiting. OpenRouter free tier: 20 req/min. Groq: Check dashboard limits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retry Strategy Interactive -->
+    <section class="py-24 bg-secondary/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl font-bold mb-4">Resilient <span class="gradient-text">Retry Logic</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Visualize exponential backoff and test failure scenarios.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="code-block rounded-2xl p-6 mb-6">
+                        <pre class="font-mono text-sm text-gray-300"><code><span class="syntax-keyword">async function</span> <span class="syntax-function">callWithRetry</span>(<span class="syntax-function">apiCall</span>, <span class="syntax-function">maxRetries</span> = <span class="syntax-number">5</span>) {
+    <span class="syntax-keyword">let</span> <span class="syntax-function">delay</span> = <span class="syntax-number">1000</span>; <span class="syntax-comment">// Start with 1s</span>
+    
+    <span class="syntax-keyword">for</span> (<span class="syntax-keyword">let</span> <span class="syntax-function">i</span> = <span class="syntax-number">0</span>; <span class="syntax-function">i</span> < <span class="syntax-function">maxRetries</span>; <span class="syntax-function">i</span>++) {
+        <span class="syntax-keyword">try</span> {
+            <span class="syntax-keyword">return await</span> <span class="syntax-function">apiCall</span>();
+        } <span class="syntax-keyword">catch</span> (<span class="syntax-function">error</span>) {
+            <span class="syntax-comment">// Don't retry client errors (4xx)</span>
+            <span class="syntax-keyword">if</span> (<span class="syntax-function">error.status</span> >= <span class="syntax-number">400</span> && <span class="syntax-function">error.status</span> < <span class="syntax-number">500</span>) {
+                <span class="syntax-keyword">throw</span> <span class="syntax-function">error</span>;
+            }
+            
+            <span class="syntax-keyword">if</span> (<span class="syntax-function">i</span> === <span class="syntax-function">maxRetries</span> - <span class="syntax-number">1</span>) <span class="syntax-keyword">throw</span> <span class="syntax-function">error</span>;
+            
+            <span class="syntax-keyword">await new</span> <span class="syntax-function">Promise</span>(<span class="syntax-function">resolve</span> => <span class="syntax-function">setTimeout</span>(<span class="syntax-function">resolve</span>, <span class="syntax-function">delay</span>));
+            <span class="syntax-function">delay</span> *= <span class="syntax-number">2</span>; <span class="syntax-comment">// Exponential backoff</span>
+        }
+    }
+}</code></pre>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button onclick="simulateRetry()" class="flex-1 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors">
+                            Simulate Retry Sequence
+                        </button>
+                        <button onclick="resetRetry()" class="px-6 py-3 rounded-xl bg-surface border border-white/10 hover:bg-surface-light text-white transition-colors">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-6">Retry Visualization</h3>
+                    <div id="retryVisualization" class="space-y-4">
+                        <!-- Dynamic content will be inserted here -->
+                        <div class="text-center text-gray-500 py-12">
+                            Click "Simulate Retry Sequence" to visualize the exponential backoff pattern
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                        <div class="flex justify-between text-sm text-gray-400 mb-2">
+                            <span>Total Duration:</span>
+                            <span id="totalDuration" class="text-white font-mono">0s</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-400">
+                            <span>Max Delay:</span>
+                            <span id="maxDelay" class="text-white font-mono">0s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Provider Tabs -->
+    <section id="providers" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl font-bold mb-4">Provider <span class="gradient-text">Specifics</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Optimized patterns for Groq and OpenRouter APIs.</p>
+            </div>
+            
+            <!-- Tab Buttons -->
+            <div class="flex justify-center mb-12">
+                <div class="glass-panel p-1 rounded-xl inline-flex">
+                    <button onclick="switchTab('groq')" id="tab-groq" class="tab-btn px-8 py-3 rounded-lg text-sm font-semibold transition-all bg-indigo-600 text-white">
+                        Groq
+                    </button>
+                    <button onclick="switchTab('openrouter')" id="tab-openrouter" class="tab-btn px-8 py-3 rounded-lg text-sm font-semibold transition-all text-gray-400 hover:text-white">
+                        OpenRouter
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Groq Content -->
+            <div id="content-groq" class="tab-content active">
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center mr-3 text-indigo-400 text-sm">1</span>
+                                Prompt Priming
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">Lead with high-leverage tokens. Position role, style, and rules first for better conditioning.</p>
+                            <div class="code-block rounded-xl p-4 text-sm font-mono">
+                                <span class="syntax-comment">// System prompt: 300-600 tokens optimal</span><br>
+                                <span class="syntax-keyword">const</span> <span class="syntax-function">systemPrompt</span> = <span class="syntax-string">`You are ComplianceLlama, an expert in U.S. financial-services regulation.</span><br>
+                                <span class="syntax-string">Always cite the relevant CFR section and warn when user requests violate §1010.620.`</span>;
+                            </div>
+                        </div>
+                        
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center mr-3 text-indigo-400 text-sm">2</span>
+                                Tool Calling
+                            </h3>
+                            <div class="code-block rounded-xl p-4 text-sm font-mono">
+                                <span class="syntax-keyword">const</span> <span class="syntax-function">tools</span> = [{<br>
+                                &nbsp;&nbsp;<span class="syntax-function">type</span>: <span class="syntax-string">"function"</span>,<br>
+                                &nbsp;&nbsp;<span class="syntax-function">function</span>: {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">name</span>: <span class="syntax-string">"get_temperature"</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">description</span>: <span class="syntax-string">"Get temperature for a location"</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">parameters</span>: {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">type</span>: <span class="syntax-string">"object"</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">properties</span>: {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">location</span>: { <span class="syntax-function">type</span>: <span class="syntax-string">"string"</span> }<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">required</span>: [<span class="syntax-string">"location"</span>]<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;}<br>
+                                }];
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h4 class="font-semibold mb-4 text-indigo-400">Parameter Guidelines</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">Factual Q&A</span>
+                                        <span class="font-mono text-xs">Temp: 0.2</span>
+                                    </div>
+                                    <div class="h-2 bg-surface rounded-full overflow-hidden">
+                                        <div class="h-full bg-indigo-500 w-[20%]"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">Data Extraction</span>
+                                        <span class="font-mono text-xs">Temp: 0.0</span>
+                                    </div>
+                                    <div class="h-2 bg-surface rounded-full overflow-hidden">
+                                        <div class="h-full bg-indigo-500 w-[0%]"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">Creative Writing</span>
+                                        <span class="font-mono text-xs">Temp: 0.8</span>
+                                    </div>
+                                    <div class="h-2 bg-surface rounded-full overflow-hidden">
+                                        <div class="h-full bg-indigo-500 w-[80%]"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="text-gray-400">Code Generation</span>
+                                        <span class="font-mono text-xs">Temp: 0.3</span>
+                                    </div>
+                                    <div class="h-2 bg-surface rounded-full overflow-hidden">
+                                        <div class="h-full bg-indigo-500 w-[30%]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-panel rounded-2xl p-6 border border-indigo-500/30">
+                            <h4 class="font-semibold mb-2 text-indigo-400">Key Features</h4>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2"></span>OpenAI-compatible API</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2"></span>Ultra-low latency</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2"></span>Structured outputs</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2"></span>Tool calling support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OpenRouter Content -->
+            <div id="content-openrouter" class="tab-content">
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center mr-3 text-purple-400 text-sm">1</span>
+                                Model Routing & Fallbacks
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">Use multiple models with automatic fallback routing for maximum reliability.</p>
+                            <div class="code-block rounded-xl p-4 text-sm font-mono">
+                                <span class="syntax-keyword">const</span> <span class="syntax-function">response</span> = <span class="syntax-keyword">await</span> <span class="syntax-function">fetch</span>(<span class="syntax-string">'https://openrouter.ai/api/v1/chat/completions'</span>, {<br>
+                                &nbsp;&nbsp;<span class="syntax-function">method</span>: <span class="syntax-string">'POST'</span>,<br>
+                                &nbsp;&nbsp;<span class="syntax-function">headers</span>: {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-string">'Authorization'</span>: <span class="syntax-string">`Bearer ${apiKey}`</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-string">'HTTP-Referer'</span>: <span class="syntax-string">'https://yourapp.com'</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-string">'X-Title'</span>: <span class="syntax-string">'Your App Name'</span><br>
+                                &nbsp;&nbsp;},<br>
+                                &nbsp;&nbsp;<span class="syntax-function">body</span>: <span class="syntax-function">JSON.stringify</span>({<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">models</span>: [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-string">"anthropic/claude-3.5-sonnet"</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-string">"openai/gpt-4o"</span>,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-string">"meta-llama/llama-3.3-70b"</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;],<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">messages</span>: [<span class="syntax-function">...</span>],<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="syntax-function">plugins</span>: [{ <span class="syntax-function">id</span>: <span class="syntax-string">"web_search"</span> }]<br>
+                                &nbsp;&nbsp;})<br>
+                                });
+                            </div>
+                        </div>
+                        
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center mr-3 text-purple-400 text-sm">2</span>
+                                Model Suffixes
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-surface p-4 rounded-xl">
+                                    <code class="text-purple-400 font-mono text-sm">:free</code>
+                                    <p class="text-xs text-gray-400 mt-1">Use free tier only (20 req/min limit)</p>
+                                </div>
+                                <div class="bg-surface p-4 rounded-xl">
+                                    <code class="text-purple-400 font-mono text-sm">:online</code>
+                                    <p class="text-xs text-gray-400 mt-1">Enable real-time web search</p>
+                                </div>
+                                <div class="bg-surface p-4 rounded-xl">
+                                    <code class="text-purple-400 font-mono text-sm">:nitro</code>
+                                    <p class="text-xs text-gray-400 mt-1">Prioritize speed/latency</p>
+                                </div>
+                                <div class="bg-surface p-4 rounded-xl">
+                                    <code class="text-purple-400 font-mono text-sm">:floor</code>
+                                    <p class="text-xs text-gray-400 mt-1">Lowest price available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="glass-panel rounded-2xl p-6">
+                            <h4 class="font-semibold mb-4 text-purple-400">Provider Preferences</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-surface rounded-lg">
+                                    <span class="text-sm">Sort by Price</span>
+                                    <span class="text-xs font-mono text-gray-500">provider.sort: "price"</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-surface rounded-lg">
+                                    <span class="text-sm">Sort by Latency</span>
+                                    <span class="text-xs font-mono text-gray-500">provider.sort: "latency"</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-surface rounded-lg">
+                                    <span class="text-sm">Sort by Throughput</span>
+                                    <span class="text-xs font-mono text-gray-500">provider.sort: "throughput"</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-panel rounded-2xl p-6 border border-purple-500/30">
+                            <h4 class="font-semibold mb-2 text-purple-400">Key Features</h4>
+                            <ul class="space-y-2 text-sm text-gray-400">
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-2"></span>400+ models unified</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-2"></span>Automatic fallbacks</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-2"></span>Schema normalization</li>
+                                <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-2"></span>App attribution headers</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="glass-panel rounded-2xl p-6 bg-gradient-to-br from-purple-900/20 to-transparent">
+                            <h4 class="font-semibold mb-2 text-white">Rate Limits</h4>
+                            <p class="text-sm text-gray-400 mb-3">Free tier users:</p>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Requests/min</span>
+                                    <span class="font-mono text-purple-400">20</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Daily (no credits)</span>
+                                    <span class="font-mono text-purple-400">50</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Daily (10+ credits)</span>
+                                    <span class="font-mono text-purple-400">1000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Playground -->
+    <section id="playground" class="py-24 bg-secondary/50 interactive-demo">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl font-bold mb-4">Parameter <span class="gradient-text">Playground</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Experiment with temperature, top-p, and max tokens to see recommended configurations.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="glass-panel rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-6">Configuration</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-gray-300">Temperature</label>
+                                <span id="tempValue" class="text-sm font-mono text-indigo-400">0.7</span>
+                            </div>
+                            <input type="range" min="0" max="2" step="0.1" value="0.7" class="parameter-slider" id="temperature" oninput="updatePlayground()">
+                            <div class="flex justify-between mt-1 text-xs text-gray-500">
+                                <span>Deterministic (0)</span>
+                                <span>Creative (2)</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-gray-300">Top-p</label>
+                                <span id="topPValue" class="text-sm font-mono text-indigo-400">0.9</span>
+                            </div>
+                            <input type="range" min="0" max="1" step="0.05" value="0.9" class="parameter-slider" id="topP" oninput="updatePlayground()">
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-gray-300">Max Tokens</label>
+                                <span id="tokenValue" class="text-sm font-mono text-indigo-400">1024</span>
+                            </div>
+                            <input type="range" min="100" max="4096" step="100" value="1024" class="parameter-slider" id="maxTokens" oninput="updatePlayground()">
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm font-medium text-gray-300 mb-2 block">Use Case</label>
+                            <select id="useCase" onchange="applyPreset()" class="w-full bg-surface border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="custom">Custom</option>
+                                <option value="factual">Factual Q&A</option>
+                                <option value="creative">Creative Writing</option>
+                                <option value="code">Code Generation</option>
+                                <option value="json">Data Extraction (JSON)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-6">Recommendation</h3>
+                    
+                    <div id="recommendation" class="space-y-4">
+                        <div class="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/30">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-indigo-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div>
+                                    <h4 class="font-semibold text-indigo-400 mb-1">Balanced Configuration</h4>
+                                    <p class="text-sm text-gray-400">Good for general-purpose applications requiring both coherence and creativity.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between py-2 border-b border-white/5">
+                                <span class="text-sm text-gray-400">Expected Latency</span>
+                                <span class="text-sm font-mono text-white">Medium</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-white/5">
+                                <span class="text-sm text-gray-400">Cost Efficiency</span>
+                                <span class="text-sm font-mono text-white">Moderate</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-white/5">
+                                <span class="text-sm text-gray-400">Output Consistency</span>
+                                <span class="text-sm font-mono text-white">Variable</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 rounded-xl bg-surface font-mono text-xs text-gray-400">
+                            <span class="syntax-keyword">const</span> <span class="syntax-function">config</span> = {<br>
+                            &nbsp;&nbsp;<span class="syntax-function">temperature</span>: <span id="codeTemp" class="syntax-number">0.7</span>,<br>
+                            &nbsp;&nbsp;<span class="syntax-function">top_p</span>: <span id="codeTopP" class="syntax-number">0.9</span>,<br>
+                            &nbsp;&nbsp;<span class="syntax-function">max_tokens</span>: <span id="codeTokens" class="syntax-number">1024</span><br>
+                            };
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Production Checklist -->
+    <section id="checklist" class="py-24">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl font-bold mb-4">Production <span class="gradient-text">Checklist</span></h2>
+                <p class="text-gray-400">Track your implementation readiness with this interactive checklist.</p>
+            </div>
+            
+            <div class="glass-panel rounded-2xl p-8 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold">Pre-Deployment</h3>
+                    <span id="preDeployProgress" class="text-sm font-mono text-indigo-400">0/5 Complete</span>
+                </div>
+                
+                <div class="space-y-3" id="preDeployList">
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Prompt Unit Tests</h4>
+                            <p class="text-sm text-gray-400">Assert required fields in JSON outputs, check for keywords</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Evaluation Set</h4>
+                            <p class="text-sm text-gray-400">Build test cases from real user queries with expected outcomes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Shadow Mode Testing</h4>
+                            <p class="text-sm text-gray-400">Run alongside existing system, log but don't expose outputs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Rate Limit Handling</h4>
+                            <p class="text-sm text-gray-400">Implement 429 retry logic with exponential backoff</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Error Budget Alerting</h4>
+                            <p class="text-sm text-gray-400">Set up monitoring for >1% error rate threshold</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-panel rounded-2xl p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold">Monitoring Setup</h3>
+                    <span id="monitorProgress" class="text-sm font-mono text-indigo-400">0/5 Complete</span>
+                </div>
+                
+                <div class="space-y-3" id="monitorList">
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Latency Tracking (p50/p95)</h4>
+                            <p class="text-sm text-gray-400">Alert threshold: p95 > 2s</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Token Usage Monitoring</h4>
+                            <p class="text-sm text-gray-400">Track usage field in API responses, alert at 80% budget</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Invalid JSON Rate</h4>
+                            <p class="text-sm text-gray-400">Monitor response validation failures, alert >0.1%</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Tool Call Failure Rate</h4>
+                            <p class="text-sm text-gray-400">Monitor function execution logs, alert >5%</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item flex items-center p-4 bg-surface rounded-xl cursor-pointer hover:bg-surface-light transition-colors" onclick="toggleCheck(this)">
+                        <div class="check-icon w-6 h-6 rounded border-2 border-gray-600 flex items-center justify-center mr-4 transition-colors">
+                            <svg class="w-4 h-4 text-white opacity-0 check-mark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-medium">Prompt Versioning</h4>
+                            <p class="text-sm text-gray-400">Store prompt IDs and model versions in every log entry</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <div id="overallProgress" class="inline-flex items-center px-6 py-3 rounded-full bg-surface border border-white/10">
+                    <span class="text-sm text-gray-400 mr-3">Overall Progress:</span>
+                    <span class="text-lg font-bold gradient-text" id="progressPercent">0%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common Pitfalls -->
+    <section class="py-24 bg-secondary/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl font-bold mb-4">Common <span class="gradient-text">Pitfalls</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Avoid these frequent mistakes in LLM integration.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-panel rounded-2xl p-6 border-l-4 border-red-500 hover:transform hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="font-semibold text-red-400">Too Much Context</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Fetching unnecessary data increases latency and cost.</p>
+                    <div class="text-xs text-gray-500 bg-surface p-3 rounded-lg">
+                        <span class="text-green-400">✓</span> Fetch only needed data; summarize old context
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-6 border-l-4 border-orange-500 hover:transform hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="font-semibold text-orange-400">Direct Prod Data Access</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Allowing models to touch production databases directly.</p>
+                    <div class="text-xs text-gray-500 bg-surface p-3 rounded-lg">
+                        <span class="text-green-400">✓</span> Use tools with safe abstraction layers
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-6 border-l-4 border-yellow-500 hover:transform hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="font-semibold text-yellow-400">Verbose Answers</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Unbounded responses driving up token costs.</p>
+                    <div class="text-xs text-gray-500 bg-surface p-3 rounded-lg">
+                        <span class="text-green-400">✓</span> Use max_completion_tokens and length hints
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-6 border-l-4 border-blue-500 hover:transform hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="font-semibold text-blue-400">No Versioning</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Unable to track which prompt version generated output.</p>
+                    <div class="text-xs text-gray-500 bg-surface p-3 rounded-lg">
+                        <span class="text-green-400">✓</span> Store prompt IDs and model versions in logs
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-6 border-l-4 border-purple-500 hover:transform hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="font-semibold text-purple-400">Hidden Asks</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Burying instructions mid-paragraph causes ignore.</p>
+                    <div class="text-xs text-gray-500 bg-surface p-3 rounded-lg">
+                        <span class="text-green-400">✓</span> Move all instructions to top bullet list
+                    </div>
+                </div>
+                
+                <div class="glass-panel rounded-2xl p-6 border-l-4 border-pink-500 hover:transform hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center mb-3">
+                        <svg class="w-5 h-5 text-pink-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <h3 class="font-semibold text-pink-400">Over-stuffed Context</h3>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-3">Including irrelevant historical context.</p>
+                    <div class="text-xs text-gray-500 bg-surface p-3 rounded-lg">
+                        <span class="text-green-400">✓</span> Truncate or summarize; remove old examples
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-xl font-bold">LLM<span class="gradient-text">Architect</span></span>
+                    <p class="text-sm text-gray-500 mt-1">Enterprise Integration Best Practices</p>
+                </div>
+                
+                <div class="flex space-x-6 text-sm text-gray-400">
+                    <a href="#" class="hover:text-white transition-colors">Documentation</a>
+                    <a href="#" class="hover:text-white transition-colors">Groq Docs</a>
+                    <a href="#" class="hover:text-white transition-colors">OpenRouter</a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-white/5 text-center text-xs text-gray-600">
+                <p>References: Groq Prompting Best Practices [^3^] | OpenRouter API Reference [^1^] | OpenRouter Quickstart

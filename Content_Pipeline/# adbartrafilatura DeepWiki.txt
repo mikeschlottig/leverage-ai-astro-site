@@ -1,0 +1,659 @@
+# adbar/trafilatura | DeepWiki
+
+> Trafilatura is a Python package and command-line tool designed to gather text on the Web and simplify the process of turning raw HTML into structured, meaningful data. It performs web crawling, downlo
+
+Hide dock
+
+Index your code with Devin
+
+[DeepWiki](https://deepwiki.com/)
+
+[DeepWiki](https://deepwiki.com/)
+
+[adbar/trafilatura](https://github.com/adbar/trafilatura)
+
+Index your code with
+
+Devin
+
+Edit WikiShare
+
+```application/ld+json
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Overview","description":"Trafilatura is a Python package and command-line tool designed to gather text on the Web and simplify the process of turning raw HTML into structured, meaningful data. It performs web crawling, downlo","image":"https://deepwiki.com/adbar/trafilatura/og-image.png","datePublished":"2025-10-26T23:41:04.109055","dateModified":"2025-10-26T23:41:04.109055","author":{"@type":"Organization","name":"DeepWiki","url":"https://deepwiki.com"},"publisher":{"@type":"Organization","name":"DeepWiki","logo":{"@type":"ImageObject","url":"https://deepwiki.com/icon.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://deepwiki.com/adbar/trafilatura"}}
+```
+
+Last indexed: 26 October 2025 ([ee1865](https://github.com/adbar/trafilatura/commits/ee1865b2))
+
+*   [Overview](https://deepwiki.com/adbar/trafilatura/1-overview)
+*   [Installation and Requirements](https://deepwiki.com/adbar/trafilatura/1.1-installation-and-requirements)
+*   [Key Features and Capabilities](https://deepwiki.com/adbar/trafilatura/1.2-key-features-and-capabilities)
+*   [Core Extraction System](https://deepwiki.com/adbar/trafilatura/2-core-extraction-system)
+*   [Main Extraction Pipeline](https://deepwiki.com/adbar/trafilatura/2.1-main-extraction-pipeline)
+*   [HTML Processing and Cleaning](https://deepwiki.com/adbar/trafilatura/2.2-html-processing-and-cleaning)
+*   [Fallback Extraction Methods](https://deepwiki.com/adbar/trafilatura/2.3-fallback-extraction-methods)
+*   [Command Line Interface](https://deepwiki.com/adbar/trafilatura/3-command-line-interface)
+*   [URL Processing Pipeline](https://deepwiki.com/adbar/trafilatura/3.1-url-processing-pipeline)
+*   [File Processing Pipeline](https://deepwiki.com/adbar/trafilatura/3.2-file-processing-pipeline)
+*   [CLI Options and Parameters](https://deepwiki.com/adbar/trafilatura/3.3-cli-options-and-parameters)
+*   [Metadata Extraction](https://deepwiki.com/adbar/trafilatura/4-metadata-extraction)
+*   [Metadata Extraction Pipeline](https://deepwiki.com/adbar/trafilatura/4.1-metadata-extraction-pipeline)
+*   [Document Class and Data Structures](https://deepwiki.com/adbar/trafilatura/4.2-document-class-and-data-structures)
+*   [Web Crawling and URL Discovery](https://deepwiki.com/adbar/trafilatura/5-web-crawling-and-url-discovery)
+*   [Sitemap and Feed Processing](https://deepwiki.com/adbar/trafilatura/5.1-sitemap-and-feed-processing)
+*   [Focused Crawling](https://deepwiki.com/adbar/trafilatura/5.2-focused-crawling)
+*   [Output Formats](https://deepwiki.com/adbar/trafilatura/6-output-formats)
+*   [XML and XML-TEI Output](https://deepwiki.com/adbar/trafilatura/6.1-xml-and-xml-tei-output)
+*   [JSON, CSV, and Other Formats](https://deepwiki.com/adbar/trafilatura/6.2-json-csv-and-other-formats)
+*   [Advanced Features](https://deepwiki.com/adbar/trafilatura/7-advanced-features)
+*   [Deduplication System](https://deepwiki.com/adbar/trafilatura/7.1-deduplication-system)
+*   [Language Detection and Filtering](https://deepwiki.com/adbar/trafilatura/7.2-language-detection-and-filtering)
+*   [Configuration Options](https://deepwiki.com/adbar/trafilatura/7.3-configuration-options)
+*   [Developer Guide](https://deepwiki.com/adbar/trafilatura/8-developer-guide)
+*   [Testing and Evaluation](https://deepwiki.com/adbar/trafilatura/8.1-testing-and-evaluation)
+*   [Building and Packaging](https://deepwiki.com/adbar/trafilatura/8.2-building-and-packaging)
+*   [Tutorials and Use Cases](https://deepwiki.com/adbar/trafilatura/9-tutorials-and-use-cases)
+*   [Web Corpus Gathering](https://deepwiki.com/adbar/trafilatura/9.1-web-corpus-gathering)
+*   [Text Extraction Examples](https://deepwiki.com/adbar/trafilatura/9.2-text-extraction-examples)
+
+Menu
+
+# Overview
+
+Relevant source files
+
+*   [.github/workflows/tests.yml](https://github.com/adbar/trafilatura/blob/ee1865b2/.github/workflows/tests.yml)
+*   [CONTRIBUTING.md](https://github.com/adbar/trafilatura/blob/ee1865b2/CONTRIBUTING.md?plain=1)
+*   [HISTORY.md](https://github.com/adbar/trafilatura/blob/ee1865b2/HISTORY.md?plain=1)
+*   [README.md](https://github.com/adbar/trafilatura/blob/ee1865b2/README.md?plain=1)
+*   [docs/compendium.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/compendium.rst)
+*   [docs/crawls.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/crawls.rst)
+*   [docs/downloads.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/downloads.rst)
+*   [docs/evaluation.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/evaluation.rst)
+*   [docs/index.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/index.rst)
+*   [docs/installation.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/installation.rst)
+*   [docs/quickstart.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/quickstart.rst)
+*   [docs/requirements.txt](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/requirements.txt)
+*   [docs/troubleshooting.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/troubleshooting.rst)
+*   [docs/tutorials.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/tutorials.rst)
+*   [docs/usage-cli.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/usage-cli.rst)
+*   [docs/usage-python.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/usage-python.rst)
+*   [docs/usage-r.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/usage-r.rst)
+*   [docs/usage.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/usage.rst)
+*   [docs/used-by.rst](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/used-by.rst)
+*   [trafilatura/\_\_init\_\_.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/__init__.py)
+
+Trafilatura is a**Python package and command-line tool**designed to gather text on the Web and simplify the process of turning raw HTML into structured, meaningful data. It performs**web crawling, downloads, scraping, and extraction**of main texts, metadata, and comments from web pages.
+
+The tool is widely used by companies like HuggingFace, IBM, and Microsoft Research, as well as academic institutions including the Allen Institute, Stanford, and the University of Munich. It is integrated into thousands of projects and consistently outperforms other open-source libraries in text extraction benchmarks.
+
+Sources:[README.md](https://github.com/adbar/trafilatura/blob/ee1865b2/README.md?plain=1)[docs/index.rst1-46](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/index.rst#L1-L46)[trafilatura/\_\_init\_\_.py1-10](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/__init__.py#L1-L10)
+
+## What Trafilatura Does
+
+Trafilatura focuses on extracting the**essential content**from web pages while removing**noise**caused by recurring elements like navigation bars, headers, footers, and advertisements. It provides:
+
+*   **Text extraction**: Main content, comments, and metadata (title, author, date, etc.)
+*   **URL discovery**: Through sitemaps, feeds, and focused web crawling
+*   **Multiple output formats**: TXT, XML, JSON, CSV, HTML, Markdown, and XML-TEI
+*   **Robust processing**: Fallback algorithms and configurable extraction strategies
+*   **Parallel processing**: Efficient handling of large-scale downloads
+
+The extractor strikes a balance between precision (limiting noise) and recall (including all valid parts), making it suitable for various text collection tasks including corpus building, data mining, and content analysis.
+
+Sources:[docs/index.rst41-73](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/index.rst#L41-L73)[README.md23-76](https://github.com/adbar/trafilatura/blob/ee1865b2/README.md?plain=1#L23-L76)
+
+## Primary Use Cases
+
+Use Case
+
+Description
+
+Key Components
+
+**Corpus Building**
+
+Gather texts for linguistic research and NLP training
+
+`spider.py`,`sitemaps.py`,`feeds.py`
+
+**Content Extraction**
+
+Extract clean text and metadata from HTML
+
+`core.py`,`metadata.py`,`htmlprocessing.py`
+
+**Web Archiving**
+
+Preserve and process historical web content
+
+`downloads.py`,`deduplication.py`
+
+**Data Mining**
+
+Collect structured data from multiple sources
+
+CLI batch processing, output formats
+
+**News Monitoring**
+
+Track and extract content from news sites
+
+`feeds.py`,`spider.py`with scheduling
+
+Sources:[docs/index.rst45-46](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/index.rst#L45-L46)[docs/used-by.rst9-11](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/used-by.rst#L9-L11)
+
+## System Architecture
+
+Overall System Architecture
+
+```
+
+
+Configuration
+
+Output & Storage
+
+Data Quality
+
+Download Management
+
+Content Discovery
+
+Core Processing Engine
+
+User Interfaces
+
+trafilatura CLI  
+cli.py, cli\_utils.py
+
+Python API  
+extract(), fetch\_url()
+
+R Interface  
+via reticulate
+
+Core Extraction  
+core.py  
+extract(), bare\_extraction()
+
+Metadata Extraction  
+metadata.py  
+extract\_metadata()
+
+HTML Processing  
+htmlprocessing.py  
+tree\_cleaning()
+
+Baseline Extraction  
+baseline.py  
+baseline()
+
+External Algorithms  
+external.py  
+Readability, JusText
+
+Sitemap Discovery  
+sitemaps.py  
+sitemap\_search()
+
+Feed Discovery  
+feeds.py  
+find\_feed\_urls()
+
+Focused Crawler  
+spider.py  
+focused\_crawler()
+
+Download System  
+downloads.py  
+fetch\_url(), fetch\_response()
+
+URL Management  
+courlan integration  
+UrlStore
+
+Politeness Layer  
+robots.txt, delays
+
+Deduplication  
+deduplication.py  
+duplicate\_test()
+
+Content Filters  
+filters.py  
+language\_filter()
+
+Output Validation  
+TEI validation
+
+Multiple Formats  
+TXT, XML, TEI, JSON  
+CSV, MD, HTML
+
+XML Processing  
+xml.py  
+build\_xml\_output()
+
+Settings Management  
+settings.py  
+Extractor class
+
+Configuration Files  
+settings.cfg
+
+
+
+
+```
+
+Trafilatura's architecture consists of six major functional layers:
+
+1.  **User Interfaces**: Three primary interfaces - CLI (`trafilatura`command), Python API (`extract()`,`fetch_url()`), and R interface via reticulate
+2.  **Core Processing Engine**: The extraction engine in[core.py](https://github.com/adbar/trafilatura/blob/ee1865b2/core.py)orchestrates HTML processing, metadata extraction, and fallback mechanisms
+3.  **Content Discovery**: Three strategies for URL discovery - sitemaps ([sitemaps.py](https://github.com/adbar/trafilatura/blob/ee1865b2/sitemaps.py)), feeds ([feeds.py](https://github.com/adbar/trafilatura/blob/ee1865b2/feeds.py)), and focused crawling ([spider.py](https://github.com/adbar/trafilatura/blob/ee1865b2/spider.py))
+4.  **Download Management**: Handles HTTP requests with politeness rules and URL filtering via the courlan library
+5.  **Data Quality**: Ensures clean output through deduplication (SimHash-based) and filtering
+6.  **Output & Storage**: Converts extracted content to multiple formats (TXT, XML, JSON, CSV, HTML, Markdown, XML-TEI)
+
+Sources:[trafilatura/\_\_init\_\_.py13-33](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/__init__.py#L13-L33)[trafilatura/core.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/core.py)[trafilatura/cli.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/cli.py)[trafilatura/metadata.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/metadata.py)[trafilatura/sitemaps.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/sitemaps.py)[trafilatura/downloads.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/downloads.py)
+
+## End-to-End Data Flow
+
+End-to-End Processing Pipeline
+
+```
+
+
+Storage
+
+Output Processing
+
+Quality Control
+
+Extraction Pipeline
+
+Acquisition
+
+URL Management
+
+Input Sources
+
+Single URL  
+\-u flag
+
+URL List  
+\-i file.txt
+
+Sitemap Discovery  
+\--sitemap
+
+Feed Discovery  
+\--feed
+
+Web Crawling  
+\--crawl
+
+Local HTML Files  
+\--input-dir
+
+courlan.check\_url()  
+URL Filtering
+
+courlan.clean\_url()  
+URL Cleaning
+
+UrlStore  
+Deduplication
+
+fetch\_url()  
+fetch\_response()  
+Download HTML
+
+Internet Archive  
+Fallback
+
+robots.txt  
+Compliance
+
+Rate Limiting  
+Domain throttling
+
+load\_html()  
+Parse HTML
+
+extract\_metadata()  
+Title, author, date
+
+tree\_cleaning()  
+Remove scripts, styles
+
+convert\_tags()  
+Normalize to XML
+
+extract\_content()  
+Main content
+
+extract\_comments()  
+Comments
+
+language\_filter()  
+Language check
+
+Size Validation  
+MIN\_OUTPUT\_SIZE
+
+duplicate\_test()  
+SimHash/LRU cache
+
+Output Format
+
+build\_xml\_output()  
+XML/TEI Output
+
+build\_json\_output()  
+JSON Output
+
+xmltotxt()  
+Text Output
+
+Output Files  
+\-o directory
+
+Standard Output
+
+
+
+
+```
+
+This pipeline shows the complete data flow from input to output:
+
+1.  **Input Sources**: URLs, lists, sitemaps, feeds, crawling results, or local HTML files
+2.  **URL Management**: Filtering, cleaning, and deduplication via the courlan library's`UrlStore`
+3.  **Acquisition**: Downloads with politeness rules (`robots.txt`, rate limiting) and Internet Archive fallback
+4.  **Extraction Pipeline**: HTML parsing (`load_html()`), metadata extraction (`extract_metadata()`), cleaning (`tree_cleaning()`), and content extraction (`extract_content()`)
+5.  **Quality Control**: Language filtering, size validation, and SimHash-based deduplication
+6.  **Output Processing**: Multiple formats via`build_xml_output()`,`build_json_output()`,`xmltotxt()`
+7.  **Storage**: Files or standard output
+
+Sources:[trafilatura/core.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/core.py)[trafilatura/cli\_utils.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/cli_utils.py)[trafilatura/downloads.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/downloads.py)[trafilatura/sitemaps.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/sitemaps.py)[trafilatura/metadata.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/metadata.py)[trafilatura/htmlprocessing.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/htmlprocessing.py)[trafilatura/xml.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/xml.py)
+
+## Key Components
+
+The following table summarizes Trafilatura's main components and their roles:
+
+Component
+
+Module(s)
+
+Primary Functions
+
+Purpose
+
+**Core Extraction**
+
+`core.py`
+
+`extract()`,`bare_extraction()`
+
+Main extraction logic with fallback mechanisms
+
+**Metadata Extraction**
+
+`metadata.py`,`json_metadata.py`
+
+`extract_metadata()`
+
+Extracts title, author, date, URL, and other metadata
+
+**HTML Processing**
+
+`htmlprocessing.py`
+
+`tree_cleaning()`,`convert_tags()`
+
+Cleans HTML trees, removes scripts/styles, normalizes tags
+
+**Content Identification**
+
+`main_extractor.py`
+
+`extract_content()`,`extract_comments()`
+
+Identifies main content using XPath patterns
+
+**Baseline Extraction**
+
+`baseline.py`
+
+`baseline()`
+
+Fast fallback extraction for simple pages
+
+**External Algorithms**
+
+`external.py`
+
+`try_readability()`,`try_justext()`
+
+Integration with readability-lxml and justext libraries
+
+**Sitemap Processing**
+
+`sitemaps.py`
+
+`sitemap_search()`
+
+Discovers and parses XML sitemaps
+
+**Feed Processing**
+
+`feeds.py`
+
+`find_feed_urls()`
+
+Discovers and parses RSS/Atom/JSON feeds
+
+**Web Crawling**
+
+`spider.py`
+
+`focused_crawler()`
+
+Focused crawler with navigation detection
+
+**Downloads**
+
+`downloads.py`
+
+`fetch_url()`,`fetch_response()`
+
+HTTP downloads with connection pooling
+
+**Deduplication**
+
+`deduplication.py`
+
+`duplicate_test()`
+
+SimHash-based duplicate detection with LRU cache
+
+**Output Formatting**
+
+`xml.py`
+
+`build_xml_output()`,`build_json_output()`
+
+Converts to multiple output formats
+
+**URL Management**
+
+External:`courlan`
+
+`check_url()`,`UrlStore`
+
+URL filtering, cleaning, and storage
+
+**Settings**
+
+`settings.py`
+
+`Extractor`class
+
+Configuration management
+
+Sources:[trafilatura/\_\_init\_\_.py23-33](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/__init__.py#L23-L33)[trafilatura/core.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/core.py)[trafilatura/metadata.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/metadata.py)[trafilatura/sitemaps.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/sitemaps.py)[trafilatura/spider.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/spider.py)[trafilatura/downloads.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/downloads.py)[trafilatura/deduplication.py](https://github.com/adbar/trafilatura/blob/ee1865b2/trafilatura/deduplication.py)
+
+## Installation and Usage
+
+### Installation
+
+Trafilatura is available from PyPI and can be installed with pip:
+
+```
+pipinstalltrafilatura
+```
+
+For additional functionality (language detection, speed optimizations):
+
+```
+pipinstalltrafilatura[all]
+```
+
+Sources:[docs/installation.rst46-61](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/installation.rst#L46-L61)[README.md99-106](https://github.com/adbar/trafilatura/blob/ee1865b2/README.md?plain=1#L99-L106)
+
+### Quick Start Examples
+
+**Python API:**
+
+```
+fromtrafilaturaimportfetch_url, extract# Download and extractdownloaded=fetch_url('https://example.org')result=extract(downloaded)# Extract with metadata in JSON formatresult=extract(downloaded,output_format="json",with_metadata=True)
+```
+
+**Command-Line Interface:**
+
+```
+# Extract from a URLtrafilatura-u"https://example.org"# Process a list of URLs with XML outputtrafilatura-iurls.txt-ooutput/--xml# Discover URLs from a sitemaptrafilatura--sitemap"https://example.org"--list>urls.txt
+```
+
+Sources:[docs/quickstart.rst14-52](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/quickstart.rst#L14-L52)[docs/usage-cli.rst26-52](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/usage-cli.rst#L26-L52)[README.md99-106](https://github.com/adbar/trafilatura/blob/ee1865b2/README.md?plain=1#L99-L106)
+
+## Performance and Benchmarks
+
+Trafilatura consistently outperforms other open-source libraries in text extraction benchmarks:
+
+Benchmark
+
+Result
+
+**ScrapingHub Article Extraction Benchmark**
+
+Most efficient open-source library
+
+**Bevendorff et al. 2023**
+
+Best single tool by ROUGE-LSum Mean F1 Page Scores
+
+**Lejeune & Barbaresi 2020**
+
+Best overall tool for content extraction
+
+Performance characteristics (version 1.2.2 results):
+
+Package
+
+Precision
+
+Recall
+
+Accuracy
+
+F-Score
+
+trafilatura (standard)
+
+0.914
+
+0.904
+
+**0.910**
+
+**0.909**
+
+trafilatura (precision)
+
+**0.932**
+
+0.874
+
+0.905
+
+0.902
+
+trafilatura (fast)
+
+0.914
+
+0.886
+
+0.902
+
+0.900
+
+readabilipy
+
+0.877
+
+0.870
+
+0.874
+
+0.874
+
+news-please
+
+0.898
+
+0.734
+
+0.826
+
+0.808
+
+The extractor achieves a balance between precision (limiting noise) and recall (including valid content) through configurable extraction strategies.
+
+Sources:[docs/evaluation.rst1-97](https://github.com/adbar/trafilatura/blob/ee1865b2/docs/evaluation.rst#L1-L97)[README.md78-96](https://github.com/adbar/trafilatura/blob/ee1865b2/README.md?plain=1#L78-L96)
+
+## Conclusion
+
+Trafilatura provides a robust solution for web text extraction with support for various input sources, output formats, and discovery methods. The modular architecture allows for easy extension and customization, while the fallback mechanisms ensure high extraction success rates.
+
+For detailed usage information, refer to the specific documentation pages for each component.
+
+Sources: docs/usage.rst, docs/tutorials.rst, docs/evaluation.rst
+
+Dismiss
+
+Refresh this wiki
+
+Enter email to refresh
+
+### On this page
+
+*   [Overview](https://deepwiki.com/adbar/trafilatura#overview)
+*   [What Trafilatura Does](https://deepwiki.com/adbar/trafilatura#what-trafilatura-does)
+*   [Primary Use Cases](https://deepwiki.com/adbar/trafilatura#primary-use-cases)
+*   [System Architecture](https://deepwiki.com/adbar/trafilatura#system-architecture)
+*   [End-to-End Data Flow](https://deepwiki.com/adbar/trafilatura#end-to-end-data-flow)
+*   [Key Components](https://deepwiki.com/adbar/trafilatura#key-components)
+*   [Installation and Usage](https://deepwiki.com/adbar/trafilatura#installation-and-usage)
+*   [Installation](https://deepwiki.com/adbar/trafilatura#installation)
+*   [Quick Start Examples](https://deepwiki.com/adbar/trafilatura#quick-start-examples)
+*   [Performance and Benchmarks](https://deepwiki.com/adbar/trafilatura#performance-and-benchmarks)
+*   [Conclusion](https://deepwiki.com/adbar/trafilatura#conclusion)
+
+Ask Devin about adbar/trafilatura
+
+Fast
+
+Human readable version: https://deepwiki.com/adbar/trafilatura

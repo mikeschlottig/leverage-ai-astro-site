@@ -1,0 +1,1573 @@
+Architected comprehensive React site with animations and regional customizationArchitected comprehensive React site with animations and regional customizationLocked in. Here's my design direction: "Architectural Brutalist Luxury" — dark concrete aesthetic, Cormorant Garamond paired with Barlow Condensed, warm amber accents evoking Southern Oregon's golden hours, with all the V2 premium interactions from your brief. Company: Rogue Concrete Works, Grants Pass, OR.
+jsximport { useState, useEffect, useRef } from "react";
+
+// ════════════════════════════════════════════════════════
+// HOOKS
+// ════════════════════════════════════════════════════════
+
+function useReveal(threshold = 0.12) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible];
+}
+
+function useCounter(target, active, duration = 1600) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let start = null;
+    const step = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      setVal(Math.floor(p * target));
+      if (p < 1) requestAnimationFrame(step);
+      else setVal(target);
+    };
+    requestAnimationFrame(step);
+  }, [active, target, duration]);
+  return val;
+}
+
+// ════════════════════════════════════════════════════════
+// GLOBAL STYLES
+// ════════════════════════════════════════════════════════
+
+function Styles() {
+  return (
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Barlow+Condensed:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap');
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --c0: #0a0a0a;
+        --c1: #111111;
+        --c2: #161616;
+        --c3: #1d1d1d;
+        --c4: #252525;
+        --c5: #2e2e2e;
+        --stone: #6a6460;
+        --stone-l: #9a9490;
+        --stone-pl: #c8c4bc;
+        --ivory: #f5f1e9;
+        --amber: #c4914e;
+        --amber-b: #d4a25e;
+        --amber-g: rgba(196,145,78,0.13);
+        --amber-br: rgba(196,145,78,0.32);
+        --w: #f2ede5;
+        --wm: rgba(242,237,229,0.48);
+        --bd: rgba(255,255,255,0.065);
+        --bd2: rgba(255,255,255,0.11);
+        --ff-d: 'Cormorant Garamond', serif;
+        --ff-l: 'Barlow Condensed', sans-serif;
+        --ff-b: 'Jost', sans-serif;
+      }
+
+      html { scroll-behavior: smooth; }
+      body { background: var(--c1); color: var(--w); font-family: var(--ff-b); overflow-x: hidden; }
+      button { cursor: pointer; border: none; background: none; font-family: inherit; }
+      input, select, textarea { font-family: inherit; }
+
+      /* ── NAV ── */
+      .nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+        height: 74px; padding: 0 4rem;
+        display: flex; align-items: center; justify-content: space-between;
+        transition: background .45s ease, border-color .45s ease, backdrop-filter .45s ease;
+        border-bottom: 1px solid transparent;
+      }
+      .nav.scrolled {
+        background: rgba(10,10,10,0.91);
+        backdrop-filter: blur(24px);
+        border-color: var(--bd);
+      }
+      .nav-logo {
+        display: flex; align-items: center; gap: 10px;
+        font-family: var(--ff-d); font-size: 1.35rem; font-weight: 600;
+        letter-spacing: .05em; color: var(--w); cursor: pointer; user-select: none;
+      }
+      .nav-mark {
+        width: 26px; height: 26px;
+        background: var(--amber);
+        clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        flex-shrink: 0;
+      }
+      .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+      .nav-link {
+        font-family: var(--ff-l); font-size: .75rem; letter-spacing: .16em;
+        text-transform: uppercase; color: var(--stone-pl); cursor: pointer;
+        padding-bottom: 3px; border-bottom: 1px solid transparent;
+        transition: color .2s, border-color .2s;
+      }
+      .nav-link:hover { color: var(--amber); border-color: var(--amber); }
+      .nav-link.act { color: var(--amber); border-color: var(--amber); }
+      .nav-cta-btn {
+        font-family: var(--ff-l); font-size: .75rem; letter-spacing: .14em;
+        text-transform: uppercase; font-weight: 600;
+        padding: 11px 28px; background: var(--amber); color: var(--c0);
+        transition: background .2s, transform .2s;
+      }
+      .nav-cta-btn:hover { background: var(--amber-b); transform: translateY(-1px); }
+
+      /* ── REVEAL ANIMATIONS ── */
+      .rev {
+        opacity: 0; transform: translateY(28px);
+        transition: opacity .6s ease, transform .6s ease;
+      }
+      .rev.on { opacity: 1; transform: translateY(0); }
+      .rev-sc {
+        opacity: 0; transform: translateY(24px) scale(.96);
+        transition: opacity .5s ease, transform .5s ease;
+      }
+      .rev-sc.on { opacity: 1; transform: none; }
+      .rev-l {
+        opacity: 0; transform: translateX(-32px);
+        transition: opacity .6s ease, transform .6s ease;
+      }
+      .rev-l.on { opacity: 1; transform: none; }
+      .rev-r {
+        opacity: 0; transform: translateX(32px);
+        transition: opacity .6s ease, transform .6s ease;
+      }
+      .rev-r.on { opacity: 1; transform: none; }
+
+      /* ── HERO ── */
+      .hero {
+        position: relative; min-height: 100vh;
+        display: flex; align-items: center; overflow: hidden;
+        background: var(--c0);
+      }
+      .hero-bg {
+        position: absolute; inset: 0; pointer-events: none;
+        background:
+          radial-gradient(ellipse 90% 70% at 75% 55%, rgba(26,22,16,.95) 0%, transparent 65%),
+          linear-gradient(150deg, #060606 0%, #0e0c0a 45%, #141210 100%);
+      }
+      .hero-noise {
+        position: absolute; inset: 0; pointer-events: none; opacity: .035;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 180px;
+      }
+      .hero-glow {
+        position: absolute; top: 40%; right: 10%;
+        width: 480px; height: 480px; pointer-events: none;
+        background: radial-gradient(circle, rgba(196,145,78,.07) 0%, transparent 70%);
+      }
+      .hero-geo {
+        position: absolute; right: 6%; top: 50%;
+        transform: translateY(-50%);
+        width: min(480px, 40vw); height: min(480px, 40vw);
+        pointer-events: none;
+      }
+      .hero-sq {
+        position: absolute; left: 50%; top: 50%;
+        border: 1px solid var(--amber-br);
+      }
+      .hero-content {
+        position: relative; z-index: 2;
+        padding: 74px 4rem 4rem;
+        max-width: 760px;
+      }
+      .hero-eyebrow {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .26em;
+        text-transform: uppercase; color: var(--amber);
+        margin-bottom: 1.8rem;
+        display: flex; align-items: center; gap: 14px;
+        animation: fadeUp .8s ease both;
+      }
+      .hero-eyebrow::before {
+        content: ''; display: block;
+        width: 44px; height: 1px; background: var(--amber);
+      }
+      .hero-h1 {
+        font-family: var(--ff-d);
+        font-size: clamp(4.5rem, 9vw, 9rem);
+        font-weight: 700; line-height: .9;
+        color: var(--w); margin-bottom: 2.2rem;
+        animation: fadeUp .85s ease .1s both;
+      }
+      .hero-h1 em { font-style: italic; color: var(--amber); }
+      .hero-sub {
+        font-size: 1.05rem; line-height: 1.78; color: var(--wm);
+        max-width: 500px; font-weight: 300; margin-bottom: 3rem;
+        animation: fadeUp .85s ease .2s both;
+      }
+      .hero-btns {
+        display: flex; gap: 1rem; align-items: center;
+        animation: fadeUp .85s ease .3s both;
+      }
+      .btn-p {
+        font-family: var(--ff-l); font-size: .78rem; letter-spacing: .15em;
+        text-transform: uppercase; font-weight: 600;
+        padding: 16px 42px; background: var(--amber); color: var(--c0);
+        position: relative; overflow: hidden;
+        transition: transform .25s, box-shadow .25s;
+      }
+      .btn-p::after {
+        content: ''; position: absolute; inset: 0;
+        background: rgba(255,255,255,.14); transform: translateX(-110%);
+        transition: transform .3s ease;
+      }
+      .btn-p:hover::after { transform: translateX(0); }
+      .btn-p:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(196,145,78,.28); }
+      .btn-o {
+        font-family: var(--ff-l); font-size: .78rem; letter-spacing: .15em;
+        text-transform: uppercase; font-weight: 500;
+        padding: 15px 36px; background: transparent;
+        color: var(--w); border: 1px solid var(--bd2);
+        transition: border-color .25s, color .25s, transform .25s;
+      }
+      .btn-o:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+
+      .hero-scroll {
+        position: absolute; bottom: 2.5rem; left: 4rem;
+        display: flex; align-items: center; gap: 12px;
+        font-family: var(--ff-l); font-size: .62rem; letter-spacing: .2em;
+        text-transform: uppercase; color: var(--stone);
+        animation: fadeUp 1s ease .6s both;
+      }
+      .hero-scroll-line {
+        width: 1px; height: 56px;
+        background: linear-gradient(to bottom, transparent, var(--amber));
+        animation: lineGrow 1.2s ease .8s both;
+      }
+
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: none; }
+      }
+      @keyframes lineGrow {
+        from { transform: scaleY(0); transform-origin: top; }
+        to { transform: scaleY(1); }
+      }
+      @keyframes rotSq {
+        from { transform: translate(-50%,-50%) rotate(0deg); }
+        to { transform: translate(-50%,-50%) rotate(360deg); }
+      }
+
+      /* ── SECTION BLEEDS ── */
+      .bleed-t::before {
+        content: ''; position: absolute; top: -80px; left: 0; right: 0;
+        height: 160px; pointer-events: none; z-index: 2;
+      }
+      .bleed-b::after {
+        content: ''; position: absolute; bottom: -80px; left: 0; right: 0;
+        height: 160px; pointer-events: none; z-index: 2;
+      }
+      .bleed-dark::before { background: linear-gradient(to top, var(--c1), transparent); }
+      .bleed-darker::before { background: linear-gradient(to top, var(--c0), transparent); }
+      .bleed-card::before { background: linear-gradient(to top, var(--c3), transparent); }
+      .bleed-dark-b::after { background: linear-gradient(to bottom, var(--c1), transparent); }
+      .bleed-card-b::after { background: linear-gradient(to bottom, var(--c3), transparent); }
+
+      /* ── STATS ── */
+      .stats { 
+        background: var(--c3); padding: 4.5rem 4rem;
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd);
+      }
+      .stat {
+        text-align: center; padding: 0 2rem;
+        border-right: 1px solid var(--bd);
+      }
+      .stat:last-child { border-right: none; }
+      .stat-n {
+        font-family: var(--ff-d); font-size: clamp(2.8rem, 4vw, 4.2rem);
+        font-weight: 700; color: var(--amber); line-height: 1; margin-bottom: .5rem;
+      }
+      .stat-l {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .18em;
+        text-transform: uppercase; color: var(--stone-l);
+      }
+
+      /* ── SECTION ── */
+      .section {
+        position: relative; padding: 7.5rem 4rem;
+      }
+      .sec-dark { background: var(--c1); }
+      .sec-darker { background: var(--c0); }
+      .sec-mid { background: var(--c2); }
+      .sec-card { background: var(--c3); }
+
+      .sh { margin-bottom: 4rem; }
+      .sh-eye {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .24em;
+        text-transform: uppercase; color: var(--amber);
+        display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+      }
+      .sh-eye::before { content: ''; width: 30px; height: 1px; background: var(--amber); }
+      .sh-h2 {
+        font-family: var(--ff-d); font-size: clamp(2.6rem, 4.5vw, 4.5rem);
+        font-weight: 700; line-height: 1.02; color: var(--w); margin-bottom: 1.2rem;
+      }
+      .sh-h2 em { font-style: italic; color: var(--amber); }
+      .sh-lead { font-size: .98rem; line-height: 1.78; color: var(--wm); max-width: 540px; font-weight: 300; }
+      .divider { width: 56px; height: 1px; background: linear-gradient(to right, var(--amber), transparent); margin: 1.4rem 0; }
+
+      /* ── SERVICE CARDS ── */
+      .svc-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      }
+      .svc-card {
+        background: var(--c3); position: relative; overflow: hidden; cursor: pointer;
+        transition: transform .4s cubic-bezier(.34,1.4,.64,1), box-shadow .35s ease, z-index 0s .35s;
+      }
+      .svc-card:hover {
+        transform: scale(1.025) translateY(-5px);
+        box-shadow: 0 28px 64px rgba(0,0,0,.55);
+        z-index: 10; transition: transform .4s cubic-bezier(.34,1.4,.64,1), box-shadow .35s ease;
+      }
+      .svc-img {
+        height: 200px; position: relative; overflow: hidden;
+      }
+      .svc-img::after {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(to top, var(--c3) 0%, transparent 55%);
+      }
+      .svc-top-bar {
+        position: absolute; top: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(to right, var(--amber), transparent);
+        transform: scaleX(0); transform-origin: left;
+        transition: transform .4s ease;
+      }
+      .svc-card:hover .svc-top-bar { transform: scaleX(1); }
+      .svc-body { padding: 1.6rem 1.8rem 1.8rem; }
+      .svc-num {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .14em;
+        color: var(--amber); margin-bottom: .5rem;
+      }
+      .svc-title {
+        font-family: var(--ff-d); font-size: 1.55rem; font-weight: 600;
+        color: var(--w); line-height: 1.2; margin-bottom: .6rem;
+      }
+      .svc-desc { font-size: .86rem; color: var(--wm); line-height: 1.7; font-weight: 300; }
+      .svc-hidden {
+        max-height: 0; overflow: hidden; opacity: 0;
+        transition: max-height .4s ease, opacity .3s ease .1s, padding-top .3s ease;
+      }
+      .svc-card:hover .svc-hidden {
+        max-height: 90px; opacity: 1; padding-top: 1.1rem;
+      }
+      .svc-cta {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--amber);
+        display: flex; align-items: center; gap: 8px;
+      }
+
+      /* ── SPLIT FEATURED ── */
+      .split {
+        display: grid; grid-template-columns: 1fr 1fr;
+      }
+      .split-visual { position: relative; min-height: 500px; overflow: hidden; }
+      .split-content {
+        padding: 5.5rem 4.5rem; background: var(--c3);
+        display: flex; flex-direction: column; justify-content: center;
+      }
+      .split-tag {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .2em;
+        text-transform: uppercase; color: var(--amber);
+        background: var(--amber-g); border: 1px solid var(--amber-br);
+        padding: 6px 14px; display: inline-block; margin-bottom: 1.4rem;
+        width: fit-content;
+      }
+      .split-h3 {
+        font-family: var(--ff-d); font-size: clamp(2rem, 3vw, 3rem);
+        font-weight: 600; color: var(--w); line-height: 1.12; margin-bottom: 1rem;
+      }
+      .split-h3 em { font-style: italic; color: var(--amber); }
+      .split-p { font-size: .92rem; color: var(--wm); line-height: 1.8; font-weight: 300; margin-bottom: 2rem; }
+      .split-detail {
+        display: flex; gap: 2.5rem; margin-bottom: 2.5rem;
+      }
+      .split-dt { }
+      .split-dt-n {
+        font-family: var(--ff-d); font-size: 2rem; font-weight: 600; color: var(--amber);
+      }
+      .split-dt-l {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--stone-l);
+      }
+
+      /* ── PROCESS ── */
+      .proc-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+      }
+      .proc-step {
+        padding: 2.8rem 2rem; background: var(--c3);
+        border: 1px solid var(--bd); position: relative; overflow: hidden;
+        transition: border-color .3s, transform .3s;
+      }
+      .proc-step:hover { border-color: var(--amber-br); transform: translateY(-4px); }
+      .proc-bar {
+        position: absolute; bottom: 0; left: 0; height: 2px;
+        width: 0; background: var(--amber); transition: width .4s ease;
+      }
+      .proc-step:hover .proc-bar { width: 100%; }
+      .proc-n {
+        font-family: var(--ff-d); font-size: 3.5rem; font-weight: 700;
+        color: var(--c5); line-height: 1; margin-bottom: 1rem;
+      }
+      .proc-t {
+        font-family: var(--ff-d); font-size: 1.35rem; font-weight: 600;
+        color: var(--w); margin-bottom: .6rem;
+      }
+      .proc-d { font-size: .85rem; color: var(--wm); line-height: 1.72; font-weight: 300; }
+
+      /* ── TESTIMONIALS ── */
+      .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+      .testi {
+        padding: 2.5rem; background: var(--c3); border: 1px solid var(--bd);
+        transition: border-color .3s, transform .3s;
+      }
+      .testi:hover { border-color: var(--amber-br); transform: translateY(-3px); }
+      .testi-q {
+        font-family: var(--ff-d); font-size: 4.5rem; line-height: .7;
+        color: var(--amber); opacity: .25; margin-bottom: .6rem;
+      }
+      .testi-stars { color: var(--amber); font-size: .85rem; margin-bottom: 1rem; }
+      .testi-txt {
+        font-size: .9rem; line-height: 1.82; color: var(--stone-pl);
+        font-style: italic; font-weight: 300; margin-bottom: 2rem;
+      }
+      .testi-auth { display: flex; align-items: center; gap: 12px; }
+      .testi-av {
+        width: 44px; height: 44px; border-radius: 50%;
+        border: 1.5px solid var(--amber-br); background: var(--c5);
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--ff-d); font-size: 1.1rem; font-weight: 600; color: var(--amber);
+        flex-shrink: 0;
+      }
+      .testi-nm { font-family: var(--ff-d); font-size: 1rem; font-weight: 600; color: var(--w); }
+      .testi-loc {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .12em;
+        text-transform: uppercase; color: var(--stone);
+      }
+
+      /* ── CTA BAND ── */
+      .cta-band {
+        background: var(--c2); padding: 8rem 4rem; text-align: center;
+        position: relative; overflow: hidden;
+        border-top: 1px solid var(--amber-br);
+      }
+      .cta-band::before {
+        content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+        width: 700px; height: 400px;
+        background: radial-gradient(ellipse at top, rgba(196,145,78,.09), transparent 65%);
+        pointer-events: none;
+      }
+      .cta-h2 {
+        font-family: var(--ff-d); font-size: clamp(3rem, 5.5vw, 5.5rem);
+        font-weight: 700; color: var(--w); line-height: 1.02; margin-bottom: 1.2rem;
+      }
+      .cta-h2 em { font-style: italic; color: var(--amber); }
+      .cta-sub { font-size: 1rem; color: var(--wm); max-width: 480px; margin: 0 auto 3rem; font-weight: 300; line-height: 1.75; }
+      .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+      .cta-tel {
+        font-family: var(--ff-d); font-size: 2.2rem; font-weight: 300;
+        color: var(--amber); letter-spacing: .04em; margin-bottom: 1.5rem;
+        font-style: italic;
+      }
+
+      /* ── PAGE HERO ── */
+      .ph {
+        padding: 12rem 4rem 6.5rem; background: var(--c0);
+        position: relative; overflow: hidden;
+      }
+      .ph::after {
+        content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+        height: 1px; background: linear-gradient(to right, transparent, var(--amber-br), transparent);
+      }
+      .ph-glow {
+        position: absolute; inset: 0; pointer-events: none;
+        background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(196,145,78,.06), transparent);
+      }
+      .ph-eye {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .24em;
+        text-transform: uppercase; color: var(--amber);
+        display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+      }
+      .ph-eye::before { content: ''; width: 28px; height: 1px; background: var(--amber); }
+      .ph-h1 {
+        font-family: var(--ff-d); font-size: clamp(3.5rem, 7vw, 7rem);
+        font-weight: 700; line-height: .92; color: var(--w);
+      }
+      .ph-h1 em { font-style: italic; color: var(--amber); }
+      .ph-sub {
+        font-size: 1rem; color: var(--wm); font-weight: 300;
+        max-width: 520px; line-height: 1.75; margin-top: 1.6rem;
+      }
+
+      /* ── PROJECTS ── */
+      .proj-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+      }
+      .proj-card {
+        position: relative; overflow: hidden; cursor: pointer;
+        aspect-ratio: 4/3;
+      }
+      .proj-card.wide { grid-column: span 2; aspect-ratio: auto; min-height: 340px; }
+      .proj-card.tall { grid-row: span 2; aspect-ratio: auto; }
+      .proj-ov {
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(10,10,10,.9) 0%, rgba(10,10,10,.15) 60%, transparent 100%);
+        opacity: 0; transition: opacity .35s ease;
+      }
+      .proj-card:hover .proj-ov { opacity: 1; }
+      .proj-info {
+        position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem;
+        transform: translateY(100%);
+        transition: transform .4s cubic-bezier(.34,1.2,.64,1);
+      }
+      .proj-card:hover .proj-info { transform: none; }
+      .proj-cat {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .2em;
+        text-transform: uppercase; color: var(--amber); margin-bottom: .4rem;
+      }
+      .proj-t {
+        font-family: var(--ff-d); font-size: 1.5rem; font-weight: 600;
+        color: var(--w); margin-bottom: .25rem;
+      }
+      .proj-l { font-size: .8rem; color: var(--stone-pl); font-weight: 300; }
+
+      /* filter btns */
+      .filter-bar { display: flex; gap: .6rem; margin-bottom: 3rem; flex-wrap: wrap; }
+      .fb {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .13em;
+        text-transform: uppercase; padding: 10px 22px;
+        background: transparent; border: 1px solid var(--bd2); color: var(--stone-l);
+        transition: all .2s;
+      }
+      .fb:hover, .fb.act { background: var(--amber); border-color: var(--amber); color: var(--c0); }
+
+      /* ── SERVICES PAGE CARDS ── */
+      .svc-page-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+      .svc-page-card {
+        display: grid; grid-template-columns: 180px 1fr;
+        background: var(--c3); border: 1px solid var(--bd); overflow: hidden;
+        transition: border-color .3s, transform .3s, box-shadow .3s;
+      }
+      .svc-page-card:hover {
+        border-color: var(--amber-br); transform: translateY(-3px);
+        box-shadow: 0 20px 52px rgba(0,0,0,.4);
+      }
+      .svc-page-visual { position: relative; min-height: 220px; }
+      .svc-page-content { padding: 2.5rem; }
+      .svc-page-title {
+        font-family: var(--ff-d); font-size: 1.7rem; font-weight: 600;
+        color: var(--w); margin-bottom: .7rem; line-height: 1.2;
+      }
+      .svc-page-desc { font-size: .88rem; color: var(--wm); line-height: 1.78; font-weight: 300; margin-bottom: 1.4rem; }
+      .svc-feats { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+      .svc-feat {
+        font-family: var(--ff-l); font-size: .7rem; letter-spacing: .09em;
+        text-transform: uppercase; color: var(--stone-l);
+        display: flex; align-items: center; gap: 8px;
+      }
+      .svc-feat::before { content: ''; width: 14px; height: 1px; background: var(--amber); flex-shrink: 0; }
+
+      /* ── ABOUT ── */
+      .about-split { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+      .about-img {
+        position: relative; min-height: 540px;
+        background: linear-gradient(150deg, #0c0a08 0%, #1a1410 40%, #2a2018 70%, #3a3025 100%);
+      }
+      .about-img-badge {
+        position: absolute; bottom: -24px; right: -24px;
+        width: 140px; height: 140px; background: var(--amber);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        text-align: center;
+      }
+      .about-badge-n { font-family: var(--ff-d); font-size: 3.2rem; font-weight: 700; color: var(--c0); line-height: 1; }
+      .about-badge-l {
+        font-family: var(--ff-l); font-size: .62rem; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--c0); opacity: .85; margin-top: 4px;
+      }
+      .about-body p { font-size: .95rem; color: var(--wm); line-height: 1.82; font-weight: 300; margin-bottom: 1.2rem; }
+      .about-body p:last-child { margin-bottom: 0; }
+      .about-body strong { color: var(--w); font-weight: 500; }
+
+      .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+      .team-card {
+        padding: 2.2rem; background: var(--c3); border: 1px solid var(--bd);
+        text-align: center; transition: border-color .3s, transform .3s;
+      }
+      .team-card:hover { border-color: var(--amber-br); transform: translateY(-4px); }
+      .team-av {
+        width: 76px; height: 76px; border-radius: 50%;
+        margin: 0 auto 1.2rem;
+        border: 2px solid var(--amber-br); background: var(--c5);
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--ff-d); font-size: 1.8rem; font-weight: 700; color: var(--amber);
+      }
+      .team-nm { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 600; color: var(--w); }
+      .team-role {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .15em;
+        text-transform: uppercase; color: var(--amber); margin: .4rem 0 .8rem;
+      }
+      .team-bio { font-size: .82rem; color: var(--wm); line-height: 1.72; font-weight: 300; }
+
+      .vals-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--bd); }
+      .val-card { padding: 3rem 2.5rem; background: var(--c3); transition: background .3s; }
+      .val-card:hover { background: var(--c4); }
+      .val-ico { font-size: 2.2rem; margin-bottom: 1.2rem; }
+      .val-t { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 600; color: var(--w); margin-bottom: .6rem; }
+      .val-d { font-size: .87rem; color: var(--wm); line-height: 1.75; font-weight: 300; }
+
+      .cert-strip {
+        display: flex; gap: 3rem; padding: 2.4rem 4rem;
+        background: var(--c4); border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd);
+        overflow: hidden; flex-wrap: wrap;
+      }
+      .cert-item {
+        font-family: var(--ff-l); font-size: .68rem; letter-spacing: .16em;
+        text-transform: uppercase; color: var(--stone-l);
+        display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+      }
+      .cert-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+
+      /* ── CONTACT ── */
+      .contact-split { display: grid; grid-template-columns: 1fr 1.3fr; gap: 6rem; align-items: start; }
+      .contact-items { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.5rem; }
+      .contact-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+      .contact-ico {
+        width: 50px; height: 50px; background: var(--c4);
+        border: 1px solid var(--amber-br); flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      }
+      .contact-il {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--amber); margin-bottom: .3rem;
+      }
+      .contact-iv { font-size: .93rem; color: var(--stone-pl); font-weight: 300; line-height: 1.55; }
+
+      .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+      .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .fg { display: flex; flex-direction: column; gap: 5px; }
+      .fl {
+        font-family: var(--ff-l); font-size: .65rem; letter-spacing: .15em;
+        text-transform: uppercase; color: var(--stone-l);
+      }
+      .fi, .fs, .fta {
+        background: var(--c4); border: 1px solid var(--bd2); color: var(--w);
+        padding: 14px 16px; font-size: .9rem; font-weight: 300; outline: none;
+        transition: border-color .25s; width: 100%;
+      }
+      .fi:focus, .fs:focus, .fta:focus { border-color: var(--amber); }
+      .fta { resize: vertical; min-height: 140px; }
+      .fs option { background: var(--c3); }
+
+      /* ── FOOTER ── */
+      .footer { background: var(--c0); border-top: 1px solid var(--bd); padding: 5rem 4rem 2.5rem; }
+      .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+      .footer-logo { font-family: var(--ff-d); font-size: 1.45rem; font-weight: 600; color: var(--w); display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; cursor: pointer; }
+      .footer-tag { font-size: .87rem; color: var(--wm); line-height: 1.72; font-weight: 300; max-width: 270px; }
+      .footer-col-t {
+        font-family: var(--ff-l); font-size: .68rem; letter-spacing: .2em;
+        text-transform: uppercase; color: var(--amber); margin-bottom: 1.4rem;
+      }
+      .footer-links { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+      .fl-item { font-size: .87rem; color: var(--wm); cursor: pointer; transition: color .2s; font-weight: 300; }
+      .fl-item:hover { color: var(--w); }
+      .footer-bottom {
+        border-top: 1px solid var(--bd); padding-top: 2rem;
+        display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+      }
+      .footer-copy { font-size: .76rem; color: var(--stone); font-weight: 300; }
+      .footer-leg { display: flex; gap: 2rem; }
+      .footer-leg-l { font-size: .73rem; color: var(--stone); cursor: pointer; transition: color .2s; }
+      .footer-leg-l:hover { color: var(--stone-l); }
+
+      .tooltip-wrap { position: relative; display: inline-flex; }
+      .tooltip {
+        position: absolute; bottom: calc(100% + 8px); left: 50%;
+        transform: translateX(-50%) translateY(4px);
+        background: var(--c5); color: var(--stone-pl);
+        font-family: var(--ff-l); font-size: .64rem; letter-spacing: .1em;
+        white-space: nowrap; padding: 7px 12px; border-radius: 2px;
+        opacity: 0; pointer-events: none;
+        transition: opacity .2s, transform .2s;
+        border: 1px solid var(--bd2); z-index: 100;
+      }
+      .tooltip::after {
+        content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+        border: 5px solid transparent; border-top-color: var(--c5);
+      }
+      .tooltip-wrap:hover .tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+      @media (max-width: 1024px) {
+        .nav { padding: 0 2rem; }
+        .hero-content { padding: 74px 2rem 4rem; max-width: 100%; }
+        .hero-geo { display: none; }
+        .section, .ph { padding-left: 2rem; padding-right: 2rem; }
+        .stats { padding: 3.5rem 2rem; grid-template-columns: repeat(2,1fr); gap: 1rem; }
+        .stat { border-right: none; border-bottom: 1px solid var(--bd); padding-bottom: 1.5rem; }
+        .stat:nth-child(even) { }
+        .svc-grid { grid-template-columns: repeat(2,1fr); }
+        .split { grid-template-columns: 1fr; }
+        .split-visual { min-height: 300px; }
+        .proc-grid { grid-template-columns: repeat(2,1fr); }
+        .testi-grid { grid-template-columns: 1fr; }
+        .proj-grid { grid-template-columns: repeat(2,1fr); }
+        .proj-card.wide { grid-column: span 1; }
+        .svc-page-grid { grid-template-columns: 1fr; }
+        .svc-page-card { grid-template-columns: 1fr; }
+        .svc-page-visual { min-height: 180px; }
+        .about-split { grid-template-columns: 1fr; gap: 3rem; }
+        .team-grid { grid-template-columns: repeat(2,1fr); }
+        .vals-grid { grid-template-columns: 1fr; }
+        .contact-split { grid-template-columns: 1fr; gap: 3rem; }
+        .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .form-row { grid-template-columns: 1fr; }
+        .nav-links { display: none; }
+        .cert-strip { padding: 2rem; }
+      }
+      @media (max-width: 640px) {
+        .svc-grid { grid-template-columns: 1fr; }
+        .proj-grid { grid-template-columns: 1fr; }
+        .team-grid { grid-template-columns: 1fr; }
+        .footer-grid { grid-template-columns: 1fr; }
+        .footer { padding: 3.5rem 1.5rem 2rem; }
+        .about-img-badge { right: 0; bottom: -20px; width: 110px; height: 110px; }
+      }
+    `}</style>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// REUSABLE
+// ════════════════════════════════════════════════════════
+
+function Reveal({ children, cls = "rev", delay = 0, thr = 0.12 }) {
+  const [ref, vis] = useReveal(thr);
+  return (
+    <div ref={ref} className={`${cls}${vis ? " on" : ""}`} style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+}
+
+function StatCounter({ target, suffix = "", prefix = "", label }) {
+  const [ref, vis] = useReveal(0.3);
+  const count = useCounter(target, vis);
+  return (
+    <div ref={ref} className="stat">
+      <div className="stat-n">{prefix}{count}{suffix}</div>
+      <div className="stat-l">{label}</div>
+    </div>
+  );
+}
+
+// Concrete-texture gradient boxes for "photos"
+const GRADIENTS = [
+  "linear-gradient(155deg,#0c0a08 0%,#1e1a12 40%,#322a1e 70%,#4a3c28 100%)",
+  "linear-gradient(135deg,#0a1012 0%,#141e22 40%,#223032 70%,#304040 100%)",
+  "linear-gradient(160deg,#0c0c0c 0%,#181818 50%,#282624 100%)",
+  "linear-gradient(140deg,#100e08 0%,#201a10 50%,#3a2e1e 100%)",
+  "linear-gradient(145deg,#0a100c 0%,#162018 50%,#283228 100%)",
+  "linear-gradient(130deg,#0e0e0e 0%,#1c1c1c 50%,#2e2c28 100%)",
+  "linear-gradient(150deg,#12100e 0%,#1e1a16 45%,#2e2820 100%)",
+  "linear-gradient(138deg,#0c0e12 0%,#141820 50%,#222832 100%)",
+  "linear-gradient(162deg,#100c0a 0%,#1c1610 50%,#2c2218 100%)",
+];
+
+function ConcreteSwatch({ g = 0, children, style = {} }) {
+  return (
+    <div style={{
+      background: GRADIENTS[g % GRADIENTS.length],
+      position: "relative", width: "100%", height: "100%",
+      ...style,
+    }}>
+      <div style={{
+        position: "absolute", inset: 0, opacity: .04,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundSize: "120px",
+      }}/>
+      {children}
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// NAV
+// ════════════════════════════════════════════════════════
+
+function Nav({ tab, setTab, scrolled }) {
+  const links = [
+    { id: "home", label: "Home" },
+    { id: "services", label: "Services" },
+    { id: "projects", label: "Projects" },
+    { id: "about", label: "About" },
+  ];
+  return (
+    <nav className={`nav${scrolled ? " scrolled" : ""}`}>
+      <div className="nav-logo" onClick={() => setTab("home")}>
+        <div className="nav-mark" />
+        Rogue Concrete Works
+      </div>
+      <ul className="nav-links">
+        {links.map(l => (
+          <li key={l.id} className={`nav-link${tab === l.id ? " act" : ""}`} onClick={() => setTab(l.id)}>
+            {l.label}
+          </li>
+        ))}
+      </ul>
+      <button className="nav-cta-btn" onClick={() => setTab("contact")}>Free Estimate</button>
+    </nav>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// HOME PAGE
+// ════════════════════════════════════════════════════════
+
+const SVCS_DATA = [
+  { title: "Decorative Driveways", desc: "Stamped, exposed aggregate, and broom-finished driveways built to withstand Oregon winters and decades of use.", cta: "Explore driveways", g: 0 },
+  { title: "Stamped Patios", desc: "Outdoor living spaces with custom patterns and colorant that rival natural stone at a fraction of the cost.", cta: "View patio work", g: 1 },
+  { title: "Structural Foundations", desc: "Engineered footings, slabs, and foundations for residential and light commercial projects across Southern Oregon.", cta: "Learn more", g: 2 },
+  { title: "Concrete Countertops", desc: "Handcrafted interior and exterior countertops — custom cast, acid-stained, or polished to your specification.", cta: "See countertops", g: 3 },
+  { title: "Retaining Walls", desc: "Engineered concrete walls that manage grade changes and erosion while enhancing your property's aesthetic.", cta: "View walls", g: 4 },
+  { title: "Commercial Flatwork", desc: "High-volume flatwork for parking lots, warehouses, retail, and municipal projects. Bonded, insured, on schedule.", cta: "Get a quote", g: 5 },
+];
+
+const PROCESS_DATA = [
+  { n: "01", t: "Consultation", d: "We visit your site, assess grade, soil, and drainage conditions, and discuss your vision and budget in detail." },
+  { n: "02", t: "Design & Quote", d: "We provide a written scope, material specifications, and a flat-rate quote — no surprise charges mid-project." },
+  { n: "03", t: "Site Prep", d: "Proper forming, grading, and compaction. The pour is only as good as the ground beneath it." },
+  { n: "04", t: "Pour & Finish", d: "Expert placement, vibration, and finishing techniques — from broom texture to mirror-polished decorative work." },
+];
+
+const TESTIMONIALS = [
+  { txt: "Rogue Concrete transformed our backyard into an outdoor showroom. The stamped patio is flawless — neighbors stop and ask about it constantly. Completely professional from quote to finish.", name: "Marcus & Julie T.", loc: "Ashland, OR", init: "MT" },
+  { txt: "We needed a large commercial pour for our new warehouse in White City. They came in on time, on budget, and the slab is dead flat. Will absolutely hire again for our next build.", name: "Derek Halverson", loc: "White City, OR", init: "DH" },
+  { txt: "Three bids, three very different prices. Rogue was middle but the only one who actually measured my slope and explained how they'd handle drainage. That attention to detail sealed it.", name: "Patricia Olmstead", loc: "Jacksonville, OR", init: "PO" },
+];
+
+function HeroGeo() {
+  const sizes = [90, 145, 205, 270, 340, 415];
+  return (
+    <div className="hero-geo">
+      {sizes.map((s, i) => (
+        <div key={i} className="hero-sq" style={{
+          width: s, height: s,
+          transform: `translate(-50%,-50%) rotate(${45 + i * 8}deg)`,
+          opacity: .05 + i * .03,
+          animation: `rotSq ${14 + i * 4}s linear infinite ${i % 2 ? "reverse" : ""}`,
+          animationDelay: `${-i * 2}s`,
+        }} />
+      ))}
+      <div style={{
+        position: "absolute", left: "50%", top: "50%",
+        width: 60, height: 60,
+        transform: "translate(-50%,-50%) rotate(45deg)",
+        background: "var(--amber)", opacity: .6,
+      }} />
+    </div>
+  );
+}
+
+function HomePage({ setTab }) {
+  return (
+    <>
+      {/* ── HERO ── */}
+      <section className="hero">
+        <div className="hero-bg" />
+        <div className="hero-noise" />
+        <div className="hero-glow" />
+        <HeroGeo />
+        <div className="hero-content">
+          <div className="hero-eyebrow">Southern Oregon's Premier Concrete Craftsmen</div>
+          <h1 className="hero-h1">
+            Poured with<br />
+            <em>Precision.</em><br />
+            Built to Last.
+          </h1>
+          <p className="hero-sub">
+            From decorative stamped patios to commercial structural slabs — Rogue Concrete Works delivers expert craftsmanship rooted in Southern Oregon for over 22 years.
+          </p>
+          <div className="hero-btns">
+            <button className="btn-p" onClick={() => setTab("contact")}>Get Free Estimate</button>
+            <button className="btn-o" onClick={() => setTab("projects")}>View Our Work</button>
+          </div>
+        </div>
+        <div className="hero-scroll">
+          <div className="hero-scroll-line" />
+          Scroll to explore
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <div className="stats">
+        <StatCounter target={22} suffix="+" label="Years in Southern Oregon" />
+        <StatCounter target={1400} suffix="+" label="Projects Completed" />
+        <StatCounter target={98} suffix="%" label="Client Satisfaction Rate" />
+        <StatCounter target={12} suffix="" prefix="" label="Licensed & Bonded Crew Members" />
+      </div>
+
+      {/* ── SERVICES ── */}
+      <section className="section sec-dark">
+        <Reveal>
+          <div className="sh">
+            <div className="sh-eye">Our Services</div>
+            <h2 className="sh-h2">Concrete for <em>every</em> project</h2>
+            <p className="sh-lead">Residential driveways to commercial slabs — we pour everything, and we pour it right.</p>
+          </div>
+        </Reveal>
+        <div className="svc-grid">
+          {SVCS_DATA.map((s, i) => (
+            <Reveal key={i} cls="rev-sc" delay={i * 60}>
+              <div className="svc-card" onClick={() => setTab("services")}>
+                <div className="svc-top-bar" />
+                <div className="svc-img">
+                  <ConcreteSwatch g={i} style={{ position: "absolute", inset: 0 }}>
+                    <div style={{
+                      position: "absolute", bottom: 20, left: 20,
+                      width: 40, height: 40, opacity: .2,
+                      border: "1px solid var(--amber)",
+                      transform: "rotate(45deg)",
+                    }} />
+                  </ConcreteSwatch>
+                </div>
+                <div className="svc-body">
+                  <div className="svc-num">0{i + 1}</div>
+                  <div className="svc-title">{s.title}</div>
+                  <p className="svc-desc">{s.desc}</p>
+                  <div className="svc-hidden">
+                    <div className="svc-cta">
+                      {s.cta} <span>→</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FEATURED PROJECT ── */}
+      <section className="section sec-darker" style={{ padding: 0 }}>
+        <div className="split">
+          <div className="split-visual">
+            <ConcreteSwatch g={6} style={{ position: "absolute", inset: 0 }}>
+              <div style={{
+                position: "absolute", bottom: 40, left: 40,
+                fontFamily: "var(--ff-l)", fontSize: ".65rem", letterSpacing: ".2em",
+                textTransform: "uppercase", color: "var(--amber)",
+                background: "rgba(196,145,78,.12)", border: "1px solid var(--amber-br)",
+                padding: "8px 16px",
+              }}>Featured Project</div>
+              <div style={{
+                position: "absolute", top: "50%", left: "50%",
+                transform: "translate(-50%,-50%) rotate(45deg)",
+                width: 200, height: 200, opacity: .06,
+                border: "1px solid var(--amber)",
+              }} />
+            </ConcreteSwatch>
+          </div>
+          <Reveal cls="rev-r">
+            <div className="split-content" style={{ height: "100%", minHeight: 480 }}>
+              <div className="split-tag">Residential · Decorative</div>
+              <h3 className="split-h3">The Donovan <em>Estate</em> Patio</h3>
+              <p className="split-p">
+                A 1,800 sq ft wraparound stamped concrete patio with custom slate pattern, integral color, and seamless pool deck integration — completed in 12 working days in Jacksonville, Oregon.
+              </p>
+              <div className="split-detail">
+                <div className="split-dt">
+                  <div className="split-dt-n">1,800</div>
+                  <div className="split-dt-l">Square Feet</div>
+                </div>
+                <div className="split-dt">
+                  <div className="split-dt-n">12</div>
+                  <div className="split-dt-l">Working Days</div>
+                </div>
+                <div className="split-dt">
+                  <div className="split-dt-n">4</div>
+                  <div className="split-dt-l">Color Tones</div>
+                </div>
+              </div>
+              <button className="btn-o" onClick={() => setTab("projects")}>View All Projects</button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── PROCESS ── */}
+      <section className="section sec-mid">
+        <Reveal>
+          <div className="sh">
+            <div className="sh-eye">How We Work</div>
+            <h2 className="sh-h2">Our <em>proven</em> process</h2>
+            <p className="sh-lead">No surprises. Every project follows the same four-step discipline that's kept clients returning for over two decades.</p>
+          </div>
+        </Reveal>
+        <div className="proc-grid">
+          {PROCESS_DATA.map((p, i) => (
+            <Reveal key={i} delay={i * 80}>
+              <div className="proc-step">
+                <div className="proc-n">{p.n}</div>
+                <div className="proc-t">{p.t}</div>
+                <p className="proc-d">{p.d}</p>
+                <div className="proc-bar" />
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="section sec-dark">
+        <Reveal>
+          <div className="sh">
+            <div className="sh-eye">Client Stories</div>
+            <h2 className="sh-h2">What Southern Oregon <em>says</em></h2>
+          </div>
+        </Reveal>
+        <div className="testi-grid">
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={i} delay={i * 100}>
+              <div className="testi">
+                <div className="testi-q">"</div>
+                <div className="testi-stars">★★★★★</div>
+                <p className="testi-txt">{t.txt}</p>
+                <div className="testi-auth">
+                  <div className="testi-av">{t.init}</div>
+                  <div>
+                    <div className="testi-nm">{t.name}</div>
+                    <div className="testi-loc">{t.loc}</div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="cta-band">
+        <Reveal>
+          <p className="cta-tel">(541) 482-0183</p>
+          <h2 className="cta-h2">Ready to <em>pour?</em></h2>
+          <p className="cta-sub">Free estimates, honest pricing, and work that speaks for itself. Let's talk about your project.</p>
+          <div className="cta-btns">
+            <button className="btn-p" onClick={() => setTab("contact")}>Request Free Estimate</button>
+            <button className="btn-o" onClick={() => setTab("projects")}>Browse Portfolio</button>
+          </div>
+        </Reveal>
+      </section>
+    </>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// SERVICES PAGE
+// ════════════════════════════════════════════════════════
+
+const FULL_SVCS = [
+  {
+    title: "Decorative Driveways", g: 0,
+    desc: "Your driveway is the first impression of your home. We offer broom-finished, exposed aggregate, stamped, and brushed-salt finishes — all with proper jointing and drainage grading to handle Oregon's wet winters.",
+    feats: ["Exposed Aggregate", "Stamped Pattern", "Broom & Salt Finish", "Proper Drainage Grading", "Sealed & Protected"],
+  },
+  {
+    title: "Stamped Patios & Pool Decks", g: 1,
+    desc: "Outdoor living spaces that rival natural stone and brick — at a fraction of the maintenance cost. Custom color, pattern, and texture combinations to match your home's architecture and landscape design.",
+    feats: ["50+ Pattern Options", "Integral & Broadcast Color", "Textured Non-Slip Finish", "Pool Deck Specialist", "Custom Borders & Bands"],
+  },
+  {
+    title: "Structural Foundations", g: 2,
+    desc: "We pour engineered foundations for residential additions, ADUs, garages, shops, and light commercial. All work is permitted, inspected, and meets Oregon building code requirements.",
+    feats: ["Engineered Footings", "Stem Wall & T-Footing", "Slab-on-Grade", "Permit Coordination", "Code Compliant"],
+  },
+  {
+    title: "Concrete Countertops", g: 3,
+    desc: "Cast-in-place and pre-cast concrete countertops for kitchens, bathrooms, outdoor kitchens, and bars. Hand-finished with integral pigments, glass aggregate, or acid stain for a one-of-a-kind surface.",
+    feats: ["Custom Cast to Size", "Integral Color & Stain", "Polished or Honed Finish", "Indoor & Outdoor", "Sealant Warranty"],
+  },
+  {
+    title: "Retaining Walls", g: 4,
+    desc: "Engineered concrete retaining structures that manage hillside erosion, create usable flat areas, and add serious curb appeal. Designed to handle Southern Oregon's seasonal soil movement.",
+    feats: ["Poured Concrete Walls", "Block & Mortar Systems", "Drainage Engineering", "Tiered Designs", "Decorative Face Options"],
+  },
+  {
+    title: "Commercial Flatwork", g: 5,
+    desc: "High-volume concrete pours for parking lots, warehouses, tilt-up pads, industrial floors, and municipal projects. We are bonded, carry commercial liability, and meet prevailing wage requirements.",
+    feats: ["Parking Lots & Aprons", "Industrial Floors", "Fiber & Rebar Reinforced", "Laser Screed Leveling", "Bonded & Insured"],
+  },
+];
+
+function ServicesPage() {
+  return (
+    <>
+      <div className="ph">
+        <div className="ph-glow" />
+        <Reveal>
+          <div className="ph-eye">What We Do</div>
+          <h1 className="ph-h1">Our <em>Services</em></h1>
+          <p className="ph-sub">Full-service concrete contracting across Josephine and Jackson Counties — residential, commercial, and everything in between.</p>
+        </Reveal>
+      </div>
+
+      <div className="cert-strip">
+        {["Licensed CCB #204817", "Bonded & Insured", "OSHA 30 Certified", "Member ACPA", "Oregon DEQ Compliant", "25-Year Craftsmanship Warranty"].map((c, i) => (
+          <div key={i} className="cert-item"><div className="cert-dot" />{c}</div>
+        ))}
+      </div>
+
+      <section className="section sec-dark">
+        <div className="svc-page-grid">
+          {FULL_SVCS.map((s, i) => (
+            <Reveal key={i} delay={i * 60}>
+              <div className="svc-page-card">
+                <div className="svc-page-visual">
+                  <ConcreteSwatch g={s.g} style={{ position: "absolute", inset: 0 }}>
+                    <div style={{
+                      position: "absolute", top: "50%", left: "50%",
+                      transform: "translate(-50%,-50%) rotate(45deg)",
+                      width: 60, height: 60, opacity: .15,
+                      border: "1px solid var(--amber)",
+                    }} />
+                  </ConcreteSwatch>
+                </div>
+                <div className="svc-page-content">
+                  <div className="sh-eye" style={{ marginBottom: ".5rem" }}>0{i + 1}</div>
+                  <div className="svc-page-title">{s.title}</div>
+                  <p className="svc-page-desc">{s.desc}</p>
+                  <ul className="svc-feats">
+                    {s.feats.map((f, j) => <li key={j} className="svc-feat">{f}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="cta-band">
+        <Reveal>
+          <h2 className="cta-h2">Not sure what you <em>need?</em></h2>
+          <p className="cta-sub">We'll visit your site, assess conditions, and recommend the right approach — no obligation, no pressure.</p>
+          <div className="cta-btns">
+            <button className="btn-p">Request Site Visit</button>
+            <a href="tel:5414820183" style={{ textDecoration: "none" }}>
+              <button className="btn-o">(541) 482-0183</button>
+            </a>
+          </div>
+        </Reveal>
+      </section>
+    </>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// PROJECTS PAGE
+// ════════════════════════════════════════════════════════
+
+const PROJECTS = [
+  { cat: "Residential", title: "Donovan Estate Patio", loc: "Jacksonville, OR", g: 0, wide: true },
+  { cat: "Commercial", title: "Rogue Valley Business Park", loc: "Medford, OR", g: 2 },
+  { cat: "Decorative", title: "Ashland Hillside Terrace", loc: "Ashland, OR", g: 1 },
+  { cat: "Residential", title: "Murphy Creek Driveway", loc: "Grants Pass, OR", g: 3 },
+  { cat: "Decorative", title: "Pool Deck Renovation", loc: "Eagle Point, OR", g: 4, wide: true },
+  { cat: "Commercial", title: "Warehouse Slab — 18,000 sqft", loc: "White City, OR", g: 5 },
+  { cat: "Residential", title: "Retaining Wall & Steps", loc: "Central Point, OR", g: 6 },
+  { cat: "Decorative", title: "Custom Countertop Suite", loc: "Medford, OR", g: 7 },
+  { cat: "Commercial", title: "Municipal Parking Expansion", loc: "Grants Pass, OR", g: 8 },
+];
+
+function ProjectsPage() {
+  const [filter, setFilter] = useState("All");
+  const cats = ["All", "Residential", "Commercial", "Decorative"];
+  const shown = filter === "All" ? PROJECTS : PROJECTS.filter(p => p.cat === filter);
+
+  return (
+    <>
+      <div className="ph">
+        <div className="ph-glow" />
+        <Reveal>
+          <div className="ph-eye">Portfolio</div>
+          <h1 className="ph-h1"><em>Our</em> Work</h1>
+          <p className="ph-sub">Concrete projects across the Rogue Valley — every one a point of pride.</p>
+        </Reveal>
+      </div>
+
+      <section className="section sec-dark">
+        <Reveal>
+          <div className="filter-bar">
+            {cats.map(c => (
+              <button key={c} className={`fb${filter === c ? " act" : ""}`} onClick={() => setFilter(c)}>{c}</button>
+            ))}
+          </div>
+        </Reveal>
+        <div className="proj-grid">
+          {shown.map((p, i) => (
+            <div key={i} className={`proj-card${p.wide ? " wide" : ""}`}>
+              <ConcreteSwatch g={p.g} style={{ position: "absolute", inset: 0 }}>
+                <div style={{
+                  position: "absolute", top: 24, right: 24,
+                  width: 32, height: 32, opacity: .2,
+                  border: "1px solid var(--amber)", transform: "rotate(45deg)",
+                }} />
+              </ConcreteSwatch>
+              <div className="proj-ov" />
+              <div className="proj-info">
+                <div className="proj-cat">{p.cat}</div>
+                <div className="proj-t">{p.title}</div>
+                <div className="proj-l">{p.loc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// ABOUT PAGE
+// ════════════════════════════════════════════════════════
+
+const TEAM = [
+  { init: "RH", name: "Rick Halverson", role: "Owner & Lead Foreman", bio: "22 years in concrete. Rick founded Rogue Concrete Works after a decade working across the Willamette and Rogue Valleys. He holds a master finisher certification and personally oversees every pour." },
+  { init: "DC", name: "Dana Cortez", role: "Project Manager", bio: "Former structural engineer turned concrete specialist. Dana manages permitting, scheduling, and client communication — ensuring no project slips through the cracks." },
+  { init: "BM", name: "Brett McCoy", role: "Decorative Specialist", bio: "Brett is the craftsman behind our stamped and stained work. With 14 years of decorative concrete experience, he's known for pattern precision and flawless color application." },
+];
+
+const VALUES = [
+  { ico: "⬡", t: "Engineered to Spec", d: "Every project starts with a proper site evaluation. Drainage, soil type, load requirements — we assess before we pour. No shortcuts that show up five years later." },
+  { ico: "⬡", t: "Transparent Pricing", d: "You receive a written, flat-rate quote. What we quote is what you pay. We've built our reputation on that." },
+  { ico: "⬡", t: "Local Expertise", d: "We know Southern Oregon clay. We know Rogue Valley winters. Local knowledge isn't a marketing line — it's the difference between a slab that lasts and one that doesn't." },
+];
+
+function AboutPage() {
+  return (
+    <>
+      <div className="ph">
+        <div className="ph-glow" />
+        <Reveal>
+          <div className="ph-eye">Our Story</div>
+          <h1 className="ph-h1">Rogue <em>Concrete</em> Works</h1>
+          <p className="ph-sub">Southern Oregon's trusted concrete craftsmen since 2002. Family-owned, locally operated, and deeply committed to quality.</p>
+        </Reveal>
+      </div>
+
+      <section className="section sec-dark">
+        <div className="about-split">
+          <Reveal cls="rev-l">
+            <div className="about-img">
+              <ConcreteSwatch g={6} style={{ position: "absolute", inset: 0 }}>
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ fontFamily: "var(--ff-d)", fontSize: "6rem", fontWeight: 700, color: "var(--amber)", opacity: .08, letterSpacing: ".1em" }}>RCW</div>
+                </div>
+              </ConcreteSwatch>
+              <div className="about-img-badge">
+                <div className="about-badge-n">22</div>
+                <div className="about-badge-l">Years of<br/>Craft</div>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal cls="rev-r">
+            <div className="about-body" style={{ paddingTop: "2rem" }}>
+              <div className="sh-eye" style={{ marginBottom: "1rem" }}>About Us</div>
+              <h2 className="sh-h2" style={{ marginBottom: "1.5rem" }}>Built on <em>Oregon</em> ground</h2>
+              <p>Rogue Concrete Works was founded in 2002 by <strong>Rick Halverson</strong> out of a 1994 pickup truck and a deep conviction that Southern Oregon deserved a concrete contractor it could actually trust. Twenty-two years later, we've completed over 1,400 projects across Josephine and Jackson Counties.</p>
+              <p>We're not a franchise, not a faceless outfit. When you call us, you reach us. When we quote a job, we show up to do it. Our crew averages <strong>11 years of tenure</strong> — because people who care about their craft tend to stay.</p>
+              <p>From the stamped patio behind a Jacksonville Victorian to the 18,000-square-foot warehouse slab in White City, every pour carries the same standard: <strong>engineered correctly, finished precisely, built to outlast the warranty.</strong></p>
+              <div className="divider" />
+              <button className="btn-p" style={{ marginTop: ".5rem" }}>Meet the Team</button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section sec-mid">
+        <Reveal>
+          <div className="sh">
+            <div className="sh-eye">Our Team</div>
+            <h2 className="sh-h2">The people <em>behind</em> the pour</h2>
+          </div>
+        </Reveal>
+        <div className="team-grid">
+          {TEAM.map((m, i) => (
+            <Reveal key={i} delay={i * 80}>
+              <div className="team-card">
+                <div className="team-av">{m.init}</div>
+                <div className="team-nm">{m.name}</div>
+                <div className="team-role">{m.role}</div>
+                <p className="team-bio">{m.bio}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="section sec-dark" style={{ padding: "0" }}>
+        <div className="vals-grid">
+          {VALUES.map((v, i) => (
+            <Reveal key={i} delay={i * 80}>
+              <div className="val-card">
+                <div className="val-ico" style={{ color: "var(--amber)" }}>◈</div>
+                <div className="val-t">{v.t}</div>
+                <p className="val-d">{v.d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <div className="cert-strip">
+        {["CCB Licensed #204817","OSHA 30 Certified","ACI Member","ACPA Member","Oregon CCB Endorsed","Fully Bonded & Insured"].map((c,i) => (
+          <div key={i} className="cert-item"><div className="cert-dot" />{c}</div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// CONTACT PAGE
+// ════════════════════════════════════════════════════════
+
+function ContactPage() {
+  const [form, setForm] = useState({ fname: "", lname: "", email: "", phone: "", service: "", msg: "" });
+  const [sent, setSent] = useState(false);
+
+  const handle = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  const submit = (e) => { e.preventDefault(); setSent(true); };
+
+  return (
+    <>
+      <div className="ph">
+        <div className="ph-glow" />
+        <Reveal>
+          <div className="ph-eye">Get in Touch</div>
+          <h1 className="ph-h1">Start Your <em>Project</em></h1>
+          <p className="ph-sub">Free site visit. Written quote. No pressure. Let's talk about what you're building.</p>
+        </Reveal>
+      </div>
+
+      <section className="section sec-dark">
+        <div className="contact-split">
+          <Reveal cls="rev-l">
+            <div>
+              <div className="sh-eye" style={{ marginBottom: ".8rem" }}>Contact Info</div>
+              <h2 className="sh-h2" style={{ fontSize: "clamp(2rem, 3vw, 2.8rem)", marginBottom: "1rem" }}>
+                Rogue Concrete <em>Works</em>
+              </h2>
+              <p style={{ fontSize: ".9rem", color: "var(--wm)", lineHeight: 1.75, fontWeight: 300, marginBottom: ".5rem" }}>
+                Serving Grants Pass, Medford, Ashland, Jacksonville, Eagle Point, Central Point, and surrounding communities.
+              </p>
+              <div className="divider" />
+              <div className="contact-items">
+                {[
+                  { ico: "📍", label: "Office", val: "4820 Redwood Hwy\nGrants Pass, OR 97527" },
+                  { ico: "📞", label: "Phone", val: "(541) 482-0183" },
+                  { ico: "✉️", label: "Email", val: "info@rogueconcreteworks.com" },
+                  { ico: "🕐", label: "Hours", val: "Mon–Fri: 7am – 5pm\nSat: By appointment" },
+                ].map((c, i) => (
+                  <div key={i} className="contact-item">
+                    <div className="contact-ico">{c.ico}</div>
+                    <div>
+                      <div className="contact-il">{c.label}</div>
+                      <div className="contact-iv" style={{ whiteSpace: "pre-line" }}>{c.val}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal cls="rev-r">
+            {sent ? (
+              <div style={{
+                background: "var(--c3)", border: "1px solid var(--amber-br)",
+                padding: "4rem", textAlign: "center",
+              }}>
+                <div style={{ fontSize: "2.5rem", marginBottom: "1.2rem" }}>◈</div>
+                <h3 style={{ fontFamily: "var(--ff-d)", fontSize: "2rem", color: "var(--amber)", marginBottom: ".8rem" }}>
+                  Message Received
+                </h3>
+                <p style={{ fontSize: ".92rem", color: "var(--wm)", lineHeight: 1.75, fontWeight: 300 }}>
+                  Thank you. We'll review your project details and be in touch within one business day to schedule your free site consultation.
+                </p>
+              </div>
+            ) : (
+              <form className="contact-form" onSubmit={submit}>
+                <div className="form-row">
+                  <div className="fg">
+                    <label className="fl">First Name</label>
+                    <input className="fi" value={form.fname} onChange={e => handle("fname", e.target.value)} placeholder="Rick" required />
+                  </div>
+                  <div className="fg">
+                    <label className="fl">Last Name</label>
+                    <input className="fi" value={form.lname} onChange={e => handle("lname", e.target.value)} placeholder="Halverson" required />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="fg">
+                    <label className="fl">Email</label>
+                    <input className="fi" type="email" value={form.email} onChange={e => handle("email", e.target.value)} placeholder="you@email.com" required />
+                  </div>
+                  <div className="fg">
+                    <label className="fl">Phone</label>
+                    <input className="fi" type="tel" value={form.phone} onChange={e => handle("phone", e.target.value)} placeholder="(541) 000-0000" />
+                  </div>
+                </div>
+                <div className="fg">
+                  <label className="fl">Project Type</label>
+                  <select className="fs" value={form.service} onChange={e => handle("service", e.target.value)} required>
+                    <option value="">Select a service...</option>
+                    <option>Decorative Driveway</option>
+                    <option>Stamped Patio / Pool Deck</option>
+                    <option>Structural Foundation</option>
+                    <option>Concrete Countertops</option>
+                    <option>Retaining Wall</option>
+                    <option>Commercial Flatwork</option>
+                    <option>Other / Not Sure</option>
+                  </select>
+                </div>
+                <div className="fg">
+                  <label className="fl">Project Details</label>
+                  <textarea className="fta" value={form.msg} onChange={e => handle("msg", e.target.value)}
+                    placeholder="Tell us about your project — size, location, timeline, any site conditions we should know about..."
+                    required />
+                </div>
+                <button type="submit" className="btn-p" style={{ width: "100%", padding: "18px", fontSize: ".82rem" }}>
+                  Submit Estimate Request
+                </button>
+                <p style={{ fontSize: ".75rem", color: "var(--stone)", textAlign: "center", fontWeight: 300 }}>
+                  We respond within 1 business day. Your information is never shared.
+                </p>
+              </form>
+            )}
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// FOOTER
+// ════════════════════════════════════════════════════════
+
+function Footer({ setTab }) {
+  return (
+    <footer className="footer">
+      <div className="footer-grid">
+        <div>
+          <div className="footer-logo" onClick={() => setTab("home")}>
+            <div className="nav-mark" />
+            Rogue Concrete Works
+          </div>
+          <p className="footer-tag">Southern Oregon's premier concrete contractor. Licensed, bonded, and committed to craftsmanship since 2002.</p>
+          <div style={{ marginTop: "1.5rem", display: "flex", gap: ".8rem" }}>
+            {["CCB #204817", "Bonded", "Insured"].map((b, i) => (
+              <div key={i} style={{
+                fontFamily: "var(--ff-l)", fontSize: ".6rem", letterSpacing: ".12em",
+                textTransform: "uppercase", color: "var(--stone)",
+                border: "1px solid var(--bd)", padding: "5px 10px",
+              }}>{b}</div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="footer-col-t">Services</div>
+          <ul className="footer-links">
+            {["Decorative Driveways","Stamped Patios","Foundations","Countertops","Retaining Walls","Commercial Flatwork"].map((l, i) => (
+              <li key={i} className="fl-item" onClick={() => setTab("services")}>{l}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className="footer-col-t">Company</div>
+          <ul className="footer-links">
+            {[["home","Home"],["projects","Portfolio"],["about","About Us"],["contact","Contact"],["contact","Free Estimate"]].map(([tab, label], i) => (
+              <li key={i} className="fl-item" onClick={() => setTab(tab)}>{label}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className="footer-col-t">Contact</div>
+          <ul className="footer-links">
+            <li className="fl-item">(541) 482-0183</li>
+            <li className="fl-item">info@rogueconcreteworks.com</li>
+            <li className="fl-item" style={{ lineHeight: 1.6 }}>4820 Redwood Hwy<br/>Grants Pass, OR 97527</li>
+            <li className="fl-item" style={{ marginTop: ".3rem" }}>Mon–Fri: 7am – 5pm</li>
+          </ul>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <div className="footer-copy">© 2024 Rogue Concrete Works LLC. All rights reserved. CCB #204817</div>
+        <div className="footer-leg">
+          {["Privacy Policy", "Terms of Service", "Sitemap"].map((l, i) => (
+            <span key={i} className="footer-leg-l">{l}</span>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ════════════════════════════════════════════════════════
+// ROOT
+// ════════════════════════════════════════════════════════
+
+export default function RogueConcreteWebsite() {
+  const [tab, setTab] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
+
+  const navigate = (t) => {
+    setTab(t);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", h, { passive: true });
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  return (
+    <>
+      <Styles />
+      <div className="site">
+        <Nav tab={tab} setTab={navigate} scrolled={scrolled} />
+        <main>
+          {tab === "home"     && <HomePage setTab={navigate} />}
+          {tab === "services" && <ServicesPage />}
+          {tab === "projects" && <ProjectsPage />}
+          {tab === "about"    && <AboutPage />}
+          {tab === "contact"  && <ContactPage />}
+        </main>
+        <Footer setTab={navigate} />
+      </div>
+    </>
+  );
+}Here's Rogue Concrete Works — a fully interactive, multi-tab premium website with every V2 interaction from your design brief implemented:
+What's in the build:
+Design Direction — "Architectural Brutalist Luxury": near-black concrete backgrounds, Cormorant Garamond (unexpected luxury serif) paired with Barlow Condensed (industrial labels) and Jost (clean body). Warm amber gold as the signature accent — evoking Southern Oregon's golden hour light.
+All 5 Tabs are fully built:
+
+Home — Hero with rotating geometric squares, animated stat counters, 6-card services grid, featured project split, 4-step process, testimonials, CTA band
+Services — Full-detail service cards with features lists, cert strip, CTA
+Projects — Filterable portfolio grid (All / Residential / Commercial / Decorative) with hover-reveal overlays
+About — Company story split-layout, 3-person team, values grid, cert strip
+Contact — Working form with confirmation state, contact info panel
+
+V2 Interactions from your brief:
+
+✅ IntersectionObserver scroll reveals (fade-up, fade-left/right, scale variants with stagger delays)
+✅ CSS gradient bleeds between sections (pseudo-elements)
+✅ Expand-on-hover cards (max-height: 0 → 90px, cubic-bezier(.34, 1.4, .64, 1) spring bounce)
+✅ Animated top-bar reveal on card hover
+✅ Count-up stat animation (requestAnimationFrame)
+✅ Rotating architectural hero geometry (nested squares at different speeds)
+✅ Concrete noise texture via inline SVG fractalNoise filter

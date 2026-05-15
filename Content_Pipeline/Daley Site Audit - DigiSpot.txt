@@ -1,0 +1,164 @@
+Daley Site Audit - DigiSpot
+
+AI Analysis
+
+View Prompt
+
+What's Working
+Title length is acceptable within 70-character maximum.
+Canonical tag correctly points to homepage URL.
+Robots.txt allows crawling and sitemap is present.
+HTML size is well under Google's 2MB crawl limit.
+llms.txt file is present for AI crawler control.
+Needs Improvement
+CRITICAL: Multiple AI bots blocked including GPTBot and ClaudeBot.
+Meta description is too long at 192 characters.
+llms.txt configured but llms-full.txt missing for detailed AI crawler documentation.
+No robots meta tag specified on homepage.
+No X-Robots-Tag HTTP header directives implemented.
+Selective AI bot access may limit future AI search visibility.
+Quick Wins
+Shorten meta description to 150-160 characters.
+Add llms-full.txt file for comprehensive AI crawler documentation.
+Implement robots meta tag for explicit crawling directives.
+Consider allowing key AI bots like GPTBot and Google-Extended.
+Add X-Robots-Tag header for additional crawler control.
+Title
+✕ 69 characters
+Daley Organics - Premium Organic Soil Solutions | Grants Pass, Oregon
+
+Title too long (69 chars). Google truncates at ~60-65 characters
+
+Meta Description
+✕ 192 characters
+Premium organic soil and fertilizer blends for healthier plants and a sustainable future. Born and raised in the Rogue Valley, committed to bringing prosperity through sustainable agriculture.
+
+Description too long (192 chars). Google truncates at ~155-160 characters
+
+URL
+✔ 26 characters
+https://daleyorganics.com/
+
+Canonical URL
+https://daleyorganics.com/
+
+Language
+en
+
+Character Set
+UTF-8
+
+Built With
+Cloudflare
+Google CDN
+No specific technology detected
+Advanced: All Meta Tags (19)
+Mobile Optimization
+width=device-width, initial-scale=1.0
+
+Site Icon (Favicon)
+Standard
+Recommendations:
+
+Add Apple Touch Icon (180x180 PNG) for iOS/Safari
+Indexation
+Page - Indexable
+Will appear in search results
+
+Meta tags
+Open for indexing
+
+X-Robots-Tag
+No header (allowed)
+
+Robots.txt
+Crawling allowed
+
+Noindex tag
+No directives found
+
+HTML Size
+0.10MB (5% of 2MB limit for Google page crawler)
+
+Discovery Files
+robots.txt
+Crawler access rules
+View
+sitemap.xml (1)
+Lists site URLs
+View
+llms.txt
+LLM documentation
+View
+llms-full.txt
+Optional
+ai.txt
+Optional
+Crawlability & Bot Access
+Links Followable
+Page Crawling Allowed
+Selective crawling enabled (0 paths protected)
+
+Protecting admin, login, and sensitive areas while allowing SEO bots to index public content
+
+AI Content Policy
+
+Search Indexing
+AI Training
+
+
+Mobile Optimization
+width=device-width, initial-scale=1.0
+
+Site Icon (Favicon)
+Standard
+Recommendations:
+
+Add Apple Touch Icon (180x180 PNG) for iOS/Safari
+Indexation
+Page - Indexable
+Will appear in search results
+
+Meta tags
+Open for indexing
+
+X-Robots-Tag
+No header (allowed)
+
+Robots.txt
+Crawling allowed
+
+Noindex tag
+No directives found
+
+HTML Size
+0.10MB (5% of 2MB limit for Google page crawler)
+
+Discovery Files
+robots.txt
+Crawler access rules
+View
+sitemap.xml (1)
+Lists site URLs
+View
+llms.txt
+LLM documentation
+View
+llms-full.txt
+Optional
+ai.txt
+Optional
+Crawlability & Bot Access
+Links Followable
+Page Crawling Allowed
+Selective crawling enabled (0 paths protected)
+
+Protecting admin, login, and sensitive areas while allowing SEO bots to index public content
+
+AI Content Policy
+
+Search Indexing
+AI Training
+
+25 Bots Tracked
+17 allowed · 8 blocked · 14 AI, 5 Search, 3 Other

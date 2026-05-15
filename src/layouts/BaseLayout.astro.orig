@@ -1,0 +1,145 @@
+---
+// ============================================================
+// BASE LAYOUT — Leverage AI LLC
+// Every page uses this layout.
+//
+// Provides:
+//   - Full SEO meta + Open Graph + Twitter Card
+//   - LocalBusiness / ProfessionalService JSON-LD
+//   - Font loading (Playfair Display + Inter via Google Fonts)
+//   - Navigation (React island, client:load)
+//   - Footer (React island, client:visible)
+//   - ScrollToTop (React island, client:load)
+// ============================================================
+import { ClientRouter } from 'astro:transitions';
+import { siteConfig, localBusinessConfig } from '../lib/site-config';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import ScrollToTop from '../components/ScrollToTop';
+import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?:       string;
+  description?: string;
+  keywords?:    string;
+  ogImage?:     string;
+  canonical?:   string;
+  noIndex?:     boolean;
+}
+
+const {
+  title       = siteConfig.title,
+  description = siteConfig.description,
+  keywords    = siteConfig.keywords,
+  ogImage     = siteConfig.ogImage,
+  canonical   = Astro.url.href,
+  noIndex     = false,
+} = Astro.props;
+
+const fullTitle = title === siteConfig.title
+  ? title
+  : `${title} | Leverage AI`;
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': localBusinessConfig.type,
+  name: localBusinessConfig.name,
+  description: localBusinessConfig.description,
+  foundingDate: localBusinessConfig.foundingDate,
+  url: siteConfig.url,
+  email: localBusinessConfig.email,
+  telephone: localBusinessConfig.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: localBusinessConfig.streetAddress,
+    addressLocality: localBusinessConfig.city,
+    addressRegion: localBusinessConfig.state,
+    postalCode: localBusinessConfig.postalCode,
+    addressCountry: localBusinessConfig.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: localBusinessConfig.latitude,
+    longitude: localBusinessConfig.longitude,
+  },
+  openingHours: localBusinessConfig.openingHours,
+  sameAs: localBusinessConfig.socialProfiles,
+};
+---
+
+<!DOCTYPE html>
+<html lang={siteConfig.language}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta -->
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords"    content={keywords} />
+  <link rel="canonical"    href={canonical} />
+  {noIndex && <meta name="robots" content="noindex, nofollow" />}
+
+  <!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonical} />
+  <meta property="og:title"       content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image"       content={`${siteConfig.url}${ogImage}`} />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type"   content="image/webp" />
+  <meta property="og:image:alt"    content={`${fullTitle} — Leverage AI`} />
+  <meta property="og:locale"      content="en_US" />
+  <meta property="og:site_name"   content="Leverage AI" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@leverageai" />
+  <meta name="twitter:creator"     content="@leverageai" />
+  <meta name="twitter:title"       content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"       content={`${siteConfig.url}${ogImage}`} />
+  <meta name="twitter:image:alt"   content={`${fullTitle} — Leverage AI`} />
+
+  <!-- Favicon — webp primary, ico fallback, apple touch -->
+  <link rel="icon"             type="image/webp" href="/images/leverageai-logo.webp" />
+  <link rel="shortcut icon"    type="image/webp" href="/images/leverageai-logo.webp" />
+  <link rel="apple-touch-icon"                   href="/images/leverageai-logo.webp" />
+  <meta name="theme-color" content="#d4900f" />
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://static.cloudflareinsights.com" />
+
+  <!-- Astro View Transitions — smooth page-to-page navigation -->
+  <ClientRouter />
+
+  <!-- JSON-LD: ProfessionalService -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+  <!-- Additional head slot for page-specific JSON-LD -->
+  <slot name="head" />
+</head>
+
+<body>
+  <!-- Navigation — hydrated immediately for scroll listener + mobile menu -->
+  <Navigation client:load />
+
+  <!-- Page content -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- Footer — hydrated when visible for performance -->
+  <Footer client:visible />
+
+  <!-- Floating scroll-to-top -->
+  <ScrollToTop client:load />
+
+  <!-- Cloudflare Web Analytics -->
+  <CloudflareAnalytics />
+</body>
+</html>

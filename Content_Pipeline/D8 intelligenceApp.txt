@@ -1,0 +1,566 @@
+D8 intelligenceApp
+
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { 
+  Sun, 
+  Moon, 
+  ChevronRight, 
+  ChevronLeft, 
+  ExternalLink, 
+  Search, 
+  Info, 
+  Database, 
+  TrendingUp, 
+  Gavel, 
+  Building2, 
+  ShieldCheck,
+  X,
+  FileText,
+  Link as LinkIcon,
+  ShoppingBag,
+  Sparkles,
+  MessageSquare,
+  Send,
+  Loader2,
+  AlertCircle,
+  Scale
+} from 'lucide-react';
+
+// Gemini API Integration Helpers
+const apiKey = ""; // Provided by environment
+const GEMINI_MODEL = "gemini-2.5-flash-preview-09-2025";
+
+const callGemini = async (prompt, systemInstruction = "") => {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+  
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    systemInstruction: { parts: [{ text: systemInstruction }] }
+  };
+
+  const fetchWithRetry = async (retries = 0) => {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (err) {
+      if (retries < 5) {
+        const delay = Math.pow(2, retries) * 1000;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return fetchWithRetry(retries + 1);
+      }
+      throw err;
+    }
+  };
+
+  const result = await fetchWithRetry();
+  return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+};
+
+const App = () => {
+  const [darkMode, setDarkMode] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0); 
+  const [activeTab, setActiveTab] = useState('home'); 
+  const [selectedItem, setSelectedItem] = useState(null); 
+  const [selectedSource, setSelectedSource] = useState(null);
+
+  // AI State
+  const [isAiOpen, setIsAiOpen] = useState(false);
+  const [aiQuery, setAiQuery] = useState("");
+  const [aiResponse, setAiResponse] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
+  
+  // Compliance Tool State
+  const [complianceInput, setComplianceInput] = useState("");
+  const [complianceResult, setComplianceResult] = useState("");
+  const [isComplianceLoading, setIsComplianceLoading] = useState(false);
+
+  const vendorsPerPage = 20;
+
+  const vendors = [
+    { id: 1, name: "Happy Hemp", url: "happyhemp.com", score: 99, range: "D8 Gummies, Tinctures", testing: "ISO-Accredited Full Panel", rank: 1 },
+    { id: 2, name: "TRĒHouse", url: "trehouse.com", score: 98, range: "Potent Blends, Vapes", testing: "3rd Party Batch Testing", rank: 2 },
+    { id: 3, name: "Binoid", url: "binoidcbd.com", score: 97, range: "Carts, Vegan Edibles", testing: "5x Internal + 3rd Party", rank: 3 },
+    { id: 4, name: "Delta Extrax", url: "deltaextrax.com", score: 96, range: "Lights Out Potency Vapes", testing: "High-Frequency Lab Updates", rank: 4 },
+    { id: 5, name: "Charlotte's Web", url: "charlottesweb.com", score: 95, range: "Full-Spectrum Wellness", testing: "Industry Standard COAs", rank: 5 },
+    { id: 6, name: "Exhale Wellness", url: "exhalewell.com", score: 94, range: "Flower, Pre-rolls", testing: "Organic Focus, Full Panel", rank: 6 },
+    { id: 7, name: "Lazarus Naturals", url: "lazarusnaturals.com", score: 94, range: "Budget Oils, Tinctures", testing: "USDA Organic, Low Price", rank: 7 },
+    { id: 8, name: "Koi CBD", url: "koicbd.com", score: 93, range: "Tinctures, Delta-9", testing: "High-Volume Transparency", rank: 8 },
+    { id: 9, name: "cbdMD", url: "cbdmd.com", score: 93, range: "Broad-Spectrum Gummies", testing: "Public Lab Results", rank: 9 },
+    { id: 10, name: "Extract Labs", url: "extractlabs.com", score: 92, range: "Isolate, Daily Support", testing: "Comprehensive Testing", rank: 10 },
+    { id: 11, name: "Joy Organics", url: "joyorganics.com", score: 92, range: "Softgels, Topicals", testing: "BBB Accredited (A+)", rank: 11 },
+    { id: 12, name: "Summit", url: "summitthc.com", score: 91, range: "Relaxation Gummies", testing: "Fast-Acting Formulation", rank: 12 },
+    { id: 13, name: "BATCH", url: "hellobatch.com", score: 91, range: "Subscription-focused CBD", testing: "Botanical Blends", rank: 13 },
+    { id: 14, name: "Secret Nature", url: "secretnaturecbd.com", score: 90, range: "Artisan Flower, Vapes", testing: "Terpene-Rich Analysis", rank: 14 },
+    { id: 15, name: "Rare Cannabinoid", url: "rarecannabinoidco.com", score: 90, range: "Minor Cannabinoids (THCV)", testing: "Specialized Formulations", rank: 15 },
+    { id: 16, name: "JustKana", url: "justkana.com", score: 89, range: "Fresh Flower, Pre-rolls", testing: "Hand-Trimmed Trichomes", rank: 16 },
+    { id: 17, name: "3Chi", url: "3chi.com", score: 89, range: "Delta-8, HHC Pioneer", testing: "Verified Purity", rank: 17 },
+    { id: 18, name: "Medterra", url: "medterracbd.com", score: 88, range: "Broad-Spectrum, Value", testing: "Budget-Friendly Clinical", rank: 18 },
+    { id: 19, name: "Cornbread Hemp", url: "cornbreadhemp.com", score: 88, range: "Whole-Flower CBD Oil", testing: "USDA Organic Certified", rank: 19 },
+    { id: 20, name: "Vena", url: "venacbd.com", score: 87, range: "Wellness Tinctures", testing: "Clean Sourcing", rank: 20 },
+    { id: 37, name: "10 Dollar Cartridge", url: "10dollarcartridge.com", score: 79, range: "Extreme Budget Delta-8", testing: "Potency Verified", rank: 37 },
+    { id: 100, name: "Fab CBD", url: "fabcbd.com", score: 47, range: "High-Potency Edibles", testing: "Dispute Patterns", rank: 100 }
+  ];
+
+  const sources = [
+    { id: 1, title: "Global Cannabis Market Projections 2025-2034", description: "Valuation analysis suggesting $1.4 Trillion growth by 2034.", url: "#" },
+    { id: 17, title: "2026 Extensions Act: Legislative Text", description: "Full breakdown of Section 781 and the total THC standard.", url: "#" }
+  ];
+
+  const reportSections = [
+    {
+      title: "I. Current Economic State & Growth",
+      content: "The hemp-derived cannabinoid landscape in 2026 is defined by a global valuation of $137.67 billion. Projections suggest a market of $1.4 trillion by 2034. North America dominates with 83% share."
+    },
+    {
+      title: "II. Legislative Status: 2026 Farm Bill",
+      content: "Section 781 introduced the 'Total THC' standard (0.3% including THCA) and a per-container limit of 0.4mg total THC for edibles. Implementation date: Nov 12, 2026."
+    }
+  ];
+
+  const currentVendors = useMemo(() => {
+    return vendors.slice(currentPage * vendorsPerPage, (currentPage + 1) * vendorsPerPage);
+  }, [currentPage]);
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+
+  // AI Logic: Research Assistant
+  const handleAiSearch = async () => {
+    if (!aiQuery) return;
+    setIsAiLoading(true);
+    setAiError("");
+    setAiResponse("");
+    try {
+      const systemPrompt = `You are a professional Market Intelligence Analyst specializing in the 2026 Hemp-Derived Cannabinoid industry. 
+      Use this context: Market valuation is $137.6B. The 2026 Farm Bill Section 781 mandates a 0.3% Total THC limit (including THCA) and 0.4mg per container limit. 
+      Answer clearly and concisely based on the user's inquiry about the report data.`;
+      
+      const response = await callGemini(aiQuery, systemPrompt);
+      setAiResponse(response);
+    } catch (err) {
+      setAiError("Connection failed. Please check your connectivity and try again.");
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
+
+  // AI Logic: Compliance Checker
+  const handleComplianceCheck = async () => {
+    if (!complianceInput) return;
+    setIsComplianceLoading(true);
+    setComplianceResult("");
+    try {
+      const prompt = `Analyze this product description against the 2026 Farm Bill (Section 781) rules (0.3% Total THC including THCA, 0.4mg limit per container for edibles). 
+      Product to check: ${complianceInput}
+      Provide a verdict: COMPLIANT, NON-COMPLIANT, or AT-RISK, and explain why briefly.`;
+      
+      const response = await callGemini(prompt, "You are a Regulatory Compliance Expert.");
+      setComplianceResult(response);
+    } catch (err) {
+      setComplianceResult("Error analyzing compliance. Try again later.");
+    } finally {
+      setIsComplianceLoading(false);
+    }
+  };
+
+  const Modal = ({ item, onClose, type = 'vendor' }) => {
+    const [briefing, setBriefing] = useState("");
+    const [isBriefingLoading, setIsBriefingLoading] = useState(false);
+
+    const generateBriefing = async () => {
+      setIsBriefingLoading(true);
+      try {
+        const prompt = `Generate a competitive market intelligence briefing for ${item.name}. 
+        Rank: ${item.rank}, Score: ${item.score}/100. 
+        Focus on their ${item.range} and their market positioning regarding ${item.testing}. 
+        Keep it professional and highlight one strategic risk and one opportunity.`;
+        const res = await callGemini(prompt, "You are a Senior Strategic Consultant.");
+        setBriefing(res);
+      } catch (e) {
+        setBriefing("Failed to generate briefing.");
+      } finally {
+        setIsBriefingLoading(false);
+      }
+    };
+
+    if (!item) return null;
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all animate-in fade-in">
+        <div className={`relative w-full max-w-2xl overflow-y-auto max-h-[90vh] rounded-2xl shadow-2xl transition-all ${darkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+          <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors z-10">
+            <X size={20} />
+          </button>
+          <div className="p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className={`flex items-center justify-center w-16 h-16 rounded-xl font-bold text-2xl ${darkMode ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-100 text-indigo-600'}`}>
+                {type === 'vendor' ? `#${item.rank}` : <LinkIcon size={24} />}
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold">{item.name || item.title}</h3>
+                {type === 'vendor' && <p className="text-slate-500 dark:text-slate-400">Score: {item.score}/100</p>}
+              </div>
+            </div>
+
+            <div className="space-y-6 mb-8">
+              {type === 'vendor' ? (
+                <>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-800' : 'bg-slate-50'}`}>
+                      <span className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Product Range</span>
+                      <p className="font-semibold">{item.range}</p>
+                    </div>
+                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-800' : 'bg-slate-50'}`}>
+                      <span className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Testing Standard</span>
+                      <p className="font-semibold">{item.testing}</p>
+                    </div>
+                  </div>
+
+                  <div className={`p-6 rounded-xl border-2 border-dashed ${darkMode ? 'border-slate-800' : 'border-slate-200'}`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-sm font-bold flex items-center gap-2">
+                        <Sparkles size={16} className="text-indigo-400" /> ✨ AI Company Briefing
+                      </h4>
+                      {!briefing && !isBriefingLoading && (
+                        <button onClick={generateBriefing} className="text-xs font-bold text-indigo-400 hover:underline">
+                          ✨ Generate Now
+                        </button>
+                      )}
+                    </div>
+                    {isBriefingLoading ? (
+                      <div className="flex items-center gap-2 text-slate-500 text-sm animate-pulse">
+                        <Loader2 size={16} className="animate-spin" /> Analyzing company data...
+                      </div>
+                    ) : (
+                      <p className="text-sm text-slate-400 italic leading-relaxed">
+                        {briefing || "No briefing generated. Click 'Generate' to use ✨ AI intelligence to evaluate this company's market trajectory."}
+                      </p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <p className="text-lg leading-relaxed">{item.description}</p>
+              )}
+            </div>
+
+            <a 
+              href={`https://${item.url}`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-4 rounded-xl font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-all shadow-lg shadow-indigo-500/25"
+            >
+              Visit {item.name} Website <ExternalLink size={18} />
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+      
+      {/* Header */}
+      <header className={`sticky top-0 z-40 backdrop-blur-md border-b transition-colors ${darkMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200'}`}>
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-600/20">
+              <TrendingUp size={24} />
+            </div>
+            <div className="hidden md:block">
+              <h1 className="text-sm font-bold tracking-tight uppercase">2026 Hemp Industry Report</h1>
+              <p className="text-[10px] text-indigo-500 font-bold tracking-[0.2em] uppercase">Powered by LeverageLabs Research</p>
+            </div>
+          </div>
+
+          <nav className="flex items-center gap-1 md:gap-4">
+            {['home', 'directory', 'report', 'sources'].map(tab => (
+              <button 
+                key={tab}
+                onClick={() => {
+                  setActiveTab(tab);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className={`px-3 py-2 text-sm font-medium rounded-lg capitalize transition-all ${
+                  activeTab === tab 
+                    ? (darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-indigo-600') 
+                    : 'text-slate-500 hover:text-indigo-400'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+            <div className="w-[1px] h-6 bg-slate-700 mx-2 hidden sm:block"></div>
+            <button 
+              onClick={toggleDarkMode}
+              className={`p-2 rounded-full transition-colors ${darkMode ? 'hover:bg-slate-800 text-yellow-400' : 'hover:bg-slate-100 text-slate-600'}`}
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <main className="pb-20">
+        
+        {activeTab === 'home' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <section className="relative h-[85vh] flex items-center overflow-hidden">
+              <div className="absolute inset-0 z-0">
+                <div className={`absolute inset-0 z-10 ${darkMode ? 'bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent' : 'bg-gradient-to-r from-white via-white/80 to-transparent'}`}></div>
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=2070" className="w-full h-full object-cover" alt="Research" />
+              </div>
+
+              <div className="relative z-20 max-w-7xl mx-auto px-4">
+                <div className="max-w-2xl">
+                  <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 mb-6">
+                    ✨ AI-Enhanced Intelligence 2026
+                  </span>
+                  <h2 className="text-5xl md:text-7xl font-bold leading-tight mb-8">
+                    Hemp-Derived <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">Cannabinoid</span> Market Intelligence.
+                  </h2>
+                  <p className="text-xl text-slate-400 mb-10 leading-relaxed">
+                    Access real-time ✨ AI analysis of economic drivers, legislative shifts, and 100 benchmarked industry leaders.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <button onClick={() => setActiveTab('directory')} className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-xl shadow-indigo-600/30 flex items-center gap-2">
+                      Access Directory <ChevronRight size={20} />
+                    </button>
+                    <button onClick={() => setIsAiOpen(true)} className={`px-8 py-4 rounded-xl font-bold transition-all border flex items-center gap-2 ${darkMode ? 'border-slate-700 hover:bg-slate-800' : 'border-slate-300 hover:bg-slate-50'}`}>
+                      <Sparkles size={18} className="text-indigo-400" /> ✨ Talk to AI Assistant
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {activeTab === 'directory' && (
+          <div className="animate-in fade-in duration-500">
+            <div className="px-2.5 mb-16">
+              <div className="relative h-96 w-full rounded-3xl overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=2070" className="w-full h-full object-cover" alt="Pharmacy" />
+                <div className="absolute bottom-12 left-12 z-20">
+                  <h2 className="text-4xl font-bold text-white mb-4">Top 100 Vendor Directory</h2>
+                  <p className="text-slate-300 max-w-xl text-lg">Use the ✨ AI Briefing feature in the details view for strategic insights on each vendor.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                {currentVendors.map((vendor) => (
+                  <div 
+                    key={vendor.id}
+                    onClick={() => setSelectedItem(vendor)}
+                    className={`group relative p-6 rounded-2xl border cursor-pointer transition-all hover:shadow-2xl hover:-translate-y-1 ${
+                      darkMode ? 'bg-slate-900 border-slate-800 hover:border-indigo-500/50' : 'bg-white border-slate-200 hover:border-indigo-400'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-6">
+                      <div className={`text-3xl font-black italic ${darkMode ? 'text-slate-800 group-hover:text-indigo-500/20' : 'text-slate-100 group-hover:text-indigo-100'}`}>
+                        #{vendor.rank}
+                      </div>
+                      <div className={`px-3 py-1 rounded-full text-xs font-bold ${vendor.score >= 90 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-indigo-500/10 text-indigo-500'}`}>
+                        Score: {vendor.score}
+                      </div>
+                    </div>
+                    <h4 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">{vendor.name}</h4>
+                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wide truncate">{vendor.range}</p>
+                    <div className="mt-6 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                      <span className="text-xs font-bold text-indigo-500 flex items-center gap-1">✨ View Detail Intelligence</span>
+                      <ChevronRight size={16} className="text-indigo-500" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination and Report Component same as before */}
+              <div className="flex items-center justify-center gap-4 mb-24 py-4">
+                <button onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))} className="p-3 rounded-xl border border-slate-700 disabled:opacity-20 hover:bg-slate-800"><ChevronLeft /></button>
+                {[0, 1, 2].map(idx => (
+                  <button key={idx} onClick={() => setCurrentPage(idx)} className={`w-12 h-12 rounded-xl font-bold border ${currentPage === idx ? 'bg-indigo-600 text-white' : 'border-slate-800'}`}>{idx + 1}</button>
+                ))}
+                <button onClick={() => setCurrentPage(prev => Math.min(2, prev + 1))} className="p-3 rounded-xl border border-slate-700 disabled:opacity-20 hover:bg-slate-800"><ChevronRight /></button>
+              </div>
+
+              <div className={`p-12 rounded-[40px] border relative overflow-hidden ${darkMode ? 'bg-slate-900/50 border-slate-800' : 'bg-indigo-50/50 border-indigo-100'}`}>
+                <div className="relative z-10 max-w-4xl">
+                  <span className="text-indigo-500 font-black uppercase tracking-widest text-xs mb-4 block">Report Component: {reportSections[currentPage]?.title}</span>
+                  <h3 className="text-3xl font-bold mb-6">{reportSections[currentPage]?.title}</h3>
+                  <p className="text-xl leading-relaxed text-slate-400 italic">{reportSections[currentPage]?.content}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'report' && (
+          <div className="max-w-4xl mx-auto px-4 py-20">
+            <h2 className="text-4xl font-bold mb-12">Industry Report & ✨ AI Compliance Tools</h2>
+            
+            <div className={`mb-16 p-8 rounded-3xl border-2 border-indigo-500/30 ${darkMode ? 'bg-indigo-500/5' : 'bg-indigo-50'}`}>
+               <div className="flex items-center gap-2 mb-6 text-indigo-500">
+                 <Scale size={24} />
+                 <h3 className="text-xl font-bold">✨ AI Regulatory Compliance Auditor</h3>
+               </div>
+               <p className="text-slate-400 mb-6 text-sm">Input product specs (e.g. "D8 Gummy, 25mg/pc, 0.2% D9-THC by weight") to check against 2026 Standards.</p>
+               <div className="flex gap-2">
+                 <input 
+                   type="text" 
+                   value={complianceInput}
+                   onChange={(e) => setComplianceInput(e.target.value)}
+                   placeholder="Enter product details..."
+                   className={`flex-1 p-4 rounded-xl border ${darkMode ? 'bg-slate-950 border-slate-800 text-white' : 'bg-white border-slate-300'}`}
+                 />
+                 <button 
+                  onClick={handleComplianceCheck}
+                  disabled={isComplianceLoading}
+                  className="px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all disabled:opacity-50"
+                 >
+                   {isComplianceLoading ? <Loader2 size={20} className="animate-spin" /> : "✨ Audit"}
+                 </button>
+               </div>
+               {complianceResult && (
+                 <div className={`mt-6 p-6 rounded-xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+                   <p className="text-sm font-bold text-indigo-400 mb-2 uppercase">✨ AI Verdict</p>
+                   <p className="text-slate-300 whitespace-pre-line">{complianceResult}</p>
+                 </div>
+               )}
+            </div>
+
+            <div className="space-y-16">
+              {reportSections.map((sec, i) => (
+                <div key={i}>
+                  <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <span className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-xs text-white">0{i+1}</span>
+                    {sec.title}
+                  </h3>
+                  <div className={`p-8 rounded-2xl border leading-relaxed text-lg ${darkMode ? 'bg-slate-900 border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'}`}>
+                    {sec.content}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'sources' && (
+          <div className="max-w-7xl mx-auto px-4 py-20">
+            <h2 className="text-4xl font-bold mb-12">Citations</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {sources.map(src => (
+                <div key={src.id} onClick={() => setSelectedSource(src)} className={`p-6 rounded-2xl border cursor-pointer hover:bg-indigo-600 transition-all ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+                  <FileText size={20} className="mb-4 text-indigo-400" />
+                  <h4 className="font-bold mb-2">[{src.id}] {src.title}</h4>
+                  <p className="text-sm text-slate-500 line-clamp-2">{src.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </main>
+
+      {/* ✨ AI Research Assistant Panel */}
+      <div className={`fixed bottom-8 right-8 z-[60] transition-all duration-500 transform ${isAiOpen ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-12 opacity-0 scale-95 pointer-events-none'}`}>
+        <div className={`w-[400px] h-[600px] rounded-[32px] shadow-2xl overflow-hidden border flex flex-col ${darkMode ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+          <div className="p-6 bg-indigo-600 text-white flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles size={20} />
+              <h3 className="font-bold">✨ AI Research Assistant</h3>
+            </div>
+            <button onClick={() => setIsAiOpen(false)}><X size={20} /></button>
+          </div>
+          
+          <div className="flex-1 p-6 overflow-y-auto space-y-4">
+            {!aiResponse && !isAiLoading && (
+              <div className="text-center py-10">
+                <div className="bg-indigo-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="text-indigo-500" />
+                </div>
+                <h4 className="font-bold mb-2">How can I help you today?</h4>
+                <p className="text-sm text-slate-400 px-4">Ask about market trends, vendor comparisons, or the 2026 Farm Bill impact.</p>
+                <div className="flex flex-wrap gap-2 justify-center mt-6">
+                  {["Summarize the Farm Bill", "Compare Top 3 Vendors", "2026 Growth Trend"].map(hint => (
+                    <button key={hint} onClick={() => {setAiQuery(hint); handleAiSearch();}} className={`text-xs px-3 py-1.5 rounded-full border ${darkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200 hover:bg-slate-100'}`}>
+                      {hint}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {isAiLoading && (
+              <div className="flex flex-col items-center justify-center py-10 gap-3">
+                <Loader2 className="text-indigo-500 animate-spin" size={32} />
+                <p className="text-sm font-medium animate-pulse">✨ Analyzing research data...</p>
+              </div>
+            )}
+            
+            {aiResponse && (
+              <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="text-xs font-bold text-indigo-400 mb-2 uppercase tracking-widest flex items-center gap-2">
+                  <Sparkles size={12} /> ✨ AI Research Synthesis
+                </div>
+                <div className={`p-5 rounded-2xl text-sm leading-relaxed border ${darkMode ? 'bg-slate-950/50 border-indigo-500/20 text-slate-300' : 'bg-indigo-50 border-indigo-100 text-slate-700'}`}>
+                  {aiResponse}
+                </div>
+              </div>
+            )}
+            
+            {aiError && (
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm flex items-start gap-2">
+                <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                {aiError}
+              </div>
+            )}
+          </div>
+          
+          <div className={`p-6 border-t ${darkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
+            <div className="relative">
+              <input 
+                type="text" 
+                value={aiQuery}
+                onChange={(e) => setAiQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAiSearch()}
+                placeholder="Ask intelligence assistant..."
+                className={`w-full p-4 pr-12 rounded-2xl border text-sm transition-all focus:ring-2 focus:ring-indigo-500 outline-none ${darkMode ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-300'}`}
+              />
+              <button 
+                onClick={handleAiSearch}
+                disabled={isAiLoading || !aiQuery}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 text-white rounded-xl disabled:opacity-50"
+              >
+                <Send size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Trigger Button */}
+      {!isAiOpen && (
+        <button 
+          onClick={() => setIsAiOpen(true)}
+          className="fixed bottom-8 right-8 z-[60] w-16 h-16 bg-indigo-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all group"
+        >
+          <Sparkles className="group-hover:rotate-12 transition-transform" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-950 animate-pulse"></div>
+        </button>
+      )}
+
+      {/* Modals */}
+      <Modal item={selectedItem} onClose={() => setSelectedItem(null)} type="vendor" />
+      <Modal item={selectedSource} onClose={() => setSelectedSource(null)} type="source" />
+    </div>
+  );
+};
+
+export default App;

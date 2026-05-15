@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PocketFlow Agents Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#07090f;--s1:#0c1420;--s2:#101c2e;--s3:#162338;
+--b1:#1a2a42;--b2:#233554;--b3:#2e4470;
+--blue:#3b82f6;--b-hi:#60a5fa;--b-lo:#1d4ed8;--b-dim:#0c1e3d;
+--t1:#dce8fb;--t2:#7a94b6;--t3:#3a5070;
+--green:#10b981;--amber:#f59e0b;--red:#ef4444;
+--r:6px;--mono:'SF Mono','Cascadia Code',Consolas,monospace;
+}
+html,body{width:100%;height:100%;background:#050708;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+#pfa{width:100%;max-width:1200px;height:700px;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;border-radius:8px;border:1px solid var(--b1);}
+.hdr{height:50px;min-height:50px;background:var(--s1);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 10px;gap:8px;}
+.logo{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--t1);white-space:nowrap;}
+.lm{width:26px;height:26px;background:var(--blue);border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.bc{font-size:11px;color:var(--t3);display:flex;align-items:center;gap:4px;}
+.bc-cur{color:var(--t2);}
+.sp{flex:1;}
+.ms-wrap{position:relative;}
+.ms-btn{display:flex;align-items:center;gap:5px;padding:5px 9px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);cursor:pointer;color:var(--t1);font-size:11px;white-space:nowrap;font-family:inherit;}
+.ms-btn:hover{border-color:var(--b2);}
+.mbadge{background:var(--b-dim);color:var(--b-hi);font-size:9px;padding:1px 5px;border-radius:3px;}
+.ms-dd{position:absolute;top:calc(100% + 4px);right:0;width:270px;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);z-index:200;display:none;}
+.ms-dd.open{display:block;}
+.mo{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;}
+.mo:hover,.mo.sel{background:var(--s3);}
+.mo-nm{font-size:12px;color:var(--t1);}
+.mo-id{font-size:10px;color:var(--t3);font-family:var(--mono);}
+.mo-badge{font-size:9px;padding:1px 5px;border-radius:3px;}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--green);}
+.ibt{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid transparent;border-radius:var(--r);cursor:pointer;color:var(--t2);}
+.ibt:hover{background:var(--s2);border-color:var(--b1);color:var(--t1);}
+.body{flex:1;display:flex;overflow:hidden;}
+.lnav{width:216px;min-width:216px;background:var(--s1);border-right:1px solid var(--b1);display:flex;flex-direction:column;transition:width .18s,min-width .18s;overflow:hidden;}
+.lnav.col{width:50px;min-width:50px;}
+.nsl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;padding:12px 12px 4px;white-space:nowrap;}
+.lnav.col .nsl{opacity:0;height:0;padding:0;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 14px;cursor:pointer;color:var(--t2);white-space:nowrap;position:relative;border-left:3px solid transparent;}
+.ni:hover{background:var(--s2);color:var(--t1);}
+.ni.act{background:var(--s2);color:var(--b-hi);border-left-color:var(--blue);}
+.ni-ic{width:17px;height:17px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.ni-lb{font-size:12px;}
+.lnav.col .ni-lb{display:none;}
+.lnav.col .ni{padding:8px 16px;}
+.nb{margin-top:auto;border-top:1px solid var(--b1);}
+.ncb{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;color:var(--t3);font-size:11px;white-space:nowrap;}
+.ncb:hover{color:var(--t2);background:var(--s2);}
+.lnav.col .ncb-lb{display:none;}
+.ctr{flex:1;overflow-y:auto;background:var(--bg);padding:18px;}
+.ctr::-webkit-scrollbar{width:5px;}
+.ctr::-webkit-scrollbar-thumb{background:var(--b1);border-radius:3px;}
+.rp{width:294px;min-width:294px;background:var(--s1);border-left:1px solid var(--b1);display:flex;flex-direction:column;transition:width .18s,min-width .18s;overflow:hidden;}
+.rp.cl{width:0;min-width:0;}
+.rph{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--b1);flex-shrink:0;}
+.rpt{font-size:12px;font-weight:500;color:var(--t1);display:flex;align-items:center;gap:6px;}
+.cms{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;}
+.cms::-webkit-scrollbar{width:3px;}
+.cms::-webkit-scrollbar-thumb{background:var(--b1);border-radius:2px;}
+.cm{max-width:88%;padding:7px 9px;border-radius:5px;font-size:11px;line-height:1.5;}
+.cm.u{background:var(--b-dim);color:var(--b-hi);align-self:flex-end;}
+.cm.a{background:var(--s2);border:1px solid var(--b1);color:var(--t1);align-self:flex-start;}
+.cm.sys{background:transparent;border:1px dashed var(--b1);color:var(--t3);font-size:10px;align-self:center;text-align:center;max-width:100%;}
+.cia{border-top:1px solid var(--b1);padding:8px;flex-shrink:0;}
+.cicx{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;}
+.chip{display:flex;align-items:center;gap:3px;padding:2px 7px;background:var(--s2);border:1px solid var(--b1);border-radius:20px;font-size:10px;color:var(--t2);cursor:pointer;}
+.chip.on{background:var(--b-dim);border-color:var(--blue);color:var(--b-hi);}
+.cir{display:flex;gap:5px;align-items:flex-end;}
+.cta{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:6px 9px;font-size:11px;color:var(--t1);resize:none;height:34px;font-family:inherit;}
+.cta:focus{outline:none;border-color:var(--blue);}
+.cta::placeholder{color:var(--t3);}
+.sbtn{width:32px;height:32px;background:var(--blue);border:none;border-radius:var(--r);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sbtn:hover{background:var(--b-hi);}
+.view{display:none;}
+.view.on{display:block;}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:8px;padding:14px;}
+.pt{font-size:17px;font-weight:600;color:var(--t1);margin-bottom:3px;}
+.ps{font-size:12px;color:var(--t2);margin-bottom:18px;}
+.mg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px;}
+.mc{background:var(--s1);border:1px solid var(--b1);border-radius:8px;padding:13px;}
+.ml{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.mv{font-size:22px;font-weight:600;color:var(--t1);}
+.msb{font-size:10px;color:var(--t3);margin-top:2px;}
+.mv-b{color:var(--b-hi);}
+.mv-g{color:var(--green);}
+.qic{background:var(--s1);border:1px solid var(--b1);border-radius:8px;padding:14px;margin-bottom:18px;}
+.qil{font-size:11px;color:var(--t2);margin-bottom:7px;}
+.qir{display:flex;gap:7px;}
+.qi{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:8px 11px;font-size:13px;color:var(--t1);font-family:inherit;}
+.qi:focus{outline:none;border-color:var(--blue);}
+.qi::placeholder{color:var(--t3);}
+.btn{display:flex;align-items:center;gap:5px;padding:8px 13px;border-radius:var(--r);font-size:12px;cursor:pointer;border:none;font-family:inherit;white-space:nowrap;}
+.bp{background:var(--blue);color:#fff;}
+.bp:hover{background:var(--b-hi);}
+.bg{background:transparent;border:1px solid var(--b1);color:var(--t2);}
+.bg:hover{border-color:var(--b2);color:var(--t1);background:var(--s2);}
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:500;}
+.bc-{background:#04200f;color:var(--green);}
+.br-{background:var(--b-dim);color:var(--b-hi);}
+.be-{background:#2d0909;color:var(--red);}
+.bi-{background:var(--s2);color:var(--t3);}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+thead th{padding:7px 11px;text-align:left;color:var(--t3);font-weight:500;border-bottom:1px solid var(--b1);font-size:10px;text-transform:uppercase;letter-spacing:.05em;}
+tbody td{padding:9px 11px;border-bottom:1px solid var(--b1);color:var(--t2);}
+tbody tr:hover td{background:var(--s2);cursor:pointer;}
+tbody tr:last-child td{border-bottom:none;}
+.td1{color:var(--t1);}
+.tdm{font-family:var(--mono);font-size:10px;}
+.fb{display:flex;gap:7px;margin-bottom:14px;align-items:center;}
+.fi{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:6px 10px;font-size:11px;color:var(--t1);font-family:inherit;}
+.fi:focus{outline:none;border-color:var(--blue);}
+.fi::placeholder{color:var(--t3);}
+select.fi{cursor:pointer;}
+.ai{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--b1);}
+.ai:last-child{border-bottom:none;}
+.adot{width:7px;height:7px;border-radius:50%;margin-top:3px;flex-shrink:0;}
+.adot.c{background:var(--green);}
+.adot.r{background:var(--blue);}
+.adot.e{background:var(--red);}
+.at{font-size:12px;color:var(--t1);line-height:1.4;}
+.atm{font-size:10px;color:var(--t3);margin-top:2px;}
+.gcanv{background:var(--s2);border:1px solid var(--b1);border-radius:8px;width:100%;}
+.tl{display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+.tn{display:flex;align-items:center;gap:3px;padding:3px 7px;background:var(--s2);border:1px solid var(--b1);border-radius:3px;font-size:10px;font-family:var(--mono);color:var(--t2);}
+.tn.ok{border-color:var(--green);color:var(--green);background:#04200f;}
+.tn.go{border-color:var(--blue);color:var(--b-hi);background:var(--b-dim);}
+.tarr{color:var(--t3);font-size:11px;}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.ac{background:var(--s1);border:1px solid var(--b1);border-radius:7px;padding:13px;cursor:pointer;margin-bottom:8px;}
+.ac:hover{border-color:var(--b2);}
+.act{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:4px;}
+.acpr{font-size:11px;color:var(--t2);line-height:1.5;}
+.acmt{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.acmti{font-size:10px;color:var(--t3);}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.st{font-size:13px;font-weight:500;color:var(--t1);}
+.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;gap:11px;}
+.phi{width:44px;height:44px;background:var(--s2);border:1px solid var(--b1);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--t3);}
+.pht{font-size:13px;color:var(--t2);}
+.phs{font-size:11px;color:var(--t3);text-align:center;max-width:260px;line-height:1.5;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.pls{animation:pulse 1.6s infinite;}
+</style>
+</head>
+<body>
+<div id="pfa">
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="logo">
+      <div class="lm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      PocketFlow
+    </div>
+    <div class="bc">
+      <span style="color:var(--b1);">/</span>
+      <span class="bc-cur" id="bcText">Dashboard</span>
+    </div>
+    <div class="sp"></div>
+    <div class="ms-wrap">
+      <button class="ms-btn" onclick="toggleMD()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        <span id="mName">Kimi K2.5</span>
+        <span class="mbadge" id="mBadge">Primary</span>
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="ms-dd" id="msDD" onclick="event.stopPropagation()">
+        <div id="modelList"></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:5px;margin-left:6px;">
+      <div class="sdot"></div>
+      <span style="font-size:10px;color:var(--t3);">Connected</span>
+    </div>
+    <button class="ibt" onclick="toggleRP()" title="Toggle assistant pane" style="margin-left:4px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+    </button>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+    <!-- LEFT NAV -->
+    <nav class="lnav" id="lnav">
+      <div style="padding:8px 0;">
+        <div class="nsl">Workspace</div>
+        <div class="ni act" onclick="nav('dashboard')" id="ni-dashboard"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span class="ni-lb">Dashboard</span></div>
+        <div class="ni" onclick="nav('qhist')" id="ni-qhist"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="ni-lb">Query History</span></div>
+        <div class="ni" onclick="nav('gviz')" id="ni-gviz"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg></span><span class="ni-lb">Graph Visualizer</span></div>
+        <div class="ni" onclick="nav('ghist')" id="ni-ghist"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><span class="ni-lb">Graph History</span></div>
+        <div class="ni" onclick="nav('answers')" id="ni-answers"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span class="ni-lb">Final Answers</span></div>
+        <div class="nsl" style="margin-top:6px;">Integrations</div>
+        <div class="ni" onclick="nav('tools')" id="ni-tools"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span><span class="ni-lb">Agent Tools</span></div>
+        <div class="ni" onclick="nav('mcps')" id="ni-mcps"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="ni-lb">MCP Servers</span></div>
+        <div class="ni" onclick="nav('mcpc')" id="ni-mcpc"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M8 6l10 10"/><circle cx="19" cy="5" r="3"/><circle cx="5" cy="19" r="3"/></svg></span><span class="ni-lb">MCP Clients</span></div>
+        <div class="ni" onclick="nav('chat')" id="ni-chat"><span class="ni-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg></span><span class="ni-lb">Chat Agent</span></div>
+      </div>
+      <div class="nb">
+        <div class="ncb" onclick="toggleNav()">
+          <span class="ni-ic" id="ncbic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></span>
+          <span class="ncb-lb">Collapse</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CENTER -->
+    <main class="ctr" id="ctr">
+
+      <!-- DASHBOARD -->
+      <div class="view on" id="v-dashboard">
+        <div class="pt">Dashboard</div>
+        <div class="ps">Research flow execution overview</div>
+        <div class="mg">
+          <div class="mc"><div class="ml">Total Queries</div><div class="mv mv-b">24</div><div class="msb">All time</div></div>
+          <div class="mc"><div class="ml">Completed</div><div class="mv mv-g">21</div><div class="msb">87.5% success</div></div>
+          <div class="mc"><div class="ml">Avg Iterations</div><div class="mv">2.4</div><div class="msb">Per run</div></div>
+          <div class="mc"><div class="ml">Avg Duration</div><div class="mv">11.2s</div><div class="msb">Per run</div></div>
+        </div>
+        <div class="qic">
+          <div class="qil">Run a research query</div>
+          <div class="qir">
+            <input class="qi" id="qInput" placeholder="What would you like to research today?" />
+            <button class="btn bp" onclick="runQuery()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Run Flow
+            </button>
+          </div>
+          <div id="runStatus" style="display:none;margin-top:10px;"></div>
+        </div>
+        <div class="tc">
+          <div class="card">
+            <div class="sh"><div class="st">Recent Activity</div></div>
+            <div id="actList"></div>
+          </div>
+          <div class="card">
+            <div class="sh"><div class="st">Node Execution Count</div></div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-family:var(--mono);color:var(--t2);">DecideAction</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:100px;height:5px;background:var(--s3);border-radius:3px;"><div style="width:88%;height:100%;background:var(--blue);border-radius:3px;"></div></div>
+                  <span style="font-size:10px;color:var(--t3);">58</span>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-family:var(--mono);color:var(--t2);">SearchWeb</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:100px;height:5px;background:var(--s3);border-radius:3px;"><div style="width:72%;height:100%;background:var(--blue);border-radius:3px;"></div></div>
+                  <span style="font-size:10px;color:var(--t3);">47</span>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;font-family:var(--mono);color:var(--t2);">AnswerQuestion</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:100px;height:5px;background:var(--s3);border-radius:3px;"><div style="width:35%;height:100%;background:var(--green);border-radius:3px;"></div></div>
+                  <span style="font-size:10px;color:var(--t3);">21</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUERY HISTORY -->
+      <div class="view" id="v-qhist">
+        <div class="pt">Query History</div>
+        <div class="ps">All research flow executions</div>
+        <div class="fb">
+          <input class="fi" placeholder="Search queries..." id="qSearch" oninput="filterQ()" style="width:200px;"/>
+          <select class="fi" id="qStatus" onchange="filterQ()">
+            <option value="">All Status</option>
+            <option value="complete">Complete</option>
+            <option value="running">Running</option>
+            <option value="error">Error</option>
+          </select>
+          <div class="sp"></div>
+          <button class="btn bg" onclick="nav('gviz')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
+            Visualize
+          </button>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table>
+            <thead><tr><th>Query</th><th>Status</th><th>Iterations</th><th>Nodes</th><th>Time</th><th>Duration</th></tr></thead>
+            <tbody id="qTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- GRAPH VISUALIZER -->
+      <div class="view" id="v-gviz">
+        <div class="pt">Graph Visualizer</div>
+        <div class="ps">Research flow graph — node states update in real-time</div>
+        <div class="tc">
+          <div>
+            <svg class="gcanv" viewBox="0 0 440 310" style="height:280px;" id="gsvg">
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1a2a42"/></marker>
+              </defs>
+              <line x1="220" y1="52" x2="220" y2="106" stroke="#1a2a42" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line x1="176" y1="150" x2="112" y2="218" stroke="#1a2a42" stroke-width="1.5" marker-end="url(#arr)"/>
+              <text x="128" y="188" fill="#3a5070" font-size="9" text-anchor="middle" font-family="monospace">"answer"</text>
+              <line x1="264" y1="150" x2="328" y2="218" stroke="#1a2a42" stroke-width="1.5" marker-end="url(#arr)"/>
+              <text x="312" y="188" fill="#3a5070" font-size="9" text-anchor="middle" font-family="monospace">"search"</text>
+              <path d="M380 218 C420 160 400 90 280 130" fill="none" stroke="#1a2a42" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4 2"/>
+              <text x="422" y="155" fill="#3a5070" font-size="8" text-anchor="middle" font-family="monospace">loop</text>
+              <line x1="88" y1="260" x2="88" y2="288" stroke="#1a2a42" stroke-width="1.5" marker-end="url(#arr)"/>
+              <circle cx="220" cy="36" r="16" fill="#162338" stroke="#1a2a42" stroke-width="1.5"/>
+              <text x="220" y="40" fill="#3a5070" font-size="8" text-anchor="middle" font-family="monospace" font-weight="600">START</text>
+              <rect x="150" y="108" width="140" height="42" rx="6" fill="#162338" stroke="#1a2a42" stroke-width="1.5" id="nodeDA"/>
+              <text x="220" y="126" fill="#dce8fb" font-size="11" text-anchor="middle" font-family="monospace" font-weight="500" id="nodeDAT">DecideAction</text>
+              <text x="220" y="139" fill="#3a5070" font-size="9" text-anchor="middle">LLM decision</text>
+              <rect x="18" y="218" width="140" height="42" rx="6" fill="#162338" stroke="#1a2a42" stroke-width="1.5" id="nodeAQ"/>
+              <text x="88" y="236" fill="#dce8fb" font-size="10.5" text-anchor="middle" font-family="monospace" font-weight="500" id="nodeAQT">AnswerQuestion</text>
+              <text x="88" y="249" fill="#3a5070" font-size="9" text-anchor="middle">terminal</text>
+              <rect x="300" y="218" width="126" height="42" rx="6" fill="#162338" stroke="#1a2a42" stroke-width="1.5" id="nodeSW"/>
+              <text x="363" y="236" fill="#dce8fb" font-size="10.5" text-anchor="middle" font-family="monospace" font-weight="500" id="nodeSWT">SearchWeb</text>
+              <text x="363" y="249" fill="#3a5070" font-size="9" text-anchor="middle">Tavily</text>
+              <circle cx="88" cy="300" r="12" fill="#04200f" stroke="#10b981" stroke-width="1.5"/>
+              <text x="88" y="304" fill="#10b981" font-size="8" text-anchor="middle" font-family="monospace" font-weight="600">END</text>
+            </svg>
+            <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3);"><div style="width:10px;height:10px;border-radius:2px;border:1.5px solid #1a2a42;"></div>Idle</div>
+              <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--b-hi);"><div style="width:10px;height:10px;border-radius:2px;background:var(--b-dim);border:1.5px solid var(--blue);"></div>Active</div>
+              <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--green);"><div style="width:10px;height:10px;border-radius:2px;background:#04200f;border:1.5px solid var(--green);"></div>Complete</div>
+              <button class="btn bp" onclick="simRun()" style="margin-left:auto;font-size:11px;padding:5px 10px;" id="simBtn">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Simulate Run
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:12px;">
+              <div class="st" style="margin-bottom:10px;">Active Node</div>
+              <div id="activeNodePanel"><div style="font-size:11px;color:var(--t3);">No active run. Press Simulate Run to start.</div></div>
+            </div>
+            <div class="card">
+              <div class="st" style="margin-bottom:10px;">Last Run Timeline</div>
+              <div class="tl" id="vizTimeline">
+                <div class="tn ok">DecideAction</div><div class="tarr">→</div>
+                <div class="tn ok">SearchWeb</div><div class="tarr">→</div>
+                <div class="tn ok">DecideAction</div><div class="tarr">→</div>
+                <div class="tn ok">AnswerQuestion</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAPH HISTORY -->
+      <div class="view" id="v-ghist">
+        <div class="pt">Graph History</div>
+        <div class="ps">Node traversal history for every run</div>
+        <div id="ghList"></div>
+      </div>
+
+      <!-- FINAL ANSWERS -->
+      <div class="view" id="v-answers">
+        <div class="pt">Final Answers</div>
+        <div class="ps">Research synthesis results</div>
+        <div class="fb">
+          <input class="fi" placeholder="Search answers..." style="width:200px;"/>
+          <div class="sp"></div>
+          <span style="font-size:11px;color:var(--t3);">3 results</span>
+        </div>
+        <div id="answerList"></div>
+      </div>
+
+      <!-- AGENT TOOLS -->
+      <div class="view" id="v-tools">
+        <div class="pt">Agent Tools</div><div class="ps">Registered tools available to flow nodes</div>
+        <div class="ph"><div class="phi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div class="pht">Agent Tools</div><div class="phs">Tools registered to FlowAgent nodes will appear here — including search providers, LLM wrappers, and custom executors.</div></div>
+      </div>
+
+      <!-- MCP SERVERS -->
+      <div class="view" id="v-mcps">
+        <div class="pt">MCP Servers</div><div class="ps">Connected Model Context Protocol servers</div>
+        <div class="ph"><div class="phi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div><div class="pht">MCP Servers</div><div class="phs">Add MCP server URLs to your FlowAgent configuration. Connected servers expose tools directly to all flow nodes.</div></div>
+      </div>
+
+      <!-- MCP CLIENTS -->
+      <div class="view" id="v-mcpc">
+        <div class="pt">MCP Clients</div><div class="ps">Active MCP client connections</div>
+        <div class="ph"><div class="phi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M8 6l10 10"/><circle cx="19" cy="5" r="3"/><circle cx="5" cy="19" r="3"/></svg></div><div class="pht">MCP Clients</div><div class="phs">Client connections from external apps to this agent's MCP server endpoint will be listed here.</div></div>
+      </div>
+
+      <!-- CHAT AGENT -->
+      <div class="view" id="v-chat">
+        <div class="pt">Chat Agent</div><div class="ps">Direct Workers AI conversation — no flow execution</div>
+        <div style="background:var(--s1);border:1px solid var(--b1);border-radius:8px;height:460px;display:flex;flex-direction:column;">
+          <div style="padding:10px 12px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:11px;color:var(--t2);">Powered by <span id="standaloneMN" style="color:var(--b-hi);">Kimi K2.5</span></div>
+            <div style="display:flex;align-items:center;gap:5px;"><div class="sdot" style="width:6px;height:6px;"></div><span style="font-size:10px;color:var(--t3);">workers.ai</span></div>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;" id="scMsgs">
+            <div class="cm sys">Workers AI Chat — @cf/moonshotai/kimi-k2.5</div>
+            <div class="cm a">Hello! I'm running on Kimi K2.5 via Workers AI. I can help you design research flows, write PocketFlow nodes, or answer questions about your agent architecture.</div>
+          </div>
+          <div style="border-top:1px solid var(--b1);padding:10px;display:flex;gap:6px;">
+            <input class="qi" placeholder="Ask anything..." style="font-size:12px;padding:7px 10px;" id="scInput" onkeydown="if(event.key==='Enter')scSend()"/>
+            <button class="sbtn" onclick="scSend()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- RIGHT PANE -->
+    <aside class="rp" id="rp">
+      <div class="rph">
+        <div class="rpt">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Flow Design Assistant
+        </div>
+        <button class="ibt" onclick="toggleRP()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="cms" id="rpMsgs">
+        <div class="cm sys">Flow Design Assistant · <span id="rpModelName">Kimi K2.5</span></div>
+        <div class="cm a">I can help you design PocketFlow graphs, write nodes, and fire runFlow() against your agent. What would you like to build?</div>
+      </div>
+      <div class="cia">
+        <div class="cicx">
+          <div class="chip on" id="ctx-flow" onclick="toggleCtx('flow')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg> Flow ctx</div>
+          <div class="chip" id="ctx-state" onclick="toggleCtx('state')"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg> Agent state</div>
+          <div class="chip" id="ctx-run" onclick="rpRunFlow()"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Fire flow</div>
+        </div>
+        <div class="cir">
+          <textarea class="cta" id="rpInput" placeholder="Design a flow, ask about nodes, or say 'run [query]'..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();rpSend();}"></textarea>
+          <button class="sbtn" onclick="rpSend()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const MODELS=[
+  {id:"@cf/moonshotai/kimi-k2.5",name:"Kimi K2.5",sub:"256k ctx · frontier",badge:"Primary",bc:"#0c1e3d",bco:"#60a5fa"},
+  {id:"@cf/meta/llama-4-scout-17b-16e-instruct",name:"Llama 4 Scout",sub:"128k ctx · vision",badge:"Vision",bc:"#04200f",bco:"#34d399"},
+  {id:"@cf/openai/gpt-oss-120b",name:"GPT-OSS 120B",sub:"200k ctx · reasoning",badge:"",bc:"",bco:""},
+  {id:"@hf/google/gemma-4",name:"Gemma 4",sub:"128k ctx · efficient",badge:"",bc:"",bco:""},
+  {id:"@cf/zai-org/glm-4.7-flash",name:"GLM 4.7 Flash",sub:"131k ctx · fast",badge:"Fast",bc:"#1f1000",bco:"#fbbf24"},
+];
+const QUERIES=[
+  {id:1,q:"What is the Cloudflare Agents SDK and how does it work with Durable Objects?",st:"complete",iter:3,nodes:["DecideAction","SearchWeb","DecideAction","SearchWeb","DecideAction","AnswerQuestion"],time:"09:14",dur:"12.4s"},
+  {id:2,q:"How does PocketFlow TypeScript graph routing work with BaseNode?",st:"complete",iter:2,nodes:["DecideAction","SearchWeb","DecideAction","AnswerQuestion"],time:"08:52",dur:"8.1s"},
+  {id:3,q:"Compare Workers AI models for agentic workloads in 2026",st:"complete",iter:3,nodes:["DecideAction","SearchWeb","DecideAction","SearchWeb","DecideAction","AnswerQuestion"],time:"08:30",dur:"15.2s"},
+  {id:4,q:"What are Durable Objects best practices for persistent agent state?",st:"running",iter:1,nodes:["DecideAction","SearchWeb","DecideAction"],time:"09:22",dur:"—"},
+  {id:5,q:"Implement human-in-the-loop approval flows with Agents SDK",st:"error",iter:1,nodes:["DecideAction"],time:"08:15",dur:"2.3s"},
+];
+const ANSWERS=[
+  {id:1,qid:1,title:"Cloudflare Agents SDK: Architecture & Durable Objects Integration",preview:"The Cloudflare Agents SDK is a TypeScript framework built on Durable Objects that enables stateful, real-time AI agent development with SQLite persistence, WebSocket sync, and @callable RPC...",time:"09:14",src:5},
+  {id:2,qid:2,title:"PocketFlow TypeScript: BaseNode, Flow, and SharedStore Deep Dive",preview:"PocketFlow's TypeScript port implements graph-based LLM orchestration through three core primitives. The prep→exec→post lifecycle cleanly separates state reads, LLM calls, and state writes...",time:"08:52",src:4},
+  {id:3,qid:3,title:"Workers AI Model Comparison: Kimi K2.5, Llama 4, GPT-OSS for Agents",preview:"Kimi K2.5 emerges as the top choice for production agentic workloads with its 256k context window, multi-turn tool calling, and 77% cost reduction vs proprietary alternatives...",time:"08:30",src:7},
+];
+
+let selModel=MODELS[0];
+let navCol=false;
+let rpOpen=true;
+let simRunning=false;
+let ctxs={flow:true,state:false};
+
+function init(){
+  renderModels();renderActivity();renderQTable(QUERIES);renderGH();renderAnswers();
+}
+
+function renderModels(){
+  const ml=document.getElementById('modelList');
+  ml.innerHTML=MODELS.map(m=>`<div class="mo${m.id===selModel.id?' sel':''}" onclick="selM('${m.id}')">
+    <div><div class="mo-nm">${m.name}</div><div class="mo-id">${m.id.slice(0,38)}</div></div>
+    ${m.badge?`<span class="mo-badge" style="background:${m.bc};color:${m.bco}">${m.badge}</span>`:''}
+  </div>`).join('');
+}
+
+function selM(id){
+  selModel=MODELS.find(m=>m.id===id);
+  document.getElementById('mName').textContent=selModel.name;
+  const b=document.getElementById('mBadge');
+  b.textContent=selModel.badge||'';b.style.display=selModel.badge?'':'none';
+  document.getElementById('rpModelName').textContent=selModel.name;
+  document.getElementById('standaloneMN').textContent=selModel.name;
+  document.getElementById('msDD').classList.remove('open');
+  renderModels();
+}
+
+function toggleMD(){document.getElementById('msDD').classList.toggle('open');}
+document.addEventListener('click',()=>document.getElementById('msDD').classList.remove('open'));
+
+function nav(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('.ni').forEach(el=>el.classList.remove('act'));
+  const ni=document.getElementById('ni-'+v);if(ni)ni.classList.add('act');
+  const names={dashboard:'Dashboard',qhist:'Query History',gviz:'Graph Visualizer',ghist:'Graph History',answers:'Final Answers',tools:'Agent Tools',mcps:'MCP Servers',mcpc:'MCP Clients',chat:'Chat Agent'};
+  document.getElementById('bcText').textContent=names[v]||v;
+}
+
+function toggleNav(){
+  navCol=!navCol;
+  document.getElementById('lnav').classList.toggle('col',navCol);
+  document.getElementById('ncbic').innerHTML=navCol
+    ?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'
+    :'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>';
+}
+
+function toggleRP(){
+  rpOpen=!rpOpen;
+  document.getElementById('rp').classList.toggle('cl',!rpOpen);
+}
+
+function renderActivity(){
+  document.getElementById('actList').innerHTML=QUERIES.slice(0,5).map(q=>`<div class="ai">
+    <div class="adot ${q.st==='complete'?'c':q.st==='running'?'r':'e'}"></div>
+    <div>
+      <div class="at">${q.q.length>60?q.q.slice(0,60)+'…':q.q}</div>
+      <div class="atm">${q.time} · ${q.iter} iterations · ${q.dur}</div>
+    </div>
+  </div>`).join('');
+}
+
+function renderQTable(qs){
+  const stMap={complete:'<span class="bdg bc-">● Complete</span>',running:'<span class="bdg br- pls">◉ Running</span>',error:'<span class="bdg be-">✕ Error</span>'};
+  document.getElementById('qTable').innerHTML=qs.map(q=>`<tr onclick="nav('gviz')">
+    <td class="td1" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${q.q}</td>
+    <td>${stMap[q.st]}</td>
+    <td class="tdm">${q.iter}</td>
+    <td><div class="tl" style="gap:2px;">${q.nodes.slice(0,4).map(n=>`<span class="tn ok" style="padding:1px 4px;font-size:9px;">${n.slice(0,8)}</span>`).join('')}${q.nodes.length>4?`<span style="font-size:9px;color:var(--t3);">+${q.nodes.length-4}</span>`:''}</div></td>
+    <td class="tdm">${q.time}</td>
+    <td class="tdm">${q.dur}</td>
+  </tr>`).join('');
+}
+
+function filterQ(){
+  const s=document.getElementById('qSearch').value.toLowerCase();
+  const st=document.getElementById('qStatus').value;
+  renderQTable(QUERIES.filter(q=>(!s||q.q.toLowerCase().includes(s))&&(!st||q.st===st)));
+}
+
+function renderGH(){
+  document.getElementById('ghList').innerHTML=QUERIES.map(q=>`<div class="card" style="margin-bottom:10px;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+      <div>
+        <div style="font-size:12px;font-weight:500;color:var(--t1);margin-bottom:3px;">${q.q.length>70?q.q.slice(0,70)+'…':q.q}</div>
+        <div style="font-size:10px;color:var(--t3);">${q.time} · ${q.iter} iteration${q.iter!==1?'s':''} · ${q.dur}</div>
+      </div>
+      <span class="bdg ${q.st==='complete'?'bc-':q.st==='running'?'br-':'be-'}" style="flex-shrink:0;margin-left:10px;">${q.st}</span>
+    </div>
+    <div class="tl">${q.nodes.map((n,i)=>`<span class="tn ${q.st==='complete'||i<q.nodes.length-1?'ok':'go'}">${n}</span>${i<q.nodes.length-1?'<span class="tarr">→</span>':''}`).join('')}</div>
+  </div>`).join('');
+}
+
+function renderAnswers(){
+  document.getElementById('answerList').innerHTML=ANSWERS.map(a=>`<div class="ac">
+    <div class="act">${a.title}</div>
+    <div class="acpr">${a.preview}</div>
+    <div class="acmt">
+      <span class="acmti">${a.time}</span>
+      <span style="color:var(--b1);">·</span>
+      <span class="acmti">${a.src} sources</span>
+      <span style="color:var(--b1);">·</span>
+      <span class="acmti" style="color:var(--b-hi);">${selModel.name}</span>
+    </div>
+  </div>`).join('');
+}
+
+function runQuery(){
+  const q=document.getElementById('qInput').value.trim();if(!q)return;
+  const rs=document.getElementById('runStatus');
+  rs.style.display='block';
+  rs.innerHTML='<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--b-hi);"><span class="pls">◉</span> Running on <strong>'+selModel.name+'</strong> — watching WebSocket for state updates…</div>';
+  nav('gviz');setTimeout(()=>simRun(),400);
+}
+
+const SIM_STEPS=[
+  {node:'DA',label:'DecideAction',msg:'Evaluating query, deciding action…'},
+  {node:'SW',label:'SearchWeb',msg:'Searching: "research flow agent architecture"'},
+  {node:'DA',label:'DecideAction',msg:'Evaluating search results, deciding next step…'},
+  {node:'SW',label:'SearchWeb',msg:'Searching: "cloudflare durable objects state sync"'},
+  {node:'DA',label:'DecideAction',msg:'Sufficient context found, generating answer…'},
+  {node:'AQ',label:'AnswerQuestion',msg:'Synthesizing final answer from 9 sources…'},
+];
+let simIdx=0;
+
+function simRun(){
+  if(simRunning)return;
+  simRunning=true;simIdx=0;
+  document.getElementById('simBtn').disabled=true;
+  resetNodes();simStep();
+}
+
+function resetNodes(){
+  ['nodeDA','nodeSW','nodeAQ'].forEach(id=>{
+    document.getElementById(id).setAttribute('fill','#162338');
+    document.getElementById(id).setAttribute('stroke','#1a2a42');
+  });
+  ['nodeDAT','nodeSWT','nodeAQT'].forEach(id=>document.getElementById(id).setAttribute('fill','#dce8fb'));
+}
+
+function simStep(){
+  if(simIdx>=SIM_STEPS.length){
+    setNodeComplete('nodeAQ','nodeAQT');
+    document.getElementById('activeNodePanel').innerHTML='<div style="display:flex;align-items:center;gap:6px;"><span style="color:var(--green);">✓</span><span style="font-size:12px;color:var(--green);">Run complete</span></div>';
+    const tl=document.getElementById('vizTimeline');
+    tl.innerHTML=SIM_STEPS.map((s,i)=>`<span class="tn ok">${s.label}</span>${i<SIM_STEPS.length-1?'<span class="tarr">→</span>':''}`).join('');
+    document.getElementById('simBtn').disabled=false;
+    simRunning=false;return;
+  }
+  const step=SIM_STEPS[simIdx];
+  resetNodes();
+  if(step.node==='DA')setNodeActive('nodeDA','nodeDAT');
+  else if(step.node==='SW'){setNodeActive('nodeSW','nodeSWT');if(simIdx>0)setNodeComplete('nodeDA','nodeDAT');}
+  else if(step.node==='AQ'){setNodeActive('nodeAQ','nodeAQT');setNodeComplete('nodeDA','nodeDAT');}
+  if(simIdx>1&&step.node==='DA')setNodeComplete('nodeSW','nodeSWT');
+  document.getElementById('activeNodePanel').innerHTML=`
+    <div style="font-family:var(--mono);font-size:12px;color:var(--b-hi);margin-bottom:5px;">${step.label}</div>
+    <div style="font-size:11px;color:var(--t2);">${step.msg}</div>
+    <div style="margin-top:8px;"><span style="font-size:10px;color:var(--t3);">Step ${simIdx+1} of ${SIM_STEPS.length}</span></div>`;
+  simIdx++;
+  setTimeout(simStep,1200);
+}
+
+function setNodeActive(id,tid){
+  document.getElementById(id).setAttribute('fill','#0c1e3d');
+  document.getElementById(id).setAttribute('stroke','#3b82f6');
+  document.getElementById(tid).setAttribute('fill','#60a5fa');
+}
+
+function setNodeComplete(id,tid){
+  document.getElementById(id).setAttribute('fill','#04200f');
+  document.getElementById(id).setAttribute('stroke','#10b981');
+  document.getElementById(tid).setAttribute('fill','#10b981');
+}
+
+function addMsg(container,role,text){
+  const msgs=document.getElementById(container);
+  const d=document.createElement('div');
+  d.className='cm '+role;d.textContent=text;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+
+const RP_RESPONSES=["I can help you design that flow. Start by defining your SharedStore shape — what data does the flow need to read and write?","For that pattern, I'd recommend a BatchFlow with an AsyncParallelBatchNode for the concurrent execution phase. Want me to scaffold the node structure?","That maps well to the self-healing loop pattern: GenerateNode → ValidateNode → FixNode → ValidateNode. Should I draft the graph wiring code?","Great use case for the thinking loop. The DecideAction node will need to return named actions — 'search', 'answer', or 'retry'. Ready to fire it?"];
+const RP_RUN=["Running your query now via runFlow()…","Flow fired. Watch the Graph Visualizer for real-time node state updates as the graph traverses."];
+let rpRespIdx=0;
+
+function rpSend(){
+  const inp=document.getElementById('rpInput');
+  const txt=inp.value.trim();if(!txt)return;
+  addMsg('rpMsgs','u',txt);inp.value='';
+  const isRun=txt.toLowerCase().startsWith('run ');
+  setTimeout(()=>{
+    addMsg('rpMsgs','a',isRun?RP_RUN[Math.floor(Math.random()*RP_RUN.length)]:RP_RESPONSES[rpRespIdx%RP_RESPONSES.length]);
+    rpRespIdx++;
+    if(isRun){setTimeout(()=>{nav('gviz');setTimeout(simRun,300);},800);}
+  },600);
+}
+
+function rpRunFlow(){
+  addMsg('rpMsgs','a','Firing runFlow() via agent.call()… switching to Graph Visualizer.');
+  setTimeout(()=>{nav('gviz');setTimeout(simRun,400);},500);
+}
+
+function toggleCtx(k){
+  ctxs[k]=!ctxs[k];
+  document.getElementById('ctx-'+k).classList.toggle('on',ctxs[k]);
+}
+
+const SC_RESPONSES=["Kimi K2.5 is optimized for agentic workloads with a 256k context window and native multi-turn tool calling support on Workers AI's Infire inference engine.","For PocketFlow, the SharedStore is the only state — nodes are pure functions that read in prep() and write in post(). This makes testing trivial.","The bridge pattern works because FlowAgent injects the _checkpoint hook into SharedStore before each run. When nodes call shared._checkpoint?.(shared), it triggers setState() which broadcasts to all WebSocket clients instantly."];
+let scIdx=0;
+
+function scSend(){
+  const inp=document.getElementById('scInput');
+  const txt=inp.value.trim();if(!txt)return;
+  addMsg('scMsgs','u',txt);inp.value='';
+  setTimeout(()=>{addMsg('scMsgs','a',SC_RESPONSES[scIdx%SC_RESPONSES.length]);scIdx++;},700);
+}
+
+init();
+</script>
+</body>
+</html>

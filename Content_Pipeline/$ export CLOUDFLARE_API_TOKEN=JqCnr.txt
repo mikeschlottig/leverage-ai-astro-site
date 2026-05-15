@@ -1,0 +1,34 @@
+$ export CLOUDFLARE_API_TOKEN="JqCnrSQuMw4ZSzvhQCht6D_k9Ay86C0JO15WGtIW" && export CLOUDFLARE_ACCOUNT_ID="a5335954d3ced04c5f63a35b0454c266" && curl -s "https://api.cloudflare.com/client/v4/zones?account.id=a5335954d3ced04c5f63a35b0454c266" -H "Authorization: Bearer JqCnrSQuMw4ZSzvhQCht6D_k9Ay86C0JO15WGtIW" | python3 -c "import json,sys; z=json.load(sys.stdin); [print(x['name'], x['id']) for x in z.get('result',[])]"
+
+(Bash completed with no output)
+
+$ curl -s "https://api.cloudflare.com/client/v4/zones?account.id=a5335954d3ced04c5f63a35b0454c266" \
+  -H "Authorization: Bearer JqCnrSQuMw4ZSzvhQCht6D_k9Ay86C0JO15WGtIW" \
+  -H "Content-Type: application/json" | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+print('success:', d.get('success'))
+print('errors:', d.get('errors'))
+for z in d.get('result', []):
+    print(z['name'], z['id'], z['status'])
+"
+
+success: True
+errors: []
+
+$ curl -s "https://api.cloudflare.com/client/v4/zones" \
+  -H "Authorization: Bearer JqCnrSQuMw4ZSzvhQCht6D_k9Ay86C0JO15WGtIW" | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+print('success:', d.get('success'))
+for z in d.get('result', []):
+    print(z['name'], z['id'])
+print('errors:', d.get('errors'))
+print('messages:', d.get('messages'))
+"
+
+success: True
+errors: []
+messages: []
+
+###   The stored token can authenticate but not deploy — it's missing Account:Workers Scripts:Edit scope. The quickest fix is browser login

@@ -1,0 +1,2348 @@
+Rogue Concrete single File Dope Site
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rogue Concrete Works | Southern Oregon's Premier Concrete Craftsmen</title>
+    <meta name="description" content="From decorative stamped patios to commercial structural slabs — Rogue Concrete Works delivers expert craftsmanship rooted in Southern Oregon for over 22 years.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --c0: #050505;
+            --c1: #0a0a0a;
+            --c2: #111111;
+            --c3: #161616;
+            --c4: #1d1d1d;
+            --c5: #252525;
+            --c6: #2e2e2e;
+            --stone: #5c5753;
+            --stone-l: #8b8682;
+            --stone-pl: #b5b0a8;
+            --ivory: #f5f1e9;
+            --amber: #c9a86c;
+            --amber-b: #dcc090;
+            --amber-dim: rgba(201, 168, 108, 0.15);
+            --amber-glow: rgba(201, 168, 108, 0.08);
+            --w: #f2ede5;
+            --wm: rgba(242, 237, 229, 0.7);
+            --bd: rgba(255, 255, 255, 0.06);
+            --bd2: rgba(255, 255, 255, 0.12);
+            
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--c0);
+            color: var(--w);
+            font-family: var(--font-sans);
+            font-weight: 300;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--amber);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s var(--ease-out-expo), opacity 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--amber);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.3s var(--ease-out-expo);
+        }
+
+        .cursor.hover {
+            transform: scale(2.5);
+            background: rgba(201, 168, 108, 0.1);
+        }
+
+        /* Noise Overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.6s var(--ease-out-expo);
+            border-bottom: 1px solid transparent;
+        }
+
+        .nav.scrolled {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--bd);
+            padding: 1rem 4rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: var(--w);
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav-mark {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--amber) 0%, #b8956a 100%);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-mark::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--stone-pl);
+            cursor: pointer;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+            font-weight: 400;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--amber);
+            transition: width 0.4s var(--ease-out-expo);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--amber);
+        }
+
+        .nav-link.active::after,
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 14px 32px;
+            background: var(--amber);
+            color: var(--c0);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(201, 168, 108, 0.3);
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+
+        /* Page Container */
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
+            background: var(--c0);
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0 4rem;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 70% 50%, rgba(201, 168, 108, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(30, 25, 20, 0.4) 0%, transparent 50%),
+                var(--c0);
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 100px 100px;
+            opacity: 0.3;
+            mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding-top: 80px;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s var(--ease-out-expo) forwards;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 60px;
+            height: 1px;
+            background: var(--amber);
+            transform-origin: left;
+            animation: lineGrow 1.2s var(--ease-out-expo) 0.3s backwards;
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 300;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            color: var(--w);
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1.2s var(--ease-out-expo) 0.2s forwards;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--amber);
+            font-weight: 400;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--wm);
+            max-width: 500px;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s var(--ease-out-expo) 0.4s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s var(--ease-out-expo) 0.6s forwards;
+        }
+
+        .btn {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 18px 40px;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-out-expo);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--amber);
+            color: var(--c0);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 50px rgba(201, 168, 108, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--w);
+            border: 1px solid var(--bd2);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+            transform: translateY(-3px);
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Floating Elements */
+        .floating-shapes {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 400px;
+            height: 400px;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border: 1px solid rgba(201, 168, 108, 0.2);
+            animation: rotate 30s linear infinite;
+        }
+
+        .shape-1 {
+            width: 100%;
+            height: 100%;
+            transform: rotate(45deg);
+            animation-duration: 40s;
+        }
+
+        .shape-2 {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            transform: rotate(30deg);
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .shape-3 {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            transform: rotate(60deg);
+            animation-duration: 20s;
+            border-color: var(--amber);
+            opacity: 0.3;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards;
+        }
+
+        .scroll-text {
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--stone);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--amber), transparent);
+            animation: scrollBounce 2s infinite;
+        }
+
+        /* Stats Bar */
+        .stats {
+            background: var(--c2);
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            border-top: 1px solid var(--bd);
+            border-bottom: 1px solid var(--bd);
+            position: relative;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .stat:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40%;
+            background: var(--bd);
+        }
+
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-weight: 300;
+            color: var(--amber);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .stat-label {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--stone-l);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 10rem 4rem;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 6rem;
+            max-width: 600px;
+        }
+
+        .section-eyebrow {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-eyebrow::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--amber);
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--amber);
+        }
+
+        .section-lead {
+            font-size: 1.05rem;
+            color: var(--wm);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--bd);
+            border: 1px solid var(--bd);
+        }
+
+        .service-card {
+            background: var(--c2);
+            padding: 4rem 3rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.6s var(--ease-out-expo);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--amber);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s var(--ease-out-expo);
+        }
+
+        .service-card:hover {
+            background: var(--c3);
+            transform: translateY(-5px);
+            z-index: 10;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-number {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--amber);
+            opacity: 0.5;
+            margin-bottom: 2rem;
+        }
+
+        .service-content h3 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--w);
+        }
+
+        .service-content p {
+            font-size: 0.9rem;
+            color: var(--wm);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .service-link {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .service-card:hover .service-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-visual {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border: 1px solid var(--bd2);
+            transform: rotate(45deg);
+            opacity: 0.3;
+            transition: all 0.6s var(--ease-out-expo);
+        }
+
+        .service-card:hover .service-visual {
+            transform: rotate(90deg);
+            border-color: var(--amber);
+            opacity: 0.6;
+        }
+
+        /* Featured Project */
+        .featured {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 80vh;
+            background: var(--c2);
+        }
+
+        .featured-visual {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        .featured-visual::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 0%, var(--c2) 100%);
+            opacity: 0.4;
+        }
+
+        .featured-content {
+            padding: 6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-tag {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber);
+            border: 1px solid var(--amber-dim);
+            padding: 8px 16px;
+            margin-bottom: 2rem;
+            width: fit-content;
+        }
+
+        .featured-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 3vw, 3rem);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-title em {
+            font-style: italic;
+            color: var(--amber);
+        }
+
+        .featured-desc {
+            font-size: 1rem;
+            color: var(--wm);
+            line-height: 1.9;
+            margin-bottom: 3rem;
+        }
+
+        .featured-stats {
+            display: flex;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .featured-stat {
+            position: relative;
+        }
+
+        .featured-stat::after {
+            content: '';
+            position: absolute;
+            right: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 30px;
+            background: var(--bd);
+        }
+
+        .featured-stat:last-child::after {
+            display: none;
+        }
+
+        .featured-stat-value {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--amber);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--stone-l);
+        }
+
+        /* Process */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .process-step {
+            position: relative;
+            padding: 3rem 2rem;
+            background: var(--c2);
+            border: 1px solid var(--bd);
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .process-step:hover {
+            border-color: var(--amber-dim);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .process-step::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--amber);
+            transition: width 0.6s var(--ease-out-expo);
+        }
+
+        .process-step:hover::after {
+            width: 100%;
+        }
+
+        .process-number {
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            font-weight: 300;
+            color: var(--c5);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            transition: color 0.4s ease;
+        }
+
+        .process-step:hover .process-number {
+            color: var(--amber);
+            opacity: 0.3;
+        }
+
+        .process-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .process-desc {
+            font-size: 0.9rem;
+            color: var(--wm);
+            line-height: 1.8;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: var(--c2);
+            border: 1px solid var(--bd);
+            padding: 3rem;
+            position: relative;
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .testimonial:hover {
+            border-color: var(--amber-dim);
+            transform: translateY(-5px);
+        }
+
+        .testimonial-quote {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--amber);
+            opacity: 0.2;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+
+        .testimonial-stars {
+            color: var(--amber);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--stone-pl);
+            font-style: italic;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--c4);
+            border: 1px solid var(--amber-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--amber);
+        }
+
+        .testimonial-name {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .testimonial-loc {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+
+        /* Projects */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid var(--bd2);
+            color: var(--stone-l);
+            cursor: pointer;
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--amber);
+            border-color: var(--amber);
+            color: var(--c0);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+        }
+
+        .project-card {
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--c2);
+        }
+
+        .project-card.wide {
+            grid-column: span 2;
+        }
+
+        .project-card.tall {
+            grid-row: span 2;
+        }
+
+        .project-image {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--c3) 0%, var(--c2) 100%);
+            transition: transform 0.8s var(--ease-out-expo);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.2) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-category {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 0.5rem;
+            transform: translateY(20px);
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .project-card:hover .project-category {
+            transform: translateY(0);
+            transition-delay: 0.1s;
+        }
+
+        .project-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            transform: translateY(20px);
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .project-card:hover .project-title {
+            transform: translateY(0);
+            transition-delay: 0.15s;
+        }
+
+        .project-location {
+            font-size: 0.85rem;
+            color: var(--stone-l);
+            transform: translateY(20px);
+            transition: transform 0.4s var(--ease-out-expo);
+        }
+
+        .project-card:hover .project-location {
+            transform: translateY(0);
+            transition-delay: 0.2s;
+        }
+
+        /* Contact Section */
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border: 1px solid var(--amber-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .contact-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            color: var(--wm);
+            line-height: 1.8;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--stone-l);
+            margin-bottom: 0.75rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: var(--c2);
+            border: 1px solid var(--bd2);
+            color: var(--w);
+            padding: 16px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--amber);
+            background: var(--c3);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23c9a86c'%3E%3Cpath d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .form-select option {
+            background: var(--c2);
+            color: var(--w);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--c0);
+            border-top: 1px solid var(--bd);
+            padding: 6rem 4rem 3rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .footer-brand {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-desc {
+            color: var(--wm);
+            line-height: 1.9;
+            max-width: 300px;
+            margin-bottom: 2rem;
+        }
+
+        .footer-title {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 1rem;
+            color: var(--wm);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: var(--w);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--bd);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--stone);
+        }
+
+        /* CTA Band */
+        .cta-band {
+            background: var(--c1);
+            padding: 10rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--bd);
+            border-bottom: 1px solid var(--bd);
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--amber-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-phone {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--amber);
+            margin-bottom: 2rem;
+            font-style: italic;
+            display: block;
+            text-decoration: none;
+        }
+
+        .cta-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title em {
+            font-style: italic;
+            color: var(--amber);
+        }
+
+        .cta-subtitle {
+            color: var(--wm);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes lineGrow {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(10px);
+                opacity: 0.5;
+            }
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s var(--ease-out-expo);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 1px;
+            background: var(--w);
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .hero {
+                padding: 0 2rem;
+            }
+            
+            .section {
+                padding: 6rem 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 2rem;
+            }
+            
+            .stat:not(:last-child)::after {
+                display: none;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featured {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-visual {
+                min-height: 400px;
+            }
+            
+            .featured-content {
+                padding: 4rem 2rem;
+            }
+            
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .floating-shapes {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .services-grid,
+            .process-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-card.wide {
+                grid-column: span 1;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .featured-stat::after {
+                display: none;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-logo" onclick="navigate('home')">
+            <div class="nav-mark"></div>
+            Rogue Concrete Works
+        </div>
+        
+        <ul class="nav-links">
+            <li class="nav-link active" onclick="navigate('home')" data-page="home">Home</li>
+            <li class="nav-link" onclick="navigate('services')" data-page="services">Services</li>
+            <li class="nav-link" onclick="navigate('projects')" data-page="projects">Projects</li>
+            <li class="nav-link" onclick="navigate('about')" data-page="about">About</li>
+        </ul>
+        
+        <button class="nav-cta" onclick="navigate('contact')">Free Estimate</button>
+        
+        <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="page-home">
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-grid"></div>
+            
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-eyebrow">Southern Oregon's Premier Concrete Craftsmen</div>
+                <h1 class="hero-title">
+                    Poured with<br>
+                    <em>Precision.</em><br>
+                    Built to Last.
+                </h1>
+                <p class="hero-subtitle">
+                    From decorative stamped patios to commercial structural slabs — Rogue Concrete Works delivers expert craftsmanship rooted in Southern Oregon for over 22 years.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="navigate('contact')">
+                        <span class="btn-text">Get Free Estimate</span>
+                    </button>
+                    <button class="btn btn-outline" onclick="navigate('projects')">
+                        <span class="btn-text">View Our Work</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <div class="scroll-text">Scroll</div>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" data-target="22">0</div>
+                <div class="stat-label">Years in Southern Oregon</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" data-target="1400">0</div>
+                <div class="stat-label">Projects Completed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">Client Satisfaction %</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" data-target="12">0</div>
+                <div class="stat-label">Licensed Crew Members</div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="section-header reveal">
+                <div class="section-eyebrow">Our Services</div>
+                <h2 class="section-title">Concrete for <em>every</em> project</h2>
+                <p class="section-lead">Residential driveways to commercial slabs — we pour everything, and we pour it right.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card reveal reveal-delay-1" onclick="navigate('services')">
+                    <div>
+                        <div class="service-number">01</div>
+                        <div class="service-content">
+                            <h3>Decorative Driveways</h3>
+                            <p>Stamped, exposed aggregate, and broom-finished driveways built to withstand Oregon winters.</p>
+                        </div>
+                    </div>
+                    <div class="service-link">Explore →</div>
+                    <div class="service-visual"></div>
+                </div>
+                
+                <div class="service-card reveal reveal-delay-2" onclick="navigate('services')">
+                    <div>
+                        <div class="service-number">02</div>
+                        <div class="service-content">
+                            <h3>Stamped Patios</h3>
+                            <p>Outdoor living spaces with custom patterns and colorant that rival natural stone.</p>
+                        </div>
+                    </div>
+                    <div class="service-link">View Work →</div>
+                    <div class="service-visual"></div>
+                </div>
+                
+                <div class="service-card reveal reveal-delay-3" onclick="navigate('services')">
+                    <div>
+                        <div class="service-number">03</div>
+                        <div class="service-content">
+                            <h3>Structural Foundations</h3>
+                            <p>Engineered footings, slabs, and foundations for residential and light commercial.</p>
+                        </div>
+                    </div>
+                    <div class="service-link">Learn More →</div>
+                    <div class="service-visual"></div>
+                </div>
+                
+                <div class="service-card reveal" onclick="navigate('services')">
+                    <div>
+                        <div class="service-number">04</div>
+                        <div class="service-content">
+                            <h3>Concrete Countertops</h3>
+                            <p>Handcrafted interior and exterior countertops custom cast to specification.</p>
+                        </div>
+                    </div>
+                    <div class="service-link">See Details →</div>
+                    <div class="service-visual"></div>
+                </div>
+                
+                <div class="service-card reveal reveal-delay-1" onclick="navigate('services')">
+                    <div>
+                        <div class="service-number">05</div>
+                        <div class="service-content">
+                            <h3>Retaining Walls</h3>
+                            <p>Engineered concrete walls managing grade changes with aesthetic appeal.</p>
+                        </div>
+                    </div>
+                    <div class="service-link">View Walls →</div>
+                    <div class="service-visual"></div>
+                </div>
+                
+                <div class="service-card reveal reveal-delay-2" onclick="navigate('services')">
+                    <div>
+                        <div class="service-number">06</div>
+                        <div class="service-content">
+                            <h3>Commercial Flatwork</h3>
+                            <p>High-volume flatwork for parking lots, warehouses, and municipal projects.</p>
+                        </div>
+                    </div>
+                    <div class="service-link">Get Quote →</div>
+                    <div class="service-visual"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured">
+            <div class="featured-visual reveal">
+                <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1a1612 0%, #0f0d0b 100%);">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; border: 1px solid rgba(201,168,108,0.2); transform: translate(-50%, -50%) rotate(45deg);"></div>
+                </div>
+            </div>
+            <div class="featured-content reveal">
+                <div class="featured-tag">Featured Project</div>
+                <h3 class="featured-title">The Donovan <em>Estate</em> Patio</h3>
+                <p class="featured-desc">
+                    A 1,800 sq ft wraparound stamped concrete patio with custom slate pattern, integral color, and seamless pool deck integration — completed in 12 working days in Jacksonville, Oregon.
+                </p>
+                <div class="featured-stats">
+                    <div class="featured-stat">
+                        <div class="featured-stat-value">1,800</div>
+                        <div class="featured-stat-label">Square Feet</div>
+                    </div>
+                    <div class="featured-stat">
+                        <div class="featured-stat-value">12</div>
+                        <div class="featured-stat-label">Days</div>
+                    </div>
+                    <div class="featured-stat">
+                        <div class="featured-stat-value">4</div>
+                        <div class="featured-stat-label">Color Tones</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="navigate('projects')">View All Projects</button>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--c1);">
+            <div class="section-header reveal">
+                <div class="section-eyebrow">How We Work</div>
+                <h2 class="section-title">Our <em>proven</em> process</h2>
+                <p class="section-lead">No surprises. Every project follows the same four-step discipline that's kept clients returning for over two decades.</p>
+            </div>
+            
+            <div class="process-grid">
+                <div class="process-step reveal reveal-delay-1">
+                    <div class="process-number">01</div>
+                    <h3 class="process-title">Consultation</h3>
+                    <p class="process-desc">We visit your site, assess grade, soil, and drainage conditions, and discuss your vision and budget.</p>
+                </div>
+                
+                <div class="process-step reveal reveal-delay-2">
+                    <div class="process-number">02</div>
+                    <h3 class="process-title">Design & Quote</h3>
+                    <p class="process-desc">Written scope, material specifications, and flat-rate quote — no surprise charges mid-project.</p>
+                </div>
+                
+                <div class="process-step reveal reveal-delay-3">
+                    <div class="process-number">03</div>
+                    <h3 class="process-title">Site Prep</h3>
+                    <p class="process-desc">Proper forming, grading, and compaction. The pour is only as good as the ground beneath it.</p>
+                </div>
+                
+                <div class="process-step reveal reveal-delay-4">
+                    <div class="process-number">04</div>
+                    <h3 class="process-title">Pour & Finish</h3>
+                    <p class="process-desc">Expert placement, vibration, and finishing — from broom texture to mirror-polished decorative work.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header reveal">
+                <div class="section-eyebrow">Client Stories</div>
+                <h2 class="section-title">What Southern Oregon <em>says</em></h2>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial reveal reveal-delay-1">
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">Rogue Concrete transformed our backyard into an outdoor showroom. The stamped patio is flawless — neighbors stop and ask about it constantly.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MT</div>
+                        <div>
+                            <div class="testimonial-name">Marcus & Julie T.</div>
+                            <div class="testimonial-loc">Ashland, OR</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial reveal reveal-delay-2">
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">We needed a large commercial pour for our new warehouse in White City. They came in on time, on budget, and the slab is dead flat.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DH</div>
+                        <div>
+                            <div class="testimonial-name">Derek Halverson</div>
+                            <div class="testimonial-loc">White City, OR</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial reveal reveal-delay-3">
+                    <div class="testimonial-quote">"</div>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">Three bids, three very different prices. Rogue was middle but the only one who actually measured my slope and explained drainage.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">PO</div>
+                        <div>
+                            <div class="testimonial-name">Patricia Olmstead</div>
+                            <div class="testimonial-loc">Jacksonville, OR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-band">
+            <a href="tel:5414820183" class="cta-phone reveal">(541) 482-0183</a>
+            <h2 class="cta-title reveal reveal-delay-1">Ready to <em>pour?</em></h2>
+            <p class="cta-subtitle reveal reveal-delay-2">Free estimates, honest pricing, and work that speaks for itself. Let's talk about your project.</p>
+            <div class="hero-buttons reveal reveal-delay-3" style="justify-content: center;">
+                <button class="btn btn-primary" onclick="navigate('contact')">Request Free Estimate</button>
+                <button class="btn btn-outline" onclick="navigate('projects')">Browse Portfolio</button>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">
+                        <div class="nav-mark" style="width: 24px; height: 24px;"></div>
+                        Rogue Concrete Works
+                    </div>
+                    <p class="footer-desc">Southern Oregon's premier concrete contractor. Licensed, bonded, and committed to craftsmanship since 2002.</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <span style="font-size: 0.7rem; color: var(--stone); border: 1px solid var(--bd); padding: 4px 12px;">CCB #204817</span>
+                        <span style="font-size: 0.7rem; color: var(--stone); border: 1px solid var(--bd); padding: 4px 12px;">Bonded</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Services</div>
+                    <ul class="footer-links">
+                        <li class="footer-link" onclick="navigate('services')">Decorative Driveways</li>
+                        <li class="footer-link" onclick="navigate('services')">Stamped Patios</li>
+                        <li class="footer-link" onclick="navigate('services')">Foundations</li>
+                        <li class="footer-link" onclick="navigate('services')">Countertops</li>
+                        <li class="footer-link" onclick="navigate('services')">Commercial</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Company</div>
+                    <ul class="footer-links">
+                        <li class="footer-link" onclick="navigate('home')">Home</li>
+                        <li class="footer-link" onclick="navigate('projects')">Portfolio</li>
+                        <li class="footer-link" onclick="navigate('about')">About Us</li>
+                        <li class="footer-link" onclick="navigate('contact')">Contact</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Contact</div>
+                    <ul class="footer-links">
+                        <li class="footer-link">(541) 482-0183</li>
+                        <li class="footer-link">info@rogueconcreteworks.com</li>
+                        <li class="footer-link" style="line-height: 1.6; margin-top: 0.5rem;">4820 Redwood Hwy<br>Grants Pass, OR 97527</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>© 2024 Rogue Concrete Works LLC. All rights reserved.</div>
+                <div style="display: flex; gap: 2rem;">
+                    <span style="cursor: pointer;">Privacy Policy</span>
+                    <span style="cursor: pointer;">Terms of Service</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Services Page -->
+    <div class="page" id="page-services">
+        <section class="hero" style="min-height: 70vh;">
+            <div class="hero-bg"></div>
+            <div class="hero-content" style="padding-top: 120px;">
+                <div class="hero-eyebrow">What We Do</div>
+                <h1 class="hero-title">Our <em>Services</em></h1>
+                <p class="hero-subtitle">Full-service concrete contracting across Josephine and Jackson Counties — residential, commercial, and everything in between.</p>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--c1); padding-top: 4rem;">
+            <div class="services-grid" style="border: none; gap: 2rem; background: transparent;">
+                <div class="service-card reveal" style="min-height: 500px;">
+                    <div>
+                        <div class="service-number">01</div>
+                        <div class="service-content">
+                            <h3>Decorative Driveways</h3>
+                            <p>Your driveway is the first impression of your home. We offer broom-finished, exposed aggregate, stamped, and brushed-salt finishes with proper jointing and drainage grading.</p>
+                            <ul style="list-style: none; margin-top: 2rem; font-size: 0.85rem; color: var(--stone-l); line-height: 2;">
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Exposed Aggregate</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Stamped Pattern</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Salt & Broom Finish</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Drainage Grading</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card reveal reveal-delay-1" style="min-height: 500px;">
+                    <div>
+                        <div class="service-number">02</div>
+                        <div class="service-content">
+                            <h3>Stamped Patios</h3>
+                            <p>Outdoor living spaces that rival natural stone and brick at a fraction of the maintenance cost. Custom color, pattern, and texture combinations.</p>
+                            <ul style="list-style: none; margin-top: 2rem; font-size: 0.85rem; color: var(--stone-l); line-height: 2;">
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> 50+ Pattern Options</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Integral Color</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Non-Slip Finish</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Pool Deck Specialist</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card reveal reveal-delay-2" style="min-height: 500px;">
+                    <div>
+                        <div class="service-number">03</div>
+                        <div class="service-content">
+                            <h3>Structural Foundations</h3>
+                            <p>Engineered foundations for residential additions, ADUs, garages, shops, and light commercial. All work is permitted and inspected.</p>
+                            <ul style="list-style: none; margin-top: 2rem; font-size: 0.85rem; color: var(--stone-l); line-height: 2;">
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Engineered Footings</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Stem Wall & T-Footing</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Slab-on-Grade</li>
+                                <li style="display: flex; align-items: center; gap: 10px;"><span style="color: var(--amber);">—</span> Code Compliant</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 6rem;">
+                <button class="btn btn-primary" onclick="navigate('contact')">Request Site Visit</button>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <div>© 2024 Rogue Concrete Works LLC</div>
+                <div style="display: flex; gap: 2rem;">
+                    <span onclick="navigate('home')" style="cursor: pointer;">Home</span>
+                    <span onclick="navigate('contact')" style="cursor: pointer;">Contact</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Projects Page -->
+    <div class="page" id="page-projects">
+        <section class="hero" style="min-height: 60vh;">
+            <div class="hero-bg"></div>
+            <div class="hero-content" style="padding-top: 120px;">
+                <div class="hero-eyebrow">Portfolio</div>
+                <h1 class="hero-title"><em>Our</em> Work</h1>
+                <p class="hero-subtitle">Concrete projects across the Rogue Valley — every one a point of pride.</p>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--c1);">
+            <div class="filter-bar reveal">
+                <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+                <button class="filter-btn" onclick="filterProjects('residential', this)">Residential</button>
+                <button class="filter-btn" onclick="filterProjects('commercial', this)">Commercial</button>
+                <button class="filter-btn" onclick="filterProjects('decorative', this)">Decorative</button>
+            </div>
+            
+            <div class="projects-grid" id="projects-grid">
+                <div class="project-card wide" data-category="residential">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1a1612 0%, #2a2622 100%);"></div>
+                    <div class="project-overlay">
+                        <div class="project-category">Residential</div>
+                        <div class="project-title">Donovan Estate Patio</div>
+                        <div class="project-location">Jacksonville, OR</div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-category="commercial">
+                    <div class="project-image" style="background: linear-gradient(135deg, #0f1215 0%, #1a1e22 100%);"></div>
+                    <div class="project-overlay">
+                        <div class="project-category">Commercial</div>
+                        <div class="project-title">Rogue Valley Business Park</div>
+                        <div class="project-location">Medford, OR</div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-category="decorative">
+                    <div class="project-image" style="background: linear-gradient(135deg, #161412 0%, #262220 100%);"></div>
+                    <div class="project-overlay">
+                        <div class="project-category">Decorative</div>
+                        <div class="project-title">Ashland Hillside Terrace</div>
+                        <div class="project-location">Ashland, OR</div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-category="residential">
+                    <div class="project-image" style="background: linear-gradient(135deg, #12100e 0%, #22201e 100%);"></div>
+                    <div class="project-overlay">
+                        <div class="project-category">Residential</div>
+                        <div class="project-title">Murphy Creek Driveway</div>
+                        <div class="project-location">Grants Pass, OR</div>
+                    </div>
+                </div>
+                
+                <div class="project-card wide" data-category="decorative">
+                    <div class="project-image" style="background: linear-gradient(135deg, #0e1210 0%, #1e2220 100%);"></div>
+                    <div class="project-overlay">
+                        <div class="project-category">Decorative</div>
+                        <div class="project-title">Pool Deck Renovation</div>
+                        <div class="project-location">Eagle Point, OR</div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-category="commercial">
+                    <div class="project-image" style="background: linear-gradient(135deg, #151412 0%, #252422 100%);"></div>
+                    <div class="project-overlay">
+                        <div class="project-category">Commercial</div>
+                        <div class="project-title">Warehouse Slab — 18,000 sqft</div>
+                        <div class="project-location">White City, OR</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-bottom" style="border-top: none;">
+                <div>© 2024 Rogue Concrete Works LLC</div>
+                <div style="display: flex; gap: 2rem;">
+                    <span onclick="navigate('home')" style="cursor: pointer;">Home</span>
+                    <span onclick="navigate('contact')" style="cursor: pointer;">Contact</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- About Page -->
+    <div class="page" id="page-about">
+        <section class="hero" style="min-height: 70vh;">
+            <div class="hero-bg"></div>
+            <div class="hero-content" style="padding-top: 120px;">
+                <div class="hero-eyebrow">Our Story</div>
+                <h1 class="hero-title">Rogue <em>Concrete</em> Works</h1>
+                <p class="hero-subtitle">Southern Oregon's trusted concrete craftsmen since 2002. Family-owned, locally operated, and deeply committed to quality.</p>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--c1);">
+            <div class="featured">
+                <div class="featured-visual reveal">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1a1612 0%, #0f0d0b 100%); display: flex; align-items: center; justify-content: center;">
+                        <div style="font-family: var(--font-serif); font-size: 8rem; color: var(--amber); opacity: 0.1; font-weight: 300;">22</div>
+                    </div>
+                    <div style="position: absolute; bottom: -30px; right: -30px; width: 200px; height: 200px; background: var(--amber); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                        <div style="font-family: var(--font-serif); font-size: 4rem; font-weight: 600; color: var(--c0); line-height: 1;">22</div>
+                        <div style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--c0); opacity: 0.8;">Years of<br>Craft</div>
+                    </div>
+                </div>
+                <div class="featured-content reveal">
+                    <div class="section-eyebrow" style="margin-bottom: 2rem;">About Us</div>
+                    <h3 class="featured-title" style="font-size: clamp(2rem, 4vw, 3rem);">Built on <em>Oregon</em> ground</h3>
+                    <p class="featured-desc">
+                        Rogue Concrete Works was founded in 2002 by <strong style="color: var(--w); font-weight: 500;">Rick Halverson</strong> out of a 1994 pickup truck and a deep conviction that Southern Oregon deserved a concrete contractor it could actually trust. Twenty-two years later, we've completed over 1,400 projects across Josephine and Jackson Counties.
+                    </p>
+                    <p class="featured-desc">
+                        We're not a franchise, not a faceless outfit. When you call us, you reach us. Our crew averages <strong style="color: var(--w); font-weight: 500;">11 years of tenure</strong> — because people who care about their craft tend to stay.
+                    </p>
+                    <div class="featured-stats" style="margin-top: 3rem;">
+                        <div class="featured-stat">
+                            <div class="featured-stat-value">1,400+</div>
+                            <div class="featured-stat-label">Projects</div>
+                        </div>
+                        <div class="featured-stat">
+                            <div class="featured-stat-value">22</div>
+                            <div class="featured-stat-label">Years</div>
+                        </div>
+                        <div class="featured-stat">
+                            <div class="featured-stat-value">11</div>
+                            <div class="featured-stat-label">Avg Tenure</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="max-width: 1000px; margin: 8rem auto 0;">
+                <div class="section-header reveal" style="text-align: center; max-width: 600px; margin: 0 auto 4rem;">
+                    <div class="section-eyebrow" style="justify-content: center;">The Team</div>
+                    <h2 class="section-title">The people <em>behind</em> the pour</h2>
+                </div>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial reveal" style="text-align: center;">
+                        <div class="testimonial-avatar" style="margin: 0 auto 1.5rem; width: 80px; height: 80px; font-size: 1.8rem;">RH</div>
+                        <div class="testimonial-name">Rick Halverson</div>
+                        <div style="color: var(--amber); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin: 0.5rem 0 1rem;">Owner & Lead Foreman</div>
+                        <p class="testimonial-text" style="font-size: 0.9rem;">22 years in concrete. Rick founded RCW after a decade working across Oregon. He holds a master finisher certification and personally oversees every pour.</p>
+                    </div>
+                    
+                    <div class="testimonial reveal reveal-delay-1" style="text-align: center;">
+                        <div class="testimonial-avatar" style="margin: 0 auto 1.5rem; width: 80px; height: 80px; font-size: 1.8rem;">DC</div>
+                        <div class="testimonial-name">Dana Cortez</div>
+                        <div style="color: var(--amber); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin: 0.5rem 0 1rem;">Project Manager</div>
+                        <p class="testimonial-text" style="font-size: 0.9rem;">Former structural engineer turned concrete specialist. Dana manages permitting, scheduling, and client communication.</p>
+                    </div>
+                    
+                    <div class="testimonial reveal reveal-delay-2" style="text-align: center;">
+                        <div class="testimonial-avatar" style="margin: 0 auto 1.5rem; width: 80px; height: 80px; font-size: 1.8rem;">BM</div>
+                        <div class="testimonial-name">Brett McCoy</div>
+                        <div style="color: var(--amber); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin: 0.5rem 0 1rem;">Decorative Specialist</div>
+                        <p class="testimonial-text" style="font-size: 0.9rem;">The craftsman behind our stamped and stained work. 14 years of decorative concrete experience and flawless color application.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-bottom" style="border-top: none;">
+                <div>© 2024 Rogue Concrete Works LLC</div>
+                <div style="display: flex; gap: 2rem;">
+                    <span onclick="navigate('home')" style="cursor: pointer;">Home</span>
+                    <span onclick="navigate('contact')" style="cursor: pointer;">Contact</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Contact Page -->
+    <div class="page" id="page-contact">
+        <section class="hero" style="min-height: 60vh;">
+            <div class="hero-bg"></div>
+            <div class="hero-content" style="padding-top: 120px;">
+                <div class="hero-eyebrow">Get in Touch</div>
+                <h1 class="hero-title">Start Your <em>Project</em></h1>
+                <p class="hero-subtitle">Free site visit. Written quote. No pressure. Let's talk about what you're building.</p>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--c1);">
+            <div class="contact">
+                <div class="reveal">
+                    <div class="section-eyebrow">Contact Info</div>
+                    <h3 class="featured-title" style="margin-bottom: 3rem; font-size: 2rem;">Rogue Concrete <em>Works</em></h3>
+                    <p style="color: var(--wm); margin-bottom: 3rem; line-height: 1.8;">Serving Grants Pass, Medford, Ashland, Jacksonville, Eagle Point, Central Point, and surrounding communities.</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">◈</div>
+                        <div>
+                            <div class="contact-label">Office</div>
+                            <div class="contact-value">4820 Redwood Hwy<br>Grants Pass, OR 97527</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">◈</div>
+                        <div>
+                            <div class="contact-label">Phone</div>
+                            <div class="contact-value">(541) 482-0183</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">◈</div>
+                        <div>
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">info@rogueconcreteworks.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">◈</div>
+                        <div>
+                            <div class="contact-label">Hours</div>
+                            <div class="contact-value">Mon–Fri: 7am – 5pm<br>Sat: By appointment</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal reveal-delay-1">
+                    <form id="contact-form" onsubmit="handleSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-input" placeholder="Rick" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-input" placeholder="Halverson" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" placeholder="you@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-input" placeholder="(541) 000-0000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Project Type</label>
+                            <select class="form-select" required>
+                                <option value="">Select a service...</option>
+                                <option>Decorative Driveway</option>
+                                <option>Stamped Patio / Pool Deck</option>
+                                <option>Structural Foundation</option>
+                                <option>Concrete Countertops</option>
+                                <option>Retaining Wall</option>
+                                <option>Commercial Flatwork</option>
+                                <option>Other / Not Sure</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Project Details</label>
+                            <textarea class="form-textarea" placeholder="Tell us about your project — size, location, timeline, any site conditions we should know about..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Submit Estimate Request</button>
+                        
+                        <p style="font-size: 0.8rem; color: var(--stone); text-align: center; margin-top: 1.5rem;">We respond within 1 business day. Your information is never shared.</p>
+                    </form>
+                    
+                    <div id="form-success" style="display: none; text-align: center; padding: 4rem 2rem; background: var(--c2); border: 1px solid var(--amber-dim);">
+                        <div style="font-size: 3rem; margin-bottom: 1.5rem;">◈</div>
+                        <h3 style="font-family: var(--font-serif); font-size: 2rem; color: var(--amber); margin-bottom: 1rem;">Message Received</h3>
+                        <p style="color: var(--wm); line-height: 1.8;">Thank you. We'll review your project details and be in touch within one business day to schedule your free site consultation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-bottom" style="border-top: none;">
+                <div>© 2024 Rogue Concrete Works LLC</div>
+                <div style="display: flex; gap: 2rem;">
+                    <span onclick="navigate('home')" style="cursor: pointer;">Home</span>
+                    <span onclick="navigate('services')" style="cursor: pointer;">Services</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Navigation
+        function navigate(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show target page
+            document.getElementById(`page-${page}`).classList.add('active');
+            
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if(link.dataset.page === page) link.classList.add('active');
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Reinitialize reveals for new page
+            setTimeout(initReveals, 100);
+        }
+
+        // Scroll Effects
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.getElementById('nav');
+            
+            if (currentScroll > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Counter Animation
+        function animateCounter(el) {
+            const target = parseInt(el.dataset.target);
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target + (target > 100 ? '+' : '');
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for Reveals
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Animate counters if present
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        if (!counter.classList.contains('counted')) {
+                            animateCounter(counter);
+                            counter.classList.add('counted');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        function initReveals() {
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        initReveals();
+
+        // Custom Cursor (desktop only)
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+            const cursor = document.querySelector('.cursor');
+            const follower = document.querySelector('.cursor-follower');
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+            let followerX = 0, followerY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
+                followerX += (mouseX - followerX) * 0.08;
+                followerY += (mouseY - followerY) * 0.08;
+
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                follower.style.left = followerX + 'px';
+                follower.style.top = followerY + 'px';
+
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            // Hover effects for cursor
+            document.querySelectorAll('a, button, .service-card, .project-card, .nav-link').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        } else {
+            document.querySelector('.cursor').style.display = 'none';
+            document.querySelector('.cursor-follower').style.display = 'none';
+        }
+
+        // Project Filtering
+        function filterProjects(category, btn) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filter items
+            document.querySelectorAll('.project-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 400);
+                }
+            });
+        }
+
+        // Form Handling
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('mobile-open');
+        }
+
+        // Parallax effect for floating shapes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                const speed = 0.5 + (index * 0.2);
+                shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>

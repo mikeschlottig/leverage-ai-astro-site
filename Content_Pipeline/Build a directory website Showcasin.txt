@@ -1,0 +1,49 @@
+Build a directory website Showcasing the top 100 Electrical Contractors in Oregon.
+
+
+
+
+
+
+
+**MUSTS**
+
+
+
+Responsive mobile friendly web design.
+
+
+
+
+
+
+
+Each company must have it's own reactive modal card that expands when clicked to reveal more information.
+
+
+
+Each Modal Card must also be linked to the companies *REAL* website or **REAL Google Business Profile**
+
+
+
+
+
+
+
+The website Must be modern, reactive, intuitive and agency quality.
+
+
+
+
+
+
+
+Create a hero section with high quality copywriting, and compelling scroll animation and call to action.
+
+
+
+
+
+
+
+Any card or button that has a function must have a hover animation.

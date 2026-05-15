@@ -1,0 +1,46 @@
+Testing **GLM-5.1**'s long-horizon capabilities with a "Document ETL Pipeline at scale" is a great pivot, Mike. Given your deep dive into **agentic engineering** and your current stack (Astro, Cloudflare, Turso), you have the perfect foundation to build something that isn't just a "wrapper" but a legitimate piece of infrastructure.
+
+Using the [Kreuzberg library](https://docs.rs/kreuzberg) (especially the v4 Rust rewrite) is a savvy move—it's fast, handles 50+ formats, and has a native **MCP server** which fits perfectly with your goal of building an "intelligence layer."
+
+### Why this is a "Long-Horizon" flex
+
+Standard ETL is boring. An **Agentic ETL Pipeline** powered by GLM-5.1 is interesting because it can handle **ambiguity** and **self-correction** over hours of execution.
+
+  * **The "Staircase" Optimization:** As seen in [Z.ai's benchmarks](https://z.ai/blog/glm-5.1), GLM-5.1 doesn't plateau. It can spend 4 hours analyzing a 10,000-page document dump, identifying that the OCR is failing on specific handwritten legal notes, and autonomously switching extraction strategies or re-writing its own parsing logic.
+
+-----
+
+### The Architecture: "The Vault Intelligence Pipeline"
+
+Since you’re already mapping out an **Obsidian intelligence layer**, why not build the backend that feeds it?
+
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Extraction** | [Kreuzberg](https://docs.rs/kreuzberg) | Uses the Rust core to pull text/tables from PDFs, Office docs, and emails at high speed. |
+| **Orchestration** | **GLM-5.1** | The "Supervisor Agent." It plans the extraction, handles errors, and decides how to chunk data. |
+| **State/Queue** | **Turso (libSQL)** | Keeps track of the "job state" across that 8-hour execution window. |
+| **Interface** | **MCP + Obsidian** | The bridge that allows your Obsidian Vault to "ask" the pipeline for updates or new research. |
+
+### Project Ideas to Level Up
+
+If a general ETL feels too "utility-based," here are three ways to make it "bigger" and more aligned with your current projects:
+
+1.  **The "GEO" Intelligence Engine:** \* **The Task:** Feed the pipeline every local ordinance, building permit, and contractor review in the Rogue Valley (Grants Pass/Medford).
+
+      * **The Agentic Twist:** GLM-5.1 doesn't just extract text; it performs **competitor gap analysis**. It identifies which local electricians (like Grants Pass Electric) are being "left behind" in Generative Engine Optimization (GEO) and drafts a 50-page strategy report autonomously.
+
+2.  **Autonomous Soil Science Lab (Daley Organics):** \* **The Task:** Ingest decades of agricultural whitepapers, cation/anion balance studies, and mycorrhizal fungi research.
+
+      * **The Agentic Twist:** The model acts as a "Research Scientist." It identifies contradictions in the data (e.g., conflicting Calcium-to-Magnesium ratios) and runs "simulated experiments" or deeper targeted searches to find the gold-standard answer for Daley Organics' products.
+
+3.  **The "Homeless Man's Harpa" Backend:** \* **The Task:** Use [Kreuzberg's MCP server](https://www.google.com/search?q=https://github.com/nhirschfeld/kreuzberg) to bridge your browser data with your local CLI tools.
+
+      * **The Agentic Twist:** Set GLM-5.1 on a 4-hour "Deep Web Intelligence" run. It can scrape, clean, and structure the entire pricing history of organic fertilizers across the web, bypassing detection by mimicking human research patterns via your custom Chrome extension bridge.
+
+### My "Witty Peer" Take
+
+You’ve got the **Rust-powered muscle** (Kreuzberg) and the **8-hour brain** (GLM-5.1). If you build a standard "File -\> Text" pipeline, you're leaving 90% of the model's potential on the table.
+
+**Go for the "Self-Healing Workflow":** Build the pipeline so that if it hits a document it can't read, it doesn't just throw an error. It spends 30 minutes writing a custom Python script, tests it in a sandbox, and *forces* the data out. That is "Agentic Engineering."
+
+Which of those "twists" feels most like the "big" project you're hunting for?

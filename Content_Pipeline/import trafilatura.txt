@@ -1,0 +1,52 @@
+import trafilatura
+import json
+
+def fetch_product_listings(sitemap_url):
+    # Step 1: Get all URLs from the provided sitemap
+    # sitemap_search handles discovery and parsing of sitemap indices or single files
+    urls = trafilatura.sitemaps.sitemap_search(sitemap_url)
+    
+    if not urls:
+        print("No URLs discovered.")
+        return []
+
+    # This list will store the intermediate "schema" objects
+    all_page_schemas = []
+
+    # Step 2: Create a schema for every page
+    # In this context, we extract the structured metadata provided by Trafilatura
+    for url in urls[:5]:  # Process first 5 URLs as a demonstration
+        downloaded = trafilatura.fetch_url(url)
+        if downloaded:
+            # extract_metadata pulls JSON-LD, OpenGraph, and other structured data
+            metadata = trafilatura.extract_metadata(downloaded)
+            if metadata:
+                # We store the metadata object which acts as our page schema
+                all_page_schemas.append(metadata)
+
+    # Step 3: Extract just the actual product listing information from those schemas
+    product_results = []
+    for schema in all_page_schemas:
+        # We map the extracted schema data to a specific product listing format
+        listing_info = {
+            "name": schema.title,
+            "summary": schema.description,
+            "link": schema.url,
+            "brand": schema.sitename,
+            "thumbnail": schema.image
+        }
+        product_results.append(listing_info)
+
+    return product_results
+
+if __name__ == "__main__":
+    # Replace with a valid product sitemap URL
+    SITEMAP_URL = "https://www.example.com/sitemap.xml"
+    
+    # Process and display the extracted listings
+    listings = fetch_product_listings(SITEMAP_URL)
+    
+    if listings:
+        print(json.dumps(listings, indent=4))
+    else:
+        print("No product data extracted

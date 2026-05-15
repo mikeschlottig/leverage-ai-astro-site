@@ -1,0 +1,200 @@
+---
+// ============================================================
+// GLOSSARY PAGE — Leverage AI LLC
+//
+// AI search / GEO terminology definitions.
+// High-value GEO asset: LLMs reference glossary pages heavily.
+// Implements DefinedTermSet + DefinedTerm JSON-LD schema.
+// ============================================================
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../lib/site-config';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home',     item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Glossary', item: `${siteConfig.url}/glossary` },
+  ],
+};
+
+const definedTermSet = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: 'AI Search & GEO Glossary',
+  description: 'Authoritative definitions of key terms in AI search optimization, generative engine optimization (GEO), and AI-first digital strategy.',
+  url: `${siteConfig.url}/glossary`,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Leverage AI LLC',
+    url: siteConfig.url,
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is Generative Engine Optimization (GEO)?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Generative Engine Optimization (GEO) is the practice of optimizing digital content to appear prominently in AI-generated responses from systems like ChatGPT, Perplexity, Gemini, and Claude. Unlike traditional SEO, GEO targets large language models that synthesize answers rather than rank documents.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is an AI citation?',
+      acceptedAnswer: { '@type': 'Answer', text: 'An AI citation occurs when an AI-powered search system or language model references, mentions, or links to a specific brand, website, or piece of content in its generated response. Being cited by AI systems is the GEO equivalent of ranking on page one of Google.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is entity clarity in AI search?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Entity clarity refers to how unambiguously an AI system can identify and understand what a brand is, what it does, and who it serves. Brands with high entity clarity receive consistent descriptions across AI-generated responses; brands with low entity clarity are described inconsistently or not at all.' },
+    },
+  ],
+};
+
+// Terms array — sorted alphabetically by letter groups
+const terms = [
+  // A
+  { term: 'AI Citation', letter: 'A', definition: 'The act of an AI-powered search system referencing, mentioning, or linking to a specific brand, website, or piece of content within a generated response. AI citations are the core metric of GEO success — they represent the AI equivalent of appearing on page one of traditional search.', related: ['GEO', 'AI Search', 'AI Visibility'] },
+  { term: 'AI Overviews', letter: 'A', definition: "Google's AI-generated summaries that appear above organic search results. AI Overviews synthesize information from multiple sources and cite the brands they reference. Studies show AI Overviews reduce organic click-through rates by 40–60% for queries where they appear, making citation within the AI Overview more valuable than ranking below it.", related: ['GEO', 'Zero-Click Search', 'Structured Data'] },
+  { term: 'AI Search', letter: 'A', definition: 'Search experiences powered by large language models that generate synthesized answers to queries rather than returning lists of links. AI search tools include ChatGPT, Perplexity, Google Gemini, Microsoft Copilot, and others. As of 2025, AI search processes over 1 billion queries per month globally.', related: ['GEO', 'AI Citation', 'LLM'] },
+  { term: 'AI Visibility', letter: 'A', definition: "A brand's measurable presence in AI-generated responses across major AI search platforms. AI visibility is typically measured via systematic query testing: running target queries in ChatGPT, Perplexity, and Gemini and tracking how often and how accurately the brand appears. Distinct from web traffic or SEO rankings.", related: ['GEO', 'AI Citation', 'Brand Presence'] },
+  // B
+  { term: 'Brand Architecture (AI)', letter: 'B', definition: "The system of consistent signals — descriptions, entity relationships, schema markup, and cross-platform mentions — that collectively determine how AI systems understand and represent a brand. In the AI era, brand architecture is not a visual identity system; it is an information architecture system. Brands with coherent AI-era brand architecture receive consistent, accurate descriptions from AI systems; brands without it are described inconsistently or ignored.", related: ['Entity Clarity', 'Entity Graph', 'GEO'] },
+  { term: 'BreadcrumbList Schema', letter: 'B', definition: 'A JSON-LD schema type that communicates the hierarchical position of a page within a website to search engines and AI systems. BreadcrumbList schema helps AI systems understand site structure and content relationships, improving the probability that the correct page is cited for a given query.', related: ['JSON-LD', 'Structured Data', 'Schema Markup'] },
+  // C
+  { term: 'Citation Platform Divergence', letter: 'C', definition: 'The phenomenon in which a brand is cited in one AI search platform but not in others, due to the fundamentally different retrieval mechanisms each platform uses. ChatGPT relies primarily on training data and entity recognition; Perplexity relies on real-time web retrieval; Gemini integrates Google\'s Knowledge Graph. Optimizing for one platform does not guarantee visibility on the others.', related: ['ChatGPT', 'Perplexity', 'Gemini', 'GEO'] },
+  { term: 'Content Architecture', letter: 'C', definition: "The structural organization of content across a website, including how information is categorized, how pages relate to each other, what questions each page answers, and how content is formatted. For AI search, content architecture that matches how LLMs retrieve information — direct answers first, structured headers, FAQ sections, TL;DR summaries — dramatically increases citation probability.", related: ['Direct Answer Architecture', 'GEO', 'Entity Graph'] },
+  // D
+  { term: 'Direct Answer Architecture', letter: 'D', definition: 'A content structuring approach in which pages lead with the direct answer to the question they address, before providing context, detail, or caveats. AI systems reward direct answer architecture because they are trained to retrieve and synthesize answers — not to navigate long preambles. The leading sentence of any major section should be able to stand alone as a complete answer.', related: ['GEO', 'Content Architecture', 'AI Citation'] },
+  // E
+  { term: 'E-E-A-T', letter: 'E', definition: "Google's quality evaluation framework: Experience, Expertise, Authoritativeness, and Trustworthiness. AI systems have adopted similar criteria for determining which sources to cite. Brands with strong E-E-A-T signals — demonstrated expertise, author credentials, authoritative backlinks, consistent accurate information — receive substantially higher AI citation rates than brands lacking these signals.", related: ['GEO', 'AI Citation', 'Entity Clarity'] },
+  { term: 'Entity', letter: 'E', definition: "A distinct, real-world thing that an AI or search system can identify and reason about — a brand, person, product, place, or concept. In AI search, your brand is an entity. The clarity with which AI systems can identify your entity, describe it accurately, and distinguish it from similar entities determines your AI visibility. Entity management is a core component of GEO strategy.", related: ['Entity Clarity', 'Entity Graph', 'Entity Disambiguation'] },
+  { term: 'Entity Clarity', letter: 'E', definition: "The degree to which an AI system can unambiguously identify what a brand is, what it does, who it serves, and how it differs from competitors. Brands with high entity clarity receive consistent, accurate descriptions from AI systems. Brands with low entity clarity receive inconsistent descriptions or are omitted from responses. Entity clarity is built through consistent brand descriptions across all platforms, comprehensive schema markup, and authoritative third-party mentions.", related: ['Entity', 'Entity Graph', 'GEO'] },
+  { term: 'Entity Disambiguation', letter: 'E', definition: 'The process of resolving ambiguity about which specific entity a brand or concept refers to, particularly when similar entities share names or descriptions. For AI search, entity disambiguation is achieved primarily through sameAs schema properties that link a brand\'s web presence to authoritative external identifiers (Wikidata, Wikipedia, Google Business Profile, LinkedIn). Without disambiguation, AI systems may confuse your brand with similarly named entities.', related: ['sameAs', 'Entity', 'JSON-LD'] },
+  { term: 'Entity Graph', letter: 'E', definition: "A network of relationships between entities — brands, people, products, concepts — built through structured internal links, schema markup, and consistent cross-referencing. An entity graph helps AI systems understand not just what your brand is, but how it relates to the broader information landscape: what problems it solves, what industry it serves, who its customers are, what differentiates it. A strong entity graph dramatically improves AI citation probability.", related: ['Entity', 'Entity Clarity', 'Knowledge Graph'] },
+  // F
+  { term: 'FAQPage Schema', letter: 'F', definition: "A JSON-LD schema type that marks up question-and-answer content with machine-readable structure. FAQPage schema is among the highest-ROI structured data implementations for AI visibility — AI systems are trained to retrieve direct answers to questions, and FAQPage schema signals exactly where those answers live. Every major page on a GEO-optimized site should include a FAQPage schema block.", related: ['Schema Markup', 'JSON-LD', 'GEO'] },
+  // G
+  { term: 'GEO (Generative Engine Optimization)', letter: 'G', definition: "The discipline of optimizing digital content and brand presence to appear prominently in AI-generated responses from systems like ChatGPT, Perplexity, Gemini, and Claude. GEO is the natural evolution of SEO for an AI-first world. Where SEO optimizes for crawlers that rank documents, GEO optimizes for large language models that synthesize answers. The core mechanisms of GEO include entity clarity, structured data, direct answer architecture, authoritative sourcing, and consistent cross-platform brand signals.", related: ['AI Citation', 'SEO', 'Entity Clarity', 'Structured Data'] },
+  // J
+  { term: 'JSON-LD', letter: 'J', definition: "JavaScript Object Notation for Linked Data — a lightweight format for implementing structured data on web pages. JSON-LD is the recommended format for Schema.org markup and is the primary mechanism by which brands communicate machine-readable entity information to search engines and AI systems. Unlike microdata, JSON-LD is injected as a script block and does not require modifying HTML markup.", related: ['Schema Markup', 'Structured Data', 'Entity Disambiguation'] },
+  // K
+  { term: 'Knowledge Graph', letter: 'K', definition: "A structured database of entities and their relationships used by search engines and AI systems to understand and reason about the world. Google's Knowledge Graph contains billions of facts about entities — brands, people, places, concepts. When your brand appears in Google's Knowledge Graph with accurate, complete information, AI systems that integrate with Google's infrastructure (including Gemini) gain a high-confidence reference point for your entity.", related: ['Entity', 'Entity Graph', 'sameAs'] },
+  // L
+  { term: 'LLM (Large Language Model)', letter: 'L', definition: 'A type of AI system trained on large volumes of text data, capable of generating, summarizing, translating, and answering questions in natural language. ChatGPT, Claude, Gemini, and Llama are all LLMs. In the context of GEO, LLMs are the systems that generate the AI-powered search responses brands need to appear in. Understanding how LLMs retrieve and use information is the foundation of GEO strategy.', related: ['AI Search', 'GEO', 'RAG'] },
+  // O
+  { term: 'Organization Schema', letter: 'O', definition: "A JSON-LD schema type that communicates structured information about a business entity: its name, description, address, phone, email, founding date, service area, social profiles, and sameAs links. Organization schema is the single most important schema type for AI brand visibility — it is the machine-readable identity document that AI systems use to identify and accurately describe your brand. Every website should implement a comprehensive Organization schema.", related: ['JSON-LD', 'Schema Markup', 'sameAs'] },
+  // P
+  { term: 'Perplexity', letter: 'P', definition: "An AI-powered search engine that retrieves information from the live web in real time and synthesizes cited answers to user queries. Unlike ChatGPT (which relies primarily on training data), Perplexity actively crawls and retrieves current web content, making it more responsive to recent content updates. Perplexity had approximately 30 million monthly active users as of early 2025 and processes over 50 million weekly queries. Optimization for Perplexity emphasizes fresh, well-structured, recently indexed content.", related: ['AI Search', 'ChatGPT', 'Gemini'] },
+  // R
+  { term: 'RAG (Retrieval-Augmented Generation)', letter: 'R', definition: "An AI architecture that combines a language model's trained knowledge with real-time information retrieval from external sources. Perplexity and the web-search modes of ChatGPT and Claude use RAG to incorporate current information into generated responses. For GEO, RAG means that content which is well-structured, recently indexed, and easily parseable has a higher probability of being retrieved and incorporated into AI responses — even for systems that were not trained on your content.", related: ['LLM', 'AI Search', 'GEO'] },
+  // S
+  { term: 'sameAs', letter: 'S', definition: "A Schema.org property that links a web entity to its representations on other authoritative platforms — Wikidata, Wikipedia, LinkedIn, Crunchbase, Google Business Profile, and similar directories. The sameAs property is the single highest-leverage schema optimization for AI visibility that most brands have not implemented. By linking your Organization schema to authoritative external identifiers, you give AI systems a high-confidence reference point for entity disambiguation.", related: ['Organization Schema', 'JSON-LD', 'Entity Disambiguation'] },
+  { term: 'Schema Markup', letter: 'S', definition: "Structured data implemented on web pages using vocabulary from Schema.org, typically in JSON-LD format. Schema markup provides machine-readable context that AI systems and search engines use to understand what a page is about, what entity it represents, and what specific information it contains. For GEO, comprehensive schema coverage — Organization, Article, FAQPage, HowTo, BreadcrumbList — is foundational, not optional.", related: ['JSON-LD', 'Structured Data', 'GEO'] },
+  { term: 'Structured Data', letter: 'S', definition: "Any content formatted according to a predefined schema that makes it machine-readable and reliably parseable by AI systems. In the context of GEO, structured data refers specifically to JSON-LD Schema.org markup, but the principle extends to well-formatted HTML with clear heading hierarchies, FAQ sections, and definition lists — all of which AI systems can parse more reliably than unstructured prose.", related: ['JSON-LD', 'Schema Markup', 'GEO'] },
+  // T
+  { term: 'TL;DR (Too Long; Didn\'t Read)', letter: 'T', definition: "A summary section at the top of an article or page that distills the key points into 3–5 bullet points. TL;DR sections are a high-value GEO optimization: AI systems often retrieve the most concise, direct answer to a query, and a well-written TL;DR provides exactly that. Including a TL;DR on every long-form content page is one of the 12 elements that consistently drives AI citation rates.", related: ['Direct Answer Architecture', 'GEO', 'Content Architecture'] },
+  // Z
+  { term: 'Zero-Click Search', letter: 'Z', definition: "A search interaction in which the user receives an answer directly in the search interface — from an AI-generated overview, featured snippet, or knowledge panel — without clicking through to any website. Zero-click rates have increased dramatically with the adoption of AI search: studies show 60–80% of AI-assisted queries result in no click to an external source. For brands, this makes appearing in the AI answer itself (via citation) more valuable than ranking in traditional organic results.", related: ['AI Overviews', 'AI Citation', 'GEO'] },
+];
+
+// Group terms by first letter
+const letterGroups = [...new Set(terms.map(t => t.letter))].sort();
+---
+
+<BaseLayout
+  title="AI Search & GEO Glossary | Leverage AI"
+  description="Authoritative definitions of every key term in AI search optimization, generative engine optimization (GEO), and AI-first digital strategy. The definitive reference for brands navigating the AI search landscape."
+  keywords="GEO glossary, AI search terms, generative engine optimization definitions, AI citation definition, entity clarity definition, schema markup glossary"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(definedTermSet)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <div style="padding-top: 4.5rem;">
+
+    <!-- Hero -->
+    <section style="padding: 5rem 0 3rem; background: linear-gradient(180deg, hsl(220 40% 5%) 0%, var(--page-bg) 100%); border-bottom: 1px solid hsl(38 80% 55% / 0.15);">
+      <div class="container-custom" style="max-width: 800px;">
+        <p style="font-family: var(--font-mono, monospace); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+          <span style="display: block; width: 2rem; height: 1px; background: hsl(38 80% 55%);"></span>
+          Reference
+        </p>
+        <h1 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1.5rem; line-height: 1.1;">
+          AI Search &amp; GEO Glossary
+        </h1>
+        <p style="color: hsl(210 15% 60%); font-size: 1.05rem; line-height: 1.75; margin-bottom: 2rem; max-width: 600px;">
+          Every term you'll encounter in AI search optimization, generative engine optimization (GEO), and AI-first digital strategy — defined with precision. Bookmark this page. These definitions matter.
+        </p>
+        <!-- Letter navigation -->
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" aria-label="Jump to letter">
+          {letterGroups.map(letter => (
+            <a
+              href={`#letter-${letter}`}
+              style="display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; background: hsl(220 40% 10%); border: 1px solid hsl(220 40% 18%); border-radius: 4px; font-family: var(--font-mono, monospace); font-size: 0.8rem; font-weight: 700; color: hsl(210 15% 60%); text-decoration: none; transition: all 0.2s;"
+              class="letter-nav"
+            >{letter}</a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Glossary Content -->
+    <section style="padding: 5rem 0; background: var(--page-bg);">
+      <div class="container-custom" style="max-width: 800px;">
+
+        {letterGroups.map(letter => {
+          const groupTerms = terms.filter(t => t.letter === letter);
+          return (
+            <div id={`letter-${letter}`} style="margin-bottom: 4rem; scroll-margin-top: 6rem;">
+              <h2 style="font-family: var(--font-heading, serif); font-size: 3rem; font-weight: 900; color: hsl(38 80% 55% / 0.3); margin: 0 0 1.5rem; line-height: 1; border-bottom: 1px solid hsl(220 40% 14%); padding-bottom: 1rem;">{letter}</h2>
+              <dl style="display: flex; flex-direction: column; gap: 2rem;">
+                {groupTerms.map(item => (
+                  <div id={`term-${item.term.toLowerCase().replace(/[\s()]/g, '-').replace(/[^a-z0-9-]/g, '')}`} style="scroll-margin-top: 6rem;">
+                    <dt style="font-family: var(--font-heading, serif); font-size: 1.3rem; font-weight: 700; color: hsl(45 30% 90%); margin-bottom: 0.75rem;">{item.term}</dt>
+                    <dd style="margin: 0;">
+                      <p style="color: hsl(210 15% 65%); line-height: 1.8; font-size: 0.95rem; margin-bottom: 0.75rem;">{item.definition}</p>
+                      {item.related.length > 0 && (
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
+                          <span style="font-family: var(--font-mono, monospace); font-size: 0.65rem; color: hsl(210 15% 40%); letter-spacing: 0.1em; text-transform: uppercase;">See also:</span>
+                          {item.related.map(rel => (
+                            <a
+                              href={`#term-${rel.toLowerCase().replace(/[\s()]/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                              style="font-size: 0.75rem; padding: 0.2rem 0.6rem; background: hsl(220 40% 10%); border: 1px solid hsl(220 40% 18%); border-radius: 3px; color: hsl(38 80% 55%); text-decoration: none; font-family: var(--font-mono, monospace);"
+                            >{rel}</a>
+                          ))}
+                        </div>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          );
+        })}
+
+        <!-- CTA -->
+        <div style="padding: 2.5rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 8px; text-align: center; margin-top: 2rem;">
+          <p style="font-family: var(--font-mono, monospace); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 0.75rem;">Ready to Put This Into Practice?</p>
+          <h2 style="font-family: var(--font-heading, serif); font-size: 1.5rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1rem;">
+            Start Your GEO Engagement
+          </h2>
+          <p style="color: hsl(210 15% 55%); font-size: 0.9rem; margin-bottom: 1.5rem;">
+            Understanding the terms is step one. Implementing the strategy is step two. We handle step two.
+          </p>
+          <a href="/contact" style="display: inline-block; background: hsl(38 80% 55%); color: hsl(220 40% 8%); padding: 0.75rem 2rem; border-radius: 4px; font-weight: 700; font-size: 0.85rem; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;">Get Started</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .letter-nav:hover {
+      background: hsl(38 80% 55% / 0.15) !important;
+      border-color: hsl(38 80% 55% / 0.4) !important;
+      color: hsl(38 80% 55%) !important;
+    }
+  </style>
+</BaseLayout>

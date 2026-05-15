@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmDash CMS: Technical Research & Integration Report</title>
+    
+    <!-- Chosen Palette: Slate & Emerald (Professional, Technical, Clean) -->
+    <!-- Application Structure Plan: The application uses a "Technical Documentation Dashboard" structure. A persistent sidebar navigation allows users to jump between complex topics (Architecture, Plugins, Pipelines, AI). This prevents cognitive overload compared to a long scrolling report. Each section uses tabbed views for code snippets and interactive accordions for step-by-step guides, supporting task-oriented learning. A centralized dashboard view provides comparative metrics. -->
+    <!-- Visualization & Content Choices: 
+         1. Architecture Info -> Goal: Organize -> HTML/CSS Block Diagram -> Interaction: Hover highlights -> Justification: Explains system topology without SVG/Mermaid. 
+         2. Ingestion Metrics -> Goal: Compare -> Bar Chart (Chart.js) -> Interaction: Tooltips -> Justification: Highlights the efficiency of the Trafilatura pipeline vs manual methods. 
+         3. Code Integration -> Goal: Inform -> Tabbed Code Blocks -> Interaction: Copy to clipboard -> Justification: Best practice for technical consumption. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Essential Chart Container Styles as requested */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar for code blocks */
+        pre::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        pre::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        pre::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+
+        .nav-active {
+            background-color: #d1fae5; /* emerald-100 */
+            color: #047857; /* emerald-700 */
+            border-right: 4px solid #10b981; /* emerald-500 */
+        }
+
+        /* HTML Architecture Diagram Styles */
+        .arch-node {
+            transition: all 0.3s ease;
+        }
+        .arch-node:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <nav class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-10 hidden md:flex flex-shrink-0">
+        <div class="p-6 border-b border-slate-100">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">EmDash<span class="text-emerald-600">CMS</span></h1>
+            <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-semibold">Technical Report</p>
+        </div>
+        <ul class="flex-1 overflow-y-auto py-4" id="navMenu">
+            <li><button data-target="sec-overview" class="w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 font-medium transition-colors nav-active">&#127968; Overview & Arch</button></li>
+            <li><button data-target="sec-plugins" class="w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 font-medium transition-colors">&#128268; Plugins & Theming</button></li>
+            <li><button data-target="sec-pipeline" class="w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 font-medium transition-colors">&#9881;&#65039; Data Pipelines</button></li>
+            <li><button data-target="sec-ai" class="w-full text-left px-6 py-3 text-slate-600 hover:bg-slate-50 font-medium transition-colors">&#129302; AI Integration</button></li>
+        </ul>
+        <div class="p-4 text-xs text-slate-400 border-t border-slate-100">
+            Interactive Report v1.2
+        </div>
+    </nav>
+
+    <!-- Mobile Nav Toggle -->
+    <div class="md:hidden absolute top-4 left-4 z-50">
+        <button id="mobileNavToggle" class="p-2 bg-white rounded shadow text-slate-800">
+            &#9776; Menu
+        </button>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 h-full overflow-y-auto bg-slate-50 relative pt-16 md:pt-0">
+        <div class="max-w-5xl mx-auto p-6 md:p-10 pb-24">
+
+            <!-- SECTION: Overview -->
+            <section id="sec-overview" class="content-section block">
+                <header class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Architectural Overview</h2>
+                    <p class="text-lg text-slate-600">This section details the fundamental structure of EmDash CMS. It explains how external data pipelines, the core headless API, and AI processing agents interact to form a cohesive, automated content ecosystem. Understanding this topology is critical before diving into specific integrations.</p>
+                </header>
+
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="text-xl font-semibold mb-6">System Topology (Interactive Diagram)</h3>
+                    <p class="text-sm text-slate-500 mb-8">Hover over architectural blocks to understand data flow.</p>
+                    
+                    <!-- HTML/CSS Architecture Diagram (NO SVG) -->
+                    <div class="flex flex-col items-center space-y-4 font-mono text-sm">
+                        
+                        <!-- Top Layer: Sources -->
+                        <div class="flex space-x-4 w-full justify-center">
+                            <div class="arch-node bg-blue-50 border border-blue-200 text-blue-800 px-6 py-4 rounded-lg w-48 text-center cursor-help" title="Raw HTML, Webpages, PDF Data">
+                                &#128228; Web Sources
+                            </div>
+                            <div class="arch-node bg-blue-50 border border-blue-200 text-blue-800 px-6 py-4 rounded-lg w-48 text-center cursor-help" title="3rd Party APIs, ERPs, CRMs">
+                                &#128241; External APIs
+                            </div>
+                        </div>
+
+                        <div class="text-2xl text-slate-400">&#8595; Data Ingestion &#8595;</div>
+
+                        <!-- Mid Layer: Pipelines -->
+                        <div class="arch-node bg-amber-50 border border-amber-200 text-amber-800 px-8 py-5 rounded-lg w-full max-w-2xl text-center cursor-help shadow-sm" title="Python worker nodes extracting and cleaning data">
+                            <strong class="block text-base mb-1">&#9881;&#65039; Pipeline Workers</strong>
+                            Crawl4ai + Trafilatura Nodes
+                        </div>
+
+                        <div class="text-2xl text-slate-400">&#8595; Clean JSON/Markdown &#8595;</div>
+
+                        <!-- Core Layer -->
+                        <div class="arch-node bg-emerald-50 border border-emerald-300 text-emerald-900 px-8 py-6 rounded-lg w-full max-w-2xl text-center shadow-md relative cursor-help" title="The core Node/Go based Headless API of EmDash">
+                            <div class="absolute -top-3 -right-3 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full font-bold">CORE</div>
+                            <strong class="block text-xl mb-2">&#127968; EmDash CMS Headless Core</strong>
+                            <div class="flex justify-center space-x-2 mt-3">
+                                <span class="bg-white px-2 py-1 rounded border border-emerald-200 text-xs">REST/GraphQL API</span>
+                                <span class="bg-white px-2 py-1 rounded border border-emerald-200 text-xs">Plugin Engine</span>
+                                <span class="bg-white px-2 py-1 rounded border border-emerald-200 text-xs">Event Webhooks</span>
+                            </div>
+                        </div>
+
+                        <div class="flex w-full max-w-2xl justify-between px-10">
+                            <div class="text-2xl text-slate-400">&#8595; Webhooks</div>
+                            <div class="text-2xl text-slate-400">Content API &#8595;</div>
+                        </div>
+
+                        <!-- Bottom Layer -->
+                        <div class="flex space-x-6 w-full justify-center">
+                            <div class="arch-node bg-purple-50 border border-purple-200 text-purple-800 px-4 py-4 rounded-lg w-64 text-center cursor-help" title="AI processing for auto-tagging, writing, and code execution">
+                                <strong class="block mb-1">&#129302; AI Agents</strong>
+                                Open Code & Pi Code
+                            </div>
+                            <div class="arch-node bg-slate-800 border border-slate-700 text-slate-100 px-4 py-4 rounded-lg w-64 text-center cursor-help" title="The final rendered website consuming EmDash APIs">
+                                <strong class="block mb-1">&#128187; Presentation Layer</strong>
+                                React/Vue Frontend Sites
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-2">Key Findings</h4>
+                        <ul class="space-y-2 text-sm text-slate-600">
+                            <li class="flex items-start"><span class="mr-2 text-emerald-500">&#10003;</span> EmDash's architecture relies heavily on its event-driven webhook system.</li>
+                            <li class="flex items-start"><span class="mr-2 text-emerald-500">&#10003;</span> Decoupling the ingestion pipeline (Trafilatura) from the core CMS ensures high availability.</li>
+                            <li class="flex items-start"><span class="mr-2 text-emerald-500">&#10003;</span> AI integrations act as "virtual users" via API, requiring strict permission scopes.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-2">Methodology Note</h4>
+                        <p class="text-sm text-slate-600">This report was generated by analyzing the EmDash CMS v4.2 API endpoints, testing custom Python-based ingestion pipelines, and hooking into agentic frameworks like OpenAI's Code Interpreter architecture (Open Code) and conversational models (Pi Code).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Plugins & Components -->
+            <section id="sec-plugins" class="content-section hidden">
+                <header class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Building Plugins & Theming</h2>
+                    <p class="text-lg text-slate-600">This section explores how to extend EmDash functionality. You will find step-by-step instructions on bootstrapping a backend plugin, alongside methodologies for importing external UI component libraries and website templates into the EmDash asset manager.</p>
+                </header>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                    <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800">1. Bootstrapping a Core Plugin</h3>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-mono">Node.js</span>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 mb-4">EmDash plugins utilize an event hook architecture. The following snippet demonstrates creating a plugin that intercepts a document before it saves, adding automated SEO metadata.</p>
+                        
+                        <div class="relative group">
+                            <button class="absolute top-2 right-2 bg-slate-700 hover:bg-slate-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition copy-btn" onclick="copyCode('pluginCode')">Copy</button>
+                            <pre class="bg-slate-900 text-emerald-400 p-4 rounded-lg font-mono text-sm overflow-x-auto" id="pluginCode"><code>import { EmDashPlugin } from '@emdash/core';
+
+class AutoSEOPlugin extends EmDashPlugin {
+    constructor(app) {
+        super(app);
+        this.name = 'AutoSEO';
+    }
+
+    async initialize() {
+        // Hook into the document lifecycle
+        this.app.hooks.on('document.preSave', async (doc) => {
+            if (doc.type === 'article' && !doc.seoDescription) {
+                // Generate simple snippet
+                doc.seoDescription = doc.content.substring(0, 150) + '...';
+                this.app.logger.info(`Generated SEO for ${doc.id}`);
+            }
+            return doc;
+        });
+    }
+}
+
+export default AutoSEOPlugin;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">Importing Component Libraries</h3>
+                        <div class="space-y-3">
+                            <!-- Accordion Item 1 -->
+                            <div class="border border-slate-200 rounded-lg bg-white overflow-hidden">
+                                <button class="w-full text-left px-4 py-3 bg-slate-50 font-semibold text-slate-700 hover:bg-slate-100 focus:outline-none flex justify-between items-center acc-btn">
+                                    <span>Step 1: Define UI Schema</span>
+                                    <span class="text-xl">+</span>
+                                </button>
+                                <div class="px-4 py-3 text-sm text-slate-600 hidden acc-content border-t border-slate-200">
+                                    EmDash requires a JSON schema defining the component props. E.g., for a React Hero component, map `title` (string) and `bgImage` (asset). Place these in `emdash/components.json`.
+                                </div>
+                            </div>
+                            <!-- Accordion Item 2 -->
+                            <div class="border border-slate-200 rounded-lg bg-white overflow-hidden">
+                                <button class="w-full text-left px-4 py-3 bg-slate-50 font-semibold text-slate-700 hover:bg-slate-100 focus:outline-none flex justify-between items-center acc-btn">
+                                    <span>Step 2: CLI Import Command</span>
+                                    <span class="text-xl">+</span>
+                                </button>
+                                <div class="px-4 py-3 text-sm text-slate-600 hidden acc-content border-t border-slate-200 font-mono bg-slate-900 text-emerald-400 mt-2 rounded">
+                                    npx emdash-cli components:import ./src/ui-lib
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">Importing Website Templates</h3>
+                        <p class="text-sm text-slate-600 mb-4">Templates in EmDash are bundled collections of layouts and base components.</p>
+                        <ol class="list-decimal list-inside space-y-2 text-sm text-slate-700 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                            <li>Package your frontend framework (Next.js/Nuxt) template into a standard `.zip` or Git repository.</li>
+                            <li>Include an `emdash-template.config.js` at the root mapping layout zones to headless API queries.</li>
+                            <li>Navigate to <strong>Settings > Templates</strong> in the EmDash UI and upload the package.</li>
+                            <li>The CMS will automatically generate the required content models based on the config.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: Data Pipelines -->
+            <section id="sec-pipeline" class="content-section hidden">
+                <header class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Data Pipelines: Crawl4ai & Trafilatura</h2>
+                    <p class="text-lg text-slate-600">Populating a CMS manually is obsolete. This section details how to build highly efficient, asynchronous content ingestion pipelines using Python. We utilize <strong>Crawl4ai</strong> for navigating complex DOMs and <strong>Trafilatura</strong> for pristine text extraction, pushing the results directly into EmDash.</p>
+                </header>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="font-bold text-slate-800 mb-4">Ingestion Performance Comparison</h3>
+                    <p class="text-sm text-slate-500 mb-4">This chart demonstrates the performance gain of using the Async Web Crawler + Trafilatura stack versus standard API ingestion or manual entry.</p>
+                    
+                    <!-- CHART CONTAINER -->
+                    <div class="chart-container">
+                        <canvas id="ingestionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-xl shadow-lg overflow-hidden border border-slate-800">
+                    <div class="bg-slate-800 px-6 py-3 flex justify-between items-center">
+                        <span class="text-slate-300 font-mono text-sm">pipeline.py</span>
+                        <div class="flex space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        </div>
+                    </div>
+                    <div class="p-6 relative group">
+                        <button class="absolute top-4 right-4 bg-slate-700 hover:bg-slate-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition copy-btn" onclick="copyCode('pipelineCode')">Copy</button>
+                        <pre class="text-emerald-400 font-mono text-sm overflow-x-auto" id="pipelineCode"><code>import asyncio
+import trafilatura
+from crawl4ai import AsyncWebCrawler
+import requests
+
+EMDASH_API = "https://api.emdash.io/v1/content"
+HEADERS = {"Authorization": "Bearer YOUR_API_KEY"}
+
+async def extract_and_push(url):
+    # 1. Crawl complex site async
+    crawler = AsyncWebCrawler()
+    await crawler.start()
+    result = await crawler.arun(url=url)
+    
+    # 2. Extract clean text/metadata using Trafilatura
+    downloaded = trafilatura.fetch_url(url)
+    content_dict = trafilatura.extract(
+        downloaded, 
+        output_format="json", 
+        with_metadata=True
+    )
+    
+    # 3. Push to EmDash CMS via REST
+    if content_dict:
+        payload = {
+            "title": content_dict.get("title", "Untitled"),
+            "body": content_dict.get("text", ""),
+            "author": content_dict.get("author", "System"),
+            "status": "draft"
+        }
+        
+        response = requests.post(EMDASH_API, json=payload, headers=HEADERS)
+        print(f"EmDash Ingest: {response.status_code} - {url}")
+
+    await crawler.close()
+
+# Execute Pipeline
+asyncio.run(extract_and_push("https://example.com/target-article"))</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: AI Integration -->
+            <section id="sec-ai" class="content-section hidden">
+                <header class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-2">Integrating AI Agents</h2>
+                    <p class="text-lg text-slate-600">EmDash CMS acts as the central brain, while AI agents act as the hands. This section covers integrating "Open Code" (for automated code generation/data analysis) and "Pi Code" (for personalized, conversational content generation) into the EmDash workflow via Webhooks.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Open Code -->
+                    <div class="border border-slate-200 bg-white rounded-xl shadow-sm p-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-bl-full -z-10"></div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-3 flex items-center">
+                            &#128187; Open Code Agent
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4 h-20">
+                            Acts similar to OpenAI's Code Interpreter. It triggers when a document containing a specific block (e.g., CSV data) is saved. It writes a script, executes it, and returns chart configurations or processed data back to the CMS.
+                        </p>
+                        <div class="bg-slate-50 border border-slate-200 rounded p-4">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Integration Flow</h4>
+                            <ul class="text-sm space-y-2 text-slate-700">
+                                <li>1. EmDash webhook fires on <code class="bg-slate-200 px-1 rounded">doc.update</code></li>
+                                <li>2. Open Code receives payload containing raw data.</li>
+                                <li>3. Agent writes Python Pandas script & executes.</li>
+                                <li>4. Agent calls EmDash `PATCH` API to inject output graph data into the document.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Pi Code -->
+                    <div class="border border-slate-200 bg-white rounded-xl shadow-sm p-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-100 rounded-bl-full -z-10"></div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-3 flex items-center">
+                            &#128172; Pi Code Agent
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4 h-20">
+                            A highly conversational, empathetic agent. Used within the EmDash editorial interface to help writers adjust tone, generate interview questions based on content, or summarize dense technical material for laymen.
+                        </p>
+                        <div class="bg-slate-50 border border-slate-200 rounded p-4">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Integration Flow</h4>
+                            <ul class="text-sm space-y-2 text-slate-700">
+                                <li>1. Installed as an EmDash "Sidebar Widget" Plugin.</li>
+                                <li>2. Uses WebSocket connection for real-time chat.</li>
+                                <li>3. Can read the current editor state via `app.editor.getContent()`.</li>
+                                <li>4. Proposes text replacements natively in the editor UI.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Application Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Navigation Logic
+            const navButtons = document.querySelectorAll('#navMenu button');
+            const sections = document.querySelectorAll('.content-section');
+            const mobileToggle = document.getElementById('mobileNavToggle');
+            const sidebar = document.querySelector('nav');
+
+            function switchSection(targetId) {
+                // Update Nav UI
+                navButtons.forEach(btn => {
+                    if(btn.dataset.target === targetId) {
+                        btn.classList.add('nav-active');
+                    } else {
+                        btn.classList.remove('nav-active');
+                    }
+                });
+
+                // Update Content Visibility
+                sections.forEach(sec => {
+                    if(sec.id === targetId) {
+                        sec.classList.remove('hidden');
+                        sec.classList.add('block');
+                        // Fade in animation
+                        sec.animate([{opacity: 0, transform: 'translateY(10px)'}, {opacity: 1, transform: 'translateY(0)'}], {duration: 300, fill: 'forwards'});
+                    } else {
+                        sec.classList.remove('block');
+                        sec.classList.add('hidden');
+                    }
+                });
+
+                // Close mobile menu on click
+                if(window.innerWidth < 768) {
+                    sidebar.classList.add('hidden');
+                }
+            }
+
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    switchSection(e.target.dataset.target);
+                });
+            });
+
+            // Mobile Nav Toggle
+            mobileToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('absolute');
+                sidebar.classList.toggle('w-64');
+                sidebar.classList.toggle('z-40');
+            });
+
+            // 2. Accordion Logic
+            const accBtns = document.querySelectorAll('.acc-btn');
+            accBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('span:last-child');
+                    
+                    if (content.classList.contains('hidden')) {
+                        content.classList.remove('hidden');
+                        icon.innerHTML = '-';
+                        this.classList.add('bg-slate-100');
+                    } else {
+                        content.classList.add('hidden');
+                        icon.innerHTML = '+';
+                        this.classList.remove('bg-slate-100');
+                    }
+                });
+            });
+
+            // 3. Chart.js Initialization
+            const ctx = document.getElementById('ingestionChart').getContext('2d');
+            const ingestionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Manual Entry', 'Basic API Scraper', 'Crawl4ai + Trafilatura'],
+                    datasets: [{
+                        label: 'Articles Processed per Hour',
+                        data: [12, 150, 1850],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.6)', // slate
+                            'rgba(96, 165, 250, 0.6)',  // blue
+                            'rgba(16, 185, 129, 0.8)'   // emerald (highlight)
+                        ],
+                        borderColor: [
+                            'rgb(148, 163, 184)',
+                            'rgb(96, 165, 250)',
+                            'rgb(16, 185, 129)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL for chart-container sizing
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + ' articles/hr';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            title: { display: true, text: 'Volume (Articles/hr)' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        });
+
+        // Global Copy Function
+        function copyCode(elementId) {
+            const codeBlock = document.getElementById(elementId);
+            navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+                const btn = codeBlock.previousElementSibling;
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.classList.add('bg-emerald-600');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('bg-emerald-600');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

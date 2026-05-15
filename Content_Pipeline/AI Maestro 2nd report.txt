@@ -1,0 +1,1597 @@
+AI Maestro 2nd report
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Maestro — Deep Research Report</title>
+    <style>
+        :root {
+            --dark: #1A1A2E;
+            --mid: #16213E;
+            --accent: #0F3460;
+            --bright: #E94560;
+            --light: #F0F4FF;
+            --muted: #555577;
+            --white: #FFFFFF;
+            --border: #CCDDEE;
+            --shadow: rgba(26, 26, 46, 0.1);
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Animation */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.4;
+            background: 
+                radial-gradient(at 40% 20%, hsla(222,70%,76%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,75%,68%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(340,60%,76%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, hsla(222,70%,76%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(263,60%,75%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, hsla(222,70%,76%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 0%, hsla(263,60%,75%,1) 0px, transparent 50%);
+            filter: blur(60px);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            width: 30px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: var(--dark);
+            border-radius: 2px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: all 0.25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 10px; width: 70%; }
+        .hamburger span:nth-child(3) { top: 20px; }
+
+        .hamburger.active span:nth-child(1) {
+            top: 10px;
+            transform: rotate(135deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            top: 10px;
+            transform: rotate(-135deg);
+        }
+
+        /* Navigation Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-content {
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            padding-left: 1rem;
+            color: var(--bright);
+        }
+
+        .nav-item-number {
+            font-size: 0.875rem;
+            color: var(--bright);
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .nav-item-text {
+            font-size: 1.25rem;
+            color: white;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .nav-item-page {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 70px;
+            height: calc(100vh - 130px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pages-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-view {
+            min-width: 100%;
+            height: 100%;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .page-view.single-column {
+            grid-template-columns: 1fr;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px var(--shadow);
+            border: 1px solid rgba(255,255,255,0.5);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--bright));
+            border-radius: 16px 16px 0 0;
+        }
+
+        .content-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--mid);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .lead {
+            font-size: 1.125rem;
+            color: var(--muted);
+            font-weight: 400;
+            line-height: 1.8;
+        }
+
+        /* Special Elements */
+        .section-banner {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--mid) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(15, 52, 96, 0.3);
+        }
+
+        .callout {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe4e9 100%);
+            border-left: 4px solid var(--bright);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .callout-label {
+            color: var(--bright);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .callout p {
+            margin: 0;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        ul li::marker {
+            color: var(--bright);
+        }
+
+        ol li::marker {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #f4f6f9;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #2d3748;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        th {
+            background: var(--accent);
+            color: white;
+            padding: 0.875rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+        }
+
+        tr:nth-child(even) {
+            background: var(--light);
+        }
+
+        tr:hover {
+            background: rgba(233, 69, 96, 0.05);
+        }
+
+        /* Cover Page Special Styling */
+        .cover-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+        }
+
+        .cover-label {
+            color: var(--bright);
+            font-weight: 700;
+            letter-spacing: 4px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .cover-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .cover-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .cover-divider {
+            width: 100px;
+            height: 3px;
+            background: var(--bright);
+            margin: 2rem auto;
+            border-radius: 2px;
+        }
+
+        .cover-meta {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 2;
+        }
+
+        .cover-highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Pagination */
+        .pagination {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 2rem;
+            box-shadow: 0 -4px 30px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 52, 96, 0.3);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicators {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            background: var(--bright);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .page-info {
+            position: absolute;
+            right: 2rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* Scrollbar Styling */
+        .content-card::-webkit-scrollbar,
+        .page-view::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-card::-webkit-scrollbar-track,
+        .page-view::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content-card::-webkit-scrollbar-thumb,
+        .page-view::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .content-card::-webkit-scrollbar-thumb:hover,
+        .page-view::-webkit-scrollbar-thumb:hover {
+            background: var(--muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .page-view {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .content-card {
+                padding: 1.5rem;
+            }
+            
+            h1 { font-size: 1.75rem; }
+            .cover-title { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 640px) {
+            .header { padding: 0 1rem; }
+            .header-center { display: none; }
+            .page-info { display: none; }
+            .content-card { padding: 1.25rem; }
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.25rem; }
+            .cover-title { font-size: 2rem; }
+            .cover-subtitle { font-size: 1.25rem; }
+        }
+
+        /* Utility */
+        .spacer { height: 2rem; }
+        .text-center { text-align: center; }
+        .font-mono { font-family: 'Courier New', monospace; }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="bg-mesh"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="logo">AI Maestro</div>
+        <div class="header-center">Research Report</div>
+        <div style="width: 30px;"></div> <!-- Spacer for balance -->
+    </header>
+
+    <!-- Navigation Overlay -->
+    <nav class="nav-overlay" id="navOverlay" onclick="closeMenuOnClick(event)">
+        <div class="nav-content">
+            <div class="nav-item" onclick="goToPage(0)">
+                <span class="nav-item-number">00</span>
+                <span class="nav-item-text">Cover & Contents</span>
+                <span class="nav-item-page">Pg 1</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(1)">
+                <span class="nav-item-number">01</span>
+                <span class="nav-item-text">Executive Summary</span>
+                <span class="nav-item-page">Pg 2</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(1)">
+                <span class="nav-item-number">02</span>
+                <span class="nav-item-text">Project Philosophy</span>
+                <span class="nav-item-page">Pg 2</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(2)">
+                <span class="nav-item-number">03</span>
+                <span class="nav-item-text">Architecture Deep Dive</span>
+                <span class="nav-item-page">Pg 3</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(3)">
+                <span class="nav-item-number">04</span>
+                <span class="nav-item-text">Documentation Analysis</span>
+                <span class="nav-item-page">Pg 4</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(4)">
+                <span class="nav-item-number">05</span>
+                <span class="nav-item-text">Feature System Analysis</span>
+                <span class="nav-item-page">Pg 5</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(5)">
+                <span class="nav-item-number">06</span>
+                <span class="nav-item-text">Security Model</span>
+                <span class="nav-item-page">Pg 6</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(6)">
+                <span class="nav-item-number">07</span>
+                <span class="nav-item-text">Developer Roadmap I</span>
+                <span class="nav-item-page">Pg 7</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(7)">
+                <span class="nav-item-number">07</span>
+                <span class="nav-item-text">Developer Roadmap II</span>
+                <span class="nav-item-page">Pg 8</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(8)">
+                <span class="nav-item-number">08</span>
+                <span class="nav-item-text">Known Limitations</span>
+                <span class="nav-item-page">Pg 9</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(8)">
+                <span class="nav-item-number">09</span>
+                <span class="nav-item-text">Ecosystem</span>
+                <span class="nav-item-page">Pg 9</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(9)">
+                <span class="nav-item-number">10</span>
+                <span class="nav-item-text">Strategic Assessment</span>
+                <span class="nav-item-page">Pg 10</span>
+            </div>
+            <div class="nav-item" onclick="goToPage(10)">
+                <span class="nav-item-number">AP</span>
+                <span class="nav-item-text">Appendix & Reference</span>
+                <span class="nav-item-page">Pg 11</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="pages-wrapper" id="pagesWrapper">
+            
+            <!-- Page 1: Cover & TOC -->
+            <div class="page-view">
+                <div class="content-card cover-section">
+                    <div class="cover-label">Deep Research Report</div>
+                    <h1 class="cover-title">AI Maestro</h1>
+                    <div class="cover-subtitle">Open-Source AI Agent Orchestrator</div>
+                    <div class="cover-divider"></div>
+                    <div class="cover-meta">
+                        <div class="cover-highlight">23blocks-OS / ai-maestro</div>
+                        <div>github.com/23blocks-OS/ai-maestro</div>
+                        <div style="margin-top: 1rem;">
+                            Including: Developer Roadmap — Windows 11 Local Mesh<br>
+                            with Tailscale VPN + RustDesk Remote Desktop
+                        </div>
+                        <div style="margin-top: 1.5rem; font-size: 0.8rem;">
+                            March 2026 · Prepared for: Mike<br>
+                            MIT License
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="section-banner">Table of Contents</div>
+                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 1 — Executive Summary</span>
+                            <span style="color: var(--muted);">2</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 2 — Project Philosophy & Origin</span>
+                            <span style="color: var(--muted);">2</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 3 — Architecture Deep Dive</span>
+                            <span style="color: var(--muted);">3</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 4 — Documentation Directory Analysis</span>
+                            <span style="color: var(--muted);">4</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 5 — Feature System Analysis</span>
+                            <span style="color: var(--muted);">5</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 6 — Security Model</span>
+                            <span style="color: var(--muted);">6</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 7 — Developer Roadmap</span>
+                            <span style="color: var(--muted);">7-8</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 8 — Known Limitations</span>
+                            <span style="color: var(--muted);">9</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 9 — Ecosystem & Related Projects</span>
+                            <span style="color: var(--muted);">9</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+                            <span>Section 10 — Strategic Assessment</span>
+                            <span style="color: var(--muted);">10</span>
+                        </li>
+                        <li style="padding: 0.75rem 0; display: flex; justify-content: space-between;">
+                            <span>Appendix — Quick Reference</span>
+                            <span style="color: var(--muted);">11</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 2: Executive Summary & Philosophy -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 1 — Executive Summary</div>
+                    
+                    <p class="lead">AI Maestro is a free, open-source, MIT-licensed orchestration platform for AI coding agents, built by Juan Peláez and the 23blocks team in Boulder, Colorado. It solves a concrete problem: as developers scale from one to many AI agents (Claude Code, Aider, Cursor, Codex CLI, etc.) across multiple machines, session chaos, context amnesia, and the human-relay bottleneck become untenable.</p>
+                    
+                    <p>AI Maestro provides the unified control plane to eliminate all three.</p>
+
+                    <h3>Key Properties at a Glance</h3>
+                    <ul>
+                        <li><strong>Version:</strong> v0.25.12 (active development, frequent releases)</li>
+                        <li><strong>Stack:</strong> Next.js, xterm.js, CozoDB (embedded graph DB), ts-morph, tmux, Claude Code skills</li>
+                        <li><strong>Platform support:</strong> macOS 12+, Linux, Windows 10/11 via WSL2</li>
+                        <li><strong>License:</strong> MIT — free for any purpose including commercial</li>
+                        <li><strong>Stars / Forks (March 2026):</strong> 553 stars, 77 forks</li>
+                        <li><strong>Architecture:</strong> Peer-mesh — truly decentralized, no central server required</li>
+                    </ul>
+
+                    <div class="callout">
+                        <div class="callout-label">Note</div>
+                        <p>This report deeply analyzes all documentation in the /docs directory plus the broader ecosystem, and concludes with a practical Developer Roadmap for running a multi-machine local mesh on Windows 11 Home using Tailscale and RustDesk.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="section-banner">Section 2 — Project Philosophy & Origin</div>
+                    
+                    <p>AI Maestro was not designed in a vacuum. The creator, Juan Peláez, describes each feature as born from a real problem encountered while running agents at scale: <em>"35 terminals and couldn't tell which was which."</em> The project philosophy is grounded in three tenets:</p>
+
+                    <h2>2.1 Radical Local-First Ownership</h2>
+                    <p>Every byte of data — agent notes, memory, conversation history, code graphs — lives on the operator's machines. There are no Anthropic/23blocks servers in the data path. The platform explicitly states: <em>"We don't have servers, we don't collect data, we don't phone home. Your code stays yours."</em> This is architecturally enforced, not just a policy claim.</p>
+
+                    <h2>2.2 Peer Mesh Over Master/Slave</h2>
+                    <p>The multi-machine architecture is explicitly described as <em>"peer mesh with no central server — nobody else does this."</em> Every node in the mesh is equal; there is no designated orchestrator node that becomes a single point of failure. Dashboard connectivity to remote peers is implemented through SSH-tunneled WebSocket connections, meaning any machine can become the 'control node' by opening the browser on it.</p>
+
+                    <h2>2.3 Agent Communication as First-Class Primitive</h2>
+                    <p>The Agent Messaging Protocol (AMP), maintained by 23blocks under the Apache 2.0 license at agentmessaging.org, gives each agent a persistent inbox with four priority levels and four message types. Agents coordinate on deliverables without the human developer acting as a relay. The creator puts it plainly: <em>"Talking isn't working. I needed agents to coordinate on actual deliverables."</em></p>
+                </div>
+            </div>
+
+            <!-- Page 3: Architecture -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 3 — Architecture Deep Dive</div>
+
+                    <h2>3.1 Technology Stack</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Layer</th>
+                                <th>Technology / Notes</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Frontend</strong></td>
+                                <td>Next.js — server-rendered React app; serves dashboard on port 23000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Terminal I/O</strong></td>
+                                <td>xterm.js — WebGL-accelerated terminal; streams PTY output over WebSocket</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Session Management</strong></td>
+                                <td>tmux — all agents run as tmux sessions; auto-discovery via tmux list-sessions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Database</strong></td>
+                                <td>CozoDB — embedded datalog/graph DB; per-agent isolated files in ~/.aimaestro/agents/{id}/</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Code Analysis</strong></td>
+                                <td>ts-morph — TypeScript AST walker; powers Code Graph indexing</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Messaging Scripts</strong></td>
+                                <td>Bash/Node scripts in ~/.local/bin/ (amp-send, amp-inbox, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Skills</strong></td>
+                                <td>SKILL.md files in ~/.claude/skills/ — Agent Skills Standard compliant</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Remote Access</strong></td>
+                                <td>Tailscale recommended (WireGuard-based); SSH tunnels for peer connections</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h2>3.2 Process Topology</h2>
+                    <p>On a single machine, AI Maestro runs as a Next.js server process. It communicates with the local tmux server via the tmux command-line interface (not a daemon). Each agent is a tmux session; the dashboard discovers sessions by periodically calling tmux list-sessions and parsing the output.</p>
+                    
+                    <p>On a multi-machine mesh, the primary dashboard communicates with each remote peer by establishing a WebSocket connection tunneled through SSH. The remote peer must have AI Maestro installed and running. Sessions on the remote host appear in the primary dashboard with a hostname prefix.</p>
+                </div>
+
+                <div class="content-card">
+                    <h2>3.3 CozoDB Per-Agent Database</h2>
+                    <p>CozoDB is an embedded Datalog database with graph query capabilities. Each agent maintains a fully isolated database:</p>
+                    
+                    <div class="code-block">
+~/.aimaestro/agents/{agentId}/
+  agent.db           # CozoDB embedded database
+  conversations/     # Indexed conversation JSONL files
+  docs/              # Generated documentation index</div>
+
+                    <p><strong>Scalability Profile:</strong></p>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Agent Count</th>
+                                <th>Memory Footprint</th>
+                                <th>Idle CPU</th>
+                            </tr>
+                            <tr><td>10 agents</td><td>~200 MB</td><td>&lt;1%</td></tr>
+                            <tr><td>50 agents</td><td>~1 GB</td><td>&lt;5%</td></tr>
+                            <tr><td>100 agents</td><td>~2 GB</td><td>&lt;10%</td></tr>
+                        </table>
+                    </div>
+
+                    <h2>3.4 Agent Subconscious Process</h2>
+                    <p>A background process called the 'Agent Subconscious' runs per agent, maintaining memory automatically. Its activity-based scheduling:</p>
+                    <ul>
+                        <li><strong>Active:</strong> Memory check every 5 minutes, consolidation every 30 minutes</li>
+                        <li><strong>Idle:</strong> Memory check every 30 minutes, consolidation every 60 minutes</li>
+                        <li><strong>Disconnected:</strong> Memory check every 60 minutes, consolidation every 120 minutes</li>
+                    </ul>
+                    <p>Self-staggering ensures 100+ agents don't spike CPU simultaneously at startup.</p>
+
+                    <h2>3.5 Delta Indexing</h2>
+                    <p>The Code Graph uses SHA-256 content hashes to track file changes. Only new, modified, or deleted files are re-indexed:</p>
+                    <ul>
+                        <li>Full index (200 files): ~1000ms</li>
+                        <li>Delta — no changes: ~100ms</li>
+                        <li>Delta — 1 file changed: ~130ms</li>
+                        <li>Delta — 10 files changed: ~300ms</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Page 4: Documentation Analysis -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 4 — Documentation Analysis</div>
+
+                    <h2>4.1 Windows Installation</h2>
+                    <ul>
+                        <li>Requires WSL2 (Windows Subsystem for Linux v2) — not WSL1</li>
+                        <li>Windows 10 version 2004 (Build 19041) or later required; Windows 11 fully supported</li>
+                        <li>Performance note: native WSL2 filesystem is 5–10× faster than cross-boundary /mnt/c/ access</li>
+                        <li>Recommended WSL2 .wslconfig limits: memory=8GB, processors=4, swap=4GB</li>
+                        <li>Port forwarding: localhost:23000 in WSL2 maps to localhost:23000 in Windows browser</li>
+                        <li>Firewall exception may be required for port 23000</li>
+                    </ul>
+
+                    <div class="callout">
+                        <div class="callout-label">Important</div>
+                        <p>Windows 11 Home does not include Remote Desktop (RDP) as a server. To access a Windows 11 Home machine remotely, RustDesk is the recommended self-hosted alternative.</p>
+                    </div>
+
+                    <h2>4.2 Troubleshooting Critical Areas</h2>
+                    <h3>tmux Alternate Screen Buffer</h3>
+                    <p>Claude Code runs in the alternate screen buffer, which does not expose scrollback traditionally. Solution: enable tmux mouse mode (set -g mouse on).</p>
+
+                    <h3>SSH Agent Socket in tmux</h3>
+                    <p>The SSH_AUTH_SOCK path changes on every system restart. tmux sessions freeze the environment. The permanent fix is a stable symlink:</p>
+                    <div class="code-block"># ~/.tmux.conf
+set-environment -g 'SSH_AUTH_SOCK' ~/.ssh/ssh_auth_sock
+
+# ~/.bashrc or ~/.zshrc
+if [ -S "$SSH_AUTH_SOCK" ] && [ ! -h "$SSH_AUTH_SOCK" ]; then
+    mkdir -p ~/.ssh
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi</div>
+                </div>
+
+                <div class="content-card">
+                    <h2>4.3 Operations Guide</h2>
+                    <p>Referenced throughout the codebase as the canonical operations reference. Section 8 covers SSH configuration in depth.</p>
+
+                    <h2>4.4 Agent Intelligence</h2>
+                    <p>Covers the three intelligence layers:</p>
+                    <ul>
+                        <li><strong>Memory layer:</strong> CozoDB-backed semantic search over past conversations</li>
+                        <li><strong>Code Graph layer:</strong> multi-language AST visualization (Ruby, TypeScript, JavaScript, Python, Go)</li>
+                        <li><strong>Documentation layer:</strong> auto-generated function/API documentation</li>
+                    </ul>
+
+                    <h2>4.5-4.8 Communication Protocols</h2>
+                    <p><strong>AGENT-COMMUNICATION-QUICKSTART.md:</strong> Step-by-step guide to getting agent-to-agent messaging working in under 5 minutes.</p>
+                    
+                    <p><strong>AGENT-MESSAGING-GUIDE.md:</strong> Full AMP reference covering the dual-channel design (file-based persistent inbox + tmux window-alert push notifications), four priority levels (urgent/high/normal/low), and four message types (request/response/notification/update).</p>
+
+                    <p><strong>AGENT-COMMUNICATION-GUIDELINES.md:</strong> Best practices for inter-agent communication.</p>
+
+                    <p><strong>AGENT-COMMUNICATION-ARCHITECTURE.md:</strong> Technical deep-dive into AMP implementation, identity resolution, and gateway integration.</p>
+                </div>
+            </div>
+
+            <!-- Page 5: Features -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 5 — Feature System Analysis</div>
+
+                    <h2>5.1 Skills System</h2>
+                    <p>AI Maestro ships 6 skills compliant with the open Agent Skills Standard (agentskills.io):</p>
+                    
+                    <div class="table-container">
+                        <table style="font-size: 0.8rem;">
+                            <tr>
+                                <th>Skill</th>
+                                <th>Type</th>
+                                <th>Requires Service?</th>
+                            </tr>
+                            <tr>
+                                <td>planning</td>
+                                <td>On-demand</td>
+                                <td>No (standalone)</td>
+                            </tr>
+                            <tr>
+                                <td>memory-search</td>
+                                <td>Proactive (auto)</td>
+                                <td>Yes (port 23000)</td>
+                            </tr>
+                            <tr>
+                                <td>docs-search</td>
+                                <td>Proactive (auto)</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>graph-query</td>
+                                <td>Proactive (auto)</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>agent-messaging</td>
+                                <td>On-demand</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>agents-management</td>
+                                <td>On-demand</td>
+                                <td>Yes</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="callout">
+                        <div class="callout-label">Compatibility</div>
+                        <p>Skills work with any Agent Skills Standard-compliant agent: Claude Code, OpenCode, Codex CLI, Gemini CLI, Cursor, GitHub Copilot, and 30+ others.</p>
+                    </div>
+
+                    <h2>5.2 Agent Messaging Protocol (AMP)</h2>
+                    <ul>
+                        <li>Dual-channel delivery: file-based persistent inbox + instant tmux window-alert</li>
+                        <li>Ed25519 cryptographic signatures on messages</li>
+                        <li>Content security: external messages wrapped in &lt;external-content&gt; tags</li>
+                        <li>34 prompt injection patterns detected</li>
+                        <li>Multi-host: amp-send can target agents on remote hosts</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h2>5.3 Peer Mesh Network</h2>
+                    <p>The peer mesh is implemented as SSH-tunneled WebSocket connections from the primary dashboard to each remote AI Maestro instance:</p>
+                    <ul>
+                        <li>No central server — any node can be the 'primary' dashboard</li>
+                        <li>Automatic discovery with hostname prefix</li>
+                        <li>Health monitoring: real-time CPU, memory, disk usage</li>
+                        <li>Cross-platform: macOS, Linux, Windows WSL2 peers work interchangeably</li>
+                    </ul>
+
+                    <h2>5.4 Portable Agents</h2>
+                    <p>New feature (v0.25.x): agents can be exported as .zip archives and imported on another host with full state.</p>
+
+                    <h2>5.5-5.7 Additional Features</h2>
+                    <p><strong>Plugin Builder:</strong> UI-based builder for assembling custom skill sets per agent from GitHub repositories.</p>
+                    
+                    <p><strong>Messaging Gateway Integrations:</strong></p>
+                    <ul>
+                        <li>Slack Bridge: team members interact with running agents via DM or @AIM:agent-name</li>
+                        <li>Email Identity: agents get email addresses on domains you control</li>
+                        <li>Discord, WhatsApp: supported via aimaestro-gateways</li>
+                    </ul>
+
+                    <p><strong>Team Meetings & Kanban:</strong> War-room split-pane interface for multi-agent 'meetings,' plus full Kanban board with drag-and-drop.</p>
+                </div>
+            </div>
+
+            <!-- Page 6: Security -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 6 — Security Model</div>
+
+                    <h2>6.1 Threat Model</h2>
+                    <p>AI Maestro operates entirely within the operator's infrastructure. Primary threat vectors:</p>
+                    <ul>
+                        <li>Prompt injection via external messages (Slack, email, CI/CD webhooks)</li>
+                        <li>Unauthorized access to the dashboard WebSocket endpoint</li>
+                        <li>Agent identity spoofing in the AMP message system</li>
+                    </ul>
+
+                    <h2>6.2 Content Security Layer</h2>
+                    <p>Messages from external sources are wrapped in &lt;external-content&gt; tags. A 34-pattern scanner detects:</p>
+                    <ul>
+                        <li>Instruction override attempts ('ignore all previous instructions')</li>
+                        <li>System prompt extraction attempts</li>
+                        <li>Command injection (curl/wget, rm -rf, sudo, eval/exec)</li>
+                        <li>Data exfiltration attempts (base64 encoding tricks)</li>
+                        <li>Role manipulation / jailbreak patterns (DAN-style prompts)</li>
+                    </ul>
+                    <p>Agents see trust indicators: ✅ verified AI Maestro agent vs. 🌐 external/unverified vs. ⚠️ suspicious patterns detected.</p>
+                </div>
+
+                <div class="content-card">
+                    <h2>6.3 Network Security</h2>
+                    <p>For multi-machine setups, Tailscale (WireGuard-based) is the recommended VPN:</p>
+                    <ul>
+                        <li>Zero port forwarding required</li>
+                        <li>All traffic encrypted via WireGuard (AES-GCM)</li>
+                        <li>Stable Tailscale IPs (100.x.x.x range)</li>
+                        <li>Works behind NAT, corporate firewalls, and cellular networks</li>
+                    </ul>
+
+                    <div class="callout">
+                        <div class="callout-label">Security Warning</div>
+                        <p>Do not set HOSTNAME=0.0.0.0 on untrusted networks. Only use network-accessible mode behind a Tailscale VPN or other trusted network boundary.</p>
+                    </div>
+
+                    <div class="code-block"># Recommended Windows Firewall Rule (PowerShell Admin)
+New-NetFirewallRule `
+  -DisplayName 'AI Maestro Tailscale' `
+  -Direction Inbound `
+  -LocalPort 23000 `
+  -Protocol TCP `
+  -RemoteAddress '100.64.0.0/10' `
+  -Action Allow</div>
+                    <p style="font-size: 0.85rem; color: var(--muted);">100.64.0.0/10 is the Tailscale CGNAT range</p>
+                </div>
+            </div>
+
+            <!-- Page 7: Developer Roadmap Part 1 -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 7 — Developer Roadmap (Phases 1-4)</div>
+                    <p class="lead">Complete setup for running AI Maestro across multiple Windows 11 Home machines using Tailscale for secure mesh networking and RustDesk as a self-hosted remote desktop solution.</p>
+
+                    <div class="callout">
+                        <div class="callout-label">Prerequisites</div>
+                        <p>Both machines running Windows 11 Home (or Pro). WSL2 installed. Tailscale account (free personal plan covers 100 devices). Node.js 20 LTS and tmux 3.x inside WSL2.</p>
+                    </div>
+
+                    <h2>Phase 1: Tailscale VPN Mesh Setup</h2>
+                    <p>Tailscale creates an encrypted peer-to-peer overlay network where each device gets a stable 100.x.x.x IP.</p>
+                    
+                    <h3>Step 1.1: Install Tailscale</h3>
+                    <ol>
+                        <li>Download from tailscale.com/download → Windows installer</li>
+                        <li>Run installer → Tailscale starts as a background service</li>
+                        <li>Click tray icon → Log In → authenticate</li>
+                        <li>Machine is now on your tailnet with stable 100.x.x.x address</li>
+                        <li>Repeat on second machine using same account</li>
+                    </ol>
+
+                    <div class="code-block"># Verify connectivity from PowerShell
+tailscale status
+tailscale ip -4
+ping mini-pc   # or whatever the machine name is</div>
+
+                    <h3>Step 1.2: Disable Key Expiry</h3>
+                    <p>By default, device keys expire every 90 days. Disable expiry for development machines in the Tailscale admin console to prevent mesh breakage.</p>
+
+                    <h3>Step 1.3: Configure Tailscale in WSL2</h3>
+                    <p>WSL2 uses Windows networking by default, so WSL2 processes can reach Tailscale IPs via the Windows host's routing.</p>
+                </div>
+
+                <div class="content-card">
+                    <h2>Phase 2: RustDesk Remote Desktop</h2>
+                    <p>Windows 11 Home does not include the RDP server. RustDesk is an open-source, self-hostable alternative.</p>
+
+                    <h3>Step 2.1: Install RustDesk Clients</h3>
+                    <ol>
+                        <li>Download from rustdesk.com/download → Windows MSI</li>
+                        <li>Install on both machines</li>
+                        <li>On first launch, each machine gets a unique RustDesk ID</li>
+                        <li>Set permanent password: Settings → Security</li>
+                    </ol>
+
+                    <h3>Step 2.2: Option A — Public Relay (Simplest)</h3>
+                    <p>RustDesk provides a free public relay server. No configuration needed beyond installing the client.</p>
+
+                    <h3>Step 2.3: Option B — Self-Hosted Server</h3>
+                    <p>Run hbbr (relay) and hbbs (rendezvous) inside WSL2 or Docker:</p>
+                    <div class="code-block">docker run --name hbbs \
+  -v ./data:/root \
+  -p 21115:21115 -p 21116:21116 \
+  -p 21116:21116/udp -p 21118:21118 \
+  --net=host \
+  rustdesk/rustdesk-server:latest hbbs
+
+docker run --name hbbr \
+  -v ./data:/root \
+  -p 21117:21117 -p 21119:21119 \
+  --net=host \
+  rustdesk/rustdesk-server:latest hbbr</div>
+
+                    <h2>Phase 3: AI Maestro Installation</h2>
+                    <h3>Step 3.1: WSL2 Prerequisites</h3>
+                    <div class="code-block">wsl --install
+wsl --set-default-version 2
+
+# In Ubuntu:
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl git tmux build-essential
+
+# Install Node.js 20
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+nvm install 20 && nvm use 20
+npm install -g yarn</div>
+                </div>
+            </div>
+
+            <!-- Page 8: Developer Roadmap Part 2 -->
+            <div class="page-view">
+                <div class="content-card">
+                    <h3>Step 3.2: Install AI Maestro</h3>
+                    <div class="code-block"># Option A: One-liner installer
+curl -fsSL https://raw.githubusercontent.com/23blocks-OS/ai-maestro/main/scripts/remote-install.sh | sh
+
+# Option B: Manual install
+git clone https://github.com/23blocks-OS/ai-maestro.git
+cd ai-maestro
+yarn install
+./scripts/setup-tmux.sh</div>
+
+                    <h3>Step 3.3: Critical Shell Configuration</h3>
+                    <div class="code-block"># 1. Create ~/.zshenv for tmux PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# 2. Configure ~/.tmux.conf
+set -g mouse on
+set -g history-limit 50000
+set-environment -g 'SSH_AUTH_SOCK' ~/.ssh/ssh_auth_sock
+
+# 3. SSH Agent symlink in ~/.bashrc
+if [ -S "$SSH_AUTH_SOCK" ] && [ ! -h "$SSH_AUTH_SOCK" ]; then
+    mkdir -p ~/.ssh
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi</div>
+
+                    <h3>Step 3.4: Network Binding</h3>
+                    <div class="code-block"># Create .env.local in ai-maestro directory
+HOSTNAME=0.0.0.0
+PORT=23000</div>
+                    
+                    <div class="callout">
+                        <div class="callout-label">Security</div>
+                        <p>0.0.0.0 binds to all interfaces. Ensure Windows Firewall only permits port 23000 from Tailscale CGNAT range (100.64.0.0/10).</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h2>Phase 4: Configure Peer Mesh</h2>
+                    <h3>Step 4.1: SSH Keys for Peer Auth</h3>
+                    <div class="code-block"># On PRIMARY machine (laptop)
+ssh-keygen -t ed25519 -C "ai-maestro-peer" -f ~/.ssh/aimaestro_peer
+ssh-copy-id -i ~/.ssh/aimaestro_peer.pub user@mini-pc</div>
+
+                    <h3>Step 4.2: Add Peer in Dashboard</h3>
+                    <ol>
+                        <li>Open AI Maestro dashboard on laptop</li>
+                        <li>Navigate to Settings → Peers</li>
+                        <li>Add new peer with Tailscale hostname/IP</li>
+                        <li>Click Connect — mini PC's tmux sessions appear in sidebar</li>
+                    </ol>
+
+                    <h2>Phase 5-8: Advanced Setup</h2>
+                    <p><strong>Phase 5:</strong> Install AMP messaging scripts on both machines (./install-messaging.sh)</p>
+                    
+                    <p><strong>Phase 6:</strong> Mobile access via Tailscale iOS/Android app</p>
+                    
+                    <p><strong>Phase 7:</strong> Integration workflow — RustDesk for GUI/file access, AI Maestro for agent terminals</p>
+                    
+                    <p><strong>Phase 8:</strong> Troubleshooting mesh connectivity, WSL2 auto-start with PM2:</p>
+                    <div class="code-block">npm install -g pm2
+pm2 start yarn --name "ai-maestro" -- dev
+pm2 save
+pm2 startup</div>
+                </div>
+            </div>
+
+            <!-- Page 9: Limitations & Ecosystem -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 8 — Known Limitations</div>
+
+                    <h2>8.1 tmux Dependency</h2>
+                    <p>AI Maestro is architecturally coupled to tmux. Agents can only be terminal processes inside tmux sessions, and tmux sessions are not persistent across WSL2/OS restarts without additional tooling.</p>
+
+                    <h2>8.2 Alternate Screen Buffer Scrollback</h2>
+                    <p>Claude Code uses tmux's alternate screen buffer, preventing traditional scrollback. Scrollback only works in tmux copy mode or with mouse mode enabled. This is a fundamental tmux design limitation.</p>
+
+                    <h2>8.3 Peer Connection Authentication</h2>
+                    <p>Peer authentication is via SSH key only. There is no OAuth/token-based authentication for peer connections. Team setups require sharing SSH public keys.</p>
+
+                    <h2>8.4 Windows-Native Support</h2>
+                    <p>AI Maestro does not run natively on Windows — it requires WSL2. This introduces VM boundary issues: tmux sessions lost on restart, WSL2 IP changes (mitigated by Tailscale), and no integration with Windows-native agent tools.</p>
+
+                    <h2>8.5 Single-Model Assumption</h2>
+                    <p>The Skills system currently assumes Claude Code as the primary agent, though the Agent Skills Standard is designed to be model-agnostic.</p>
+
+                    <h2>8.6 Dashboard Authentication</h2>
+                    <p>The AI Maestro dashboard has no built-in user authentication. If bound to 0.0.0.0, anyone who can reach port 23000 has full terminal access. Security relies entirely on network-level protection.</p>
+                </div>
+
+                <div class="content-card">
+                    <div class="section-banner">Section 9 — Ecosystem</div>
+
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Repository</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>23blocks-OS/ai-maestro</td>
+                                <td>Core orchestration platform</td>
+                            </tr>
+                            <tr>
+                                <td>23blocks-OS/aimaestro-gateways</td>
+                                <td>Multi-platform messaging (Discord, Slack, Email, WhatsApp)</td>
+                            </tr>
+                            <tr>
+                                <td>23blocks-OS/aimaestro-slack-bridge</td>
+                                <td>Dedicated Slack integration</td>
+                            </tr>
+                            <tr>
+                                <td>23blocks-OS/ai-maestro-plugins</td>
+                                <td>Official plugins for Claude Code</td>
+                            </tr>
+                            <tr>
+                                <td>23blocks-OS/ai-agents</td>
+                                <td>Custom skill set marketplace</td>
+                            </tr>
+                            <tr>
+                                <td>23blocks-OS/claude-code-templates</td>
+                                <td>Templates for agent initialization</td>
+                            </tr>
+                            <tr>
+                                <td>agentmessaging/protocol</td>
+                                <td>AMP specification (Apache 2.0)</td>
+                            </tr>
+                            <tr>
+                                <td>agentskills.io</td>
+                                <td>Agent Skills Standard specification</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 10: Strategic Assessment -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Section 10 — Strategic Assessment</div>
+
+                    <h2>10.1 Competitive Position</h2>
+                    <p>AI Maestro occupies a unique position: it is the only open-source, truly decentralized multi-machine agent orchestrator with a peer mesh architecture. Comparable projects either lack multi-machine peer mesh, require a central server, or are commercial/closed-source.</p>
+
+                    <h2>10.2 Trajectory & Velocity</h2>
+                    <p>Strong development velocity: 553 GitHub stars and 77 forks as of March 2026, with active issue responses and frequent version releases. The v0.25.x releases include Portable Agents and the Plugin Builder.</p>
+
+                    <h2>10.3 Fit for Use Case</h2>
+                    <p>AI Maestro is a strong fit for the described setup (laptop + mini PC, Oregon-based operations, multiple parallel projects, Claude Code + Gemini CLI multi-agent fleet):</p>
+                    <ul>
+                        <li>Peer mesh designed exactly for 2-machine local networks</li>
+                        <li>Planning skill aligns with GED (Guided Execution Document) methodology</li>
+                        <li>AMP messaging enables multi-agent coordination patterns</li>
+                        <li>WSL2 + Tailscale + RustDesk stack is well-documented and confirmed working</li>
+                        <li>Windows 11 Home limitation specifically addressed by RustDesk integration</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h2>10.4 Recommended Immediate Actions</h2>
+                    <ol>
+                        <li>Install Tailscale on both machines and verify mesh connectivity</li>
+                        <li>Install RustDesk on both machines for remote desktop access to mini PC</li>
+                        <li>Install AI Maestro in WSL2 on both machines using one-liner installer</li>
+                        <li>Configure 0.0.0.0 binding + Tailscale firewall rule for cross-machine access</li>
+                        <li>Add mini PC as peer in laptop's AI Maestro dashboard</li>
+                        <li>Install planning skill standalone to start using GED-style task tracking</li>
+                        <li>Install full skills bundle after service is confirmed stable</li>
+                        <li>Configure pm2 + Windows Task Scheduler for resilient auto-start</li>
+                    </ol>
+
+                    <div class="spacer"></div>
+                    <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+                    <p style="text-align: center; color: var(--muted); font-size: 0.9rem;">
+                        <strong>END OF REPORT</strong><br>
+                        AI Maestro — Deep Research Report · March 2026 · MIT License
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 11: Appendix -->
+            <div class="page-view">
+                <div class="content-card">
+                    <div class="section-banner">Appendix — Quick Reference</div>
+
+                    <h2>Key Ports</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Service</th>
+                                <th>Port</th>
+                                <th>Notes</th>
+                            </tr>
+                            <tr>
+                                <td>AI Maestro Dashboard</td>
+                                <td>23000</td>
+                                <td>Configurable via PORT env var</td>
+                            </tr>
+                            <tr>
+                                <td>RustDesk Relay (hbbr)</td>
+                                <td>21117</td>
+                                <td>TCP — relay traffic</td>
+                            </tr>
+                            <tr>
+                                <td>RustDesk Rendezvous</td>
+                                <td>21115-21116</td>
+                                <td>TCP + UDP 21116</td>
+                            </tr>
+                            <tr>
+                                <td>RustDesk Web Client</td>
+                                <td>21118-21119</td>
+                                <td>Optional web client ports</td>
+                            </tr>
+                            <tr>
+                                <td>SSH</td>
+                                <td>22</td>
+                                <td>For AI Maestro peer connections</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h2>Critical tmux Configuration</h2>
+                    <div class="code-block"># ~/.tmux.conf — minimal AI Maestro config
+set -g mouse on                           # scrollback in Claude Code
+set -g history-limit 50000                # large buffer
+set -g default-terminal "screen-256color" # correct color support
+set-option -g update-environment "DISPLAY SSH_ASKPASS SSH_AGENT_PID"
+set-environment -g 'SSH_AUTH_SOCK' ~/.ssh/ssh_auth_sock</div>
+                </div>
+
+                <div class="content-card">
+                    <h2>AMP Quick Reference</h2>
+                    <div class="code-block"># Send message to another agent
+amp-send &lt;agent-name&gt; "&lt;subject&gt;" "&lt;body&gt;" [priority] [type]
+
+# priority: urgent | high | normal | low
+# type: request | response | notification | update
+
+# Examples
+amp-send backend-api "Need endpoint" "POST /api/users" high request
+amp-send research-agent "FYI" "Scraper finished" normal notification
+
+# Check inbox
+amp-inbox
+amp-inbox --filter unread</div>
+
+                    <h2>PM2 Auto-Start</h2>
+                    <div class="code-block">cd ~/ai-maestro
+pm2 start yarn --name "ai-maestro" -- dev
+pm2 save
+pm2 startup
+# Follow the displayed command (copy/paste and run)</div>
+
+                    <h2>Tailscale Firewall Rule</h2>
+                    <div class="code-block">New-NetFirewallRule `
+  -DisplayName 'AI Maestro Tailscale' `
+  -Direction Inbound `
+  -LocalPort 23000 `
+  -Protocol TCP `
+  -RemoteAddress '100.64.0.0/10' `
+  -Action Allow</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button class="page-btn" id="prevBtn" onclick="changePage(-1)">←</button>
+        <div class="page-indicators" id="pageIndicators"></div>
+        <button class="page-btn" id="nextBtn" onclick="changePage(1)">→</button>
+        <div class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">11</span></div>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 11;
+        const wrapper = document.getElementById('pagesWrapper');
+        const indicatorsContainer = document.getElementById('pageIndicators');
+
+        // Initialize indicators
+        for (let i = 0; i < totalPages; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'page-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToPage(i);
+            indicatorsContainer.appendChild(dot);
+        }
+
+        function updateUI() {
+            // Update wrapper position
+            wrapper.style.transform = `translateX(-${currentPage * 100}%)`;
+            
+            // Update buttons
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages - 1;
+            
+            // Update indicators
+            document.querySelectorAll('.page-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentPage);
+            });
+            
+            // Update page counter
+            document.getElementById('currentPage').textContent = currentPage + 1;
+            
+            // Update URL hash for deep linking
+            window.location.hash = `page-${currentPage + 1}`;
+        }
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 0 && newPage < totalPages) {
+                currentPage = newPage;
+                updateUI();
+            }
+        }
+
+        function goToPage(page) {
+            if (page >= 0 && page < totalPages) {
+                currentPage = page;
+                updateUI();
+                closeMenu();
+            }
+        }
+
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const overlay = document.getElementById('navOverlay');
+            hamburger.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const overlay = document.getElementById('navOverlay');
+            hamburger.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        function closeMenuOnClick(event) {
+            if (event.target === document.getElementById('navOverlay')) {
+                closeMenu();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changePage(-1);
+            if (e.key === 'ArrowRight') changePage(1);
+            if (e.key === 'Escape') closeMenu();
+        });
+
+        // Check URL hash on load
+        window.addEventListener('load', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const pageMatch = hash.match(/page-(\d+)/);
+                if (pageMatch) {
+                    const page = parseInt(pageMatch[1]) - 1;
+                    if (page >= 0 && page < totalPages) {
+                        currentPage = page;
+                        updateUI();
+                    }
+                }
+            }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        wrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        wrapper.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changePage(1);
+            if (touchEndX > touchStartX + 50) changePage(-1);
+        }
+
+        // Initial UI update
+        updateUI();
+    </script>
+</body>
+</html>

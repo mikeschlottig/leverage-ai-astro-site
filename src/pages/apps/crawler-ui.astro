@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CrawlerUI from '../../components/apps/CrawlerUI.jsx';
+import { siteConfig } from '../../lib/site-config';
+
+const appName = 'Crawler UI';
+const appDescription = 'Web crawler interface with real-time status visualization, configurable retry logic, and structured data export for comprehensive web analysis.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+    { '@type': 'ListItem', position: 2, name: 'Catalog', item: `${siteConfig.url}/catalog` },
+    { '@type': 'ListItem', position: 3, name: appName, item: `${siteConfig.url}/apps/crawler-ui` },
+  ],
+};
+const appSchema = {
+  '@context': 'https://schema.org', '@type': 'WebApplication',
+  name: appName, description: appDescription, applicationCategory: 'DeveloperApplication',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'Leverage AI LLC', url: siteConfig.url },
+};
+---
+
+<BaseLayout title={`${appName} | Web App — Leverage AI`} description={appDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+
+  <section style="padding: 6rem 0 3rem; background: linear-gradient(180deg, hsl(220 40% 5%) 0%, var(--page-bg) 100%); border-bottom: 1px solid hsl(38 80% 55% / 0.12);">
+    <div class="container-custom" style="max-width: 800px;">
+      <a href="/catalog" style="font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: hsl(210 15% 50%); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">&larr; All Apps</a>
+      <h1 style="font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1rem; line-height: 1.1;">{appName}</h1>
+      <p style="color: hsl(210 15% 60%); font-size: 1.05rem; line-height: 1.7; max-width: 600px; margin: 0;">{appDescription}</p>
+    </div>
+  </section>
+  <section style="padding: 0; background: var(--page-bg);"><CrawlerUI client:only="react" /></section>
+</BaseLayout>

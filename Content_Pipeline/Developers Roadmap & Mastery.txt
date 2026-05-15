@@ -1,0 +1,35 @@
+Developers Roadmap & Mastery
+A structured path through the official tutorials. Click on a topic to expand and view the core learning objectives for mastering Trafilatura.
+
+
+1. Gathering a Custom Web Corpus
+➖
+Goal: Learn to build a targeted dataset from scratch.
+
+System setup and environment preparation.
+Content discovery using sitemaps and feeds.
+Link filtering to ensure relevance.
+Batch processing a finalized list of links into a unified corpus.
+
+2. From Links to Frequency Lists
+➖
+Goal: Transition from extraction to basic linguistic analysis.
+
+Processing links specifically for text-mining readiness.
+Applying tokenization and counting mechanisms to generate word frequency lists, essential for NLP baselines.
+
+3. Validation of TEI Files
+➖
+Goal: Ensure output data meets academic and archival standards.
+
+Producing Text Encoding Initiative (TEI) compliant XML using Trafilatura.
+Validating existing TEI files against schemas to guarantee structural integrity for digital humanities projects.
+
+4. Advanced Integration: Text Embedding with Epsilla
+➖
+Goal: Prepare data for Retrieval-Augmented Generation (RAG) and semantic search.
+
+Understanding the necessity of embeddings for crawled data.
+Setting up the Epsilla Vector Database.
+Crawling target project homepages, generating vector embeddings of the extracted text, and storing them.
+Performing vector similarity searches on the newly created knowledge base.

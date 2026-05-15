@@ -1,0 +1,115 @@
+Create a web app for time and task management.  The deliverable is an artifact I can publish.   Integrate with the Anthropic API:  Model: Haiku 4.5.  The app should have a Notion style layout - left side panel housing different page views that are rendered in the center pane workspace.   The Anthropic integration is a standard chat bubble that expands OnClick.  For storage use  IndexDB in the Browser.  Make it a file system.  The AI should have full context and use files for its memory system.
+
+The page views are a 30 minute time blocks.  The user can edit them and so can the AI model - so I can send a quick message to the AI and it can schedule out time blocks.  Add a timer component.  The AI model and the User both have their own notepad.  A reminder system so I can brain dump thoughts and get scheduled reminders. **Before you begin, write a detailed Prompt that breaks down the requirements and send it in the chat so I can make adjustments if needed.  Then we will build it.**
+
+Show less
+Feb 22
+
+Prepared to architect detailed requirements breakdown
+Prepared to architect detailed requirements breakdown
+The user wants me to write a detailed prompt/requirements breakdown before building anything. Let me do that.
+
+Done
+Project Blueprint: AI-Powered Time & Task Manager
+Before we build, here's the full requirements breakdown. Review this carefully and let me know what to adjust.
+
+🏗️ Architecture Overview
+Single-file React artifact with IndexedDB as the filesystem backbone. The Anthropic API (Haiku 4.5) is deeply integrated — not just a chatbot, but an active participant in scheduling and memory.
+
+📁 File System (IndexedDB)
+The app treats IndexedDB as a structured filesystem with named "files":
+
+schedule.json — all time blocks across all days
+notes/user.md — the user's personal notepad
+notes/ai.md — the AI's personal notepad (AI writes here autonomously)
+reminders.json — brain dump queue + scheduled reminders
+chat_history.json — conversation log between user and AI
+context.json — app-wide metadata the AI reads on every call (current date/time, active tasks, etc.)
+The AI receives full filesystem context on every message — it can read and write to any of these files.
+
+🖥️ Layout: Notion-Style
+┌─────────────────────────────────────────────────────┐
+│  [Logo / App Name]                                  │
+├──────────────┬──────────────────────────────────────┤
+│  LEFT PANEL  │         CENTER WORKSPACE             │
+│              │                                      │
+│  📅 Schedule │   [Active Page View renders here]   │
+│  ⏱️ Timer    │                                      │
+│  📝 My Notes │                                      │
+│  🤖 AI Notes │                                      │
+│  🔔 Reminders│                                      │
+│              │                                      │
+│              │                                      │
+├──────────────┴──────────────────────────────────────┤
+│  [AI Chat Bubble — bottom right, expands on click] │
+└─────────────────────────────────────────────────────┘
+📅 Page View 1: Schedule (30-Min Time Blocks)
+Full day view with 30-minute slots (12:00 AM → 11:30 PM = 48 blocks)
+Each block shows: time label, task title, optional notes, color/category tag
+User can click any block to edit inline — title, notes, color
+AI can write to schedule.json — so a chat message like "block off 2pm-4pm for deep work" updates the schedule in real time
+Date navigation (prev/next day, jump to today)
+Blocks have a visual fill state (empty vs. scheduled)
+Drag to extend/move blocks (stretch goal — we can decide)
+⏱️ Page View 2: Timer
+Pomodoro-style with configurable modes: Focus / Short Break / Long Break
+Custom duration input
+Visual countdown (circular progress ring)
+Start / Pause / Reset controls
+Optional: links a timer session to a schedule block
+📝 Page View 3: User Notepad
+Full markdown-ish text editor (contenteditable or textarea)
+Auto-saves to notes/user.md in IndexedDB on every keystroke (debounced)
+Persists between sessions
+🤖 Page View 4: AI Notepad
+Read-only view for the user (the AI writes here)
+AI uses this as persistent memory — summaries, observations, to-dos it tracks
+The AI is instructed in its system prompt to maintain and update this file
+User can read but not edit (to preserve AI memory integrity)
+Optional "clear AI memory" button
+🔔 Page View 5: Reminders
+Brain dump input — fast text field, hit enter to add a thought
+Each thought gets a status: raw → scheduled → done
+User can set a time-based reminder on any item
+Browser Notification API for alerts (with permission request)
+AI can read the reminders file and suggest scheduling or grouping them
+List view with filters: All / Pending / Done
+💬 AI Chat Bubble
+Fixed position, bottom-right corner
+Collapsed: small circular button with AI icon
+Expanded: chat panel (~380px wide, ~500px tall) slides up
+Full conversation history rendered
+AI System Prompt includes:
+Current date/time
+Full contents of all IndexedDB files (schedule, reminders, both notepads)
+Instructions: can respond in plain text OR with structured JSON actions
+AI Action Protocol: AI responses parsed for JSON blocks that trigger:
+WRITE_SCHEDULE — add/update time blocks
+WRITE_AI_NOTES — update AI notepad
+WRITE_REMINDER — add/update reminders
+CLEAR_BLOCKS — remove blocks from schedule
+User sees natural language reply; actions execute silently in background
+Loading state during API calls
+🎨 Design Language
+Dark theme (deep navy/slate background)
+Clean sans-serif typography
+Subtle borders, soft shadows
+Color-coded time blocks (work, personal, health, focus, etc.)
+Smooth transitions on panel open/close
+Minimal chrome — content-first
+🔑 Key Technical Decisions
+Decision	Choice	Reason
+Storage	IndexedDB via idb CDN	Structured, persistent, queryable
+State	React useState / useEffect	Simple, no Redux needed
+Styling	Tailwind utility classes	Fast, consistent
+AI Protocol	Text + JSON action blocks	Flexible, parseable
+Notifications	Browser Notification API	Native, no deps
+API Key	Input field in UI, stored in sessionStorage	User controls their key
+❓ Open Questions For You
+Date scope — Do you want multi-day scheduling (week view toggle) or just one day at a time to start?
+AI API key — Should it be entered via a settings modal, or hardcoded (since this is personal use)?
+Timer — Pure Pomodoro preset, or fully custom duration only?
+Drag-to-move blocks — Include in v1 or skip for now?
+Color categories — Should I define preset categories (Work, Personal, Health, Focus) or let the user create custom ones?
+AI Notes — Should the user be able to add comments/annotations without editing the AI's core memory?
+Ready to build the moment you give the green light (or adjustments). What do you want to change?

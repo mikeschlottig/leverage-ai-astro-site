@@ -1,0 +1,816 @@
+Lawyer Kimi Nice Site
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vanguard of Legal Digital Presence 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0e1a;
+            color: #f5f5f0;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        
+        .section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bg-image {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        
+        .bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.85) 50%, rgba(10,14,26,0.75) 100%);
+            z-index: 1;
+        }
+        
+        .grain {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            z-index: 2;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .gold-accent {
+            color: #d4af37;
+        }
+        
+        .gold-border {
+            border-color: #d4af37;
+        }
+        
+        .glass-panel {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212,175,55,0.1);
+        }
+        
+        /* Bottom Navigation */
+        .pagination-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: linear-gradient(to top, rgba(10,14,26,1) 0%, rgba(10,14,26,0.9) 60%, transparent 100%);
+            padding: 2rem 0 1.5rem;
+        }
+        
+        .pagination-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 0 2rem;
+        }
+        
+        .page-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .page-dot:hover {
+            background: rgba(212,175,55,0.5);
+            transform: scale(1.2);
+        }
+        
+        .page-dot.active {
+            background: #d4af37;
+            border-color: #d4af37;
+            transform: scale(1.3);
+            box-shadow: 0 0 20px rgba(212,175,55,0.4);
+        }
+        
+        .page-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            color: #d4af37;
+            font-weight: 600;
+            pointer-events: none;
+        }
+        
+        .page-dot:hover .page-label,
+        .page-dot.active .page-label {
+            opacity: 1;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            transition: width 0.3s ease;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        /* Table Styling */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .data-table th {
+            background: rgba(212,175,55,0.1);
+            color: #d4af37;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(212,175,55,0.3);
+        }
+        
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .data-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0e1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 4px;
+        }
+        
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .content {
+                padding: 1rem;
+                width: 95%;
+            }
+            
+            .data-table {
+                font-size: 0.8rem;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .pagination-inner {
+                gap: 0.75rem;
+            }
+            
+            .page-label {
+                display: none;
+            }
+        }
+        
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            color: rgba(212,175,55,0.1);
+            position: absolute;
+            top: 2rem;
+            right: 4rem;
+            line-height: 1;
+            z-index: 5;
+        }
+        
+        @media (max-width: 768px) {
+            .section-number {
+                font-size: 4rem;
+                right: 1rem;
+                top: 1rem;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <!-- Section 1: Executive Overview -->
+    <section class="section" id="section-1">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/verainterior.com/b93374110f4376a4ede65c86569a5ce23c39cf5e.webp')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">01</div>
+        <div class="content">
+            <div class="max-w-4xl">
+                <div class="animate-in">
+                    <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">March 2026</span>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        The Vanguard of <br/>
+                        <span class="gold-accent italic">Legal Digital Presence</span>
+                    </h1>
+                </div>
+                <div class="animate-in delay-100">
+                    <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light leading-relaxed max-w-3xl">
+                        Generative Engine Optimization, High-Performance Architecture, and Market Share Expansion in the New Era
+                    </p>
+                </div>
+                <div class="animate-in delay-200 grid md:grid-cols-3 gap-6 mt-12">
+                    <div class="glass-panel p-6 rounded-lg">
+                        <div class="text-3xl font-bold gold-accent mb-2">13.0%</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">Average Profit Growth</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <div class="text-3xl font-bold gold-accent mb-2">61%</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">Adults Using AI Assistants</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-lg">
+                        <div class="text-3xl font-bold gold-accent mb-2">77.67%</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">Legal Queries with AI Overview</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Macroeconomic Landscape -->
+    <section class="section" id="section-2">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/55296c68521e80422cb380d5d094e70b636bd7d1.jpg')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">02</div>
+        <div class="content">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">Market Dynamics</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                        The <span class="gold-accent italic">Macroeconomic</span> Inflection Point
+                    </h2>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        As of March 2026, the United States legal industry navigates a profound structural shift. While the industry recorded a banner year with <strong class="text-white">13.0% profit growth</strong> and worked rates surging 7.3%, this "golden moment" is built upon unstable ground.
+                    </p>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        A rapid redistribution of wealth is occurring from highest-priced Am Law 100 firms to agile midsize practices. In Q3 2025, midsize firms captured <strong class="text-white">nearly 5.0% demand growth</strong> while Am Law 100 firms struggled to reach 2.0%—the widest performance gap in over a decade.
+                    </p>
+                    <div class="border-l-4 border-yellow-600 pl-6 py-2 mt-8">
+                        <p class="italic text-lg text-gray-400">
+                            "Corporate legal departments face stagnant budgets amidst escalating pressures, systematically reallocating workflows to midsize firms averaging $600/hour—securing 40% cost reduction."
+                        </p>
+                    </div>
+                </div>
+                <div class="glass-panel p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold mb-6 gold-accent">The Dual Arms Race</h3>
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-700">
+                            <span class="text-gray-300">Technology Spending Growth</span>
+                            <span class="text-2xl font-bold text-white">+10.0%</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-700">
+                            <span class="text-gray-300">Talent Cost Increase</span>
+                            <span class="text-2xl font-bold text-white">+8.2%</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-700">
+                            <span class="text-gray-300">Worked Rate Surge</span>
+                            <span class="text-2xl font-bold text-white">+7.3%</span>
+                        </div>
+                        <div class="pt-4">
+                            <p class="text-sm text-gray-400 mb-2">Net Spend Anticipation (Mid-2026)</p>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-yellow-600 to-yellow-400 h-2 rounded-full" style="width: 23%"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Pandemic-era lows anticipated</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: AI Efficiency & Pricing -->
+    <section class="section" id="section-3">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/b05cb59d5edef44a9ceaa02e87c7a95fe083d43e.jpg')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">03</div>
+        <div class="content">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">Economic Strategy</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    AI Efficiency & <span class="gold-accent italic">The Billable Hour</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Forward-thinking firms are transitioning to Alternative Fee Arrangements (AFAs) to capture the efficiency dividend and extend profit margins.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-panel p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold mb-4 text-white">The Efficiency Dividend</h3>
+                    <p class="text-gray-300 mb-6">
+                        Routine workflows—document review, discovery, contract drafting—that previously consumed dozens of hours can now be compressed by <strong class="gold-accent">10% to 20%</strong> using advanced legal AI.
+                    </p>
+                    <div class="bg-red-900/20 border border-red-500/30 p-4 rounded-lg mb-6">
+                        <p class="text-sm text-red-200">
+                            <strong>Structural Conflict:</strong> Under strict billable hour models, a 10-hour task reduced to 6 hours via AI eliminates 4 hours of revenue despite delivering identical value.
+                        </p>
+                    </div>
+                    <p class="text-gray-300 text-sm">
+                        Mid-level associates (years 3-6), traditionally the highest-margin profit centers, face acute margin compression as AI accelerates research synthesis and issue-spotting.
+                    </p>
+                </div>
+                
+                <div class="glass-panel p-8 rounded-xl border-yellow-600/30">
+                    <h3 class="text-2xl font-semibold mb-4 gold-accent">The AFA Solution</h3>
+                    <p class="text-gray-300 mb-6">
+                        Elite practices utilize <strong>flat-fee, outcome-based, or subscription pricing</strong> for predictable AI-enabled workflows—internalizing efficiency gains while clients pay predictable market rates.
+                    </p>
+                    <ul class="space-y-3 text-gray-300 mb-6">
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 mr-3">✓</span>
+                            <span>Business formations & standard contracts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 mr-3">✓</span>
+                            <span>Non-disclosure agreements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-600 mr-3">✓</span>
+                            <span>Routine document review</span>
+                        </li>
+                    </ul>
+                    <div class="border-t border-gray-700 pt-4">
+                        <p class="text-sm text-gray-400 italic">
+                            Complex, high-uncertainty litigation (M&A, class actions, catastrophic injury) continues to utilize hourly or contingency billing—preserving the risk premium for bespoke human judgment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: GEO & Zero-Click Reality -->
+    <section class="section" id="section-4">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/ad330d204ba307b928b7931e03bfae003594d808.jpg')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">04</div>
+        <div class="content">
+            <div class="grid md:grid-cols-5 gap-12 items-start">
+                <div class="md:col-span-3">
+                    <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">Digital Transformation</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                        Generative Engine <br/><span class="gold-accent italic">Optimization</span>
+                    </h2>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+                        The "search and click" paradigm is fractured. <strong class="text-white">77.67%</strong> of legal queries now trigger AI Overviews, satisfying informational intent without website visits—causing CTR to plummet <strong class="text-white">34.5%</strong>.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="glass-panel p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold mb-3 gold-accent">Content Chunking</h3>
+                            <p class="text-gray-300 text-sm mb-3">
+                                Break content into standalone, scannable sections with H2/H3 tags formulated as natural-language questions mirroring LLM prompts.
+                            </p>
+                            <div class="bg-black/30 p-3 rounded text-xs font-mono text-green-400">
+                                "What is the statute of limitations for medical malpractice in California?"
+                            </div>
+                        </div>
+                        
+                        <div class="glass-panel p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold mb-3 gold-accent">The True Contacts Multiplier</h3>
+                            <p class="text-gray-300 text-sm">
+                                For every 10 tracked contacts, <strong>11 additional contacts</strong> occur off-platform from LLM recommendations. Traditional analytics underreport GEO ROI by approximately 2.1x.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2 space-y-4">
+                    <div class="glass-panel p-6 rounded-xl text-center">
+                        <div class="text-5xl font-bold gold-accent mb-2">61%</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">American Adults Using AI</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl text-center">
+                        <div class="text-5xl font-bold gold-accent mb-2">77.67%</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">Legal Queries with AI Overview</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-xl text-center border-red-500/30">
+                        <div class="text-5xl font-bold text-red-400 mb-2">-34.5%</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">Click-Through Rate Drop</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Technical Architecture -->
+    <section class="section" id="section-5">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/7b2ec9805790ed901a2e3fd1b8c958c6031e14ee.jpg')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">05</div>
+        <div class="content">
+            <div class="mb-8">
+                <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">Infrastructure</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    High-Performance <span class="gold-accent italic">Architecture</span>
+                </h2>
+                <p class="text-gray-300 max-w-3xl">
+                    Elite firms abandon legacy platforms for headless CMS and Next.js React frameworks, prioritizing sub-second load times and absolute visual stability for LLM crawlers.
+                </p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Core Web Vital</th>
+                            <th>Measurement Focus</th>
+                            <th>2026 Target</th>
+                            <th>Strategic Fix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-semibold text-white">LCP</td>
+                            <td>Largest Contentful Paint (load speed)</td>
+                            <td class="gold-accent font-bold">≤ 2.5 seconds</td>
+                            <td>Next.js Image component, WebP/AVIF, edge CDNs</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">INP</td>
+                            <td>Interaction to Next Paint (responsiveness)</td>
+                            <td class="gold-accent font-bold">≤ 200 milliseconds</td>
+                            <td>Code-splitting, async loading, optimizing event handlers</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold text-white">CLS</td>
+                            <td>Cumulative Layout Shift (visual stability)</td>
+                            <td class="gold-accent font-bold">≤ 0.1</td>
+                            <td>Hardcode dimensions, font-display: swap</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mt-8">
+                <div class="glass-panel p-6 rounded-lg">
+                    <h4 class="font-semibold text-white mb-2">Static Site Generation (SSG)</h4>
+                    <p class="text-sm text-gray-400">Pre-built HTML served globally via CDNs—ideal for evergreen legal guides.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-lg">
+                    <h4 class="font-semibold text-white mb-2">Incremental Static Regeneration</h4>
+                    <p class="text-sm text-gray-400">Automatic background rebuilds for attorney bios and real-time case results.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-lg">
+                    <h4 class="font-semibold text-white mb-2">React Server Components</h4>
+                    <p class="text-sm text-gray-400">Server-side rendering reduces client-side JavaScript—essential for LLM crawlers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Content Strategy & Trust -->
+    <section class="section" id="section-6">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/images.stockcake.com/e1dfaaf354cc1083ae852fa62fe68df3e75da533.jpg')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">06</div>
+        <div class="content">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">Authority & Trust</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        E-E-A-T & <span class="gold-accent italic">Semantic</span> Structuring
+                    </h2>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Google's algorithms enforce E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) rigorously for "Your Money or Your Life" sectors. AI-generated content is actively penalized as spam.
+                    </p>
+                    
+                    <h3 class="text-2xl font-semibold mb-4 text-white">Schema Taxonomy for AI</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start text-gray-300">
+                            <span class="text-yellow-600 mr-3 mt-1">◆</span>
+                            <div>
+                                <strong class="text-white block">Organization & LegalService</strong>
+                                <span class="text-sm">Links digital entity to state bar directories via @id and sameAs attributes</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start text-gray-300">
+                            <span class="text-yellow-600 mr-3 mt-1">◆</span>
+                            <div>
+                                <strong class="text-white block">Person Schema</strong>
+                                <span class="text-sm">Attorney biographies with credentials, bar admissions, expertise</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start text-gray-300">
+                            <span class="text-yellow-600 mr-3 mt-1">◆</span>
+                            <div>
+                                <strong class="text-white block">FAQPage & QAPage</strong>
+                                <span class="text-sm">Pre-formatted data packets for LLM extraction and AI Overviews</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="glass-panel p-6 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-4 gold-accent">Conversion Architecture</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between pb-3 border-b border-gray-700">
+                                <span class="text-gray-300">Above-fold click-to-call</span>
+                                <span class="text-green-400">Required</span>
+                            </div>
+                            <div class="flex items-center justify-between pb-3 border-b border-gray-700">
+                                <span class="text-gray-300">Sticky "Free Case Review" forms</span>
+                                <span class="text-green-400">Required</span>
+                            </div>
+                            <div class="flex items-center justify-between pb-3 border-b border-gray-700">
+                                <span class="text-gray-300">Original Offer vs. Final Verdict</span>
+                                <span class="text-green-400">Critical</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-300">Spanish-language toggles</span>
+                                <span class="text-green-400">Essential</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-xl border-yellow-600/30">
+                        <h3 class="text-lg font-semibold mb-3 text-white">Low-Competition Keyword Strategy</h3>
+                        <p class="text-sm text-gray-400 mb-4">
+                            Geographic multipliers reduce Keyword Difficulty by 20-30 points while tripling conversion rates.
+                        </p>
+                        <div class="bg-black/40 p-4 rounded text-xs font-mono text-gray-300 space-y-2">
+                            <div class="text-red-400">"Car accident lawyer" [KD: Very High]</div>
+                            <div class="text-yellow-400">↓</div>
+                            <div class="text-green-400">"Bicycle accident lawyer near me" [KD: 36]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: West Coast Case Studies -->
+    <section class="section" id="section-7">
+        <div class="bg-image" style="background-image: url('https://kimi-web-img.moonshot.cn/img/www.thetimes.com/ca3d05bcbd51edd10504e796c54ab1243ff4a24a.jpg')"></div>
+        <div class="bg-overlay"></div>
+        <div class="grain"></div>
+        <div class="section-number">07</div>
+        <div class="content">
+            <div class="text-center mb-12">
+                <span class="text-sm uppercase tracking-[0.3em] text-yellow-600 font-semibold mb-4 block">Market Leaders</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    West Coast <span class="gold-accent italic">Vanguard</span>
+                </h2>
+                <p class="text-gray-300 max-w-3xl mx-auto">
+                    Firms synthesizing technical, semantic, and economic strategies are systematically absorbing market share from competitors failing to adapt to the generative era.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-panel p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-2 text-white">Stritmatter Law</h3>
+                    <p class="text-sm text-yellow-600 mb-4">Seattle, WA</p>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Best Legal Website 2024 WebAwards winner. Operates as multimedia hub with The Velvet Hammer™ podcast and CLE webinars on vicarious liability.
+                    </p>
+                    <div class="text-2xl font-bold gold-accent">$123M</div>
+                    <div class="text-xs text-gray-500">Historic verdict (Ride the Ducks)</div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-2 text-white">Gomez Trial Attorneys</h3>
+                    <p class="text-sm text-yellow-600 mb-4">San Diego, CA</p>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Community authority integration with hyper-local SEO. Structured case results contrasting Original Offer vs. Final Settlement.
+                    </p>
+                    <div class="text-2xl font-bold gold-accent">$1B+</div>
+                    <div class="text-xs text-gray-500">Secured for clients over 15 years</div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-xl">
+                    <h3 class="text-xl font-bold mb-2 text-white">Naqvi Injury Law</h3>
+                    <p class="text-sm text-yellow-600 mb-4">Las Vegas, NV</p>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Complete digital rebuild with aggressive local SEO. Expanded from 11 to 70+ staff members through digital dominance.
+                    </p>
+                    <div class="text-2xl font-bold gold-accent">+1,300%</div>
+                    <div class="text-xs text-gray-500">Increase in signed online cases</div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-xl max-w-4xl mx-auto text-center border-yellow-600/30">
+                <h3 class="text-2xl font-bold mb-4 text-white">Strategic Outlook 2026</h3>
+                <p class="text-gray-300 leading-relaxed">
+                    The delta between firms operating legacy digital presences and those embracing the generative frontier is widening exponentially. Success requires viewing digital presence not as a static brochure, but as a <strong class="gold-accent">dynamic, semantic knowledge graph</strong> designed for algorithmic ingestion—synthesizing technical architecture, GEO optimization, and evolved pricing models to capture the efficiency dividend.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horizontal Pagination Navigation -->
+    <div class="pagination-container">
+        <div class="pagination-inner">
+            <button class="page-dot active" onclick="goToSection(1)" aria-label="Executive Overview">
+                <span class="page-label">Overview</span>
+            </button>
+            <button class="page-dot" onclick="goToSection(2)" aria-label="Macroeconomic Landscape">
+                <span class="page-label">Economics</span>
+            </button>
+            <button class="page-dot" onclick="goToSection(3)" aria-label="AI Efficiency">
+                <span class="page-label">AI Pricing</span>
+            </button>
+            <button class="page-dot" onclick="goToSection(4)" aria-label="GEO Strategy">
+                <span class="page-label">GEO</span>
+            </button>
+            <button class="page-dot" onclick="goToSection(5)" aria-label="Architecture">
+                <span class="page-label">Tech Stack</span>
+            </button>
+            <button class="page-dot" onclick="goToSection(6)" aria-label="Content Strategy">
+                <span class="page-label">Trust</span>
+            </button>
+            <button class="page-dot" onclick="goToSection(7)" aria-label="Case Studies">
+                <span class="page-label">Results</span>
+            </button>
+        </div>
+        <div class="progress-bar" id="progressBar" style="width: 14.28%"></div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 7;
+        const sections = document.querySelectorAll('.section');
+        const dots = document.querySelectorAll('.page-dot');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateActiveState(index) {
+            currentSection = index;
+            
+            // Update dots
+            dots.forEach((dot, i) => {
+                if (i + 1 === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Update progress bar
+            const progress = (index / totalSections) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function goToSection(index) {
+            const section = document.getElementById(`section-${index}`);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                updateActiveState(index);
+            }
+        }
+
+        // Intersection Observer for scroll detection
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = parseInt(entry.target.id.split('-')[1]);
+                    updateActiveState(index);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (currentSection < totalSections) {
+                    goToSection(currentSection + 1);
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSection > 1) {
+                    goToSection(currentSection - 1);
+                }
+            }
+        });
+
+        // Touch swipe support
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const threshold = 50;
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0 && currentSection < totalSections) {
+                    // Swipe up - next section
+                    goToSection(currentSection + 1);
+                } else if (diff < 0 && currentSection > 1) {
+                    // Swipe down - previous section
+                    goToSection(currentSection - 1);
+                }
+            }
+        }
+
+        // Initialize
+        updateActiveState(1);
+    </script>
+</body>
+</html>

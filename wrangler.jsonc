@@ -1,0 +1,28 @@
+{
+  // Leverage AI LLC — Cloudflare Workers Configuration
+  // @astrojs/cloudflare v13 + Astro v6
+  // Deploys to Cloudflare WORKERS (NOT Pages)
+  "name": "leverage-ai-astro-site",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-01-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "account_id": "a5335954d3ced04c5f63a35b0454c266",
+
+  // Static assets served via Workers Assets binding
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS"
+  },
+
+  // workers.dev subdomain — live immediately
+  "workers_dev": true
+
+  // Add custom domain route when DNS is ready:
+  // "routes": [
+  //   { "pattern": "leverageai.network/*", "zone_name": "leverageai.network" }
+  // ]
+
+  // Uncomment when you create these resources:
+  // "kv_namespaces": [{ "binding": "FORM_SUBMISSIONS", "id": "YOUR_KV_ID" }],
+  // "d1_databases": [{ "binding": "DB", "database_name": "leverage-ai-db", "database_id": "YOUR_DB_ID" }]
+}

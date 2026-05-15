@@ -1,0 +1,80 @@
+---
+// ============================================================
+// HOMEPAGE — Leverage AI LLC
+// Assembles all major React island sections.
+// Flow: Hero → Services → Social Proof → Case Studies → Contact
+// ============================================================
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection';
+import ServicesSection from '../components/ServicesSection';
+import SocialProofSection from '../components/SocialProofSection';
+import CaseStudySection from '../components/CaseStudySection';
+import ContactForm from '../components/ContactForm';
+import ScrollProgressBar from '../components/ScrollProgressBar';
+import CtaBar from '../components/CtaBar';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '../lib/site-config';
+
+// Fetch testimonials for the carousel (server-side in Astro)
+const rawTestimonials = await getCollection('testimonials');
+const testimonials = rawTestimonials
+  .sort((a, b) => a.data.order - b.data.order)
+  .map(t => ({
+    name:   t.data.name,
+    role:   t.data.role,
+    rating: t.data.rating,
+    body:   t.body.trim(),
+  }));
+
+// Homepage JSON-LD: WebSite + SearchAction for sitelinks searchbox
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Leverage AI',
+  url: 'https://leverageai.com',
+  description: siteConfig.description,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://leverageai.com/blog?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+---
+
+<BaseLayout
+  title={siteConfig.title}
+  description={siteConfig.description}
+  keywords={siteConfig.keywords}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} slot="head" />
+
+  <!-- Scroll progress: thin gold bar at viewport top -->
+  <ScrollProgressBar client:load />
+
+  <!-- Hero: full-viewport animated hero with stats bar -->
+  <HeroSection client:load />
+
+  <!-- Services: 4-card grid with icons and detail lists -->
+  <ServicesSection client:visible />
+
+  <!-- Social Proof: accolades + pull quote + testimonials carousel -->
+  <SocialProofSection client:visible testimonials={testimonials} />
+
+  <!-- Case Studies / Metrics: 4-metric grid + featured case study -->
+  <CaseStudySection client:visible />
+
+  <!-- Contact Form: form + contact info + directory links -->
+  <ContactForm client:visible />
+
+  <!-- Sticky CTA bar — slides up after 800px scroll -->
+  <CtaBar
+    client:visible
+    threshold={800}
+    text="Ready to dominate AI search?"
+    href="/contact"
+    ctaText="Get Started"
+  />
+</BaseLayout>
