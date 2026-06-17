@@ -14,6 +14,7 @@ import ScrollProgressBar from '../components/ScrollProgressBar';
 import CtaBar from '../components/CtaBar';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../lib/site-config';
+import { graph, webPageNode, faqNode, breadcrumbNode, ID } from '../lib/schema';
 
 // Fetch testimonials for the carousel (server-side in Astro)
 const rawTestimonials = await getCollection('testimonials');
@@ -28,22 +29,45 @@ const testimonials = rawTestimonials
     url:    t.data.url,
   }));
 
-// Homepage JSON-LD: WebSite + SearchAction for sitelinks searchbox
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Leverage AI',
-  url: siteConfig.url,
-  description: siteConfig.description,
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `${siteConfig.url}/blog?q={search_term_string}`,
+// Homepage WebPage + FAQPage. Organization / LocalBusiness / WebSite are
+// declared globally in BaseLayout and referenced here by @id.
+const homeSchema = graph(
+  webPageNode({
+    path: '/',
+    name: 'Leverage AI | AI Search Optimization & Digital Strategy — Grants Pass, Oregon',
+    description: siteConfig.description,
+    about: ID.organization,
+    primaryImage: `${siteConfig.url}${siteConfig.ogImage}`,
+  }),
+  breadcrumbNode([{ name: 'Home', path: '/' }]),
+  faqNode(`${siteConfig.url}/#faq`, [
+    {
+      question: 'What is AI search optimization and how does it help my Oregon business?',
+      answer:
+        'AI search optimization (also called GEO — Generative Engine Optimization) ensures your business appears in AI-generated answers on platforms like ChatGPT, Perplexity, Gemini, and Google AI Overviews. When someone asks an AI assistant for the best service provider in your industry or city, GEO is the reason your business gets cited instead of a competitor. Leverage AI achieves this through structured data optimization, content architecture designed for LLM comprehension, and citation building.',
     },
-    'query-input': 'required name=search_term_string',
-  },
-};
+    {
+      question: 'Does Leverage AI work with businesses outside of Grants Pass, Oregon?',
+      answer:
+        'Yes. While Leverage AI is headquartered in Grants Pass, Oregon at 744 NW Bellevue Place, most client work is delivered remotely. Current clients include businesses across the Oregon I-5 corridor from Portland to Ashland, as well as out-of-state projects. Consultations are available by appointment via phone, video, or in-person in Grants Pass.',
+    },
+    {
+      question: 'How is Leverage AI different from a traditional digital marketing agency?',
+      answer:
+        'Leverage AI is a solo-operated studio run by Mike Schlottig, a systems architect and full-stack developer who builds the actual infrastructure — not a traditional agency with account managers and outsourced execution. Every engagement includes direct access to the person doing the technical work. The focus is on AI-era visibility: Google AI Overviews, ChatGPT citations, and structured data — not just 2015-era keyword rankings.',
+    },
+    {
+      question: 'What does AI search optimization cost for a small business in Oregon?',
+      answer:
+        'Leverage AI offers project-based and retainer engagements. Basic structured data and schema implementation starts at a one-time project fee. Ongoing AI visibility monitoring and GEO content programs are available on a monthly retainer. Contact Leverage AI at 541-450-2082 or mike@leverageai.network for a custom quote. No long-term contracts required.',
+    },
+    {
+      question: 'What is a Google Business Profile and why does it matter for local search?',
+      answer:
+        'A Google Business Profile (GBP) is your business listing on Google Maps and the Local 3-Pack that appears at the top of search results. In 2026, GBP is the primary gateway for local buyer intent — "AI search optimization Grants Pass", "web designer southern Oregon", or "SEO agency near me" queries all trigger GBP results before organic listings. Properly configured GBP categories, photos, and schema markup are the fastest way to increase local visibility.',
+    },
+  ])
+);
 ---
 
 <BaseLayout
@@ -51,7 +75,7 @@ const websiteSchema = {
   description={siteConfig.description}
   keywords={siteConfig.keywords}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(homeSchema)} slot="head" />
 
   <!-- Scroll progress: thin gold bar at viewport top -->
   <ScrollProgressBar client:load />

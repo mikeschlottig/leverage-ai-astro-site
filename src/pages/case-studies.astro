@@ -7,24 +7,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CaseStudySection from '../components/CaseStudySection';
 import { getCollection } from 'astro:content';
 import { siteConfig, metricsConfig, portfolioConfig } from '../lib/site-config';
+import { graph, breadcrumbNode, ID } from '../lib/schema';
 
 const allCaseStudies = await getCollection('caseStudies');
 const caseStudies = allCaseStudies.sort((a, b) => a.data.order - b.data.order);
 
-const breadcrumb = {
-  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-    { '@type': 'ListItem', position: 2, name: 'Case Studies', item: `${siteConfig.url}/case-studies` },
-  ],
-};
-
-const collectionSchema = {
-  '@context': 'https://schema.org', '@type': 'CollectionPage',
-  name: 'Case Studies | Leverage AI',
-  url: `${siteConfig.url}/case-studies`,
-  mainEntity: caseStudies.map(s => ({ '@type': 'CreativeWork', name: s.data.title, url: `${siteConfig.url}/case-studies/${s.id}` })),
-};
+// CollectionPage + Breadcrumb. WebSite referenced by @id (declared globally).
+const caseStudiesSchema = graph(
+  {
+    '@type': 'CollectionPage',
+    '@id': `${siteConfig.url}/case-studies/#webpage`,
+    name: 'Case Studies | Leverage AI',
+    url: `${siteConfig.url}/case-studies/`,
+    description:
+      'Explore how Leverage AI has delivered measurable AI search visibility and design results for clients across industries.',
+    isPartOf: { '@id': ID.website },
+    mainEntity: caseStudies.map((s) => ({
+      '@type': 'CreativeWork',
+      name: s.data.title,
+      url: `${siteConfig.url}/case-studies/${s.id}/`,
+    })),
+  },
+  breadcrumbNode([
+    { name: 'Home', path: '/' },
+    { name: 'Case Studies', path: '/case-studies/' },
+  ])
+);
 ---
 
 <BaseLayout
@@ -32,8 +40,7 @@ const collectionSchema = {
   description="Explore how Leverage AI has delivered measurable AI search visibility and design results for clients across industries."
   keywords="AI search case studies, GEO results, brand visibility, digital strategy results, Portland Oregon"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
-  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(caseStudiesSchema)} />
 
   <!-- ─── Page Hero ──────────────────────────────────────────── -->
   <section

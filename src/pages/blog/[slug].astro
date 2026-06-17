@@ -9,6 +9,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 import { siteConfig } from '../../lib/site-config';
+import { graph, articleNode, webPageNode, breadcrumbNode } from '../../lib/schema';
 import ReadingProgress from '../../components/ReadingProgress';
 
 const { slug } = Astro.params;
@@ -17,24 +18,36 @@ const post = posts.find((p) => p.id === slug);
 if (!post) return Astro.redirect('/404');
 const { Content } = await render(post);
 
-// Article JSON-LD structured data
-const articleSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline:      post.data.title,
-  description:   post.data.excerpt,
-  datePublished: post.data.date,
-  author: {
-    '@type': 'Person',
-    name: post.data.author ?? 'LEVERAGE AI',
-  },
-  image: post.data.ogImage ?? post.data.image,
-  publisher: {
-    '@type': 'Organization',
-    name: 'Leverage AI LLC',
-    url: siteConfig.url,
-  },
-};
+const postPath = `/blog/${post.id}/`;
+const imagePath = post.data.ogImage ?? post.data.image;
+const absoluteImage = imagePath.startsWith('http')
+  ? imagePath
+  : `${siteConfig.url}${imagePath}`;
+
+// Article (author → Person @id) + WebPage + Breadcrumb.
+// Organization / WebSite / Person declared globally / on /about (referenced by @id).
+const articleSchema = graph(
+  articleNode({
+    path: postPath,
+    headline: post.data.title,
+    description: post.data.excerpt,
+    datePublished: post.data.date,
+    image: absoluteImage,
+    section: post.data.category,
+    keywords: post.data.tags,
+  }),
+  webPageNode({
+    path: postPath,
+    name: post.data.title,
+    description: post.data.excerpt,
+    about: `${siteConfig.url}${postPath}#article`,
+  }),
+  breadcrumbNode([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog/' },
+    { name: post.data.title, path: postPath },
+  ])
+);
 ---
 
 <BaseLayout
@@ -204,13 +217,13 @@ const articleSchema = {
             flex-shrink: 0;
           "
         >
-          <img src="/images/headshot-hat.jpg" alt="Jon 'Mike' Schlottig" width="80" height="80" style="width: 100%; height: 100%; object-fit: cover;" />
+          <img src="/images/headshot-hat.jpg" alt="Mike Schlottig" width="80" height="80" style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
         <div>
-          <p style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.25rem;">Jon &ldquo;Mike&rdquo; Schlottig</p>
+          <p style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.25rem;">Mike Schlottig</p>
           <p style="font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.75rem;">Founder &mdash; Leverage AI</p>
           <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; margin: 0;">
-            Jon &ldquo;Mike&rdquo; Schlottig moved to Grants Pass via the Bay Area back in 2001. He graduated from Grants Pass High School in 2005 near the top of his class and earned a Dean Scholarship to the University of Oregon. After nearly a decade of managing sales and operations in the commercial agriculture industry, and working as an in-home design consultant for the largest home remodeling company in the U.S., Mike recognized the opportunity in the quickly shifting tech industry and founded LEVERAGE AI LLC.
+            Mike Schlottig moved to Grants Pass via the Bay Area back in 2001. He graduated from Grants Pass High School in 2005 near the top of his class and earned a Dean Scholarship to the University of Oregon. After nearly a decade of managing sales and operations in the commercial agriculture industry, and working as an in-home design consultant for the largest home remodeling company in the U.S., Mike recognized the opportunity in the quickly shifting tech industry and founded LEVERAGE AI LLC.
           </p>
         </div>
       </div>
