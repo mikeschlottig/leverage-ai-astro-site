@@ -458,7 +458,7 @@ export const contactConfig = {
   successMessage: "Thank you — we'll be in touch within 24 hours.",
   errorMessage:   'Something went wrong. Please email us directly at leverage_labs_alpha@proton.me',
 
-  formEndpoint: 'https://formspree.io/f/[YOUR_FORM_ID]',
+  formEndpoint: '/api/contact',
 
   contactItems: [
     { icon: 'Mail',   label: 'Email',    value: 'leverage_labs_alpha@proton.me', href: 'mailto:leverage_labs_alpha@proton.me' },
