@@ -15,7 +15,11 @@
   },
 
   // workers.dev subdomain — live immediately
-  "workers_dev": true
+  "workers_dev": true,
+
+  // Outbound email via Cloudflare Email Service. Contact form route posts here.
+  // `remote: true` lets `wrangler dev` send real mail through Email Service locally.
+  "send_email": [{ "name": "EMAIL", "remote": true }],
 
   // Add custom domain route when DNS is ready:
   // "routes": [
