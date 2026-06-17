@@ -111,7 +111,7 @@ export const heroConfig = {
   eyebrow:          'Pioneering AI Search Visibility',
   headline:         'Optimized for Today.',
   headlineAccent:   'Engineered for Tomorrow.',
-  subheadline:      'We architect digital experiences that dominate AI-powered search results and captivate audiences through strategic design intelligence.',
+  subheadline:      'I architect systems that make your business findable in 2026 — in Google, in ChatGPT, in Perplexity. The tools have changed. The results still have to be real.',
   ctaButtonText:    'Start Your Project',
   ctaButtonHref:    '/contact',
   ctaSecondaryText: 'View Case Studies',
@@ -129,7 +129,7 @@ export const heroConfig = {
 
 // ─── SERVICES ─────────────────────────────────────────────────
 export const servicesConfig = {
-  eyebrow:     'What We Do',
+  eyebrow:     'What I Do',
   headline:    'Precision-Crafted Solutions',
   subheadline: 'Every engagement is tailored to your brand\'s unique position in the AI-first landscape.',
 
@@ -418,14 +418,14 @@ export const socialProofConfig = {
   readMoreText:          'Read More',
   viewAllText:           'View All Posts',
   testimonialsEyebrow:   'Client Voices',
-  testimonialsHeadline:  'What Our Partners Say',
+  testimonialsHeadline:  'What My Partners Say',
 
   // About snapshot (homepage section 3)
-  storyEyebrow:    'Our Mission',
-  storyHeadline:   'We Build What\'s Next',
+  storyEyebrow:    'My Mission',
+  storyHeadline:   'I Build What\'s Next',
   storyParagraphs: [
     'Founded on a singular belief: the future of digital visibility belongs to those who understand how AI systems discover, evaluate, and recommend brands.',
-    'We partner with forward-thinking companies to make their brands undeniably visible in an AI-first world — from search optimization to premium design systems.',
+    'I work directly with Oregon business owners who want real technical work, not agency fluff — making their brands undeniably visible in an AI-first world.',
   ],
   storyImage:        '/images/about-story.svg',
   storyImageCaption: 'Mike Schlottig — Founder, Leverage AI · Grants Pass, Oregon',
@@ -441,7 +441,7 @@ export const socialProofConfig = {
 export const contactConfig = {
   eyebrow:   'Get in Touch',
   headline:  'Let\'s Build Something Extraordinary',
-  subtext:   'Whether you\'re ready to dominate AI search or need a complete digital identity overhaul — we\'re ready to partner.',
+  subtext:   'Whether you\'re ready to dominate AI search or need a complete digital identity overhaul — I\'m ready to build it with you.',
 
   fields: {
     name:    { label: 'Full Name',        placeholder: 'Your name' },
@@ -455,7 +455,7 @@ export const contactConfig = {
   },
 
   submitText:     'Send Message',
-  successMessage: "Thank you — we'll be in touch within 24 hours.",
+  successMessage: "Thank you — I'll be in touch within 24 hours.",
   errorMessage:   'Something went wrong. Please email us directly at leverage_labs_alpha@proton.me',
 
   formEndpoint: '/api/contact',
@@ -469,7 +469,7 @@ export const contactConfig = {
 
   googleMapsEmbed: '',
 
-  privacyNotice: 'By submitting this form you agree to our Privacy Policy. We respond within 24 hours during business hours (Mon–Sat 10am–8pm PT).',
+  privacyNotice: 'By submitting this form you agree to our Privacy Policy. I respond within 24 hours during business hours (Mon–Sat 10am–8pm PT).',
 
   directoryLinks: [
     { name: 'LinkedIn',  href: 'https://www.linkedin.com/in/schlottig/',                   badge: '' },
@@ -486,19 +486,19 @@ export const contactConfig = {
 
 // ─── ABOUT ────────────────────────────────────────────────────
 export const aboutConfig = {
-  eyebrow:  'About Us',
-  headline: "We Build What's Next",
+  eyebrow:  'About Me',
+  headline: "I Build What's Next",
 
   paragraphs: [
     'LEVERAGE AI LLC was founded on a singular belief: the future of digital visibility belongs to those who understand how AI systems discover, evaluate, and recommend brands.',
-    'We are a team of strategists, designers, and technologists who specialize in making brands undeniably visible in an AI-first world. From search optimization to premium design systems, every solution we deliver is engineered for measurable impact.',
-    'Based in Grants Pass, Oregon, recognized nationally — we partner with forward-thinking companies ready to own their digital future. Available by appointment. Call, text, or email Mon–Sat 10am–8pm PT.',
+    "I'm Mike Schlottig — a systems architect and full-stack developer who runs this studio solo, using AI tooling to deliver what agencies charge 10× more for. From search optimization to premium design systems, every solution I deliver is engineered for measurable impact.",
+    'Based in Grants Pass, Oregon, recognized nationally — I work directly with forward-thinking companies ready to own their digital future. Available by appointment. Call, text, or email Mon–Sat 10am–8pm PT.',
   ],
 
   values: [
     {
       title:       'Value-Driven',
-      description: 'Leverage AI is focused on delivering value for our customers.',
+      description: 'Leverage AI is focused on delivering value for my customers.',
     },
     {
       title:       'Real Results',
@@ -506,7 +506,7 @@ export const aboutConfig = {
     },
     {
       title:       'No Lock-In',
-      description: 'No long-term contracts. No vendor lock-in. Our work speaks for itself.',
+      description: 'No long-term contracts. No vendor lock-in. My work speaks for itself.',
     },
     {
       title:       'Compounding Advantage',

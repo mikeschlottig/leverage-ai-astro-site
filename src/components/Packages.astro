@@ -1,0 +1,66 @@
+---
+// Packages.astro — static pricing ladder, no client JS
+// Design: matches [slug].astro inline-style conventions
+---
+
+<section id="packages" style="padding: 4rem 0; background: hsl(220 40% 5%);">
+  <div class="container-custom" style="max-width: 1060px;">
+    <p style="font-family: monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 0.75rem;">Pricing</p>
+    <h2 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 0.75rem;">What Does It Cost?</h2>
+    <p style="color: hsl(210 15% 60%); margin: 0 0 3rem; font-size: 1rem; line-height: 1.7; max-width: 620px;">
+      Custom-scoped, solo + AI delivery — roughly 1/10th agency pricing for equivalent technical work.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;" class="packages-grid">
+      <!-- Tier 1 -->
+      <div style="padding: 2rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 8px; display: flex; flex-direction: column;">
+        <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(210 15% 55%); margin-bottom: 0.75rem;">Diagnostic</p>
+        <h3 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.3rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 0.5rem;">AI Search Diagnostic</h3>
+        <p style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.6rem; font-weight: 700; color: hsl(38 80% 55%); margin: 0 0 0.5rem;">$500 <span style="font-size: 0.85rem; color: hsl(210 15% 55%); font-weight: 400;">one-time</span></p>
+        <p style="color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.6; margin: 0 0 1.5rem;">Deep-dive AI visibility audit + strategic roadmap.</p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 2rem; display: flex; flex-direction: column; gap: 0.75rem; flex-grow: 1;">
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>How ChatGPT/Perplexity/Gemini see the brand</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>The Blueprint (roadmap to restructure site data)</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Competitor snapshot (top 3 local competitors)</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Full $500 credit toward execution within 14 days</li>
+        </ul>
+        <a href="/contact" style="display: inline-block; border: 1px solid hsl(38 80% 55% / 0.4); color: hsl(38 80% 55%); padding: 0.625rem 1.5rem; border-radius: 4px; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; text-align: center;">Get Started</a>
+      </div>
+
+      <!-- Tier 2 (Recommended) -->
+      <div style="padding: 2rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.5); border-radius: 8px; display: flex; flex-direction: column; position: relative;">
+        <div style="position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: hsl(38 80% 55%); color: hsl(220 40% 8%); font-family: monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.35rem 1rem; border-radius: 0 0 4px 4px; font-weight: 700;">Recommended</div>
+        <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(210 15% 55%); margin-bottom: 0.75rem; margin-top: 0.5rem;">Foundation & Growth</p>
+        <h3 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.3rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 0.5rem;">AI Foundation & Growth</h3>
+        <p style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.6rem; font-weight: 700; color: hsl(38 80% 55%); margin: 0 0 0.5rem;">$1,500 <span style="font-size: 0.85rem; color: hsl(210 15% 55%); font-weight: 400;">setup</span></p>
+        <p style="color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.6; margin: 0 0 1.5rem;">+ $500/mo — full execution with ongoing optimization.</p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 2rem; display: flex; flex-direction: column; gap: 0.75rem; flex-grow: 1;">
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Architecture overhaul (custom JSON-LD, direct-answer, UI/UX)</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>AI Content Engine — 2× entity-optimized assets/mo</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Proprietary Network Injection — Oregon SMB Directory placement</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Active Entity Signals — automated review outreach + AI responses</li>
+        </ul>
+        <a href="/contact" style="display: inline-block; background: hsl(38 80% 55%); color: hsl(220 40% 8%); padding: 0.625rem 1.5rem; border-radius: 4px; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; text-align: center;">Start Building</a>
+      </div>
+
+      <!-- Tier 3 -->
+      <div style="padding: 2rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 8px; display: flex; flex-direction: column;">
+        <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(210 15% 55%); margin-bottom: 0.75rem;">Dominance</p>
+        <h3 style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.3rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 0.5rem;">Market Dominance Protocol</h3>
+        <p style="font-family: var(--font-heading, 'Playfair Display', serif); font-size: 1.6rem; font-weight: 700; color: hsl(38 80% 55%); margin: 0 0 0.5rem;">$2,500 <span style="font-size: 0.85rem; color: hsl(210 15% 55%); font-weight: 400;">setup</span></p>
+        <p style="color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.6; margin: 0 0 1.5rem;">+ $1,500/mo — everything plus geo-clustering & competitor intelligence.</p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 2rem; display: flex; flex-direction: column; gap: 0.75rem; flex-grow: 1;">
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Everything in Tiers 1 & 2</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Semantic Location Clustering (10 geo-targeted service pages)</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Competitor Threat Dashboard (real-time vs top 5 local)</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Gap-Targeting Strategy (steal competitors' top keywords)</li>
+          <li style="display: flex; align-items: flex-start; gap: 0.5rem; color: hsl(210 15% 60%); font-size: 0.9rem; line-height: 1.5;"><span style="color: hsl(38 80% 55%); flex-shrink: 0;">&#8250;</span>Conversion Analytics (AI traffic → booked leads)</li>
+        </ul>
+        <a href="/contact" style="display: inline-block; border: 1px solid hsl(38 80% 55% / 0.4); color: hsl(38 80% 55%); padding: 0.625rem 1.5rem; border-radius: 4px; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; text-align: center;">Request a Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 900px) { .packages-grid { grid-template-columns: 1fr !important; } }
+</style>

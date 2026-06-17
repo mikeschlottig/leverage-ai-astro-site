@@ -8,7 +8,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 import { siteConfig } from '../../lib/site-config';
-import { graph, serviceNode, webPageNode, breadcrumbNode } from '../../lib/schema';
+import { graph, serviceNode, webPageNode, breadcrumbNode, faqNode } from '../../lib/schema';
+import Packages from '../../components/Packages.astro';
 import { Search, Palette, Globe, BarChart3 } from 'lucide-react';
 
 const { slug } = Astro.params;
@@ -20,6 +21,10 @@ const { Content } = await render(entry);
 const servicePath = `/services/${entry.data.slug}/`;
 
 // Service + WebPage + Breadcrumb. Organization (provider) referenced by @id.
+const faqSchemaNode = entry.data.faqs?.length
+  ? faqNode(`${siteConfig.url}${servicePath}#faq`, entry.data.faqs)
+  : null;
+
 const serviceSchema = graph(
   serviceNode({
     name: entry.data.title,
@@ -37,7 +42,8 @@ const serviceSchema = graph(
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services/' },
     { name: entry.data.title, path: servicePath },
-  ])
+  ]),
+  ...(faqSchemaNode ? [faqSchemaNode] : [])
 );
 ---
 
@@ -143,18 +149,27 @@ const serviceSchema = graph(
 
       <Content />
 
+      {entry.data.faqs && entry.data.faqs.length > 0 && (
+        <section id="faq" style="margin-top: 4rem; padding-top: 3rem; border-top: 1px solid hsl(38 80% 55% / 0.15);">
+          <h2 style="font-family: var(--font-heading, serif); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 2rem;">Frequently Asked Questions</h2>
+          <div style="display: flex; flex-direction: column; gap: 2rem;">
+            {entry.data.faqs.map((faq) => (
+              <div>
+                <h3 style="font-family: var(--font-heading, serif); font-size: 1.1rem; font-weight: 600; color: hsl(45 30% 92%); margin: 0 0 0.75rem;">{faq.question}</h3>
+                <p class="faq-answer" style="color: hsl(210 15% 60%); line-height: 1.75; margin: 0;">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <Packages />
+
       <!-- CTA -->
-      <div style="margin-top: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-        <div style="padding: 2rem; background: hsl(220 40% 7%); border: 1px solid hsl(38 80% 55% / 0.2); border-radius: 8px;">
-          <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(38 80% 55%); margin-bottom: 0.75rem;">Get Started</p>
-          <h3 style="font-family: var(--font-heading, serif); font-size: 1.2rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1rem;">Ready to Engage?</h3>
-          <a href="/contact" style="display: inline-block; background: hsl(38 80% 55%); color: hsl(220 40% 8%); padding: 0.625rem 1.5rem; border-radius: 4px; font-weight: 700; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;">Contact Us</a>
-        </div>
-        <div style="padding: 2rem; background: hsl(220 40% 7%); border: 1px solid hsl(220 40% 14%); border-radius: 8px;">
-          <p style="font-family: monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(210 15% 40%); margin-bottom: 0.75rem;">See the Work</p>
-          <h3 style="font-family: var(--font-heading, serif); font-size: 1.2rem; font-weight: 700; color: hsl(45 30% 92%); margin: 0 0 1rem;">Case Studies</h3>
-          <a href="/case-studies" style="display: inline-block; border: 1px solid hsl(210 15% 30%); color: hsl(210 15% 65%); padding: 0.625rem 1.5rem; border-radius: 4px; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;">View Results</a>
-        </div>
+      <div style="margin-top: 4rem; text-align: center;">
+        <a href="/contact" style="display: inline-block; background: hsl(38 80% 55%); color: hsl(220 40% 8%); padding: 0.875rem 2rem; border-radius: 4px; font-weight: 700; font-size: 0.875rem; text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase;">
+          Start a Conversation
+        </a>
       </div>
     </article>
   </div>

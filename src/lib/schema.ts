@@ -265,12 +265,15 @@ export const serviceNode = (input: ServiceOffer) => {
     ],
     offers: {
       '@type': 'Offer',
+      '@id': `${url}#offer`,
+      name: 'AI Search Diagnostic',
+      description: 'Entry-level AI visibility audit and roadmap. Full credit toward execution packages within 14 days. Tiered project and retainer packages available.',
+      price: '500',
+      priceCurrency: 'USD',
+      priceValidUntil: '2027-01-01',
       availability: 'https://schema.org/InStock',
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        priceCurrency: 'USD',
-        description: 'Project and retainer pricing. Contact for a custom quote.',
-      },
+      url: `${url}#packages`,
+      seller: { '@id': ID.organization },
     },
   };
 };
