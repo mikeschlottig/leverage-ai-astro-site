@@ -245,7 +245,7 @@ export default function Footer() {
           }}
         >
           <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>
-            {footerConfig.copyrightText}
+            © {new Date().getFullYear()} {footerConfig.copyrightText}
           </p>
 
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>

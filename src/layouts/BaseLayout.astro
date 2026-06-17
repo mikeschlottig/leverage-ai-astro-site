@@ -12,7 +12,9 @@
 //   - ScrollToTop (React island, client:load)
 // ============================================================
 import { ClientRouter } from 'astro:transitions';
-import { siteConfig, localBusinessConfig } from '../lib/site-config';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '../lib/site-config';
+import { graph, organizationNode, localBusinessNode, websiteNode } from '../lib/schema';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollToTop';
@@ -41,31 +43,22 @@ const fullTitle = title === siteConfig.title
   ? title
   : `${title} | Leverage AI`;
 
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': localBusinessConfig.type,
-  name: localBusinessConfig.name,
-  description: localBusinessConfig.description,
-  foundingDate: localBusinessConfig.foundingDate,
-  url: siteConfig.url,
-  email: localBusinessConfig.email,
-  telephone: localBusinessConfig.phone,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: localBusinessConfig.streetAddress,
-    addressLocality: localBusinessConfig.city,
-    addressRegion: localBusinessConfig.state,
-    postalCode: localBusinessConfig.postalCode,
-    addressCountry: localBusinessConfig.country,
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: localBusinessConfig.latitude,
-    longitude: localBusinessConfig.longitude,
-  },
-  openingHours: localBusinessConfig.openingHours,
-  sameAs: localBusinessConfig.socialProfiles,
-};
+// Global entity graph — declared once here, referenced by @id on every
+// page. offerCatalog is built from the live services content collection.
+const serviceEntries = (await getCollection('services')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const serviceOffers = serviceEntries.map((e) => ({
+  name: e.data.title,
+  slug: e.data.slug,
+  description: e.data.description,
+}));
+
+const globalSchema = graph(
+  organizationNode(),
+  localBusinessNode(serviceOffers),
+  websiteNode()
+);
 ---
 
 <!DOCTYPE html>
@@ -117,8 +110,8 @@ const localBusinessSchema = {
   <!-- Astro View Transitions — smooth page-to-page navigation -->
   <ClientRouter />
 
-  <!-- JSON-LD: ProfessionalService -->
-  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+  <!-- JSON-LD: global entity @graph (Organization + LocalBusiness + WebSite) -->
+  <script type="application/ld+json" set:html={JSON.stringify(globalSchema)} />
 
   <!-- Additional head slot for page-specific JSON-LD -->
   <slot name="head" />

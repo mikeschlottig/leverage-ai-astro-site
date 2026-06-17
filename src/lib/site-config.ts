@@ -41,7 +41,7 @@ export const localBusinessConfig = {
   country:         'US',
 
   phone:           '+1-541-450-2082',
-  email:           'leverage_labs_alpha@proton.me',
+  email:           'mike@leverageai.network',
 
   latitude:        '42.4339',
   longitude:       '-123.3284',
@@ -428,7 +428,7 @@ export const socialProofConfig = {
     'We partner with forward-thinking companies to make their brands undeniably visible in an AI-first world — from search optimization to premium design systems.',
   ],
   storyImage:        '/images/about-story.svg',
-  storyImageCaption: 'Jon Schlottig — Founder, Leverage AI · Grants Pass, Oregon',
+  storyImageCaption: 'Mike Schlottig — Founder, Leverage AI · Grants Pass, Oregon',
   storyStats: [
     { value: '300%', label: 'Citation Increase' },
     { value: '89%',  label: 'Client Retention' },
@@ -566,6 +566,10 @@ export const footerConfig = {
     { label: 'Terms of Service', href: '/terms' },
   ],
 
-  copyrightText: `© ${new Date().getFullYear()} LEVERAGE AI LLC. All rights reserved.`,
+  // Year is intentionally NOT baked here. On Cloudflare Workers the clock is
+  // pinned to the Unix epoch (1970) during module/global-scope evaluation, so
+  // computing the year at import time produces "© 1970". The Footer component
+  // prepends the year at render time (request/client context) instead.
+  copyrightText: 'LEVERAGE AI LLC. All rights reserved.',
   creditText:    '',
 };
