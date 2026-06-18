@@ -1,1 +1,0 @@
-import{c as o}from"./createLucideIcon.CtiJopvN.js";globalThis.process??={};globalThis.process.env??={};const s=o("ArrowRight",[["path",{d:"M5 12h14",key:"1ays0h"}],["path",{d:"m12 5 7 7-7 7",key:"xquz4c"}]]);export{s as A};

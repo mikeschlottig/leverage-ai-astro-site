@@ -68,7 +68,7 @@ My methodology addresses each of the six structural factors that determine wheth
 
 Direct-answer architecture is the single highest-leverage change I make for most clients. It means restructuring pages so that a machine can extract a confident answer without ambiguity.
 
-This starts with semantic HTML: using proper heading hierarchies, definition lists, and schema-annotated FAQ sections instead of generic divs. It continues with content formatting: placing the core answer early, supporting it with structured evidence, and using explicit entity references rather than pronouns. A page that says "Leverage AI LLC offers AI Search Optimization in Grants Pass, Oregon" is more citable than a page that says "We offer our services here."
+This starts with semantic HTML: using proper heading hierarchies, definition lists, and schema-annotated FAQ sections instead of generic divs. It continues with content formatting: placing the core answer early, supporting it with structured evidence, and using explicit entity references rather than pronouns. A page that says "Leverage AI LLC offers AI Search Optimization in Grants Pass, Oregon" is more citable than a page that says "This company offers services here."
 
 I also implement JSON-LD schema at the paragraph and section level where appropriate, using Article nodes with explicit author, publisher, and dateModified properties. The goal is not to trick an algorithm but to remove friction from the machine's understanding pipeline. When an AI crawler encounters your page, it should immediately know what entity you are, what claims you make, and how confident it can be in those claims based on the surrounding graph.
 

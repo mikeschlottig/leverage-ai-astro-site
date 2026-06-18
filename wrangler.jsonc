@@ -21,10 +21,11 @@
   // `remote: true` lets `wrangler dev` send real mail through Email Service locally.
   "send_email": [{ "name": "EMAIL", "remote": true }],
 
-  // Add custom domain route when DNS is ready:
-  // "routes": [
-  //   { "pattern": "leverageai.network/*", "zone_name": "leverageai.network" }
-  // ]
+  // Custom domain (code-managed so it survives every redeploy).
+  // `custom_domain: true` adopts the existing Custom Domain on the leverageai.network zone.
+  "routes": [
+    { "pattern": "leverageai.network", "custom_domain": true }
+  ],
 
   // Uncomment when you create these resources:
   // "kv_namespaces": [{ "binding": "FORM_SUBMISSIONS", "id": "YOUR_KV_ID" }],

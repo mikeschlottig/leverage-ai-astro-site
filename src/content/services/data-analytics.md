@@ -21,7 +21,7 @@ faqs:
   - question: "How often are reports delivered?"
     answer: "Monthly reports are standard. Weekly reporting is available for clients in active optimization phases. Real-time dashboards are available as an add-on."
   - question: "Can I see my competitors' AI citation data?"
-    answer: "Yes — for any query where we're testing visibility, I capture competitive share-of-voice data. You'll see exactly how your brand compares to the brands AI systems cite most frequently in your category."
+    answer: "Yes — for any query where I test visibility, I capture competitive share-of-voice data. You'll see exactly how your brand compares to the brands AI systems cite most frequently in your category."
   - question: "Do I need an existing analytics stack?"
     answer: "No. I can build a standalone reporting system, or I can integrate with your existing Google Analytics, Looker Studio, or BI platform. The choice depends on your team's workflow and preferences."
   - question: "What metrics matter most for AI visibility?"

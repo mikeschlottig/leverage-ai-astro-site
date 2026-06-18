@@ -451,12 +451,12 @@ export const contactConfig = {
       label: 'Service Interest',
       options: ['AI Search Optimization', 'Design Strategy', 'Data Analytics', 'Brand Architecture', 'Full Engagement'],
     },
-    message: { label: 'Message', placeholder: 'Tell us about your project...' },
+    message: { label: 'Message', placeholder: 'Tell me about your project...' },
   },
 
   submitText:     'Send Message',
   successMessage: "Thank you — I'll be in touch within 24 hours.",
-  errorMessage:   'Something went wrong. Please email us directly at leverage_labs_alpha@proton.me',
+  errorMessage:   'Something went wrong. Please email me directly at leverage_labs_alpha@proton.me',
 
   formEndpoint: '/api/contact',
 

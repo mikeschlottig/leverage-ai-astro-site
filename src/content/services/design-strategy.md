@@ -26,7 +26,7 @@ faqs:
   - question: "What deliverables do I receive?"
     answer: "Typical deliverables include brand identity assets, UI/UX wireframes and prototypes, a component-based design system with tokens and documentation, and production-ready front-end code."
   - question: "How long does a design engagement take?"
-    answer: "Brand identity projects typically take 3–4 weeks. Full UI/UX and design system engagements run 6–8 weeks. Timeline depends on scope, feedback velocity, and whether we're building from scratch or refreshing existing assets."
+    answer: "Brand identity projects typically take 3–4 weeks. Full UI/UX and design system engagements run 6–8 weeks. Timeline depends on scope, feedback velocity, and whether I'm building from scratch or refreshing existing assets."
 ---
 
 ## What is design strategy?

@@ -17,7 +17,14 @@ const breadcrumb = {
 };
 ---
 
-<section
+<BaseLayout
+  title="Services | Leverage AI"
+  description={servicesConfig.subheadline}
+  keywords="AI Search Optimization, Design Strategy, Data Analytics, Brand Architecture, Oregon AI studio"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+
+  <section
     style="
       padding-top: 10rem;
       padding-bottom: 5rem;

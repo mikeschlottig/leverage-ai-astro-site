@@ -18,6 +18,7 @@ export default defineConfig({
 
   adapter: cloudflare({
     imageService: 'compile', // Pre-optimize images at build time; no CF Images binding needed
+    remoteBindings: false,   // Disable remote proxy during build sync (no CF API auth in this env)
   }),
 
   integrations: [
