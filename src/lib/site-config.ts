@@ -456,12 +456,12 @@ export const contactConfig = {
 
   submitText:     'Send Message',
   successMessage: "Thank you — I'll be in touch within 24 hours.",
-  errorMessage:   'Something went wrong. Please email me directly at leverage_labs_alpha@proton.me',
+  errorMessage:   'Something went wrong. Please email me directly at mike@leverageai.network',
 
   formEndpoint: '/api/contact',
 
   contactItems: [
-    { icon: 'Mail',   label: 'Email',    value: 'leverage_labs_alpha@proton.me', href: 'mailto:leverage_labs_alpha@proton.me' },
+    { icon: 'Mail',   label: 'Email',    value: 'mike@leverageai.network', href: 'mailto:mike@leverageai.network' },
     { icon: 'Phone',  label: 'Phone',    value: '541-450-2082',                  href: 'tel:+15414502082' },
     { icon: 'MapPin', label: 'Location', value: 'Grants Pass, Oregon',           href: null },
     { icon: 'Clock',  label: 'Hours',    value: 'Mon–Sat 10am–8pm · By Appointment', href: null },
